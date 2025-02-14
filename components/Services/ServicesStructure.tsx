@@ -110,7 +110,7 @@ export default function ServicesStructure({
               <div className="flex flex-col md:flex-row lg:gap-y-0  gap-y-12 md:gap-y-0 md:gap-x-[229px]">
                 {item.iconos?.slice(0, 3).map((icono, index) => (
                   <div
-                    key={icono.id}
+                    key={index}
                     className="flex flex-col items-center gap-4"
                   >
                     <div className=" rounded-full  bg-[#9494F3] p-6">

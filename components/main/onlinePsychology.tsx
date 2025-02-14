@@ -3,9 +3,8 @@
 import Autoplay from "embla-carousel-autoplay";
 import Fade from  "embla-carousel-fade";
 import useEmblaCarousel from "embla-carousel-react";
-import { AnimatePresence, motion } from "framer-motion";
+import {  motion } from "framer-motion";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 
 const features = [
   {
@@ -89,13 +88,11 @@ const itemVariants = {
 };
 
 export default function OnlinePsychology() {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ 
+  const [emblaRef] = useEmblaCarousel({ 
     loop: true,
     skipSnaps: true,
     duration: 0,
-    
-    
-    
+
    }, [
     Autoplay({
          stopOnInteraction: false,
@@ -107,24 +104,8 @@ export default function OnlinePsychology() {
   
      })
   ]);
-  const [selectedIndex, setSelectedIndex] = useState(0);
 
-  useEffect(() => {
-    if (emblaApi) {
-      emblaApi.on("select", () => {
-        const currentIndex = emblaApi.selectedScrollSnap();
-        setSelectedIndex(currentIndex);
-      });
-    }
-  }, [emblaApi]);
-
-  const scrollTo = (index: number) => {
-    if (emblaApi) emblaApi.scrollTo(index);
-  };
-  const [currentPhrase, setCurrentPhrase] = useState<number>(0);
-  const handleSlideChange = (splide: any) => {
-    setCurrentPhrase(splide.index);
-  };
+ 
 
   return (
     <div className="w-full max-w-full flex flex-col items-center justify-center px-4 py-16 bg-[#9494f3] relative overflow-hidden">
@@ -153,7 +134,7 @@ export default function OnlinePsychology() {
             >
               {features.map((feature, index) => (
                 <motion.div
-                  key={feature.title}
+                  key={index}
                   variants={itemVariants}
                   whileHover={{ scale: 1.05 }}
                   className="group flex flex-col items-center mt-14 xl:items-start xl:ml-10  text-center md:text-left w-full"
@@ -197,7 +178,3 @@ export default function OnlinePsychology() {
     </div>
   );
 }
-/* Autoplay({  
-      stopOnInteraction: false,
-      delay: 4000,
-    }),*/

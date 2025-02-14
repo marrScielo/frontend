@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
@@ -11,7 +10,6 @@ import { useRouter } from "next/navigation";
 
 export default function TherapyServices() {
   const router = useRouter();
-  const [isOpen, setIsOpen] = useState(false);
   const services = [
     {
       id:"/terapia/infantes",

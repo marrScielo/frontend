@@ -121,7 +121,7 @@ export default function ChooseUs() {
         {/* Primer fila con los primeros 4 elementos */}
         {features.slice(0, 4).map((feature, index) => (
           <motion.div
-            key={feature.title}
+            key={index}
             variants={itemVariants}
             whileHover={{ scale: 1.05 }}
             className="group"
@@ -140,7 +140,7 @@ export default function ChooseUs() {
         <div className="lg:col-span-4 flex justify-center gap-40">
           {features.slice(4).map((feature, index) => (
             <motion.div
-              key={feature.title}
+              key={index}
               variants={itemVariants}
               whileHover={{ scale: 1.05 }}
               className="group"

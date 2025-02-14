@@ -1,4 +1,3 @@
-import { Divider } from "@heroui/react";
 import BlogAside from "./blogaside";
 
 import {ScrollShadow} from "@heroui/react";

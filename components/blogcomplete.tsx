@@ -1,4 +1,4 @@
-import { Button, Divider, Form, image, Image, User } from "@heroui/react";
+import { Button, Divider, Form, Image, User } from "@heroui/react";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 const comentarios = [

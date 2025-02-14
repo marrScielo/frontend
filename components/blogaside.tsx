@@ -1,4 +1,4 @@
-import { Avatar, Button, Divider, Spacer } from "@heroui/react";
+import { Avatar, Button, Divider } from "@heroui/react";
 
 
 const categorias = [
