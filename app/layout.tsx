@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { HeroUIProvider } from "@heroui/react";
+import { Lexend } from "next/font/google";
+import { usePathname } from "next/navigation";
+export const lexend = Lexend({ subsets: ["latin"] });
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,12 +26,32 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname();
+  const getBaseRoute = () => {
+    const pathParts = pathname.split("/");
+    return `/${pathParts[1]}`;
+  };
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+    <html lang="es">
+      <body 
+      className={`${lexend.className} antialiased`}
       >
-        {children}
+        <HeroUIProvider>
+        {getBaseRoute() !== "/user" && getBaseRoute() !== "/admin" && (
+            <Navbar />
+          )}
+          <div
+            className={`${
+              getBaseRoute() !== "/user" ? "mt-[10vh] min-h-[90vh]" : ""
+            }`}
+          >
+            {children}
+          </div>
+          {getBaseRoute() !== "/user" && getBaseRoute() !== "/admin" && (
+            <Footer />
+          )}
+          
+          </HeroUIProvider>
       </body>
     </html>
   );
