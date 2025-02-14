@@ -8,6 +8,9 @@ import {
 } from "@/components/ui/sheet";
 import { Icons } from "@/icons";
 import Link from "next/link";
+
+
+
 //import { VisuallyHidden } from "@/components/ui/visually-hidden"; <- esto estaba buscar radix ui arreglar eso da errores
 export function MobileNavbar({ navItems }: any) {
   return (

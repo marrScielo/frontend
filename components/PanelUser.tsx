@@ -1,13 +1,12 @@
 "use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { PanelProps, UserInterface } from "@/interface";
 import { fetchUser } from "@/utils/recuperarDataUser";
 
 export const Panel = React.forwardRef<HTMLDivElement, PanelProps>(
   ({ estado, setEstado }, ref) => {
-    const router = useRouter();
+   // const router = useRouter();
     const [visible, setVisible] = useState<boolean>(estado);
     const [user, setUser] = useState<UserInterface>({
       name: null,
@@ -41,7 +40,7 @@ export const Panel = React.forwardRef<HTMLDivElement, PanelProps>(
         router.push("/"); // Redirigir al inicio
       }
     };
-*/
+*/setEstado(false);
     return (
       <div
         className={`fixed w-64 bg-primary right-0 font-semibold transform transition-transform duration-300 ${

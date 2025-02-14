@@ -8,8 +8,22 @@ import { ThemeToggle } from "./Themetoggle";
 import { DataUser } from "./DataUser";
 import { Panel } from "./PanelUser";
 import { MobileNavbar } from "./MobileNavbar";
+interface NavItem {
+    name: string;
+    link: string;
+    isButton?: boolean;
+  }
+  
+  interface NavbarProps {
+    navItems: NavItem[];
+  }
+  
+  interface ServiceLink {
+    name: string;
+    link: string;
+  }
 
-export const NavbarGeneral = ({ navItems }: any) => {
+export const NavbarGeneral = ({ navItems }) => {
   const [estado, setEstado] = useState<boolean>(false);
   const panelRef = useRef<HTMLDivElement>(null);
   const userRef = useRef<HTMLDivElement>(null);
