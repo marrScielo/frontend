@@ -13,27 +13,27 @@ export default function TherapyServices() {
   const services = [
     {
       id:"/terapia/infantes",
-      icon: "/images/childTherapy.webp",
+      icon: "/imagesTherapy/childTherapy.webp",
       title: "Terapia para niños",
     },
     {
       id:"/terapia/adolescentes",
-      icon: "/images/TeenTherapy.webp",
+      icon: "/imagesTherapy/TeenTherapy.webp",
       title: "Terapia adolescente",
     },
     {
       id:"/terapia/parejas",
-      icon: "/images/adultTherapy.webp",
+      icon: "/imagesTherapy/adultTherapy.webp",
       title: "Terapia de parejas",
     },
     {
       id:"/terapia/adultos",
-      icon: "/images/coupleTherapy.webp",
+      icon: "/imagesTherapy/coupleTherapy.webp",
       title: "Terapia para adultos",
     },
     {
       id:"/terapia/familia",
-      icon: "/images/familyTherapy.webp",
+      icon: "/imagesTherapy/familyTherapy.webp",
       title: "Terapia familiar",
     },
   ];
