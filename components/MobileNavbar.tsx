@@ -8,11 +8,17 @@ import {
 } from "@/components/ui/sheet";
 import { Icons } from "@/icons";
 import Link from "next/link";
-
-
+interface NavItem {
+    name: string;
+    link: string;
+    isButton?: boolean;
+  }
+  interface MobileNavbarProps {
+    navItems: NavItem[];
+  }
 
 //import { VisuallyHidden } from "@/components/ui/visually-hidden"; <- esto estaba buscar radix ui arreglar eso da errores
-export function MobileNavbar({ navItems }: any) {
+export function MobileNavbar({ navItems }: MobileNavbarProps) {
   return (
     <Sheet>
     <SheetTrigger asChild>
@@ -26,7 +32,7 @@ export function MobileNavbar({ navItems }: any) {
         <SheetTitle className="sr-only">Menu</SheetTitle>
       </SheetHeader>
       <div className="grid gap-3 py-4 mt-4">
-        {navItems.map((navItem: any, idx: number) => (
+        {navItems.map((navItem: NavItem, idx: number) => (
           <div className="w-full" key={idx}>
             <Button className="w-full bg-white text-[#634AE2] text-sm sm:text-base border-2 border-[#634AE2] hover:bg-[#634AE2] hover:text-white transition-colors duration-300 rounded-xl py-1 sm:py-2 px-3 sm:px-4 font-medium">
               <Link href={navItem.link}>{navItem.name}</Link>

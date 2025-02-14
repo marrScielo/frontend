@@ -9,7 +9,26 @@ import { DataUser } from "./DataUser";
 import { Panel } from "./PanelUser";
 import { MobileNavbar } from "./MobileNavbar";
 
-export const NavbarGeneral = ({ navItems }: any) => {
+interface NavItem {
+  name: string;
+  link: string;
+  isButton?: boolean;
+}
+
+interface NavbarProps {
+  navItems: NavItem[];
+}
+
+interface DesktopNavProps {
+  navItems: NavItem[];
+}
+
+interface ServiceLink {
+  name: string;
+  link: string;
+}
+
+export const NavbarGeneral: React.FC<NavbarProps> = ({ navItems }) => {
   const [estado, setEstado] = useState<boolean>(false);
   const panelRef = useRef<HTMLDivElement>(null);
   const userRef = useRef<HTMLDivElement>(null);
@@ -53,12 +72,12 @@ export const NavbarGeneral = ({ navItems }: any) => {
   );
 };
 
-export const DesktopNav = ({ navItems }: any) => {
+export const DesktopNav: React.FC<DesktopNavProps> = ({ navItems }) => {
   const [hovered, setHovered] = useState<number | null>(null);
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const pathname = usePathname();
 
-  const serviciosLinks = [
+  const serviciosLinks: ServiceLink[] = [
     { name: "Terapia para Niños", link: "/servicios/terapia/infantes" },
     { name: "Terapia para Adolescentes", link: "/servicios/terapia/adolescentes" },
     { name: "Terapia para Adultos", link: "/servicios/terapia/adultos" },
@@ -80,7 +99,7 @@ export const DesktopNav = ({ navItems }: any) => {
       >
         <div className="flex items-center gap-6">
           <div className="hidden flex-1 flex-row items-center justify-center space-x-0 text-sm text-zinc-600 transition duration-200 hover:text-zinc-800 lg:flex gap-1">
-            {navItems.map((navItem: any, idx: number) => (
+            {navItems.map((navItem: NavItem, idx: number) => (
               <div key={idx} className="relative">
                 {navItem.isButton ? (
                   <Link href={navItem.link}>
@@ -158,7 +177,6 @@ export const DesktopNav = ({ navItems }: any) => {
                   >
                     {hovered === idx && (
                       <motion.div
-                        //layoutId="hovered"
                         className="absolute inset-0 h-full w-full rounded-full bg-[#634AE2]"
                       />
                     )}
