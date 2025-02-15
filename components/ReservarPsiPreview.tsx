@@ -93,7 +93,18 @@ export default function ReservarPsiPreview({
         </CardContent>
       </Card>
                     
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange}
+       backdrop="opaque"
+       classNames={{
+         body: "py-6",
+         backdrop: "bg-[#d8dceb]/50 backdrop-opacity-40",
+         base: "border-[#d8dceb] bg-[#ffffff] dark:bg-[#ffffff] text-[#a8b0d3]",
+         header: "border-b-[1px] border-[#d8dceb]",
+         footer: "border-t-[1px] border-[#d8dceb]",
+         closeButton: "hover:bg-white/5 active:bg-white/10",
+       }}
+      
+      >
         <ModalContent>
           {(onClose) => (
             <>
