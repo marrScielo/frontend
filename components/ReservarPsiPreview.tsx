@@ -5,10 +5,10 @@ import {
   CardContent,
   CardDescription,
   CardFooter,
-  CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 //import { Button } from "@/components/ui/button"
+import Link from "next/link";
 import ReactCountryFlag from "react-country-flag";
 import {
   Modal,
@@ -29,7 +29,11 @@ interface psicologo {
   link: string;
   flag: string;
 }
-
+const profiles =[
+  {
+      id:"/profile",
+    },
+  ]
 export default function ReservarPsiPreview({
   psicologo,
 }: {
@@ -83,12 +87,14 @@ export default function ReservarPsiPreview({
             <Button className="rounded-3xl bg-[#E7E7FF] px-8 py-0 text-[#634AE2] font-light">
               Agendar
             </Button>
+
             <Button
               onPress={onOpen}
               className="rounded-3xl bg-[#fff] px-8 py-0 border-color[#634AE2] font-light border-1 text-[#634AE2]"
             >
               Ver Perfil
             </Button>
+
           </CardFooter>
         </CardContent>
       </Card>
