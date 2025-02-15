@@ -8,9 +8,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@heroui/react";
 //import { Button } from "@/components/ui/button"
 import ReactCountryFlag from "react-country-flag";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
+  useDisclosure,
+  Image,
+} from "@heroui/react";
 
 interface psicologo {
   name: string;
@@ -26,6 +35,8 @@ export default function ReservarPsiPreview({
 }: {
   psicologo: psicologo;
 }) {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
   return (
     <>
       <Card className="w-[480px] max-h-[280px] bg-background p-5 rounded-3xl border-[#9494F3] border-t-[0.5px]">
@@ -72,12 +83,36 @@ export default function ReservarPsiPreview({
             <Button className="rounded-3xl bg-[#E7E7FF] px-8 py-0 text-[#634AE2] font-light">
               Agendar
             </Button>
-            <Button className="rounded-3xl bg-[#fff] px-8 py-0 border-color[#634AE2] font-light border-1 text-[#634AE2]">
+            <Button
+              onPress={onOpen}
+              className="rounded-3xl bg-[#fff] px-8 py-0 border-color[#634AE2] font-light border-1 text-[#634AE2]"
+            >
               Ver Perfil
             </Button>
           </CardFooter>
         </CardContent>
       </Card>
+
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <div className="grid grid-cols-4 gap-4">
+                <div className="col-span-2">
+                  <Image
+                    src={psicologo.img}
+                    alt={psicologo.name}
+                    width={200}
+                    height={400}
+                    className="object-cover"
+                  />
+                </div>
+                <div className="col-span-2"></div>
+              </div>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
     </>
   );
 }
