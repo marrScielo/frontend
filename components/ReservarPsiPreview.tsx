@@ -21,14 +21,19 @@ import {
   useDisclosure,
   Image,
 } from "@heroui/react";
+import { Item } from "@radix-ui/react-dropdown-menu";
+import React from "react";
 
 interface psicologo {
+  id: number;
   name: string;
   lastname: string;
   description: string;
   img: string;
   link: string;
   flag: string;
+  information: string;
+  specialties: { id: number; texto: string }[];
 }
 
 export default function ReservarPsiPreview({
@@ -37,6 +42,8 @@ export default function ReservarPsiPreview({
   psicologo: psicologo;
 }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [isScheduleOpen, setIsScheduleOpen] = React.useState(false);
+  const [isProfileOpen, setIsProfileOpen] = React.useState(false);
 
   return (
     <>
@@ -81,12 +88,15 @@ export default function ReservarPsiPreview({
             dangerouslySetInnerHTML={{ __html: psicologo.description }}
           />
           <CardFooter className="flex justify-center space-x-8 pt-3 text-xs">
-            <Button className="rounded-3xl bg-[#E7E7FF] px-8 py-0 text-[#634AE2] font-light">
+            <Button
+              onPress={() => setIsScheduleOpen(true)}
+              className="rounded-3xl bg-[#E7E7FF] px-8 py-0 text-[#634AE2] font-light"
+            >
               Agendar
             </Button>
 
             <Button
-              onPress={onOpen}
+              onPress={() => setIsProfileOpen(true)}
               className="rounded-3xl bg-[#fff] px-8 py-0 border-color[#634AE2] font-light border-1 text-[#634AE2]"
             >
               Ver Perfil
@@ -94,10 +104,10 @@ export default function ReservarPsiPreview({
           </CardFooter>
         </CardContent>
       </Card>
-
+      {/* modal de perfil de psicologo*/}
       <Modal
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
+        isOpen={isProfileOpen}
+        onOpenChange={setIsProfileOpen}
         size={"2xl"}
         backdrop="opaque"
         classNames={{
@@ -107,7 +117,6 @@ export default function ReservarPsiPreview({
           header: "border-b-[1px] border-[#d8dceb]",
           footer: "border-t-[1px] border-[#d8dceb]",
           closeButton: "hover:bg-white/5 active:bg-white/10",
-          
         }}
       >
         <ModalContent>
@@ -118,52 +127,75 @@ export default function ReservarPsiPreview({
                   <div className="h-full w-full flex ">
                     <Avatar className="w-[208px] h-[416px] rounded-2xl overflow-hidden">
                       <AvatarImage
-                        src={"https://github.com/shadcn.png"}
+                        src={psicologo.img}
                         className="w-full h-full object-cover"
                       />
                     </Avatar>
                   </div>
 
                   <div className="text-[#634AE2] text-start ">
-                    <ModalHeader className="space-y-1 px-1">
+                    <div className="space-y-1 px-1">
                       <div className="text-[#634AE2] text-2xl font-semibold">
-                        Nombre Apellidos
+                        {psicologo.name} {psicologo.lastname}
                       </div>
-                    </ModalHeader>
-
+                    </div>
+                    <hr className="my-2.5 border-t border-[#9494F3] w-64" />
                     <ModalBody className="py-2 px-1 gap-0.5">
                       <p className="text-[#634AE2] font-normal text-base">
                         Especialidades:
                       </p>
                       <div className="flex gap-2 mt-1.5 mb-1">
-                        <span className="px-3 py-1 bg-[#E7E7FF] text-[#634AE2] rounded-xl text-sm">
-                          TDAH
-                        </span>
-                        <span className="px-3 py-1 bg-[#E7E7FF] text-[#634AE2] rounded-xl text-sm">
-                          Dislexia
-                        </span>
-                        <span className="px-3 py-1 bg-[#E7E7FF] text-[#634AE2] rounded-xl text-sm">
-                          Aprendizaje
-                        </span>
+                        {psicologo.specialties.map((Item, index) => (
+                          <span
+                            key={index}
+                            className="px-4 py-1 bg-[#E7E7FF] text-[#634AE2] rounded-full text-sm"
+                          >
+                            {Item.texto}
+                          </span>
+                        ))}
                       </div>
+                      <hr className="my-2.5 border-t border-[#9494F3] w-11/12" />
                       <p className="text-[#634AE2] text-sm  leading-[22px] content-normal mr-1">
-                        Licenciada Psicopedagogía con una amplia experiencia en
-                        estimulación cognitiva, orientación vocacional, técnicas
-                        de estudio y estrategias para mejorar memoria, atención
-                        y habilidades cognitivas. Además, brinda acompañamiento
-                        a familias y docentes para potenciar el desarrollo
-                        integral en cada etapa de la vida.
+                        {psicologo.information}
                       </p>
                     </ModalBody>
 
-                    <ModalFooter className="flex justify-start px-1">
-                      <Button className="rounded-3xl bg-[#634AE2] text-white px-6 text-sm font-normal ">
+                    <div className="flex justify-start px-1 mt-2">
+                      <Button className="rounded-3xl bg-[#634AE2] text-white px-6 text-sm font-normal "
+                        onPress={() => {
+                          setIsScheduleOpen(true); 
+                          setIsProfileOpen(false); 
+                        }}>
                         Agendar
                       </Button>
-                    </ModalFooter>
+                    </div>
                   </div>
                 </div>
               </ModalContent>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+
+      {/*modal de agendar cita*/}
+      <Modal
+        isOpen={isScheduleOpen}
+        onOpenChange={setIsScheduleOpen}
+        size={"2xl"}
+        backdrop="opaque"
+        classNames={{
+          body: "py-6",
+          backdrop: "bg-[#d8dceb]/50 backdrop-opacity-40",
+          base: "border-[#d8dceb] bg-[#ffffff] dark:bg-[#ffffff] text-[#a8b0d3]",
+          header: "border-b-[1px] border-[#d8dceb]",
+          footer: "border-t-[1px] border-[#d8dceb]",
+          closeButton: "hover:bg-white/5 active:bg-white/10",
+        }}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              soy cale4ndario
             </>
           )}
         </ModalContent>

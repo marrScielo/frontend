@@ -4,36 +4,48 @@ import ReservarPsiPreview from "./ReservarPsiPreview";
 
 const Psicologo = [
   {
+    id:1,
     name: "Nombre",
     lastname: "Apellidos",
     description: "Epecialidad / Maestría / Doctorado <br/> + 4 Años de experiencia",
     img: "https://github.com/shadcn.png",
     flag: "MX",
     link: "https://github.com/shadcn.png",
+    information:"Licenciada Psicopedagogía con una amplia experiencia en estimulación cognitiva, orientación vocacional, técnicas de estudio y estrategias para mejorar memoria, atención y habilidades cognitivas. Además, brinda acompañamiento a familias y docentes para potenciar el desarrollo integral en cada etapa de la vida.",
+    specialties:[{id:1,texto:"TDAH"},{id:2,texto:"Dislexia"},{id:3,texto:"Aprendizaje"}],
   },
   {
+    id:2,
     name: "Nombre",
     lastname: "Apellidos",
     description: "Epecialidad / Maestría / Doctorado <br/> + 1 Año de experiencia",
     flag: "PE",
     img: "https://github.com/shadcn.png",
     link: "https://github.com/shadcn.png",
+    information:"Licenciada Psicopedagogía con una amplia experiencia en estimulación cognitiva, orientación vocacional, técnicas de estudio y estrategias para mejorar memoria, atención y habilidades cognitivas. Además, brinda acompañamiento a familias y docentes para potenciar el desarrollo integral en cada etapa de la vida.",
+    specialties:[{id:1,texto:"TDAH"},{id:2,texto:"Dislexia"},{id:3,texto:"Aprendizaje"}],
   },
   {
+    id:3,
     name: "Nombre",
     lastname: "Apellidos",
     description: "Epecialidad / Maestría / Doctorado <br/> + 3 Años de experiencia",
     flag: "US",
     img: "https://github.com/shadcn.png",
     link: "https://github.com/shadcn.png",
+    information:"Licenciada Psicopedagogía con una amplia experiencia en estimulación cognitiva, orientación vocacional, técnicas de estudio y estrategias para mejorar memoria, atención y habilidades cognitivas. Además, brinda acompañamiento a familias y docentes para potenciar el desarrollo integral en cada etapa de la vida.",
+    specialties:[{id:1,texto:"Transtorno"},{id:2,texto:"Ansiedad"},{id:3,texto:"Biporalidad"}],
   },
   {
+    id:4,
     name: "Nombre",
     lastname: "Apellidos",
     description: "Epecialidad / Maestría / Doctorado <br/> + 2 Años de experiencia",
     flag: "AR",
     img: "https://github.com/shadcn.png",
     link: "https://github.com/shadcn.png",
+    information:"Licenciada Psicopedagogía con una amplia experiencia en estimulación cognitiva, orientación vocacional, técnicas de estudio y estrategias para mejorar memoria, atención y habilidades cognitivas. Además, brinda acompañamiento a familias y docentes para potenciar el desarrollo integral en cada etapa de la vida.",
+    specialties:[{id:1,texto:"TDAH"},{id:2,texto:"Dislexia"},{id:3,texto:"Aprendizaje"}],
   },
   
 ];
