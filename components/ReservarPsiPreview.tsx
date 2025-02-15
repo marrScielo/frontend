@@ -36,7 +36,7 @@ export default function ReservarPsiPreview({
                 <Avatar className="w-24 h-24">
                   <AvatarImage src={psicologo.img} />
                 </Avatar>
-                <div className="absolute -bottom-[2px] right-0 w-10 h-10">
+                <div className="absolute -bottom-[2px] -right-2 w-10 h-10">
                   <ReactCountryFlag
                     svg
                     style={{
