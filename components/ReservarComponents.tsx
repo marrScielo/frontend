@@ -1,5 +1,42 @@
+import { Flag } from "lucide-react";
 import ReservarComponentSearch from "./ReservarComponentSearch";
 import ReservarPsiPreview from "./ReservarPsiPreview";
+
+const Psicologo = [
+  {
+    name: "Marycielo",
+    lastname: "Puca",
+    description: "Epecialidad / Maestría / Doctorado <br/> + 4 Años de experiencia",
+    img: "https://github.com/shadcn.png",
+    flag: "MX",
+    link: "https://github.com/shadcn.png",
+  },
+  {
+    name: "Marycielo",
+    lastname: "Puca",
+    description: "Epecialidad / Maestría / Doctorado <br/> + 1 Año de experiencia",
+    flag: "PE",
+    img: "https://github.com/shadcn.png",
+    link: "https://github.com/shadcn.png",
+  },
+  {
+    name: "Marycielo",
+    lastname: "Puca",
+    description: "Epecialidad / Maestría / Doctorado <br/> + 3 Años de experiencia",
+    flag: "US",
+    img: "https://github.com/shadcn.png",
+    link: "https://github.com/shadcn.png",
+  },
+  {
+    name: "Marycielo",
+    lastname: "Puca",
+    description: "Epecialidad / Maestría / Doctorado <br/> + 2 Años de experiencia",
+    flag: "AR",
+    img: "https://github.com/shadcn.png",
+    link: "https://github.com/shadcn.png",
+  },
+  
+];
 
 export default function ReservarComponents() {
   return (
@@ -11,16 +48,19 @@ export default function ReservarComponents() {
         <h5 className="text-start font-light text-[24px] leading-[33px]  ">
           Agenda tu sesión con un psicólogo en línea, fácil, seguro y privado
         </h5>
-        <div className="flex justify-center">
-          <div className="w-full grid grid-cols-1 md:grid-cols-[0.8fr_2.5fr] h-full">
-            <div className="col-span-0.8 pt-10">
-                <ReservarComponentSearch />
+        <div className="flex justify-center mt-8 ">
+          <div className="grid grid-cols-5 grid-rows-5 gap-2">
+            <div className="row-span-5 col-span-1 ">
+              <ReservarComponentSearch />
             </div>
-            <div className="col-span-2.5 pt-10 lg:grid-cols-2 grid grid-cols-1 ">
-              <ReservarPsiPreview />
-              <ReservarPsiPreview />
-              <ReservarPsiPreview />
-              <ReservarPsiPreview />
+            <div className="row-span-4 col-span-4 ml-5 ">
+              <div className="grid grid-cols-4 grid-row-5 gap-5">
+                {Psicologo.map((Item, index) => (
+                  <div  key={index} className="row-span-1 col-span-2">
+                    <ReservarPsiPreview  psicologo={Item} />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>

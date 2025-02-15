@@ -30,7 +30,7 @@ export default function ReservarComponentSearch() {
       
          
           placeholder="Nombre"
-          className="pl-12 pr-3 text-sm h-7  w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#EAEAFF]"
+          className="pl-12 pr-3 text-sm h-9  outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#EAEAFF]"
         />
         <span
           className="text-[#634AE2] transition-colors absolute right-3 top-1/2 transform -translate-y-1/2"
