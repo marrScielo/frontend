@@ -92,7 +92,7 @@ export default function ReservarPsiPreview({
           </CardFooter>
         </CardContent>
       </Card>
-
+                    
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (
