@@ -1,35 +1,35 @@
-import { Flag } from "lucide-react";
+
 import ReservarComponentSearch from "./ReservarComponentSearch";
 import ReservarPsiPreview from "./ReservarPsiPreview";
 
 const Psicologo = [
   {
-    name: "Marycielo",
-    lastname: "Puca",
+    name: "Nombre",
+    lastname: "Apellidos",
     description: "Epecialidad / Maestría / Doctorado <br/> + 4 Años de experiencia",
     img: "https://github.com/shadcn.png",
     flag: "MX",
     link: "https://github.com/shadcn.png",
   },
   {
-    name: "Marycielo",
-    lastname: "Puca",
+    name: "Nombre",
+    lastname: "Apellidos",
     description: "Epecialidad / Maestría / Doctorado <br/> + 1 Año de experiencia",
     flag: "PE",
     img: "https://github.com/shadcn.png",
     link: "https://github.com/shadcn.png",
   },
   {
-    name: "Marycielo",
-    lastname: "Puca",
+    name: "Nombre",
+    lastname: "Apellidos",
     description: "Epecialidad / Maestría / Doctorado <br/> + 3 Años de experiencia",
     flag: "US",
     img: "https://github.com/shadcn.png",
     link: "https://github.com/shadcn.png",
   },
   {
-    name: "Marycielo",
-    lastname: "Puca",
+    name: "Nombre",
+    lastname: "Apellidos",
     description: "Epecialidad / Maestría / Doctorado <br/> + 2 Años de experiencia",
     flag: "AR",
     img: "https://github.com/shadcn.png",

@@ -5,11 +5,11 @@ import {
   CardContent,
   CardDescription,
   CardFooter,
-  CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@heroui/react";
 //import { Button } from "@/components/ui/button"
+import Link from "next/link";
 import ReactCountryFlag from "react-country-flag";
 
 interface psicologo {
@@ -20,7 +20,11 @@ interface psicologo {
   link: string;
   flag: string;
 }
-
+const profiles =[
+  {
+      id:"/profile",
+    },
+  ]
 export default function ReservarPsiPreview({
   psicologo,
 }: {
@@ -72,9 +76,11 @@ export default function ReservarPsiPreview({
             <Button className="rounded-3xl bg-[#E7E7FF] px-8 py-0 text-[#634AE2] font-light">
               Agendar
             </Button>
-            <Button className="rounded-3xl bg-[#fff] px-8 py-0 border-color[#634AE2] font-light border-1 text-[#634AE2]">
-              Ver Perfil
-            </Button>
+            <Link href={profiles[0].id}>
+      <Button className="rounded-3xl bg-[#fff] px-8 py-0 border border-[#634AE2] font-light text-[#634AE2]">
+        Ver Perfil
+      </Button>
+    </Link>  
           </CardFooter>
         </CardContent>
       </Card>
