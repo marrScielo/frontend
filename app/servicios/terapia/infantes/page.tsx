@@ -69,7 +69,7 @@ const NinosTerapias:ServicesStructureProps[] =[{
       },
     ],
     textfooter:
-      "¿Tu pequeño enfrenta desafíos como falta de atención?¿Tiene una conducta agresiva?",
+      "¿Tu pequeño enfrenta desafíos como falta de atención?<br/>¿Tiene una conducta agresiva?",
   }
 
 

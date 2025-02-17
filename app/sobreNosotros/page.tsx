@@ -25,7 +25,7 @@ export default function Home() {
       style={{
         backgroundImage: `linear-gradient(to right, #3616D87A 0%, #3616D870 30%, #7863E37A 70%, #7863E370 100%), url('/QuienesSomos.webp')`,
         backgroundRepeat: "no-repeat",
-        backgroundPosition: "100% 10%",
+        backgroundPosition: "right bottom ",
         backgroundColor: "#fff",
       }}>
       <SobreNosotrosStructure qs={dataQS} />

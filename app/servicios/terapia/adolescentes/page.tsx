@@ -68,7 +68,7 @@ import { ServicesStructureProps } from "@/interface"
       },
     ],
     textfooter:
-      "Cada sesión es una oportunidad para que tu hijo explore,crezca y enfrente sus desafíos con seguridad y confianza.",
+      "Cada sesión es una oportunidad para que tu hijo explore,<br/>crezca y enfrente sus desafíos con seguridad y confianza.",
   },
 
 

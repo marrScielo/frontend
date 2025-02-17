@@ -69,7 +69,7 @@ import { ServicesStructureProps } from "@/interface"
     },
   ],
   textfooter:
-    "Estamos aquí para acompañarte y ayudarte a transformar tus retos en oportunidades de crecimiento personal.",
+    "Estamos aquí para acompañarte y ayudarte a transformar<br/>tus retos en oportunidades de crecimiento personal.",
 },
 
 ]

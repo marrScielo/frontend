@@ -67,7 +67,7 @@ import { ServicesStructureProps } from "@/interface"
     },
   ],
   textfooter:
-    "¡Es el momento de dar el primer paso hacia un hogar más unido y saludable!",
+    "¡Es el momento de dar el primer paso hacia un hogar<br/>más unido y saludable!",
 }
 
 ]

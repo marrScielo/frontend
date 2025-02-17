@@ -140,7 +140,7 @@ export const DesktopNav: React.FC<DesktopNavProps> = ({ navItems }) => {
 
                     {dropdownVisible && (
                       <motion.div
-                        className="absolute top-full left-0 mt-2 bg-white shadow-lg rounded-lg w-56 z-10"
+                        className="absolute top-full left-0 mt-2 bg-white shadow-lg rounded-lg w-60 z-10"
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}

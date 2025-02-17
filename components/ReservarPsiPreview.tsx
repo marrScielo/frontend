@@ -3,25 +3,15 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import {
   Card,
   CardContent,
-  CardHeader,
   CardDescription,
   CardFooter,
   CardTitle,
 } from "@/components/ui/card";
 //import { Button } from "@/components/ui/button"
-import Link from "next/link";
+
 import ReactCountryFlag from "react-country-flag";
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Button,
-  useDisclosure,
-  Image,
-} from "@heroui/react";
-import { Item } from "@radix-ui/react-dropdown-menu";
+import { Modal, ModalContent, ModalBody, Button } from "@heroui/react";
+
 import React from "react";
 
 interface psicologo {
@@ -41,7 +31,6 @@ export default function ReservarPsiPreview({
 }: {
   psicologo: psicologo;
 }) {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isScheduleOpen, setIsScheduleOpen] = React.useState(false);
   const [isProfileOpen, setIsProfileOpen] = React.useState(false);
 
@@ -120,7 +109,7 @@ export default function ReservarPsiPreview({
         }}
       >
         <ModalContent>
-          {(onClose) => (
+          {() => (
             <>
               <ModalContent className="w-[695px] h-[416px] bg-background rounded-3xl  overflow-hidden  mt-8">
                 <div className="grid grid-cols-[0.8fr_1.6fr] items-center">
@@ -161,11 +150,13 @@ export default function ReservarPsiPreview({
                     </ModalBody>
 
                     <div className="flex justify-start px-1 mt-2">
-                      <Button className="rounded-3xl bg-[#634AE2] text-white px-6 text-sm font-normal "
+                      <Button
+                        className="rounded-3xl bg-[#634AE2] text-white px-6 text-sm font-normal "
                         onPress={() => {
-                          setIsScheduleOpen(true); 
-                          setIsProfileOpen(false); 
-                        }}>
+                          setIsScheduleOpen(true);
+                          setIsProfileOpen(false);
+                        }}
+                      >
                         Agendar
                       </Button>
                     </div>
@@ -192,13 +183,7 @@ export default function ReservarPsiPreview({
           closeButton: "hover:bg-white/5 active:bg-white/10",
         }}
       >
-        <ModalContent>
-          {(onClose) => (
-            <>
-              soy cale4ndario
-            </>
-          )}
-        </ModalContent>
+        <ModalContent>{() => <>soy cale4ndario</>}</ModalContent>
       </Modal>
     </>
   );
