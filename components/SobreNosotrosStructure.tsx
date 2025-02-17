@@ -2,7 +2,7 @@ import { QuienesSomos } from "@/interface";
 
 export default function SobreNosotrosStructure({ qs }: { qs: QuienesSomos[] }) {
   return (
-    <div className="w-1/2">
+    <div className="w-2/5">
       {qs.map((item, index) => (
         <div key={index} className="">
           <div className="">
