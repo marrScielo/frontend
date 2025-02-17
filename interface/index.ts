@@ -53,5 +53,14 @@ export interface CardServicesProps {
     }[];
     textfooter: string;
   }
+  //Quienes Somos
+  export interface QuienesSomos {
+    quienesSomos: string;
+    mision: string;
+    vision:string;
+    valor1: string;
+    valor2:string;
+    valor3:string;
+  }
 
   

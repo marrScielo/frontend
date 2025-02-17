@@ -11,7 +11,7 @@ export default function Footer() {
       title: "Enlaces",
       links: [
         { text: "Inicio", href: "#" },
-        { text: "Sobre Nosotros", href: "#" },
+        { text: "Sobre Nosotros", href: "sobreNosotros" },
         { text: "Servicios", href: "servicios/terapia/infantes" },
         { text: "Contactanos", href: "contactanos" },
         { text: "Preguntas Frecuentes", href: "PreguntasFrecuentes" },
