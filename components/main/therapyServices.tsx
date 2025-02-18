@@ -22,15 +22,16 @@ export default function TherapyServices() {
       title: "Terapia adolescente",
     },
     {
-      id:"/terapia/parejas",
-      icon: "/imagesTherapy/adultTherapy.webp",
-      title: "Terapia de parejas",
-    },
-    {
       id:"/terapia/adultos",
       icon: "/imagesTherapy/coupleTherapy.webp",
       title: "Terapia para adultos",
     },
+    {
+      id:"/terapia/parejas",
+      icon: "/imagesTherapy/adultTherapy.webp",
+      title: "Terapia de parejas",
+    },
+   
     {
       id:"/terapia/familia",
       icon: "/imagesTherapy/familyTherapy.webp",

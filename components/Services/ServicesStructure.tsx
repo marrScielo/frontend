@@ -22,7 +22,7 @@ export default function ServicesStructure({
             style={{
               backgroundImage: `linear-gradient(270deg, rgba(99, 74, 226, 0.24) 28.05%, rgba(99, 74, 226, 0.7) 47.87%, #7863E3 64.18%), url(${item.background})`,
               backgroundPosition: "right center",
-              backgroundSize: "contain",
+              backgroundSize: "auto",
               backgroundRepeat: "no-repeat",
             }}
           >

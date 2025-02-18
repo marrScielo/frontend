@@ -12,7 +12,7 @@ export default function ChooseUs() {
           alt="especialista"
           width={70}
           height={60}
-          style={{ width: "auto", height: "auto" }} 
+          
         />
       ),
       title: "Especialistas colegiados",

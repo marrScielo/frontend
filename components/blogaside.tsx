@@ -20,11 +20,11 @@ const categorias = [
 ];
 const autors = [
   {  
-     imagen:"logonombreblog.webp" ,
+     imagen:"/logonombreblog.webp" ,
      nombre: "Jhon Angelo Sánchez Garcia" 
     },
   
-  {      imagen:"logonombreblog.webp" ,
+  {      imagen:"/logonombreblog.webp" ,
 
     nombre: "Jhon Angelo Sánchez Garcia" },
 ];
