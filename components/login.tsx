@@ -73,7 +73,7 @@ export const useAuth = () => {
     const login = async (email: string, password: string) => {
         setAuthState({ ...authState, loading: true });
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/auth/login', {
+            const response = await fetch('https://panel.contigo-voy.com/api/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
