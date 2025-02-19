@@ -63,4 +63,8 @@ export interface CardServicesProps {
     valor3:string;
   }
 
-  
+  export interface NavItems {
+    name: string;
+    link: string;
+    icono: string;
+}

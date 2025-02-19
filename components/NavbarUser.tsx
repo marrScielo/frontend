@@ -79,6 +79,7 @@ const NavbarUser = () => {
       !userRef.current.contains(event.target as Node)
     ) {
       setEstado(false);
+      console.log(estado);
     }
   };
 
@@ -117,7 +118,7 @@ const NavbarUser = () => {
               <div>
                 <div className="text-4xl font-bold text-[#634AE2]">
                   <h1>
-                    Buenos dias
+                    Buenos dias {user.name} {user.lastname}
                   </h1>
                 </div>
                 <div className="text-0xl font-normal text-[#634AE2] pt-1">

@@ -5,8 +5,9 @@ import React, {  useState } from "react";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
+import { NavItems } from "@/interface";
 
-export const DesktopNavUser = ({ navItems }: any) => {
+export const DesktopNavUser = ({ navItems }:{navItems:NavItems[]}) => {
   const [hovered, setHovered] = useState<number | null>(null);
   const pathname = usePathname();
 
@@ -20,7 +21,7 @@ export const DesktopNavUser = ({ navItems }: any) => {
         )}
       >
         <div className="ml-5 flex flex-col items-center gap-3 mr-7">
-          {navItems.map((navItem: any, idx: number) => (
+          {navItems.map((items, idx) => (
             <div
               key={idx}
               className="w-full flex justify-center gap-6"
@@ -29,21 +30,21 @@ export const DesktopNavUser = ({ navItems }: any) => {
               <Link
                 onMouseEnter={() => setHovered(idx)}
                 className={`w-full relative flex px-3 py-3 text-muted-foreground ${
-                  pathname === navItem.link || hovered === idx
+                  pathname === items.link || hovered === idx
                     ? "bg-[#9494F3] rounded-xl"
                     : ""
                 }`}
-                href={navItem.link}
+                href={items.link}
               >
                 <span
                   className={cn(
                     " z-20 text-lg",
-                    hovered === idx || pathname === navItem.link
+                    hovered === idx || pathname === items.link
                       ? "text-white"
                       : "text-[#7b8fbd] dark:text-primary"
                   )}
                   dangerouslySetInnerHTML={{
-                    __html: navItem.icono.replace(
+                    __html: items.icono.replace(
                       /<svg /,
                       '<svg fill="currentColor" '
                     ),
@@ -57,12 +58,12 @@ export const DesktopNavUser = ({ navItems }: any) => {
                 <span
                   className={cn(
                     "relative z-20 text-sm font-bold pt-1",
-                    hovered === idx || pathname === navItem.link
+                    hovered === idx || pathname === items.link
                       ? "text-white"
                       : "text-[#634AE2] dark:text-primary"
                   )}
                 >
-                  {navItem.name}
+                  {items.name}
                 </span>
               </Link>
             </div>

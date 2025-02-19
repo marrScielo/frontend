@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import React, { useEffect, useRef, useState } from "react";
-import { UserInterface } from "@/interface";
+import { NavItems, UserInterface } from "@/interface";
 import { fetchUser } from "@/utils/recuperarDataUser";
 import { Icons } from "@/icons";
 import Link from "next/link";
@@ -9,7 +9,7 @@ import { DataUser } from "./DataUser";
 import { ThemeToggle } from "./Themetoggle";
 import { Panel } from "./PanelUser";
 
-export function MobileNavbar({ navItems }: any) {
+export function MobileNavbar({ navItems }: {navItems: NavItems[]}) {
   const [estado, setEstado] = useState<boolean>(false);
   const panelRef = useRef<HTMLDivElement>(null);
   const userRef = useRef<HTMLDivElement>(null);
@@ -50,7 +50,7 @@ export function MobileNavbar({ navItems }: any) {
             <div className="flex items-center justify-between w-full mr-1">
               <div>
                 <div className="text-3xl font-bold text-[#534489]">
-                  <h1>¡Buenos dias!</h1>
+                  <h1>¡Buenos dias! {user.name}</h1>
                 </div>
                 <div className="text-0xl font-bold text-[#6A90F1]">
                   Tienes{" "}
@@ -93,14 +93,14 @@ export function MobileNavbar({ navItems }: any) {
 
         {/* Menú de navegación solo con iconos */}
         <div className="flex flex-col items-center gap-4 w-full">
-          {navItems.map((navItem: any, idx: number) => (
+          {navItems.map((items,idx) => (
             <div className="w-full flex justify-center" key={idx}>
-              <Link href={navItem.link}>
+              <Link href={items.link}>
                 <Button className="w-full flex justify-center items-center bg-transparent text-[#634AE2] text-2xl border-none hover:bg-[#634AE2] hover:text-white transition-colors duration-300 rounded-full p-3">
                   <span
                     className="text-xl"
                     dangerouslySetInnerHTML={{
-                      __html: navItem.icono.replace(
+                      __html: items.icono.replace(
                         /<svg /,
                         '<svg fill="currentColor" '
                       ),
