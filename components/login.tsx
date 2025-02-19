@@ -1,4 +1,4 @@
-import { Input, Progress } from "@heroui/react";
+import { Input } from "@heroui/react";
 import React, { useState } from "react";
 
 export default function Login() {

@@ -19,7 +19,7 @@ export default function TherapyServices() {
     {
       id:"/terapia/adolescentes",
       icon: "/imagesTherapy/TeenTherapy.webp",
-      title: "Terapia adolescente",
+      title: "Terapia para adolescentes",
     },
     {
       id:"/terapia/adultos",
@@ -29,7 +29,7 @@ export default function TherapyServices() {
     {
       id:"/terapia/parejas",
       icon: "/imagesTherapy/adultTherapy.webp",
-      title: "Terapia de parejas",
+      title: "Terapia de pareja",
     },
    
     {

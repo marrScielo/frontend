@@ -1,7 +1,5 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { Panel } from "./PanelUser";
-import { DataUser } from "./DataUser";
 import { ThemeToggle } from "./Themetoggle";
 import Link from "next/link";
 import Image from "next/image";
