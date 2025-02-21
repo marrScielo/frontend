@@ -5,7 +5,6 @@ import { ThemeToggle } from "./Themetoggle";
 import Image from "next/image";
 import { DesktopNav } from "./DesktopNav";
 
-
 const navItems = [
   {
     name: "Inicio",
@@ -48,14 +47,7 @@ const Navbar = () => {
       <div className="w-full p-6 flex items-center justify-between">
         <Link href="/">
           <h1 className="font-normal text-3xl">
-          <Image 
-  src="/LOGO.webp" 
-  alt="logo" 
-  width={150} 
-  height={100} 
-  
-/>
-
+            <Image src="/LOGO.webp" alt="logo" width={150} height={100} />
           </h1>
         </Link>
         <div className="flex items-center gap-x-5">

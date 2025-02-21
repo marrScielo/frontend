@@ -120,17 +120,18 @@ export default function MainSlider() {
       <div className="absolute right-10 top-1/2 transform -translate-y-1/2 flex flex-col space-y-2">
         {sections.map((_, index) => (
           <button
-            key={index}
-            onClick={() => scrollTo(index)}
-            className={`
-                            w-3 h-3 rounded-full transition-all duration-300
-                            ${
-                              selectedIndex === index
-                                ? "bg-[#634AE2]"
-                                : "bg-white"
-                            }
-                        `}
-          />
+          key={index}
+          onClick={() => scrollTo(index)}
+          aria-label={`Ir a la sección ${index + 1}`}
+          className={`
+            w-3 h-3 rounded-full transition-all duration-300
+            ${
+              selectedIndex === index
+                ? "bg-[#634AE2]"
+                : "bg-white"
+            }
+          `}
+        />
         ))}
       </div>
     </div>

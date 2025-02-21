@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import { ThemeToggle } from "./Themetoggle";
 import { DataUser } from "./DataUser";
 import { Panel } from "./PanelUser";
-import { MobileNavbar } from "./MobileNavbar";
+
 
 interface NavItem {
   name: string;
@@ -87,9 +87,7 @@ export const DesktopNav: React.FC<DesktopNavProps> = ({ navItems }) => {
 
   return (
     <>
-      <div className="lg:hidden">
-        <MobileNavbar navItems={navItems} />
-      </div>
+      
       <motion.div
         onMouseLeave={() => setHovered(null)}
         className={cn(
