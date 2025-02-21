@@ -43,7 +43,7 @@ export function MobileNavbar({ navItems }: {navItems: NavItems[]}) {
 
   return (
     <div>
-      {/* Header */}
+      {/* Header 
       <div className="flex-1 mt-4">
         <div>
           <nav className="rounded-2xl mt-3 bg-background h-[12vh] flex items-center fixed z-10 top-1 w-full p-4">
@@ -80,7 +80,7 @@ export function MobileNavbar({ navItems }: {navItems: NavItems[]}) {
             <Panel ref={panelRef} estado={estado} setEstado={setEstado} />
           </div>
         </div>
-      </div>
+      </div>*/}
 
       {/*NavBar*/}
       <div className="mt-28 fixed left-0 top-0 w-[80px] h-full p-4 bg-background z-50 rounded-r-2xl flex flex-col items-center">
