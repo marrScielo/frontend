@@ -7,14 +7,11 @@ import {
   CardFooter,
   CardTitle,
 } from "@/components/ui/card";
-//import { Button } from "@/components/ui/button"
-
 import ReactCountryFlag from "react-country-flag";
 import { Modal, ModalContent, ModalBody, Button } from "@heroui/react";
-
 import React from "react";
 
-interface psicologo {
+interface Psicologo {
   id: number;
   name: string;
   lastname: string;
@@ -29,22 +26,23 @@ interface psicologo {
 export default function ReservarPsiPreview({
   psicologo,
 }: {
-  psicologo: psicologo;
+  psicologo: Psicologo;
 }) {
   const [isScheduleOpen, setIsScheduleOpen] = React.useState(false);
   const [isProfileOpen, setIsProfileOpen] = React.useState(false);
 
   return (
     <>
-      <Card className="w-[480px] max-h-[280px] bg-background p-5 rounded-3xl border-[#9494F3] border-t-[0.5px]">
+      <Card className="w-full bg-background p-5 rounded-3xl border-[#9494F3] border-t-[0.5px]">
         <div>
-          <div className="w-full grid grid-cols-3 grid-rows-1">
-            <div className="col-span-1 flex justify-center">
+          <div className="w-full grid grid-cols-1 sm:grid-cols-3 gap-4">
+           
+            <div className="col-span-1 flex sm:justify-start">
               <div className="flex items-center relative">
                 <Avatar className="w-24 h-24">
                   <AvatarImage src={psicologo.img} />
                 </Avatar>
-                <div className="absolute -bottom-[2px] -right-2 w-10 h-10">
+                <div className="absolute -bottom-[2px] -right-2 w-8 h-8 sm:w-10 sm:h-10">
                   <ReactCountryFlag
                     svg
                     style={{
@@ -57,44 +55,45 @@ export default function ReservarPsiPreview({
                   />
                 </div>
               </div>
-            </div>{" "}
-            <div className=" w-fullcol-span-2 text-[#634AE2]">
+            </div>
+
+            
+            <div className="col-span-2 text-[#634AE2]">
               <CardDescription className="text-[#634AE2]">
-                Psicologo
+                Psicólogo
               </CardDescription>
-              <CardTitle className="text-[#634AE2] text-2xl">
-                {psicologo.name}
-              </CardTitle>
-              <CardTitle className="text-[#634AE2] text-2xl">
-                {psicologo.lastname}
+              <CardTitle className="text-[#634AE2] text-xl sm:text-2xl">
+                {psicologo.name} {psicologo.lastname}
               </CardTitle>
             </div>
           </div>
         </div>
-        <CardContent className=" border-[#9494F3] mt-2">
+
+        
+        <CardContent className="border-[#9494F3] mt-2">
           <p
-            className="text-[#634AE2] pt-3"
+            className="text-[#634AE2] pt-3 text-sm sm:text-base"
             dangerouslySetInnerHTML={{ __html: psicologo.description }}
           />
-          <CardFooter className="flex justify-center space-x-8 pt-3 text-xs">
+          <CardFooter className="grid grid-cols-2 gap-2 sm:flex sm:space-x-8 pt-3 text-xs">
             <Button
               onPress={() => setIsScheduleOpen(true)}
-              className="rounded-3xl bg-[#E7E7FF] px-8 py-0 text-[#634AE2] font-light"
+              className="rounded-3xl bg-[#E7E7FF] px-6 sm:px-8 py-1 sm:py-0 text-[#634AE2] font-light"
             >
               Agendar
             </Button>
-
             <Button
               onPress={() => setIsProfileOpen(true)}
-              className="rounded-3xl bg-[#fff] px-8 py-0 border-color[#634AE2] font-light border-1 text-[#634AE2]"
+              className="rounded-3xl bg-[#fff] px-6 sm:px-8 py-1 sm:py-0 border-[#634AE2] font-light border-1 text-[#634AE2]"
             >
               Ver Perfil
             </Button>
           </CardFooter>
         </CardContent>
       </Card>
-      {/* modal de perfil de psicologo*/}
-      <Modal
+
+{/*modal de profile */}
+<Modal
         isOpen={isProfileOpen}
         onOpenChange={setIsProfileOpen}
         size={"2xl"}
@@ -148,42 +147,12 @@ export default function ReservarPsiPreview({
                         {psicologo.information}
                       </p>
                     </ModalBody>
-
-                    <div className="flex justify-start px-1 mt-2">
-                      <Button
-                        className="rounded-3xl bg-[#634AE2] text-white px-6 text-sm font-normal "
-                        onPress={() => {
-                          setIsScheduleOpen(true);
-                          setIsProfileOpen(false);
-                        }}
-                      >
-                        Agendar
-                      </Button>
-                    </div>
                   </div>
                 </div>
-              </ModalContent>
+              </ModalContent> 
             </>
           )}
         </ModalContent>
-      </Modal>
-
-      {/*modal de agendar cita*/}
-      <Modal
-        isOpen={isScheduleOpen}
-        onOpenChange={setIsScheduleOpen}
-        size={"2xl"}
-        backdrop="opaque"
-        classNames={{
-          body: "py-6",
-          backdrop: "bg-[#d8dceb]/50 backdrop-opacity-40",
-          base: "border-[#d8dceb] bg-[#ffffff] dark:bg-[#ffffff] text-[#a8b0d3]",
-          header: "border-b-[1px] border-[#d8dceb]",
-          footer: "border-t-[1px] border-[#d8dceb]",
-          closeButton: "hover:bg-white/5 active:bg-white/10",
-        }}
-      >
-        <ModalContent>{() => <>soy cale4ndario</>}</ModalContent>
       </Modal>
     </>
   );
