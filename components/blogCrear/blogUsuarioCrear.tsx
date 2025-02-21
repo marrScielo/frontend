@@ -35,7 +35,7 @@ export default function BlogUsuarioCrear() {
   const [tema, setTema] = useState("");
 
   const [url, setUrl] = useState("");
-  const [view, setView] = useState("blogs");
+  const [view, setView] = useState("crear");
   return (
     <div>
       <div className="w-full h-16 bg-[#6364F4] items-center justify-start flex">
@@ -47,7 +47,7 @@ export default function BlogUsuarioCrear() {
           >
             Crear Blog
           </Button>
-          <Button  onClick={() => setView("blogs")} className="text-white" >
+          <Button  onClick={() => setView("blogs")} className="text-white text-[16px] leading-[20px] bg-[#634AE2]" >
             Ver Blogs
           </Button>
         </div>
