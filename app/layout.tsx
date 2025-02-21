@@ -21,6 +21,8 @@ export default function RootLayout({
   };
   return (
     <html lang="en" suppressHydrationWarning>
+      <title>contigo voy</title>
+      <meta name="description" content="ContigoVoy ofrece apoyo emocional y psicológico con psicólogos profesionales en Perú. Terapia online y presencial para tu bienestar."></meta>
       <body className={`${lexend.className} antialiased`}>
         <ThemeProvider
           attribute="class"
