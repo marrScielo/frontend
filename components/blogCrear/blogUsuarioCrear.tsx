@@ -47,7 +47,7 @@ export default function BlogUsuarioCrear() {
           >
             Crear Blog
           </Button>
-          <Button  onClick={() => setView("blogs")} className="text-white text-[16px] leading-[20px] bg-[#634AE2]" >
+          <Button  onClick={() => setView("blogs")} className="text-white text-[16px] leading-[20px] bg-[#634AE2] a" >
             Ver Blogs
           </Button>
         </div>
