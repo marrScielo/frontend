@@ -1,5 +1,4 @@
-import { Image, ScrollShadow } from "@heroui/react";
-import { Delete, EditIcon, Pencil, Trash2 } from "lucide-react";
+import { Image } from "@heroui/react";
 
 const columns = [
   {

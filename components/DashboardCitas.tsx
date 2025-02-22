@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { Icons } from "@/icons";
-
+/*
 const cita = [
   {
     id: 1,
@@ -58,7 +58,7 @@ const cita = [
     hora: "18:00",
     descripcion: "No hay cita programada",
   },
-];
+];*/
 export default function DashboardCitas() {
   return (
     <div className="bg-[#fff] w-3/4 pt-8 rounded-2xl">

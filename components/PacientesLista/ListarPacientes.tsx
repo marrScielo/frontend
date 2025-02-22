@@ -1,9 +1,7 @@
 import {
-  CircleSmall,
-  Filter,
+ 
   Plus,
-  Search,
-  SlidersHorizontal,
+
   SlidersHorizontalIcon,
 } from "lucide-react";
 import CerrarSesion from "../CerrarSesion";

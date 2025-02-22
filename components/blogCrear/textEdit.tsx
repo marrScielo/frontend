@@ -15,7 +15,6 @@ import {
   Highlighter,
   Italic,
   Link2,
-  Link2Icon,
   Link2Off,
   Pilcrow,
   Strikethrough,
@@ -31,17 +30,9 @@ type Especialidad = {
 };
 const MenuBar = () => {
   const { editor } = useCurrentEditor();
-  
-  
-  if (!editor) {
-    return null;
-  }
-
-  const buttonClass =
-    "px-3 py-1.5 rounded text-sm font-medium transition-colors";
-  const activeClass = "bg-[#634AE2] text-white";
-  const inactiveClass = "bg-gray-100 hover:bg-gray-200 text-gray-700";
   const setLink = useCallback(() => {
+    if (!editor) return; // Validación dentro del callback
+
     const previousUrl = editor.getAttributes("link").href;
     const url = window.prompt("URL", previousUrl);
 
@@ -53,7 +44,6 @@ const MenuBar = () => {
     // empty
     if (url === "") {
       editor.chain().focus().extendMarkRange("link").unsetLink().run();
-
       return;
     }
 
@@ -70,6 +60,15 @@ const MenuBar = () => {
     }
   }, [editor]);
 
+  // Validación para el renderizado del componente
+  if (!editor) {
+    return null;
+  }
+  const buttonClass =
+    "px-3 py-1.5 rounded text-sm font-medium transition-colors";
+  const activeClass = "bg-[#634AE2] text-white";
+  const inactiveClass = "bg-gray-100 hover:bg-gray-200 text-gray-700";
+ 
   return (
     <div className="pb-4 border-b border-gray-200">
       <div className="flex flex-wrap gap-2">
@@ -209,35 +208,6 @@ const MenuBar = () => {
   );
 };
 
-const content = `
-<h3 style="text-align:center">
-  Devs Just Want to Have Fun by Cyndi Lauper
-</h3>
-<p>
-          Wow, this editor has support for links to the whole <a href="https://en.wikipedia.org/wiki/World_Wide_Web">world wide web</a>. We tested a lot of URLs and I think you can add *every URL* you want. Isn’t that cool? Let’s try <a href="https://statamic.com/">another one!</a> Yep, seems to work.
-        </p>
-<p style="text-align:center">
-  I come home in the morning light<br>
-  My mother says, <mark>"When you gonna live your life right?"</mark><br>
-  Oh mother dear we're not the fortunate ones<br>
-  And devs, they wanna have fun<br>
-  Oh devs just want to have fun</p>
-<p style="text-align:center">
-  The phone rings in the middle of the night<br>
-  My father yells, "What you gonna do with your life?"<br>
-  Oh daddy dear, you know you're still number one<br>
-  But <s>girls</s>devs, they wanna have fun<br>
-  Oh devs just want to have
-</p>
-<p style="text-align:center">
-  That's all they really want<br>
-  Some fun<br>
-  When the working day is done<br>
-  Oh devs, they wanna have fun<br>
-  Oh devs just wanna have fun<br>
-  (devs, they wanna, wanna have fun, devs wanna have)
-</p>
-`;
 
 const extensions = [
   Color.configure({ types: [TextStyle.name, ListItem.name] }),

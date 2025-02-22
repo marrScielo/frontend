@@ -2,7 +2,7 @@
 
 import { Button, Input } from "@heroui/react";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, Search } from "lucide-react";
 import { Listarblog } from "./listarblog";

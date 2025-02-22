@@ -2,12 +2,9 @@ import { Button } from "@/components/ui/button";
 import React, { useEffect, useRef, useState } from "react";
 import { NavItems, UserInterface } from "@/interface";
 import { fetchUser } from "@/utils/recuperarDataUser";
-import { Icons } from "@/icons";
 import Link from "next/link";
 import Image from "next/image";
-import { DataUser } from "./DataUser";
-import { ThemeToggle } from "./Themetoggle";
-import { Panel } from "./PanelUser";
+
 
 export function MobileNavbar({ navItems }: {navItems: NavItems[]}) {
   const [estado, setEstado] = useState<boolean>(false);
@@ -22,6 +19,7 @@ export function MobileNavbar({ navItems }: {navItems: NavItems[]}) {
   });
   useEffect(() => {
     fetchUser(setUser);
+    console.log(user);
   }, []);
   const handleClickOutside = (event: MouseEvent) => {
     if (
@@ -31,6 +29,7 @@ export function MobileNavbar({ navItems }: {navItems: NavItems[]}) {
       !userRef.current.contains(event.target as Node)
     ) {
       setEstado(false);
+      console.log(estado);
     }
   };
 

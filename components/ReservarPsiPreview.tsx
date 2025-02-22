@@ -11,6 +11,7 @@ import ReactCountryFlag from "react-country-flag";
 import { Modal, ModalContent, ModalBody, Button } from "@heroui/react";
 import React from "react";
 
+
 interface Psicologo {
   id: number;
   name: string;
@@ -36,7 +37,6 @@ export default function ReservarPsiPreview({
       <Card className="w-full bg-background p-5 rounded-3xl border-[#9494F3] border-t-[0.5px]">
         <div>
           <div className="w-full grid grid-cols-1 sm:grid-cols-3 gap-4">
-           
             <div className="col-span-1 flex sm:justify-start">
               <div className="flex items-center relative">
                 <Avatar className="w-24 h-24">
@@ -57,7 +57,6 @@ export default function ReservarPsiPreview({
               </div>
             </div>
 
-            
             <div className="col-span-2 text-[#634AE2]">
               <CardDescription className="text-[#634AE2]">
                 Psicólogo
@@ -69,7 +68,6 @@ export default function ReservarPsiPreview({
           </div>
         </div>
 
-        
         <CardContent className="border-[#9494F3] mt-2">
           <p
             className="text-[#634AE2] pt-3 text-sm sm:text-base"
@@ -92,8 +90,8 @@ export default function ReservarPsiPreview({
         </CardContent>
       </Card>
 
-{/*modal de profile */}
-<Modal
+      {/*modal de profile */}
+      <Modal
         isOpen={isProfileOpen}
         onOpenChange={setIsProfileOpen}
         size={"2xl"}
@@ -147,12 +145,46 @@ export default function ReservarPsiPreview({
                         {psicologo.information}
                       </p>
                     </ModalBody>
+                
                   </div>
                 </div>
-              </ModalContent> 
+              </ModalContent>
             </>
           )}
         </ModalContent>
+      </Modal>
+
+      <Modal
+        isOpen={isScheduleOpen}
+        onOpenChange={setIsScheduleOpen}
+        size={"2xl"}
+        backdrop="opaque"
+        classNames={{
+          body: "py-6",
+          backdrop: "bg-[#d8dceb]/50 backdrop-opacity-40",
+          base: "border-[#d8dceb] bg-[#ffffff] dark:bg-[#ffffff] text-[#a8b0d3]",
+          header: "border-b-[1px] border-[#d8dceb]",
+          footer: "border-t-[1px] border-[#d8dceb]",
+          closeButton: "hover:bg-white/5 active:bg-white/10",
+        }}
+      >
+        <ModalContent>
+          <ModalBody>
+            <div className="flex flex-col items-center justify-center">
+              <h1 className="text-[#634AE2] text-2xl font-bold">Agendar cita</h1>
+              <div className="w-full flex justify-center">
+                <Button
+                  onPress={() => setIsScheduleOpen(false)}
+                  className="rounded-3xl bg-[#E7E7FF] px-6 sm:px-8 py-1 sm:py-0 text-[#634AE2] font-light"
+                >
+                  Cancelar
+                </Button>
+              </div>
+              </div>
+          </ModalBody>
+
+        </ModalContent>
+
       </Modal>
     </>
   );

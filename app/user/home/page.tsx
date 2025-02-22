@@ -2,7 +2,6 @@
 import React from "react";
 import { ThemeToggle } from "@/components/Themetoggle";
 import Link from "next/link";
-import { Icons } from "@/icons";
 import { DateRangePicker } from "@heroui/react";
 import DashboardComponents from "@/components/DashboardComponents";
 
