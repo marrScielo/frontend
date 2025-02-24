@@ -13,7 +13,7 @@ export default function ServicesStructure({
       {/* Agregamos 'relative' aquí */}
       {services.map((item, index) => (
         <div className="embla__slide" key={index}>
-          <div className="flex justify-between mx-6  pt-6 text-[#634AE2] pb-8 items-center ">
+          <div className="flex justify-between mx-6  pt-6 text-title pb-8 items-center ">
             <p className="text-xl font-semibold pl-[71px]">{item.title}</p>
             <div className="pr-[80px]">{item.edad}</div>
           </div>
@@ -31,13 +31,13 @@ export default function ServicesStructure({
             </div>
           </div>
           <div className="pt-12 flex justify-center">
-            <div className="max-w-[829px] text-[#634AE2] h-[89px]  font-normal text-[16px] leading-[28px] text-center">
+            <div className="max-w-[829px] text-title h-[89px]  font-normal text-[16px] leading-[28px] text-center">
               {item.description}
             </div>
           </div>
 
           <div className="pt-24 flex justify-center px-4 md:px-0">
-            <div className="w-full text-[#634AE2] md:w-[937px] h-auto md:h-[74px]  font-semibold text-[20px] md:text-[24px] leading-[28px] md:leading-[33px] text-center">
+            <div className="w-full text-title md:w-[937px] h-auto md:h-[74px]  font-semibold text-[20px] md:text-[24px] leading-[28px] md:leading-[33px] text-center">
               {item.tittlecards}
             </div>
           </div>
@@ -101,7 +101,7 @@ export default function ServicesStructure({
             }}
           >
             <div className="pt-24 flex justify-start pl-96">
-              <div className="w-[837px] text-[#634AE2] h-[74px] font-semibold text-[24px] leading-[33px] text-center">
+              <div className="w-[837px] text-title h-[74px] font-semibold text-[24px] leading-[33px] text-center">
                 {item.tittleIcon}
               </div>
             </div>
@@ -124,7 +124,7 @@ export default function ServicesStructure({
                           />
                         </div>
                       </div>
-                      <p className="text-center pt-3 text-[16px] text-[#634AE2]  font-semibold leading-[20px] max-w-[200px]">
+                      <p className="text-center pt-3 text-[16px] text-title  font-semibold leading-[20px] max-w-[200px]">
                         {icono.text}
                       </p>
                     </div>
@@ -147,7 +147,7 @@ export default function ServicesStructure({
                         </div>
                       </div>
 
-                      <p className="text-center pt-3 text-[16px] text-[#634AE2] font-semibold leading-[20px] max-w-[120px]">
+                      <p className="text-center pt-3 text-[16px] text-title font-semibold leading-[20px] max-w-[120px]">
                         {icono.text}
                       </p>
                     </div>

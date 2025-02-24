@@ -95,17 +95,17 @@ export default function ChooseUs() {
   };
 
   return (
-    <div className="w-full  flex flex-col items-center justify-center pb-24 bg-background">
+    <div className="w-full flex flex-col items-center justify-center pb-24 bg-background">
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         className="text-center mb-12"
       >
-        <h2 className="text-4xl font-bold text-[#634AE2] mb-5">
+        <h2 className="text-4xl font-bold text-title mb-5">
           ¿Por qué elegirnos?
         </h2>
-        <p className=" text-[#634AE2] mb-5 w-[643px] mx-auto leading-relaxed ">
+        <p className="text-title mb-5 w-[643px] mx-auto leading-relaxed ">
           En Contigo Voy, te ofrecemos atención psicológica online que se adapta
           a ti, brindándote el apoyo necesario para afrontar los desafíos
           diarios con mayor fortaleza y equilibrio emocional.
@@ -131,7 +131,7 @@ export default function ChooseUs() {
                   {feature.icon}
                 </div>
               </div>
-              <h3 className="text-center text-lg w-40 font-semibold text-[#634AE2]  mt-3 ">
+              <h3 className="text-center text-lg w-40 font-semibold text-title   mt-3 ">
                 {feature.title}
               </h3>
           </motion.div>
@@ -150,7 +150,7 @@ export default function ChooseUs() {
                   {feature.icon}
                 </div>
               </div>
-              <h3 className="text-center text-lg w-full font-semibold text-[#634AE2]  mt-3 ">
+              <h3 className="text-center text-lg w-full font-semibold text-title   mt-3 ">
                 {feature.title}
               </h3>
             </motion.div>

@@ -106,7 +106,7 @@ export const DesktopNav: React.FC<DesktopNavProps> = ({ navItems }) => {
                         ${
                           pathname === navItem.link
                             ? "bg-[#634AE2] text-white"
-                            : "text-[#634AE2] border-[#634AE2] hover:bg-[#634AE2] hover:text-white"
+                            : "text-title border-title hover:bg-[#634AE2] hover:text-white"
                         }`}
                       onMouseEnter={() => setHovered(null)}
                     >
@@ -129,7 +129,7 @@ export const DesktopNav: React.FC<DesktopNavProps> = ({ navItems }) => {
                       className={`relative px-4 py-2 ${
                         hovered === idx || pathname.includes("/terapia")
                           ? "bg-[#634AE2] rounded-full text-white"
-                          : "text-[#634AE2] hover:bg-[#634AE2] hover:text-white rounded-full"
+                          : "text-title hover:bg-[#634AE2] hover:text-white rounded-full"
                       }`}
                       href="#"
                     >
@@ -138,7 +138,7 @@ export const DesktopNav: React.FC<DesktopNavProps> = ({ navItems }) => {
 
                     {dropdownVisible && (
                       <motion.div
-                        className="absolute top-full left-0 mt-2 bg-white shadow-lg rounded-lg w-60 z-10"
+                        className="absolute top-full left-0 mt-2 bg-background shadow-lg rounded-lg w-60 z-10"
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
@@ -151,7 +151,7 @@ export const DesktopNav: React.FC<DesktopNavProps> = ({ navItems }) => {
                                 className={`px-4 py-2 text-sm rounded-full transition-colors duration-300 ${
                                   pathname === service.link
                                     ? "bg-[#634AE2] text-white"
-                                    : "text-[#634AE2] hover:bg-[#634AE2] hover:text-white"
+                                    : "text-title hover:bg-[#634AE2] hover:text-white"
                                 }`}
                               >
                                 {service.name}
@@ -168,7 +168,7 @@ export const DesktopNav: React.FC<DesktopNavProps> = ({ navItems }) => {
                     className={`relative px-4 py-2 ${
                       pathname === navItem.link || hovered === idx
                         ? "bg-[#634AE2] rounded-full text-white"
-                        : "text-[#634AE2] hover:bg-[#634AE2] hover:text-white rounded-full"
+                        : "text-title hover:bg-[#634AE2] hover:text-white rounded-full"
                     }`}
                     key={idx}
                     href={navItem.link}
