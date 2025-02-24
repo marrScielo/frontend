@@ -1,20 +1,24 @@
 'use client';
-//Usamo el hook useAuth para manejar el estado de la autenticación porque no podemos usar el middleware
+
 import { useRouter } from "next/navigation";
 import { parseCookies } from "nookies";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export const useAuthRoutes = () => {
-  
-    const router = useRouter();
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(true); // Estado de carga
+
   useEffect(() => {
     // Verifica si la cookie 'session' existe
     const cookies = parseCookies();
     const session = cookies.session;
 
     if (!session) {
-      // Si no hay sesión, redirige al login
-        router.push("/login");
+      router.push("/login");
+    } else {
+      setIsLoading(false);
     }
   }, [router]);
+
+  return { isLoading }; 
 };

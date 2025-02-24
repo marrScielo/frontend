@@ -65,10 +65,24 @@ interface AuthState {
       }
     };
     
-    const logout = () => {
+    const logout =  () => {
         // Eliminar la cookie al cerrar sesión
         destroyCookie(null, "session", { path: "/" });
 
+        try {
+            const response =  fetch(
+              "http://127.0.0.1:8000/api/auth/logout",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              
+              }
+            );
+        } catch (error) {
+          console.log("Error al intentar cerrar sesión:", error);
+        }
       
         localStorage.removeItem("user");
      

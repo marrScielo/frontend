@@ -1,4 +1,5 @@
 'use client';
+
 import { useAuthRoutes } from "@/auth/Auth";
 import NavbarUser from "@/components/NavbarUser";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -9,8 +10,15 @@ export default function HomeLayout({
 }: {
   children: ReactNode;
 }): React.ReactElement {
-  // Verifica la sesión del usuario
-  useAuthRoutes();
+  const { isLoading } = useAuthRoutes();
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <p>Cargando...</p>
+      </div>
+    );
+  }
 
   return (
     <ThemeProvider
