@@ -68,7 +68,7 @@ const Companies = [
 export default function RealiableCompanies() {
   return (
     <div className="w-full flex flex-col items-center justify-center bg-background mt-8">
-      <p className="text-[#634AE2] text-4xl font-bold w-[643px] mx-auto text-center">
+      <p className="text-title text-4xl font-bold w-[643px] mx-auto text-center">
         Empresas que confían en nuestra orientación psicológica
       </p>
       <div className="flex flex-wrap justify-center gap-24 mt-16 mb-28">
