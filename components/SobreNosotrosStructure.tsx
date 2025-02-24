@@ -29,6 +29,16 @@ export default function SobreNosotrosStructure({ qs }: { qs: QuienesSomos[] }) {
                 dangerouslySetInnerHTML={{ __html: item.vision }}
               />
             </section>
+            <div
+            className="w-full h-full pt-[57.2vh]"
+            style={{
+              backgroundImage: `linear-gradient(to right, #3616D87A 0%, #3616D870 30%, #7863E37A 70%, #7863E370 100%),url('/AboutUs/manos.webp')`,
+              backgroundColor: "#fff",
+              backgroundSize: "cover",
+              backgroundPosition: " center",
+              backgroundRepeat: "no-repeat",
+            }}
+          ></div>
 
             <section className="pt-20">
               <h3 className="font-medium text-3xl">Valores de Marca</h3>
