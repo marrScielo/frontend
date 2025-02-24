@@ -91,10 +91,10 @@ export default function Login() {
     <>
       <form
         onSubmit={handleSubmit}
-        className="bg-white min-h-72  h-auto w-[370px] p-10 rounded-3xl "
+        className="bg-background min-h-72  h-auto w-[370px] p-10 rounded-3xl "
       >
         <div className="flex flex-col justify-center items-center gap-y-5">
-          <label className="text-[16px] leading-[20px]  text-[#634AE2]">
+          <label className="text-[16px] leading-[20px]  text-title">
             Usuario
           </label>
           <Input
@@ -107,7 +107,7 @@ export default function Login() {
             onChange={handleChange}
             isRequired
           />
-          <label className="text-[16px] leading-[20px]  text-[#634AE2]">
+          <label className="text-[16px] leading-[20px] text-title">
             Contraseña
           </label>
           <Input
