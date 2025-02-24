@@ -1,5 +1,7 @@
 import { Input } from "@heroui/react";
 import React, { useState } from "react";
+import { setCookie, destroyCookie } from 'nookies'; 
+import { useAuth } from "@/auth/loginsec";
 
 export default function Login() {
 
@@ -55,7 +57,8 @@ export default function Login() {
           required
         />
         <button
-          type="submit"
+          
+         type="submit"
           className="w-full bg-[#634AE2] text-white py-2 rounded-md hover:bg-[#5339d2] transition-colors"
         >
           Iniciar Sesión
@@ -67,56 +70,3 @@ export default function Login() {
   );
 }
 
-interface AuthState {
-  user: { id: number; email: string; rol: string } | null;
-  token: string | null;
-  loading: boolean;
-  error: string | null;
-}
-
-export const useAuth = () => {
-  const [authState, setAuthState] = useState<AuthState>({
-    user: null,
-    token: null,
-    loading: false,
-    error: null,
-  });
-
-  const login = async (email: string, password: string) => {
-    setAuthState({ ...authState, loading: true });
-    try {
-      const response = await fetch(
-        "https://panel.contigo-voy.com/api/auth/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email, password }),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Credenciales inválidas");
-      }
-
-      const data = await response.json();
-      const token = data.result.token;
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(data.user));
-      setAuthState({ ...authState, token: token, loading: false, error: null });
-      console.log("Inicio de sesión exitoso");
-      window.location.assign("/user/home");
-      console.log(data.user);
-      console.log(data.result.token);
-    } catch (error: unknown) {
-      const errorMessage =
-        error instanceof Error
-          ? error.message
-          : "Se produjo un error desconocido";
-      setAuthState({ ...authState, loading: false, error: errorMessage });
-    }
-  };
-
-  return { ...authState, login };
-};

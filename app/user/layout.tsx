@@ -1,3 +1,5 @@
+'use client';
+import { useAuthRoutes } from "@/auth/Auth";
 import NavbarUser from "@/components/NavbarUser";
 import { ThemeProvider } from "@/components/theme-provider";
 import type { ReactNode } from "react";
@@ -7,6 +9,9 @@ export default function HomeLayout({
 }: {
   children: ReactNode;
 }): React.ReactElement {
+  // Verifica la sesión del usuario
+  useAuthRoutes();
+
   return (
     <ThemeProvider
       attribute="class"
