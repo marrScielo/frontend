@@ -19,6 +19,8 @@ export default function RootLayout({
     const pathParts = pathname.split("/");
     return `/${pathParts[1]}`;
   };
+
+  
   return (
     <html lang="en" suppressHydrationWarning>
       <title>contigo voy</title>
