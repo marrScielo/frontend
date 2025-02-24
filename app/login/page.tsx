@@ -1,20 +1,31 @@
-'use client'
+"use client";
 
-import Login from "@/components/login"
+import Login from "@/components/login";
 
 export default function Logeo() {
-  return ( 
-  
+  return (
     <div className="flex flex-col items-center justify-center h-screen"
     style={{
-      backgroundImage: `linear-gradient(to right,rgba(120, 99, 227, 0.64), rgba(99, 74, 226, 0.30)),url(/bglogin.webp)`,
-      backgroundPosition: "center",
-      backgroundSize: "cover",
-      backgroundRepeat: "no-repeat",
-    }}    
+      backgroundImage: `linear-gradient(to right,rgba(54,22,216, 0.64), rgba(120,99,227, 0.48))`
 
-    >
-    <Login />
+    }}    
+>
+      <div
+        className="rounded-2xl h-[500px] w-96 bg-[#FFFFFF] flex flex-col items-end pt-10"
+        style={{
+          backgroundImage: `url(/newlog.webp)`,
+          backgroundPosition: "center left",
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        <h1 className="font-semibold text-3xl text-[#634AE2] mr-8">
+          Iniciar Sesión
+        </h1>
+        <div className="transform translate-x-1/2  mt-10">
+          <Login />
+        </div>
+      </div>
     </div>
-                )
+  );
 }
