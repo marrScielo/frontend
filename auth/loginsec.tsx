@@ -66,19 +66,13 @@ interface AuthState {
     };
     
     const logout = () => {
-      // Eliminar la cookie al cerrar sesión
-      destroyCookie(null, 'session');
-      localStorage.removeItem("user");
+        // Eliminar la cookie al cerrar sesión
+        destroyCookie(null, "session", { path: "/" });
+
       
-      setAuthState({
-        user: null,
-        token: null,
-        loading: false,
-        error: null
-      });
-      
-      window.location.assign("/login");
-    };
-  
+        localStorage.removeItem("user");
+     
+       window.location.assign("/login");
+      };
     return { ...authState, login, logout };
 };
