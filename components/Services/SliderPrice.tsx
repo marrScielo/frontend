@@ -151,22 +151,22 @@ export default function SliderPrice() {
               >
   
                 <div className="p-1   ">
-                  <Card className="h-[480px] w-[322px] mx-auto border-0 shadow-none bg-white rounded-3xl">
+                  <Card className="h-[480px] w-[322px] mx-auto border-0 shadow-none bg-background rounded-3xl">
                     <CardContent className=" py-6  h-full pl-0">
                       <div className="h-16 w-60 rounded-r-[34px] bg-[#634AE2]">
                         <h1 className="text-white w-32 ml-14 pt-1 text-lg">
                           {item.title}
                         </h1>
                       </div>
-                      <h1 className="text-center  m-5 text-6xl font-semibold text-[#634AE2]">
+                      <h1 className="text-center  m-5 text-6xl font-semibold text-title">
                         {item.preciounit}
                         <small>{item.cents}</small>
                       </h1>
-                      <p className="text-center text-xs font-bold text-[#634AE2]">
+                      <p className="text-center text-xs font-bold text-title">
                         {item.regularprice}
                       </p>
                       <div className="ml-5 mt-5 h-40">
-                        <ul className="list-none font-light text-[14px] text-[#634AE2]">
+                        <ul className="list-none font-light text-[14px] text-title">
                           {item.list.map((item, index) => (
                             <li
                               className="flex items-center mt-1 max-w-[270px]"
