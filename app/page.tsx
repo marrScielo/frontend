@@ -10,8 +10,8 @@ export default function Home() {
       <MainSlider/>
       <TherapyServices />
       <ChooseUs />
-      <OnlinePsychology />
       <RealiableCompanies/>
+      <OnlinePsychology />
     </div>
   );
 }
