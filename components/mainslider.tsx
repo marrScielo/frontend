@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Autoplay from "embla-carousel-autoplay";
 
 import { Button } from "@heroui/react";
+import Link from "next/link";
 
 interface SliderSection {
   phrase: string;
@@ -105,10 +106,11 @@ export default function MainSlider() {
                       __html: item.smallPhrase,
                     }}
                   />
-
-                  <Button className="bg-[#634AE2] max-w-[188px] p-6 text-white rounded-[30px] hover:bg-purple-700">
+                  <Link href="/ReservarCita">
+                  <Button  className="bg-[#634AE2] max-w-[188px] p-6 text-white rounded-[30px] hover:bg-purple-700">
                     Reservar Cita
                   </Button>
+                  </Link>
                 </div>
               </div>
             </div>

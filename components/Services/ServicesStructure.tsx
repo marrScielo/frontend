@@ -20,7 +20,7 @@ export default function ServicesStructure({
           <div
             className="h-[578px] flex items-center  pl-[79px]"
             style={{
-              backgroundImage: `linear-gradient(270deg, rgba(99, 74, 226, 0.24) 28.05%, rgba(99, 74, 226, 0.7) 47.87%, #7863E3 64.18%), url(${item.background})`,
+              backgroundImage: `linear-gradient(270deg, rgba(99, 74, 226, 0.24) 28.05%, rgba(99, 74, 226, 1) 47.87%), url(${item.background})`,
               backgroundPosition: "right center",
               backgroundSize: "auto",
               backgroundRepeat: "no-repeat",

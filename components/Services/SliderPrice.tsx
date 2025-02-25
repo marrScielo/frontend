@@ -9,6 +9,7 @@ import {
 } from "../ui/carousel";
 import { CardContent } from "../ui/card";
 import Autoplay from "embla-carousel-autoplay";
+import Link from "next/link";
 
 
 const cardservices = [
@@ -194,9 +195,11 @@ export default function SliderPrice() {
                       </div>
 
                       <div className="justify-center bottom-0 pt-9  flex  ">
+                        <Link href="/ReservarCita">
                         <button className="w-48 border-0 bottom-0 shadow-none bg-[#634AE2] items-center  text-white rounded-[34px] h-10 font-semibold text-center">
                           Obtener una Cita
                         </button>
+                        </Link>
                       </div>
                     </CardContent>
                   </Card>

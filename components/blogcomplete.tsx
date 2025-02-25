@@ -136,14 +136,14 @@ export default function BlogComplete() {
     Artículos relacionados
   </p>
   <div
-    className="flex flex-col md:flex-row items-center justify-center gap-16 "
+    className="flex flex-col  md:flex-row items-center justify-center gap-16 "
   >
     {artículo.map((item, index) => (
-      <div key={index} className="flex flex-col w-[500px]">
-        <Image src={item.imagen} alt={item.titulo} height={336} width={480} />
+      <div key={index} className="flex flex-col w-[470px]">
+        <img src={item.imagen} className="rounded-xl" alt={item.titulo} height={336} width={450} />
         <p className="font-semibold text-2xl h-16 mt-4">{item.titulo}</p>
-        <p className="text-base mt-2 h-20">{item.descripcion}</p>
-        <p className="text-xs">{item.fecha}</p>
+        <p className="text-base mt-2 w-auto h-16">{item.descripcion}</p>
+        <p className="text-xs ">{item.fecha}</p>
       </div>
     ))}
   </div>

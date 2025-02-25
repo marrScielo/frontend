@@ -7,6 +7,7 @@ export default function Revista() {
         <>
       
         <div >
+           
             <BlogComplete/>
             </div>
         </>
