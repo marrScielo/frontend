@@ -19,7 +19,7 @@ interface AuthState {
       setAuthState({ ...authState, loading: true });
       try {
         const response = await fetch(
-          "http://127.0.0.1:8000/api/auth/login",
+          `${process.env.NEXT_PUBLIC_API_URL}api/auth/login`,
           {
             method: "POST",
             headers: {
@@ -61,6 +61,8 @@ interface AuthState {
           error instanceof Error
             ? error.message
             : "Se produjo un error desconocido";
+            console.log(errorMessage);
+            console.log(process.env.NEXT_PUBLIC_API_URL);
         setAuthState({ ...authState, loading: false, error: errorMessage });
       }
     };

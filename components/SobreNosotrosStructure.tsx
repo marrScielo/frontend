@@ -30,15 +30,11 @@ export default function SobreNosotrosStructure({ qs }: { qs: QuienesSomos[] }) {
               />
             </section>
             <div
-            className="w-full h-full pt-[57.2vh]"
-            style={{
-              backgroundImage: `linear-gradient(to right, #3616D87A 0%, #3616D870 30%, #7863E37A 70%, #7863E370 100%),url('/AboutUs/manos.webp')`,
-              backgroundColor: "#fff",
-              backgroundSize: "cover",
-              backgroundPosition: " center",
-              backgroundRepeat: "no-repeat",
-            }}
-          ></div>
+              className=" h-80 sm:h-[800px] bg-white  bg-contain md:bg-cover bg-center bg-no-repeat"
+              style={{
+                backgroundImage: `linear-gradient(to right, #3616D87A 0%, #3616D870 30%, #7863E37A 70%, #7863E370 100%),url('/AboutUs/hands.webp')`,
+              }}
+            ></div>
 
             <section className="pt-20">
               <h3 className="font-medium text-3xl">Valores de Marca</h3>
@@ -66,15 +62,11 @@ export default function SobreNosotrosStructure({ qs }: { qs: QuienesSomos[] }) {
             </section>
           </div>
           <div
-            className="w-full h-full pt-[75vh]"
+            className="h-96 md:h-[890px] bg-white bg-cover bg-center bg-no-repeat"
             style={{
-              backgroundImage: `linear-gradient(to right, #3616D87A 0%, #3616D870 30%, #7863E37A 70%, #7863E370 100%),url('/AboutUs/familiafeliz.webp')`,
-              backgroundColor: "#fff",
-              backgroundSize: "cover",
-              backgroundPosition: " center",
-              backgroundRepeat: "no-repeat",
+              backgroundImage: `linear-gradient(to right, #3616D87A 0%, #3616D870 30%, #7863E37A 70%, #7863E370 100%),url('/AboutUs/bg.webp')`,
             }}
-          ></div>
+          />
         </div>
       ))}
     </div>
