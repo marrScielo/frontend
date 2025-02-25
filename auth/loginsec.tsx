@@ -22,6 +22,8 @@ interface AuthState {
           `${process.env.NEXT_PUBLIC_API_URL}api/auth/login`,
           {
             method: "POST",
+            credentials: 'include', // Habilita el envío de credenciales
+
             headers: {
               "Content-Type": "application/json",
             },
