@@ -19,11 +19,15 @@ interface AuthState {
       setAuthState({ ...authState, loading: true });
       try {
         const response = await fetch(
+<<<<<<< HEAD
           //loCAL 
           //"http://127.0.0.1:8000/api/auth/login", 
 
           //HOSTINGUE BACKEND 
           "https://back.contigo-voy.com/api/auth/login",
+=======
+          `${process.env.NEXT_PUBLIC_API_URL}api/auth/login`,
+>>>>>>> 4eb9cbb0f65b172437334b0aa3e21936df005abc
           {
             method: "POST",
             headers: {
@@ -65,6 +69,8 @@ interface AuthState {
           error instanceof Error
             ? error.message
             : "Se produjo un error desconocido";
+            console.log(errorMessage);
+            console.log(process.env.NEXT_PUBLIC_API_URL);
         setAuthState({ ...authState, loading: false, error: errorMessage });
       }
     };
