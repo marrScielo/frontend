@@ -19,7 +19,11 @@ interface AuthState {
       setAuthState({ ...authState, loading: true });
       try {
         const response = await fetch(
-          "http://127.0.0.1:8000/api/auth/login",
+          //loCAL 
+          //"http://127.0.0.1:8000/api/auth/login", 
+
+          //HOSTINGUE BACKEND 
+          "https://back.contigo-voy.com/api/auth/login",
           {
             method: "POST",
             headers: {

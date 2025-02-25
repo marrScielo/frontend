@@ -11,6 +11,7 @@ const ContactUs = () => {
           backgroundImage: `linear-gradient(#634AE27A, #634AE27A), url('/SB.webp')`,
           backgroundSize: '130%',
           backgroundPosition: '50% 80%', 
+          
       }}
     >
       <div className="container mx-auto px-0 md:px-0 lg:px-0 py-20 ">
