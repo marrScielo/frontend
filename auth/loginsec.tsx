@@ -19,11 +19,9 @@ interface AuthState {
       setAuthState({ ...authState, loading: true });
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}api/auth/login`,
-
+          'http://127.0.0.1:8000/api/auth/login',
           {
             method: "POST",
-            credentials: 'include', // Habilita el envío de credenciales
 
             headers: {
               "Content-Type": "application/json",
