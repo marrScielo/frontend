@@ -26,7 +26,6 @@ const ContactUs = () => {
             </h3>
           </div>
           <div className="w-full  md:w-96 lg:w-96 flex justify-center lg:justify-start">
-            {/* <ContactForm /> */}
             <FormContacto />
           </div>
         </div>

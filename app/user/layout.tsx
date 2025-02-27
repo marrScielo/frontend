@@ -1,6 +1,6 @@
 'use client';
 
-import { useAuthRoutes } from "@/auth/Auth";
+import { useAuthRoutes } from "@/components/auth/Auth";
 import NavbarUser from "@/components/NavbarUser";
 import { ThemeProvider } from "@/components/theme-provider";
 import type { ReactNode } from "react";

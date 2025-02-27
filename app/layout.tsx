@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { Lexend } from "next/font/google";
 import { ToastContainer } from "react-toastify";
 import Footer from "@/components/footer";
+import { metadataTarron } from "./metadata";
 
 export const lexend = Lexend({ subsets: ["latin"] });
 
@@ -20,11 +21,10 @@ export default function RootLayout({
     return `/${pathParts[1]}`;
   };
 
-  
   return (
     <html lang="en" suppressHydrationWarning>
-      <title>contigo voy</title>
-      <meta name="description" content="ContigoVoy ofrece apoyo emocional y psicológico con psicólogos profesionales en Perú. Terapia online y presencial para tu bienestar."></meta>
+      <title>{String(metadataTarron.title)}</title>
+      <meta name="description" content={metadataTarron.description ?? ""} />
       <body className={`${lexend.className} antialiased`}>
         <ThemeProvider
           attribute="class"

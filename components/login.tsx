@@ -1,7 +1,7 @@
 import { Input } from "@heroui/react";
 import React, { useState } from "react";
 
-import { useAuth } from "@/auth/loginsec";
+import { useAuth } from "@/components/auth/loginsec";
 
 export const EyeSlashFilledIcon = (props: React.SVGProps<SVGSVGElement>) => {
   return (
