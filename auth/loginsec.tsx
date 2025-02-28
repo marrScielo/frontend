@@ -26,6 +26,7 @@ interface AuthState {
 
             headers: {
               "Content-Type": "application/json",
+              "Accept": "application/json",
             },
             body: JSON.stringify({ email, password }),
           }
@@ -73,8 +74,8 @@ interface AuthState {
         // Eliminar la cookie al cerrar sesión
         destroyCookie(null, "session", { path: "/" });
 
-        try {
-            const response =  fetch(
+       
+            fetch(
               "http://127.0.0.1:8000/api/auth/logout",
               {
                 method: "POST",
@@ -84,9 +85,6 @@ interface AuthState {
               
               }
             );
-        } catch (error) {
-          console.log("Error al intentar cerrar sesión:", error);
-        }
       
         localStorage.removeItem("user");
      

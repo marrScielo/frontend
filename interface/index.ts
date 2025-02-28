@@ -1,3 +1,6 @@
+import { DateValue } from "@heroui/react";
+import { Interface } from "readline";
+
 export interface CardServicesProps {
     title: string;
     description: string;
@@ -68,3 +71,23 @@ export interface CardServicesProps {
     link: string;
     icono: string;
 }
+
+//interface for the component Creacion de usuario
+
+export interface Genero {
+  
+  label: number;
+  genero: string;
+}
+
+export interface FormData {
+  name: string;
+  lastname: string;
+  birthdate: DateValue;
+  edad: number;
+  sex: string;
+  country: string;
+  mail: string;
+  password: string;
+}
+
