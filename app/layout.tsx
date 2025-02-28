@@ -8,6 +8,7 @@ import { ToastContainer } from "react-toastify";
 import Footer from "@/components/footer";
 import { metadataTarron } from "./metadata";
 
+
 export const lexend = Lexend({ subsets: ["latin"] });
 
 export default function RootLayout({
@@ -23,7 +24,7 @@ export default function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <title>{String(metadataTarron.title)}</title>
+      <title> {String(metadataTarron.title ?? "")}</title>
       <meta name="description" content={metadataTarron.description ?? ""} />
       <body className={`${lexend.className} antialiased`}>
         <ThemeProvider

@@ -1,5 +1,11 @@
-"use client";
+
 import AccordionQuest from "@/components/AccordionQuest";
+import { metadataTarron } from "../metadata";
+
+export const metadata = {
+  ...metadataTarron,
+  title: "Preguntas Frecuentes - ContigoVoy", 
+};
 
 export default function App() {
   const faqs = [
