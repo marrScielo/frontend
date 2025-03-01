@@ -1,5 +1,5 @@
 "use client";
-import { FormData } from "@/interface";
+import type { FormData } from "@/interface";
 import {
   Button,
   Checkbox,
@@ -18,7 +18,17 @@ import { getLocalTimeZone, today } from "@internationalized/date";
 
 export default function PersonalComponent() {
   const [currentView, setCurrentView] = React.useState<"form" | "data">("form");
-  const [formData, setFormData] = React.useState<any>(null);
+  const [formData, setFormData] = React.useState<FormData>({
+    name: "",
+    lastname: "",
+    birthdate: today(getLocalTimeZone()),
+    edad: 0,
+    sex: "",
+    country: "",
+    mail: "",
+    password: "",
+  });
+
   const handleNext = (data: any) => {
     setFormData(data); // Guarda los datos del formulario
     setCurrentView("data"); // Cambia a la vista de datos
@@ -31,7 +41,7 @@ export default function PersonalComponent() {
   return (
     <div className="text-[#634AE2] h-auto p-10 items-center bg-white rounded-3xl ">
       {currentView === "form" ? (
-        <PersonalForm onNext={handleNext} />
+        <PersonalForm onNext={handleNext} initialFormData={formData} />
       ) : (
         <DataView formData={formData} onBack={handleBack} />
       )}
@@ -39,18 +49,15 @@ export default function PersonalComponent() {
   );
 }
 
-export const PersonalForm = ({ onNext }: { onNext: any }) => {
+export const PersonalForm = ({
+  onNext,
+  initialFormData,
+}: {
+  onNext: (data: FormData) => void;
+  initialFormData: FormData;
+}) => {
   const [isVisible, setIsVisible] = React.useState(false);
-  const [formData, setFormData] = React.useState<FormData>({
-    name: "",
-    lastname: "",
-    birthdate: today(getLocalTimeZone()),
-    edad: 0,
-    sex: "",
-    country: "",
-    mail: "",
-    password: "",
-  });
+  const [formData, setFormData] = React.useState<FormData>(initialFormData);
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
@@ -80,6 +87,7 @@ export const PersonalForm = ({ onNext }: { onNext: any }) => {
               placeholder="ingrese su nombre"
               type="text"
               isRequired
+              value={formData.name}
               variant="faded"
               onChange={(e) =>
                 setFormData({ ...formData, name: e.target.value })
@@ -98,12 +106,10 @@ export const PersonalForm = ({ onNext }: { onNext: any }) => {
               isRequired
               variant="faded"
               maxValue={today(getLocalTimeZone())}
-              suppressHydrationWarning={true}
               showMonthAndYearPickers
               radius="full"
               classNames={{
                 label: "!text-[#634AE2]",
-
                 base: "!mt-0.5",
               }}
             />
@@ -114,6 +120,7 @@ export const PersonalForm = ({ onNext }: { onNext: any }) => {
               isRequired
               radius="full"
               variant="faded"
+              selectedKeys={[formData.sex]}
               classNames={{
                 label: "!text-[#634AE2]",
                 trigger: "border-2 border-[#634AE2]",
@@ -147,6 +154,7 @@ export const PersonalForm = ({ onNext }: { onNext: any }) => {
               labelPlacement="outside"
               isRequired
               radius="full"
+              value={formData.mail}
               classNames={{
                 label: "!text-[#634AE2]",
                 inputWrapper: "border-2 border-[#634AE2]", // Solo controla el borde
@@ -166,6 +174,7 @@ export const PersonalForm = ({ onNext }: { onNext: any }) => {
               labelPlacement="outside"
               radius="full"
               variant="faded"
+              value={formData.lastname}
               classNames={{
                 label: "!text-[#634AE2]",
                 inputWrapper: "border-2 border-[#634AE2]", // Solo controla el borde
@@ -182,6 +191,7 @@ export const PersonalForm = ({ onNext }: { onNext: any }) => {
             <Input
               label="Edad"
               labelPlacement="outside"
+              value={formData.edad.toString()}
               classNames={{
                 label: "!text-[#634AE2]",
                 inputWrapper: "border-2 border-[#634AE2]", // Solo controla el borde
@@ -200,6 +210,7 @@ export const PersonalForm = ({ onNext }: { onNext: any }) => {
             <Input
               label="Pais"
               labelPlacement="outside"
+              value={formData.country}
               classNames={{
                 label: "!text-[#634AE2]",
                 inputWrapper: "border-2 border-[#634AE2]", // Solo controla el borde
@@ -220,6 +231,7 @@ export const PersonalForm = ({ onNext }: { onNext: any }) => {
               radius="full"
               label="Contraseña"
               labelPlacement="outside"
+              value={formData.password}
               placeholder="ingrese su contraseña"
               classNames={{
                 label: "!text-[#634AE2]",
@@ -279,7 +291,7 @@ const ImageUploader: React.FC = () => {
     setBase64Image(base64);
 
     // Enviar la imagen al backend
-    sendImageToBackend(base64);
+    // sendImageToBackend(base64);
   };
 
   const convertImageToWebP = (file: File): Promise<Blob> => {
@@ -565,81 +577,12 @@ export const DataView = ({
               </div>
             </CheckboxGroup>
           </div>
-          <div className="col-span-6 row-start-6 row-span-2">
-            <CheckboxGroup
-              isRequired
-              orientation="vertical"
-              description="Selecciona los enfoques que domina"
-              isInvalid={isInvalide}
-              label="Enfoques"
-              classNames={{
-                label: "!text-[#634AE2] font-bold text-base",
-              }}
-              onValueChange={(value) => {
-                setIsInvalide(value.length < 1);
-              }}
-            >
-              <div className="flex flex-row w-full">
-                <div className="flex flex-col w-1/2">
-                  <Checkbox
-                    defaultSelected
-                    color="secondary"
-                    classNames={{
-                      label: "text-[#634AE2]", 
-                    }}
-                    value="1"
-                  >
-                    Niños
-                  </Checkbox>
-                  <Checkbox
-                    classNames={{
-                      label: "text-[#634AE2]",
-                    }}
-                    color="secondary"
-                    value="2"
-                  >
-                    Adolescentes
-                  </Checkbox>
-                  <Checkbox
-                    classNames={{
-                      label: "text-[#634AE2]", 
-                    }}
-                    color="secondary"
-                    value="3"
-                  >
-                   Adultos
-                  </Checkbox>
-                </div>
-                <div className="flex flex-col w-1/2">
-                  <Checkbox
-                    color="secondary"
-                    classNames={{
-                      label: "text-[#634AE2]", 
-                    }}
-                    value="4"
-                  >
-                    Familia
-                  </Checkbox>
-                  <Checkbox
-                    color="secondary"
-                    classNames={{
-                      label: "text-[#634AE2]", 
-                    }}
-                    value="5"
-                  >
-                   Pareja
-                  </Checkbox>
-                
-                </div>
-              </div>
-            </CheckboxGroup>
-          </div>
         </div>
         <div className="flex w-full justify-center gap-10">
           <Button
             radius="full"
             className="bg-white border-1 border-[#634AE2] text-[#634AE2]"
-            onClick={onBack}
+            onPress={onBack}
           >
             Retroceder
           </Button>
