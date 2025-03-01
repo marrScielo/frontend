@@ -10,12 +10,14 @@ export default function Footer() {
     {
       title: "Enlaces",
       links: [
-        { text: "Inicio", href: "#" },
-        { text: "Sobre Nosotros", href: "sobreNosotros" },
-        { text: "Servicios", href: "servicios/terapia/infantes" },
-        { text: "Contactanos", href: "contactanos" },
-        { text: "Preguntas Frecuentes", href: "PreguntasFrecuentes" },
-        { text: "Blog", href: "blog" },
+        { text: "Inicio", href: "/" },
+        { text: "Sobre Nosotros", href: "/sobreNosotros" },
+        { text: "Servicios", href: "/servicios/terapia/infantes" },
+        { text: "Contactanos", href: "/contactanos" },
+        { text: "Preguntas Frecuentes", href: "/PreguntasFrecuentes" },
+        { text: "Blog", href: "/blog" },
+        { text: "Iniciar sesión", href: "/login" },
+        { text: "Reservar cita", href: "/ReservarCita" },
       ],
     },
   ];
@@ -55,7 +57,7 @@ export default function Footer() {
           {/* Footer Sections */}
           <div className="w-full md:w-auto ml-auto flex flex-col text-center md:text-left items-center justify-start md:items-start">
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div className="grid grid-cols-2 md:grid-cols-2 gap-12">
               {footerSections.map((section, idx) => (
                 <motion.div
                   key={section.title}
