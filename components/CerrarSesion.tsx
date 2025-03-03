@@ -1,6 +1,6 @@
 import { Button } from "@heroui/react";
 import { ThemeToggle } from "./Themetoggle";
-import { useAuth } from "@/auth/loginsec";
+import { useAuth } from "@/components/auth/loginsec";
 
 export default function CerrarSesion() {
   // Llama a useAuth en el nivel superior del componente
