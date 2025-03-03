@@ -82,12 +82,19 @@ export interface Genero {
 
 export interface FormData {
   name: string;
-  lastname: string;
-  birthdate: DateValue;
+  apellido: string;
+  fecha_nacimiento: DateValue | string;
   edad: number;
-  sex: string;
-  country: string;
-  mail: string;
+  genero: string;
+  pais: string;
+  email: string;
   password: string;
+  introduccion: string;
+  imagen: string;
+  experiencia: number;
+  especialidades: number[];
+  horario: {
+    [key: string]: string[][]; // Define el tipo para el horario
+  };
 }
 
