@@ -1,7 +1,4 @@
-'use client';
-
-import { useAuthRoutes } from "@/components/auth/Auth";
-import NavbarUser from "@/components/NavbarUser";
+import NavbarUser from "@/components/User/NavbarUser";
 import { ThemeProvider } from "@/components/theme-provider";
 import type { ReactNode } from "react";
 
@@ -10,16 +7,6 @@ export default function HomeLayout({
 }: {
   children: ReactNode;
 }): React.ReactElement {
-  const { isLoading } = useAuthRoutes();
-
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <p>Cargando...</p>
-      </div>
-    );
-  }
-
   return (
     <ThemeProvider
       attribute="class"
@@ -29,8 +16,8 @@ export default function HomeLayout({
     >
       <div className="bg-[#eaeded] min-h-screen">
         <NavbarUser />
-        <div className="lg:hidden block min-h-full mt-[5vh] ml-24"> {children} </div>
-        <div className="lg:block hidden min-h-full  ml-72"> {children} </div>
+        <div className="lg:hidden block min-h-[80vh] ml-24"> {children} </div>
+        <div className="lg:block hidden min-h-[89vh] ml-72"> {children} </div>
       </div>
     </ThemeProvider>
   );

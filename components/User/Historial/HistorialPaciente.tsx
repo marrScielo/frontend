@@ -1,0 +1,137 @@
+import React, { useState } from "react";
+import { Icons } from "@/icons";
+import DetallesPaciente from "./DetallesPaciente";
+
+const headerColumns = [
+  { uid: 1, name: "#" },
+  { uid: 2, name: "Paciente" },
+  { uid: 3, name: "Fecha de Inicio" },
+  { uid: 4, name: "Diagnóstico" },
+  { uid: 5, name: "Detalles" },
+  { uid: 6, name: "Editar" },
+];
+
+const users = [
+  {
+    numero: "1",
+    name: "Manuel Perez",
+    fecha: "2024-07-06",
+    hora: "13:30",
+    Diagnostico: "Ataque de Ansiedad",
+  },
+  {
+    numero: "2",
+    name: "Manuel Perez",
+    fecha: "2024-07-07",
+    hora: "14:00",
+    Diagnostico: "Migraña",
+  },
+  {
+    numero: "3",
+    name: "Manuel Perez",
+    fecha: "2024-07-08",
+    hora: "15:00",
+    Diagnostico: "Infección respiratoria",
+  },
+  {
+    numero: "4",
+    name: "Manuel Perez",
+    fecha: "2024-07-09",
+    hora: "15:00",
+    Diagnostico: "Infección respiratoria",
+  },
+];
+
+export default function HistorialPaciente() {
+  const [showCart, setShowCart] = useState(false);
+  return (
+    <div className="relative overflow-auto rounded-lg pt-2 text-[#634AE2] bg-[#fff]">
+      <div className="text-3xl pb-3 font-bold">Historial de atención</div>
+      <table className="w-full border-separate border-spacing-y-3 max-h-[585px]">
+        {/* Encabezado de la tabla */}
+        <thead className="sticky bg-[#6364F4]">
+          <tr>
+            {headerColumns.map((column, index) => (
+              <th
+                key={column.uid}
+                className={`text-[#fff] font-normal text-lg text-center p-3 ${
+                  index === 0
+                    ? "rounded-tl-full"
+                    : index === headerColumns.length - 1
+                    ? "rounded-tr-full"
+                    : ""
+                }`}
+              >
+                {column.name}
+              </th>
+            ))}
+          </tr>
+        </thead>
+
+        {/* Cuerpo de la tabla */}
+        <tbody>
+          {users.map((user, rowIndex) => (
+            <tr key={user.numero} className="bg-[#E7E7FF]">
+              <td className="font-normal text-lg text-center p-6 rounded-l-medium">
+                {user.numero}
+              </td>
+              <td className="font-normal text-lg text-center p-6">
+                {user.name}
+              </td>
+              <td className="font-normal text-lg text-center p-6">
+                {user.fecha}
+              </td>
+              <td className="font-normal text-lg text-center p-6">
+                {user.Diagnostico}
+              </td>
+              <td className="font-normal text-lg justify-items-center p-6">
+                <button
+                  className="rounded-full border-2 border-[#634AE2] w-28 items-center justify-center flex space-x-1"
+                  onClick={() => setShowCart(true)}
+                >
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: Icons.eye.replace(
+                        /<svg /,
+                        '<svg fill="#634AE2" '
+                      ),
+                    }}
+                    style={{
+                      width: "1.2em",
+                      height: "1.2em",
+                    }}
+                  />
+                  Ver mas
+                </button>
+              </td>
+              <td className="font-normal text-lg text-center p-6 rounded-r-medium">
+                <button
+                  dangerouslySetInnerHTML={{
+                    __html: Icons.edit.replace(/<svg /, '<svg fill="#634AE2" '),
+                  }}
+                  style={{
+                    width: "1.2em",
+                    height: "1.2em",
+                  }}
+                />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      {showCart && (
+        <div
+        className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-20"
+          onClick={() => setShowCart(false)}
+        >
+          <div
+            className="relative bg-white p-6 rounded-3xl z-10"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <DetallesPaciente />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
