@@ -2,40 +2,80 @@
 
 import { Button, Input } from "@heroui/react";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, Search } from "lucide-react";
 import { Listarblog } from "./listarblog";
 import Tiptap from "./textEdit";
+import { Especialidad } from "@/interface";
 
 
 
-// Define the type for a specialty
-interface Especialidad {
-  value: string;
-  label: string;
-}
 
-const especialidades: Especialidad[] = [
-  { value: "1", label: "Web Development" },
-  { value: "2", label: "Mobile Development" },
-  { value: "3", label: "Frontend Development" },
-  { value: "4", label: "Backend Development" },
-];
+export const EspecialidadGet = async () => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}api/especialidades/show`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      }
+    );
+
+    const data = await response.json();
+    return data.result; // Solo retornamos el array de especialidades
+  } catch (error) {
+    console.error("Error:", error);
+    return [];
+  }
+};
+
+export const EspecialidadPost = async (nombre:string) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}api/especialidades/create`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(nombre),
+      }
+    );
+
+  } catch (error) {
+    console.error("Error:", error);
+    return [];
+  }
+};
 
 export default function BlogUsuarioCrear() {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedEspecialidad, setSelectedEspecialidad] =
-    useState<Especialidad | null>(null);
+  const [selectedEspecialidad, setSelectedEspecialidad] = useState<Especialidad | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
-
-  const filteredEspecialidades = especialidades.filter((esp) =>
-    esp.label.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const [especialidades, setEspecialidades] = useState<Especialidad[]>([]);
   const [tema, setTema] = useState("");
-
   const [url, setUrl] = useState("");
   const [view, setView] = useState("crear");
+
+  useEffect(() => {
+    const fetchEspecialidades = async () => {
+      const data = await EspecialidadGet();
+      setEspecialidades(data);
+    };
+    fetchEspecialidades();
+  }, []);
+
+ const filteredEspecialidades = especialidades.filter((esp) =>
+    esp.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  
+
   return (
     <div>
       <div className="w-full h-16 bg-[#6364F4] items-center justify-start flex">
@@ -57,10 +97,11 @@ export default function BlogUsuarioCrear() {
       <div className="grid grid-cols-2 gap-10 mx-10 mt-14">
         <div className="flex flex-col items-center col-span-1 w-96 gap-y-3 mx-auto">
           <h1 className="h-10 bg-[#6364F4] w-full font-semibold text-white text-xl rounded-full flex items-center justify-start pl-3">
-            Tema
+            Titulo
           </h1>
           <Input
-            placeholder="Ingresar Tema"
+            aria-label="Titulo"
+            placeholder="Ingresar Titulo"
             className="w-full max-w-[400px]"
             radius="full"
             height={43}
@@ -69,17 +110,17 @@ export default function BlogUsuarioCrear() {
           />
 
           <h1 className="h-10 bg-[#6364F4] w-full font-semibold text-white text-xl rounded-full flex items-center justify-start pl-3">
-            Especialidad
+            Tema
           </h1>
           <div className="relative w-full max-w-[400px]">
             <Button
               radius="full"
               className="w-full h-[43px] bg-white border-2 border-gray-200 justify-between"
-              onClick={() => setIsOpen(!isOpen)}
+              onPress={() => setIsOpen(!isOpen)}
             >
               <span>
                 {selectedEspecialidad
-                  ? selectedEspecialidad.label
+                  ? selectedEspecialidad.nombre
                   : "Seleccionar especialidad"}
               </span>
               <motion.div
@@ -114,8 +155,8 @@ export default function BlogUsuarioCrear() {
                   <div className="max-h-48 overflow-y-auto">
                     {filteredEspecialidades.map((especialidad) => (
                       <motion.div
-                        key={especialidad.value}
-                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                      key={especialidad.idEspecialidad} // Falta el atributo key aquí
+                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                         whileHover={{ backgroundColor: "#f3f4f6" }}
                         onClick={() => {
                           setSelectedEspecialidad(especialidad);
@@ -123,7 +164,7 @@ export default function BlogUsuarioCrear() {
                           setSearchTerm("");
                         }}
                       >
-                        {especialidad.label}
+                        {especialidad.nombre}
                       </motion.div>
                     ))}
                   </div>
@@ -150,7 +191,7 @@ export default function BlogUsuarioCrear() {
             Descripción
           </h1>
           <div className="py-4 w-full">
-          <Tiptap tema={tema} especialidad={selectedEspecialidad} url={url} />
+          <Tiptap tema={tema}  url={url} />
           </div>
         </div>
       </div>
@@ -161,3 +202,4 @@ export default function BlogUsuarioCrear() {
      </div>
   );
 }
+

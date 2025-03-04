@@ -5,7 +5,7 @@ import TextStyle from "@tiptap/extension-text-style";
 import Link from "@tiptap/extension-link";
 import Underline from "@tiptap/extension-underline";
 import { EditorProvider, useCurrentEditor } from "@tiptap/react";
-import { Editor as TiptapEditor } from '@tiptap/core';
+import { Editor as TiptapEditor } from "@tiptap/core";
 import StarterKit from "@tiptap/starter-kit";
 import {
   AlignCenter,
@@ -24,10 +24,7 @@ import React, { useCallback, useState } from "react";
 import Highlight from "@tiptap/extension-highlight";
 import { Button } from "@heroui/react";
 
-type Especialidad = {
-  value: string;
-  label: string;
-};
+
 const MenuBar = () => {
   const { editor } = useCurrentEditor();
   const setLink = useCallback(() => {
@@ -68,7 +65,7 @@ const MenuBar = () => {
     "px-3 py-1.5 rounded text-sm font-medium transition-colors";
   const activeClass = "bg-[#634AE2] text-white";
   const inactiveClass = "bg-gray-100 hover:bg-gray-200 text-gray-700";
- 
+
   return (
     <div className="pb-4 border-b border-gray-200">
       <div className="flex flex-wrap gap-2">
@@ -208,7 +205,6 @@ const MenuBar = () => {
   );
 };
 
-
 const extensions = [
   Color.configure({ types: [TextStyle.name, ListItem.name] }),
   TextStyle.configure({}),
@@ -300,30 +296,35 @@ const extensions = [
   }),
 ];
 
-export const Tiptap = ( { tema, especialidad, url } : { tema: string, especialidad: Especialidad | null, url: string }) => {
-  const [editorContent, setEditorContent] = useState('');
+export const Tiptap = ({
+  tema,
+  url,
+}: {
+  tema: string;
+  url: string;
+}) => {
+  const [editorContent, setEditorContent] = useState("");
 
   const handleUpdate = ({ editor }: { editor: TiptapEditor }) => {
     // Puedes obtener el contenido como HTML
     const htmlContent = editor.getHTML();
-    
+
     // O como JSON si lo prefieres
     // const jsonContent = editor.getJSON();
-    
+
     setEditorContent(htmlContent);
-    
+
     // Si necesitas hacer algo con el contenido, como enviarlo a un servidor
-    console.log('Contenido actual:', htmlContent);
+    console.log("Contenido actual:", htmlContent);
   };
 
   const handleEnviar = () => {
     console.log("Tema:", tema);
-    console.log("Especialidad:" ,especialidad?.label);
+   
     console.log("URL Imagen:", url);
-    console.log("Contenido:", editorContent); 
+    console.log("Contenido:", editorContent);
   };
-  
-    
+
   return (
     <div className="max-w-4xl p-4 mx-auto bg-white rounded-lg shadow-lg">
       <EditorProvider
@@ -331,7 +332,6 @@ export const Tiptap = ( { tema, especialidad, url } : { tema: string, especialid
         extensions={extensions}
         onUpdate={handleUpdate}
         autofocus={true}
-      
       >
         <div className="prose prose-sm sm:prose lg:prose-lg mx-auto p-6">
           <style>{`
@@ -409,14 +409,14 @@ export const Tiptap = ( { tema, especialidad, url } : { tema: string, especialid
           `}</style>
         </div>
       </EditorProvider>
-              {/* Preview con los mismos estilos que el editor */}
+      {/* Preview con los mismos estilos que el editor */}
       <div className="mt-8 border-t pt-4">
         <h3 className="text-lg font-semibold mb-4">Contenido actual:</h3>
-        <div 
+        <div
           className="prose prose-sm sm:prose lg:prose-lg mx-auto"
-          dangerouslySetInnerHTML={{ __html: editorContent }} 
+          dangerouslySetInnerHTML={{ __html: editorContent }}
         />
-          <style>{`
+        <style>{`
             /* Aplicar los mismos estilos que tiene ProseMirror al preview */
             .prose h1 {
               font-size: 2em;
@@ -459,13 +459,17 @@ export const Tiptap = ( { tema, especialidad, url } : { tema: string, especialid
               color: #4F46E5;
             }
           `}</style>
-        
       </div>
       <div className="w-full flex justify-end">
-            <Button radius="full"  className="w-24 bg-[#634AE2] text-white"  onClick={handleEnviar} >Enviar</Button>
-          </div>
+        <Button
+          radius="full"
+          className="w-24 bg-[#634AE2] text-white"
+          onClick={handleEnviar}
+        >
+          Enviar
+        </Button>
+      </div>
     </div>
-    
   );
 };
 

@@ -14,6 +14,11 @@ const navItems = [
     icono: Icons.dashboard,
   },
   {
+    name: "Registro de personal",
+    link: "/user/personal",
+    icono:Icons.personal,
+  },
+  {
     name: "Pacientes",
     link: "/user/pacientes",
     icono: Icons.pacientes,

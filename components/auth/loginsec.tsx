@@ -15,19 +15,21 @@ interface AuthState {
       loading: false,
       error: null,
     });
-    const login = async (email: string, password: string) => {
+
+     const login = async (email: string, password: string) => {
       setAuthState({ ...authState, loading: true });
       try {
         const response = await fetch(
-          "http://apicontigovoy.contigo-voy.com/api/auth/login",
+          `${process.env.NEXT_PUBLIC_API_URL}api/auth/login`,
+
           {
             method: "POST",
+
             headers: {
               "Content-Type": "application/json",
+              "Accept": "application/json",
             },
             body: JSON.stringify({ email, password }),
-            credentials: "include",
-            
           }
         );
         
@@ -63,6 +65,8 @@ interface AuthState {
           error instanceof Error
             ? error.message
             : "Se produjo un error desconocido";
+            console.log(errorMessage);
+            console.log(process.env.NEXT_PUBLIC_API_URL);
         setAuthState({ ...authState, loading: false, error: errorMessage });
       }
     };
@@ -71,9 +75,9 @@ interface AuthState {
         // Eliminar la cookie al cerrar sesión
         destroyCookie(null, "session", { path: "/" });
 
-        try {
+       
             fetch(
-              "http://apicontigovoy.contigo-voy.com/api/auth/logout",
+              "http://127.0.0.1:8000/api/auth/logout",
               {
                 method: "POST",
                 headers: {
@@ -82,11 +86,6 @@ interface AuthState {
               
               }
             );
-
-            
-        } catch (error) {
-          console.log("Error al intentar cerrar sesión:", error);
-        }
       
         localStorage.removeItem("user");
      
