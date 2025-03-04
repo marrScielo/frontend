@@ -97,7 +97,7 @@ export default function ServicesStructure({
               backgroundImage: `url(${item.bgdown})`,
               backgroundPosition: "right bottom",
               backgroundRepeat: "no-repeat",
-              backgroundSize: "auto",
+              backgroundSize: "1280px 788px",
             }}
           >
             <div className="pt-24 flex justify-start pl-96">

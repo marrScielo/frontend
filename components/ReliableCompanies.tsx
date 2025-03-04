@@ -6,7 +6,7 @@ const Companies = [
   {
     icon: (
       <Image
-        src={"/Companies/TAMI.webp"}
+        src={"/Companies/LogoTAMI.webp"}
         alt="especialista"
         width={98}
         height={114}
@@ -16,7 +16,7 @@ const Companies = [
   {
     icon: (
       <Image
-        src={"/Companies/Tecno.webp"}
+        src={"/Companies/YUNTAS.webp"}
         alt="especialista"
         width={114}
         height={114}
@@ -26,7 +26,7 @@ const Companies = [
   {
     icon: (
       <Image
-        src={"/Companies/Yuntas.webp"}
+        src={"/Companies/ASDEN.webp"}
         alt="especialista"
         width={126}
         height={114}
@@ -36,7 +36,7 @@ const Companies = [
   {
     icon: (
       <Image
-        src={"/Companies/NLS.webp"}
+        src={"/Companies/LOGONLS.webp"}
         alt="especialista"
         width={138}
         height={104}
@@ -46,7 +46,7 @@ const Companies = [
   {
     icon: (
       <Image
-        src={"/Companies/digiMedia.webp"}
+        src={"/Companies/DigiLogo.webp"}
         alt="especialista"
         width={114}
         height={114}
@@ -56,7 +56,7 @@ const Companies = [
   {
     icon: (
       <Image
-        src={"/Companies/NHL.webp"}
+        src={"/Companies/NHLLOGO.webp"}
         alt="especialista"
         width={93}
         height={114}

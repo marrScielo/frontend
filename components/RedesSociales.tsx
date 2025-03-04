@@ -5,7 +5,7 @@ const redes = [
   {
     nombre: "tiktok",
     icono: Icons.tiktok,
-    link: " https://www.tiktok.com/@contigovoy.pe",
+    link: "https://www.tiktok.com/@centropsico_contigovoy",
   },
   {
     nombre: "threads",
@@ -15,17 +15,17 @@ const redes = [
   {
     nombre: "instagram",
     icono: Icons.instagram,
-    link: "https://www.instagram.com/centropsicologico_contigovoy?igsh=MjZjNDk5bXh6czcz",
+    link: "https://www.instagram.com/centropsicologico_contigovoy?igsh=MXc2aTQ3ZGk4OXg5bQ==",
   },
   {
     nombre: "facebook",
     icono: Icons.facebook,
-    link: "https://www.facebook.com/contigovoy.pe",
+    link: "https://www.facebook.com/centropsicologico.contigovoy",
   },
   {
     nombre: "youtube",
     icono: Icons.youtube,
-    link: " https://youtube.com/@contigovoype?si=r47RqVuOdhpMDXoA",
+    link: "https://youtube.com/@centropsicologico-contigovoy?feature=shared",
   },
   
 ];

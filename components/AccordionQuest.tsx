@@ -39,13 +39,14 @@ const AccordionQuest: React.FC<AccordionQuestProps> = ({ faqs }) => {
           key={Question}
           aria-label={Question}
           title={<div className="truncate text-white inline">{Question}</div>}
-          className="border-[#fff] border-b-1 mb-4"
           indicator={
             <div className="mx-6 truncate">
               <AnchorIcon />
             </div>
           }
+          className="border-b border-white "
         >
+          
           <div className="text-[#fff] mx-2 rounded-xl p-4 border border-[#fff]">
             {Answer}
           </div>
