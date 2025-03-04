@@ -45,7 +45,7 @@ interface AuthState {
           maxAge: 30 * 24 * 60 * 60,
           path: '/',
           
-          // Añade secure: true y sameSite: 'strict' en producción
+          // Añade secure: true y sameSite: 'strict' en producción sas
         });
         
      

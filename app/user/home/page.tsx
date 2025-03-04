@@ -41,7 +41,7 @@ const PageHome = () => {
   }, []);
 
   if (!user) {
-    return <div>Loading...</div>; 
+    return <div>Loading..</div>; 
   }
 
   return (
