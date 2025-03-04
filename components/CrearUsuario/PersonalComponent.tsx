@@ -29,7 +29,7 @@ export default function PersonalComponent() {
   const [currentView, setCurrentView] = React.useState<"form" | "data">("form");
   const [formData, setFormData] = React.useState<FormData>(initialFormState);
 
-  const handleNext = (data: any) => {
+  const handleNext = (data: FormData) => {
     setFormData(data); 
     setCurrentView("data"); 
   };

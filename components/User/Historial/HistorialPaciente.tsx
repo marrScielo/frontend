@@ -70,7 +70,7 @@ export default function HistorialPaciente() {
 
         {/* Cuerpo de la tabla */}
         <tbody>
-          {users.map((user, rowIndex) => (
+          {users.map((user) => (
             <tr key={user.numero} className="bg-[#E7E7FF]">
               <td className="font-normal text-lg text-center p-6 rounded-l-medium">
                 {user.numero}

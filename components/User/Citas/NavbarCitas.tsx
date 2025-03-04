@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+
 import { Icons } from "@/icons";
 import {
   Input,
@@ -8,7 +8,7 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "@heroui/react";
-import { Calendar } from "@heroui/calendar";
+
 
 interface NavbarProps {
   filterValue: string;
@@ -23,9 +23,6 @@ export const Navbar: React.FC<NavbarProps> = ({
   filterValue,
   onSearchChange,
   onClear,
-  visibleColumns,
-  setVisibleColumns,
-  columns,
 }) => {
   return (
     <div className="flex w-full mt-8 z-40">

@@ -183,7 +183,7 @@ export default function App() {
   const [visibleColumns, setVisibleColumns] = useState<Set<string>>(
     new Set(INITIAL_VISIBLE_COLUMNS)
   );
-  const [sortDescriptor, setSortDescriptor] = useState({
+  const [sortDescriptor] = useState({
     column: "fecha",
     direction: "ascending",
   });

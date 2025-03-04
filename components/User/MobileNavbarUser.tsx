@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import React, { useEffect, useRef, useState } from "react";
 import { NavItems, UserInterface } from "@/interface";
 import { fetchUser } from "@/utils/recuperarDataUser";
-import { Icons } from "@/icons";
 import Link from "next/link";
 import Image from "next/image";
 

@@ -24,9 +24,6 @@ export const Navbar: React.FC<NavbarProps> = ({
   filterValue,
   onSearchChange,
   onClear,
-  visibleColumns,
-  setVisibleColumns,
-  columns,
   onSortByDate, 
   onSortByName,
 }) => {

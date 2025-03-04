@@ -1,6 +1,5 @@
 import React from "react";
 import { Icons } from "@/icons";
-import { ThemeToggle } from "@/components/Themetoggle";
 
 const NavbarCitas = () => {
   return (

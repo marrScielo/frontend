@@ -1,12 +1,15 @@
 "use client";
+import { Contact } from "@/interface";
 import { Button, Form, Input } from "@heroui/react";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+
+
 
 export default function FormContacto() {
   const [action, setAction] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<Contact>({
     nombre: "",
     apellido: "",
     celular: "",
@@ -29,11 +32,18 @@ export default function FormContacto() {
     setError(null);
     setLoading(true);
 
-    const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData) as Record<string, any>;
+    const formDataEntries = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formDataEntries) as unknown as Contact;
+
+    // Asegúrate de que todas las propiedades necesarias estén presentes
+    if (!data.nombre || !data.apellido || !data.celular || !data.email || !data.comentario) {
+      setError("Por favor, completa todos los campos del formulario.");
+      setLoading(false);
+      return;
+    }
 
     if (data.celular) {
-      data.celular = Number(data.celular);
+      data.celular = String(data.celular); // Asegúrate de que celular sea un string
     }
 
     try {
@@ -49,7 +59,7 @@ export default function FormContacto() {
         }
       );
 
-      const result = await response.json();
+      const result: { message?: string } = await response.json();
 
       if (!response.ok)
         throw new Error(result.message || "Error al enviar el formulario");
@@ -65,9 +75,13 @@ export default function FormContacto() {
 
       setTimeout(() => {
         setAction(null);
-      }, 6000); 
-    } catch (err: any) {
-      setError(err.message || "No se pudo enviar el formulario.");
+      }, 6000);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message || "No se pudo enviar el formulario.");
+      } else {
+        setError("No se pudo enviar el formulario.");
+      }
     } finally {
       setLoading(false);
     }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDropzone } from 'react-dropzone';
 
 function DropzoneWithoutKeyboard() {
@@ -19,7 +19,6 @@ function DropzoneWithoutKeyboard() {
   }
 
 export default function App() {
-  const [showCart, setShowCart] = useState(false);
 
   return (
     <div className="max-w-[480px]">

@@ -5,99 +5,7 @@ import { parseCookies } from "nookies";
 import { useState } from "react";
 import { toast, Zoom } from "react-toastify";
 
-const ImageUploader: React.FC = () => {
-    const [base64Image, setBase64Image] = useState<string | null>(null);
-  
-    const handleImageUpload = async (
-      event: React.ChangeEvent<HTMLInputElement>
-    ) => {
-      const file = event.target.files?.[0];
-      if (!file) return;
-  
-      // Convertir la imagen a WebP
-      const webpImage = await convertImageToWebP(file);
-  
-      // Convertir la imagen WebP a Base64
-      const base64 = await convertToBase64(webpImage);
-      setBase64Image(base64);
-  
-      // Enviar la imagen al backend
-      // sendImageToBackend(base64);
-    };
-  
-    const convertImageToWebP = (file: File): Promise<Blob> => {
-      return new Promise((resolve, reject) => {
-        const img = new Image();
-        const canvas = document.createElement("canvas");
-        const ctx = canvas.getContext("2d");
-  
-        img.onload = () => {
-          canvas.width = img.width;
-          canvas.height = img.height;
-          ctx?.drawImage(img, 0, 0);
-  
-          // Convertir la imagen a WebP
-          canvas.toBlob(
-            (blob) => {
-              if (blob) {
-                resolve(blob);
-              } else {
-                reject(new Error("Error al convertir la imagen a WebP"));
-              }
-            },
-            "image/webp",
-            0.8
-          );
-        };
-  
-        img.onerror = () => {
-          reject(new Error("Error al cargar la imagen"));
-        };
-  
-        img.src = URL.createObjectURL(file);
-      });
-    };
-  
-    const convertToBase64 = (blob: Blob): Promise<string> => {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-          if (typeof reader.result === "string") {
-            resolve(reader.result);
-          } else {
-            reject(new Error("Error al convertir a Base64"));
-          }
-        };
-        reader.onerror = () => {
-          reject(new Error("Error al leer el archivo"));
-        };
-        reader.readAsDataURL(blob);
-      });
-    };
-  
-    
-  
-    return (
-      <div className="relative border-2 border-[#634AE2] rounded-lg h-36 w-full flex justify-center items-center cursor-pointer overflow-hidden">
-        {base64Image ? (
-          <img
-            src={base64Image}
-            alt="Imagen seleccionada"
-            className="w-full h-full object-cover"
-          />
-        ) : (
-          <Plus width={40} height={40} strokeWidth={2} color="#634AE2" />
-        )}
-  
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleImageUpload}
-          className="absolute inset-0 w-42  h-full opacity-0 cursor-pointer"
-        />
-      </div>
-    );
-  };
+
   
   export const DataView = ({
     formData,
@@ -106,11 +14,12 @@ const ImageUploader: React.FC = () => {
     setIsSend,
   }: {
     formData: FormData;
-    onBack: any;
+    onBack: () => void;
     setFormData: React.Dispatch<React.SetStateAction<FormData>>;
     setIsSend: React.Dispatch<React.SetStateAction<boolean>>;
   }) => {
   
+
     const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
   
@@ -131,7 +40,7 @@ const ImageUploader: React.FC = () => {
           }
         );
   
-        const data = await response.json(); // Convertir la respuesta a JSON
+        const data = await response.json(); 
   
         if (response.ok) {
           setIsSend(true);
@@ -253,6 +162,7 @@ const ImageUploader: React.FC = () => {
         (value) => especialidadesMap[value]
       );
       setEspecialidad(especialidadesNumeros);
+      especialidad
       //setFormData({ ...formData, especialidades: especialidad });
       setIsInvalid(especialidadesNumeros.length < 1);
     };

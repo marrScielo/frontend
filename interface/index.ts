@@ -103,3 +103,11 @@ export interface Especialidad {
   idEspecialidad: string;
   nombre  : string;
 }
+
+export interface Contact {
+  nombre: string,
+    apellido: string,
+    celular: string,
+    email: string,
+    comentario: string,
+}

@@ -4,6 +4,7 @@ import { ThemeToggle } from "@/components/Themetoggle";
 import { Navbar } from "@/components/User/Historial/SearchNavbar";
 import { TableComponent } from "@/components/User/Historial/TableComponent";
 
+
 const users = [
   {
     id: "PA001",
@@ -170,7 +171,7 @@ const INITIAL_VISIBLE_COLUMNS = ["id", "name", "fecha", "motivo"];
 
 export default function App() {
   const [filterValue, setFilterValue] = useState("");
-  const [selectedKeys, setSelectedKeys] = useState<Set<React.Key>>(new Set());
+
   const [visibleColumns, setVisibleColumns] = useState<Set<string>>(
     new Set(INITIAL_VISIBLE_COLUMNS)
   );
@@ -206,7 +207,15 @@ export default function App() {
     });
   }, [sortDescriptor, filteredItems]);
 
-  const renderCell = useCallback((user: any, columnKey: React.Key) => {
+  interface User {
+    id: string;
+    name: string;
+    fecha: string;
+    status: string;
+    age: string ;
+    motivo: string;
+  }
+  const renderCell = useCallback((user: User, columnKey: React.Key) => {
     const cellValue = user[columnKey as keyof typeof user];
     switch (columnKey) {
       case "name":

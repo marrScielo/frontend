@@ -33,25 +33,7 @@ export const EspecialidadGet = async () => {
   }
 };
 
-export const EspecialidadPost = async (nombre:string) => {
-  try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}api/especialidades/create`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(nombre),
-      }
-    );
 
-  } catch (error) {
-    console.error("Error:", error);
-    return [];
-  }
-};
 
 export default function BlogUsuarioCrear() {
   const [isOpen, setIsOpen] = useState(false);
