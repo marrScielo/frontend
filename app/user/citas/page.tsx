@@ -197,7 +197,7 @@ export default function App() {
       );
     }
     return filteredUsers;
-  }, [users, filterValue]);
+  }, [users, filterValue, hasSearchFilter]);
 
   const sortedItems = useMemo(() => {
     return [...filteredItems].sort((a, b) => {
@@ -212,7 +212,7 @@ export default function App() {
     return columns.filter((column) =>
       Array.from(visibleColumns).includes(column.uid)
     );
-  }, [visibleColumns]);
+  },  [visibleColumns, columns]);
 
   const onSearchChange = useCallback((value?: string) => {
     if (value) {
