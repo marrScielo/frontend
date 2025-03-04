@@ -16,7 +16,7 @@ const Companies = [
   {
     icon: (
       <Image
-        src={"/Companies/YUNTAS.webp"}
+        src={"/Companies/YUNTASLogo.webp"}
         alt="especialista"
         width={114}
         height={114}

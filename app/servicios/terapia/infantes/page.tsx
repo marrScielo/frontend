@@ -8,7 +8,7 @@ const NinosTerapias:ServicesStructureProps[] =[{
     motto:
       "¿Por qué no darle a tu pequeño la oportunidad de crecer emocionalmente con la ayuda de un profesional?",
     background: "/Services/niños/childs.webp",
-    bgdown:"/Services/niños/bgdowninfante.webp",
+    bgdown:"/Services/niños/bgInfantes.webp",
     description:
       "  Ayuda a tu hijo a superar sus desafíos emocionales con nuestra terapia infantil. Apoyamos a los niños a comprender y manejar sus emociones, mejorando su bienestar de manera accesible y con la participación activa de los padres en cada sesión online.  ",
     tittleIcon:
