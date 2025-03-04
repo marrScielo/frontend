@@ -65,11 +65,11 @@ export default function BlogUsuarioCrear() {
           <Button
             radius="full"
             className="bg-white text-[16px] leading-[20px] text-[#634AE2] font-bold"
-            onClick={() => setView("crear")}
+            onPress={() => setView("crear")}
           >
             Crear Blog
           </Button>
-          <Button  onClick={() => setView("blogs")} className="text-white text-[16px] leading-[20px] bg-[#634AE2] a" >
+          <Button  onPress={() => setView("blogs")} className="text-white text-[16px] leading-[20px] bg-[#634AE2] a" >
             Ver Blogs
           </Button>
         </div>

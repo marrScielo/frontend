@@ -49,7 +49,7 @@ interface AuthState {
         });
         
      
-        localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("user", JSON.stringify(data.result));
         
         setAuthState({ 
           user: data.user, 
