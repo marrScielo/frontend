@@ -75,29 +75,7 @@ const ImageUploader: React.FC = () => {
       });
     };
   
-    const sendImageToBackend = async (base64: string) => {
-      try {
-        const response = await fetch(
-          "https://ik.imagekit.io/contigovoy/rest/of/the/path/",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ image: base64 }),
-          }
-        );
-  
-        if (!response.ok) {
-          throw new Error("Error al enviar la imagen al backend");
-        }
-  
-        const data = await response.json();
-        console.log("Imagen enviada con éxito:", data);
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
+    
   
     return (
       <div className="relative border-2 border-[#634AE2] rounded-lg h-36 w-full flex justify-center items-center cursor-pointer overflow-hidden">

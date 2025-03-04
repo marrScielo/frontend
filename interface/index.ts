@@ -94,7 +94,12 @@ export interface FormData {
   experiencia: number;
   especialidades: number[];
   horario: {
-    [key: string]: string[][]; // Define el tipo para el horario
+    [key: string]: string[][]; 
   };
 }
 
+//interface for the component EspecialidadGet BlogUsuarioCrear
+export interface Especialidad {
+  idEspecialidad: string;
+  nombre  : string;
+}
