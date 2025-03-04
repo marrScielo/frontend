@@ -2,8 +2,9 @@
 import React from "react";
 import { ThemeToggle } from "@/components/Themetoggle";
 import Link from "next/link";
+import { Icons } from "@/icons";
 import { DateRangePicker } from "@heroui/react";
-import DashboardComponents from "@/components/DashboardComponents";
+import DashboardComponents from "@/components/User/Dashboard/DashboardComponents";
 
 const navItems = [
   {
@@ -30,11 +31,11 @@ const navItems = [
 
 const pageHome = () => {
   return (
-    <div>
+    <div className="pb-8">
       {/* Header */}
-      <div className="hidden lg:flex flex-1 fixed bg-[#eaeded] z-30">
+      <div className="flex flex-1 bg-[#eaeded] w-full z-30 mt-4">
         <div>
-          <nav className="bg-[#eaeded] rounded-2xl mt-3 h-[12vh] flex items-center fixed top-6 w-[calc(95vw-270px)] p-4">
+          <nav className="bg-[#eaeded] rounded-2xl mt-3 h-[12vh] flex items-center w-[calc(95vw-270px)] p-4">
             <div className="bg-[#eaeded] flex items-start justify-between w-full">
               <div>
                 <div className="text-4xl font-bold text-[#634AE2]">
@@ -60,7 +61,7 @@ const pageHome = () => {
 
       {/* Navbar */}
       <div>
-        <div className="hidden lg:flex w-full fixed">
+        <div className="flex w-full mt-8 ">
           <div className="bg-[#6364F4] w-full h-[8vh] flex flex-row justify-start items-center px-4">
             <div className="flex flex-row gap-4">
               {navItems.map((item, index) => (
@@ -72,18 +73,12 @@ const pageHome = () => {
                   {item.name}
                 </Link>
               ))}
-              {/*<span
-                dangerouslySetInnerHTML={{
-                  __html: Icons.calendar.replace(
-                    /<svg /,
-                    '<svg fill="#E7E7FF" '
-                  ),
-                }}
-              />*/}
               <div className="w-full max-w-xl flex flex-row gap-4 ">
-              <DateRangePicker
+                <DateRangePicker
                   showMonthAndYearPickers
                   selectorButtonPlacement="start"
+                  aria-label="Example static collection table"
+                  aria-labelledby="label-id"
                   classNames={{
                     inputWrapper: "bg-[#E7E7FF] rounded-full ",
                     segment: "!text-[#634AE2]",
@@ -113,13 +108,13 @@ const pageHome = () => {
                       ],
                     },
                   }}
-                /> 
+                />
               </div>
             </div>
           </div>
         </div>
       </div>
-      <DashboardComponents/>
+      <DashboardComponents />
     </div>
   );
 };
