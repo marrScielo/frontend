@@ -29,20 +29,6 @@ const navItems = [
 ];
 
 const PageHome = () => {
-  const [user, setUser] = useState<any>(null);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const storedUser = localStorage.getItem("user");
-      if (storedUser) {
-        setUser(JSON.parse(storedUser));
-      }
-    }
-  }, []);
-
-  if (!user) {
-    return <div>Loading..</div>; 
-  }
 
   return (
     <div className="pb-8">
@@ -53,7 +39,7 @@ const PageHome = () => {
             <div className="bg-[#eaeded] flex items-start justify-between w-full">
               <div>
                 <div className="text-4xl font-bold text-[#634AE2]">
-                  <h1>¡Buenos días, {user.nombre} {user.apellido}!</h1>
+                  <h1>¡Buenos días, X!</h1>
                 </div>
                 <div className="text-0xl font-normal text-[#634AE2] pt-1">
                   Prepárate para un gran día.
