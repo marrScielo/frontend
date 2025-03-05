@@ -100,7 +100,7 @@ export interface FormData {
 
 //interface for the component EspecialidadGet BlogUsuarioCrear
 export interface Especialidad {
-  idEspecialidad: string;
+  idEspecialidad: number;
   nombre  : string;
 }
 
@@ -110,4 +110,39 @@ export interface Contact {
     celular: string,
     email: string,
     comentario: string,
+}
+
+export interface BlogApi{
+  
+  idCategoria: number | null,
+  tema: string,
+  contenido: string,
+  imagen: string,
+  idPsicologo: number,
+
+} 
+
+export interface BlogApiGEt{
+    idBlog:number | null,
+    idCategoria: number | null,
+    tema: string,
+    contenido: string,
+    imagen: string,
+    idPsicologo: number,
+
+} 
+
+//Usuario LocalStorage
+export interface UserInterface {
+  name: string | null;
+  email: string | null;
+  lastname: string | null;
+  photo: string | null;
+  iniciales: string | null;
+}
+
+export interface Categoria {
+  idCategoria: number;
+  nombre  : string;
+ 
 }
