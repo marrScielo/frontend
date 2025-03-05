@@ -4,6 +4,7 @@ import { ThemeToggle } from "@/components/Themetoggle";
 import Link from "next/link";
 import { DateRangePicker } from "@heroui/react";
 import DashboardComponents from "@/components/User/Dashboard/DashboardComponents";
+import { UsuarioLocalStorage } from "@/interface";
 
 const navItems = [
   {
@@ -29,13 +30,13 @@ const navItems = [
 ];
 
 const PageHome = () => {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<UsuarioLocalStorage|null>(null);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const storedUser = localStorage.getItem("user");
       if (storedUser) {
-        setUser(JSON.parse(storedUser));
+        setUser(JSON.parse(storedUser) as UsuarioLocalStorage);
       }
     }
   }, []);

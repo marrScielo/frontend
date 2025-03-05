@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 
 import { Listarblog } from "./listarblog";
 import Tiptap from "./textEdit";
-import { BlogApi, Categoria } from "@/interface";
+import { BlogApi, Categoria, UsuarioLocalStorage } from "@/interface";
 import { toast, Zoom } from "react-toastify";
 import { parseCookies } from "nookies";
 
@@ -37,7 +37,7 @@ export default function BlogUsuarioCrear() {
   const [url, setUrl] = useState("");
   const [view, setView] = useState("crear");
   const [contenido, setContenido] = useState("");
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<UsuarioLocalStorage|null>(null);
 
   useEffect(() => {
     const fetchCategoria = async () => {
@@ -47,12 +47,14 @@ export default function BlogUsuarioCrear() {
     fetchCategoria();
   }, []); // Solo ejecuta esto una vez al montar el componente
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+ useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const storedUser = localStorage.getItem("user");
+      if (storedUser) {
+        setUser(JSON.parse(storedUser) as UsuarioLocalStorage);
+      }
     }
-  }, []); // Otro useEffect separado para el usuario
+  }, []);
 
   const [value, setValue] = React.useState("");
   const [selectedKey, setSelectedKey] = React.useState<string | null>(null);
@@ -62,7 +64,7 @@ export default function BlogUsuarioCrear() {
     tema: tema,
     contenido: contenido,
     imagen: url,
-    idPsicologo: user?.id ?? null, // Evita error si user aún es null
+    idPsicologo: user?.id ?? null,
   };
 
   const postNewCategoria = async () => {

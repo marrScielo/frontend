@@ -2,9 +2,9 @@ import { useState } from "react";
 import { ThemeToggle } from "./Themetoggle";
 import { Icons } from "@/icons";
 import Link from "next/link";
-import { NavItems } from '../interface/index';
+import { NavItem } from "@/interface";
 
-export function MobileNav({ navItems }: { navItems: NavItems[] }) {
+export function MobileNav({ navItems }: {navItems: NavItem[]}) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
 
@@ -69,23 +69,23 @@ export function MobileNav({ navItems }: { navItems: NavItems[] }) {
         {/* Cuerpo del menú */}
         <div className="flex-1 p-4">
           <div className="grid">
-            {navItems.map((nav,idx) => (
+            {navItems.map((navItem, idx) => (
               <div className="w-full" key={idx}>
-                {nav.name === "Iniciar Sesión" ? (
+                {navItem.name === "Iniciar Sesión" ? (
                   <div className="flex justify-center items-center h-full">
-                    <Link href={nav.link} className="w-2/3 bg-none text-[#634AE2] font-bold text-base border-2 border-[#634AE2] text-center py-2 rounded-full mt-10">
+                    <Link href={navItem.link} className="w-2/3 bg-none text-[#634AE2] font-bold text-base border-2 border-[#634AE2] text-center py-2 rounded-full mt-10">
                       <button>
-                        {nav.name}
+                        {navItem.name}
                       </button>
                     </Link>
                   </div>
                 ) : (
                   <>
-                    <Link href={nav.link}>
+                    <Link href={navItem.link}>
                       <button
                         className="w-full bg-none text-[#634AE2] font-bold text-xl text-left pl-8 mt-5"
                         onClick={
-                          nav.name === "Servicios"
+                          navItem.name === "Servicios"
                             ? (e) => {
                                 e.preventDefault(); 
                                 toggleServices();
@@ -93,12 +93,12 @@ export function MobileNav({ navItems }: { navItems: NavItems[] }) {
                             : undefined
                         }
                       >
-                        {nav.name}
+                        {navItem.name}
                       </button>
                     </Link>
 
                     {/* Subelementos de "Servicios" */}
-                    {nav.name === "Servicios" && isServicesOpen && (
+                    {navItem.name === "Servicios" && isServicesOpen && (
                       <div className="pl-8 mt-2 space-y-2">
                         <Link href="/servicios/terapia/infantes/">
                           <button className="w-full bg-none text-[#634AE2] text-lg text-left">
