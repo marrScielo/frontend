@@ -131,6 +131,14 @@ export interface BlogApiGEt{
     idPsicologo: number,
 
 } 
+export interface UsuarioLocalStorage {
+  token: string,
+        nombre: string,
+        apellido:   string,
+        email:  string,
+        id: number,
+        rol:string,
+  }
 
 //Usuario LocalStorage
 export interface UserInterface {

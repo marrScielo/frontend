@@ -20,9 +20,9 @@ import {
   Strikethrough,
   UnderlineIcon,
 } from "lucide-react";
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 import Highlight from "@tiptap/extension-highlight";
-import { Button } from "@heroui/react";
+
 
 
 const MenuBar = () => {

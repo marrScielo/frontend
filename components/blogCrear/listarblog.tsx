@@ -1,4 +1,4 @@
-import { BlogApi, BlogApiGEt } from "@/interface";
+import {  BlogApiGEt } from "@/interface";
 import { Image } from "@heroui/react";
 import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";

@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import React from "react";
-import { ThemeToggle } from "./Themetoggle";
+
 import Image from "next/image";
 import { DesktopNav } from "./DesktopNav";
 
