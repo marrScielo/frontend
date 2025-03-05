@@ -297,13 +297,10 @@ const extensions = [
 ];
 
 export const Tiptap = ({
-  tema,
-  url,
+  setContenido,
 }: {
-  tema: string;
-  url: string;
+  setContenido: React.Dispatch<React.SetStateAction<string>>;
 }) => {
-  const [editorContent, setEditorContent] = useState("");
 
   const handleUpdate = ({ editor }: { editor: TiptapEditor }) => {
     // Puedes obtener el contenido como HTML
@@ -311,22 +308,15 @@ export const Tiptap = ({
 
     // O como JSON si lo prefieres
     // const jsonContent = editor.getJSON();
-
-    setEditorContent(htmlContent);
-
+    
     // Si necesitas hacer algo con el contenido, como enviarlo a un servidor
-    console.log("Contenido actual:", htmlContent);
+    setContenido(htmlContent);
   };
 
-  const handleEnviar = () => {
-    console.log("Tema:", tema);
-   
-    console.log("URL Imagen:", url);
-    console.log("Contenido:", editorContent);
-  };
+
 
   return (
-    <div className="max-w-4xl p-4 mx-auto bg-white rounded-lg shadow-lg">
+    <div className=" max-[500px] w-full  p-4 mx-auto bg-white rounded-lg shadow-lg">
       <EditorProvider
         slotBefore={<MenuBar />}
         extensions={extensions}
@@ -409,7 +399,7 @@ export const Tiptap = ({
           `}</style>
         </div>
       </EditorProvider>
-      {/* Preview con los mismos estilos que el editor */}
+     {/*
       <div className="mt-8 border-t pt-4">
         <h3 className="text-lg font-semibold mb-4">Contenido actual:</h3>
         <div
@@ -417,7 +407,7 @@ export const Tiptap = ({
           dangerouslySetInnerHTML={{ __html: editorContent }}
         />
         <style>{`
-            /* Aplicar los mismos estilos que tiene ProseMirror al preview */
+            
             .prose h1 {
               font-size: 2em;
               font-weight: bold;
@@ -468,7 +458,8 @@ export const Tiptap = ({
         >
           Enviar
         </Button>
-      </div>
+      </div> 
+      */}
     </div>
   );
 };
