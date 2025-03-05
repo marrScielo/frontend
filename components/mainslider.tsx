@@ -75,7 +75,7 @@ export default function MainSlider() {
           {sections.map((item, index) => (
             <div className="embla__slide" key={index}>
               <div
-                className="h-[700px] bg-cover flex items-center bg-center pl-[79px]"
+                className="lg:h-[700px] h-[340px] bg-cover flex items-center bg-center lg:pl-[79px] pl-[40px]"
                 style={{
                   backgroundImage: `linear-gradient(to right,rgba(120, 99, 227, 0.64), rgba(99, 74, 226, 0.48)),url(${item.background})`,
                 }}
@@ -92,7 +92,7 @@ export default function MainSlider() {
                         exit={{ opacity: 0 }}
                       >
                         <div
-                          className="h-20 mb-24 font-bold  text-white text-[62px] leading-[77.5px] font-[Lexend]"
+                          className="lg:h-20  lg:mb-24 font-bold  text-white lg:text-[62px] text-[25px] lg:leading-[77.5px] mt-13 leading-7"
                           dangerouslySetInnerHTML={{
                             __html: item.phrase,
                           }}
@@ -101,13 +101,13 @@ export default function MainSlider() {
                     )}
                   </AnimatePresence>
                   <div
-                    className="font-lexend text-white font-normal text-[20px] leading-[25px] tracking-[2%] text-sm sm:text-base md:text-lg pb-14 lg:text-xl"
+                    className="font-lexend text-white lg:font-normal  font-light lg:text-[20px] text-[13px] xl:leading-[px]  tracking-[2%] text-sm sm:text-base md:text-lg lg:pb-14 lg:text-xl my-2 mb-6"
                     dangerouslySetInnerHTML={{
                       __html: item.smallPhrase,
                     }}
                   />
                   <Link href="/ReservarCita">
-                  <Button  className="bg-[#634AE2] max-w-[188px] p-6 text-white rounded-[30px] hover:bg-purple-700">
+                  <Button  className="bg-[#634AE2] max-w-[188px] lg:p-6 text-white rounded-[30px] hover:bg-purple-700">
                     Reservar Cita
                   </Button>
                   </Link>
