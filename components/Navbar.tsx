@@ -40,19 +40,17 @@ const navItems = [
     isButton: true,
   },
 ];
-//hola
 const Navbar = () => {
   return (
     <nav className="bg-background h-[10vh] flex items-center fixed w-full z-10 top-0">
       <div className="w-full p-6 flex items-center justify-between">
         <Link href="/">
-          <h1 className="font-normal text-3xl">
+          <h1 className="font-normal text-3xl pl-10">
             <Image src="/LOGO.webp" alt="logo" width={150} height={100} />
           </h1>
         </Link>
         <div className="flex items-center gap-x-5">
           <DesktopNav navItems={navItems} />
-          <ThemeToggle />
         </div>
       </div>
     </nav>
