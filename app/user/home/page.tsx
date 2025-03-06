@@ -30,23 +30,9 @@ const navItems = [
 ];
 
 const PageHome = () => {
-  const [user, setUser] = useState<UsuarioLocalStorage|null>(null);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const storedUser = localStorage.getItem("user");
-      if (storedUser) {
-        setUser(JSON.parse(storedUser) as UsuarioLocalStorage);
-      }
-    }
-  }, []);
-
-  if (!user) {
-    return <div>Loading..</div>; 
-  }
-
+ 
   return (
-    <div className="pb-8">
+    <div className="pb-8 bg-[#eaeded]">
       {/* Header */}
       <div className="flex flex-1 bg-[#eaeded] w-full z-30 mt-4">
         <div>
@@ -73,62 +59,7 @@ const PageHome = () => {
           </nav>
         </div>
       </div>
-
-      {/* Navbar */}
-      <div>
-        <div className="flex w-full mt-8 ">
-          <div className="bg-[#6364F4] w-full h-[8vh] flex flex-row justify-start items-center px-4">
-            <div className="flex flex-row gap-4">
-              {navItems.map((item, index) => (
-                <Link
-                  key={index}
-                  href={item.comp}
-                  className="text-xl font-normal ml-4 text-white transition-colors duration-300 hover:text-[#6364F4] hover:bg-[#fff] rounded-2xl pl-6 pr-6 pt-1 pb-1"
-                >
-                  {item.name}
-                </Link>
-              ))}
-              <div className="w-full max-w-xl flex flex-row gap-4 ">
-                <DateRangePicker
-                  showMonthAndYearPickers
-                  selectorButtonPlacement="start"
-                  aria-label="Example static collection table"
-                  aria-labelledby="label-id"
-                  classNames={{
-                    inputWrapper: "bg-[#E7E7FF] rounded-full ",
-                    segment: "!text-[#634AE2]",
-                  }}
-                  calendarProps={{
-                    classNames: {
-                      pickerMonthList: "bg-[#E7E7FF]",
-                      pickerYearList: "bg-[#E7E7FF]",
-                      pickerItem: "!text-[#634AE2]",
-                      base: "bg-background text-[#634AE2]",
-                      headerWrapper: "pt-4 bg-[#E7E7FF] text-[#634AE2]",
-                      prevButton:
-                        "border-1 border-default-200 rounded-small bg-[#E7E7FF] text-xl text-[#634AE2]",
-                      nextButton:
-                        "border-1 border-default-200 rounded-small bg-[#E7E7FF] text-xl text-[#634AE2]",
-                      gridHeader:
-                        "bg-background shadow-none border-b-1 border-default-100 bg-[#E7E7FF] text-[#634AE2]",
-                      cellButton: [
-                        "data-[today=true]:bg-[#E7E7FF] data-[selected=true] text-[#634AE2]:bg-[#E7E7FF] rounded-full text-[#634AE2]",
-                        "data-[selected=true]:!bg-[#E7E7FF] data-[selected=true]:!text-[#634AE2] rounded-full",
-                        "data-[range-start=true]:before:rounded-l-small font-bold text-[#634AE2] ",
-                        "data-[selection-start=true]:before:rounded-l-small font-bold text-[#634AE2]",
-                        "data-[range-end=true]:before:rounded-r-small font-bold text-[#634AE2]",
-                        "data-[selection-end=true]:before:rounded-r-small font-bold text-[#634AE2] ",
-                        "data-[selected=true]:data-[selection-start=true]:data-[range-selection=true]:rounded-small font-bold text-[#634AE2]",
-                        "data-[selected=true]:data-[selection-end=true]:data-[range-selection=true]:rounded-small font-bold text-[#634AE2]",
-                      ],
-                    },
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* Navbar */}     
       <DashboardComponents />
     </div>
   );
