@@ -7,10 +7,10 @@ export default function DashboardComponents() {
   return (
     <>
       <div className="grid grid-cols-2 gap-4 pt-12">
-        <div className="w-3/4 ml-8">
+        <div className="w-4/6 ml-8">
           <DashboardResumen />
         </div>
-        <div className="-ml-28 ">
+        <div className="-ml-40 ">
           <VirtualizedTable/>
         </div>
       </div>
