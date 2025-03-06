@@ -1,9 +1,9 @@
 "use client";
 
 import Autoplay from "embla-carousel-autoplay";
-import Fade from  "embla-carousel-fade";
+import Fade from "embla-carousel-fade";
 import useEmblaCarousel from "embla-carousel-react";
-import {  motion } from "framer-motion";
+import { motion } from "framer-motion";
 import Image from "next/image";
 
 const features = [
@@ -88,24 +88,22 @@ const itemVariants = {
 };
 
 export default function OnlinePsychology() {
-  const [emblaRef] = useEmblaCarousel({ 
-    loop: true,
-    skipSnaps: true,
-    duration: 0,
-
-   }, [
-    Autoplay({
-         stopOnInteraction: false,
-         delay: 4000,
-       }),
-    Fade({
-      active: true,
-      
-  
-     })
-  ]);
-
- 
+  const [emblaRef] = useEmblaCarousel(
+    {
+      loop: true,
+      skipSnaps: true,
+      duration: 0,
+    },
+    [
+      Autoplay({
+        stopOnInteraction: false,
+        delay: 4000,
+      }),
+      Fade({
+        active: true,
+      }),
+    ]
+  );
 
   return (
     <div className="w-full max-w-full flex flex-col items-center justify-center px-4 py-16 bg-[#9494f3] relative overflow-hidden">
@@ -155,22 +153,19 @@ export default function OnlinePsychology() {
             </motion.div>
           </div>
           <div className="mitad w-[500px] hidden xl:block md:w-1/3">
-          <div className="transform translate-x-1/4 " ref={emblaRef}>
-                <div className="embla__container  ">
-                  {features.map((item, index) => (
-                    <div className="embla__slide "
-                    
-                    key={index}>
-                      <div
-                        className="h-[800px] w-[500px]  bg-full rounded-l-full"
-                        style={{
-                          backgroundImage: `url(${item.background})`,
-                        }}
-                      />
-                    </div>
-                  ))}
-                </div>
-               
+            <div className="transform translate-x-1/4 " ref={emblaRef}>
+              <div className="embla__container  ">
+                {features.map((item, index) => (
+                  <div className="embla__slide " key={index}>
+                    <div
+                      className="h-[800px] w-[500px]  bg-full rounded-l-full"
+                      style={{
+                        backgroundImage: `url(${item.background})`,
+                      }}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
