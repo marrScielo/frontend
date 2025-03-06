@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 
 import { Listarblog } from "./listarblog";
 import Tiptap from "./textEdit";
-import { BlogApi, Categoria, UsuarioLocalStorage } from "@/interface";
+import { BlogApi, Categoria } from "@/interface";
 import { toast, Zoom } from "react-toastify";
 import { parseCookies } from "nookies";
 
@@ -37,7 +37,7 @@ export default function BlogUsuarioCrear() {
   const [url, setUrl] = useState("");
   const [view, setView] = useState("crear");
   const [contenido, setContenido] = useState("");
-  const [user, setUser] = useState<UsuarioLocalStorage|null>(null);
+  const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
     const fetchCategoria = async () => {
@@ -45,16 +45,14 @@ export default function BlogUsuarioCrear() {
       setCategoria(data);
     };
     fetchCategoria();
-  }, []); // Solo ejecuta esto una vez al montar el componente
+  }, []); 
 
- useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const storedUser = localStorage.getItem("user");
-      if (storedUser) {
-        setUser(JSON.parse(storedUser) as UsuarioLocalStorage);
-      }
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
     }
-  }, []);
+  }, []); 
 
   const [value, setValue] = React.useState("");
   const [selectedKey, setSelectedKey] = React.useState<string | null>(null);
@@ -64,14 +62,13 @@ export default function BlogUsuarioCrear() {
     tema: tema,
     contenido: contenido,
     imagen: url,
-    idPsicologo: user?.id ?? null,
+    idPsicologo: user?.id ?? null, // Evita error si user aún es null
   };
 
   const postNewCategoria = async () => {
     try {
       const cookies = parseCookies();
       const token = cookies["session"];
-
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}api/categorias/create`,
         {
@@ -85,18 +82,26 @@ export default function BlogUsuarioCrear() {
         }
       );
       const info = await response.json();
-      console.log(info);//eliminar
+      console.log(info);
       setSelectedKey(info.result.idCategoria);
+      return info.result.idCategoria; // Devolver el ID
     } catch (error) {
       console.error("Error:", error);
+      return null;
     }
   };
-
   const handleSubmit = async () => {
     try {
+      let categoriaId = selectedKey;
       if (selectedKey === null) {
-        await postNewCategoria();
+        categoriaId = await postNewCategoria();
       }
+      
+      // Ahora usa categoriaId en lugar de selectedKey
+      const dataToSend = {
+        ...dataApi,
+        idCategoria: categoriaId
+      };
   
       const cookies = parseCookies();
       const token = cookies["session"];
@@ -107,13 +112,14 @@ export default function BlogUsuarioCrear() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "Accept": "application/json", // Sin espacio adicional
+            "Accept": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify(dataApi),
+          body: JSON.stringify(dataToSend),
         }
       );
   
+      // Resto del código...
       const data = await response.json();
       console.log("Respuesta del servidor:", data);
   
