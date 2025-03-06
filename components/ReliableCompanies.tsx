@@ -2,66 +2,43 @@
 
 import Image from "next/image";
 
-const Companies = [
+
+const enterprises = [
   {
-    icon: (
-      <Image
-        src={"/Companies/LogoTAMI.webp"}
-        alt="especialista"
-        width={98}
-        height={114}
-      />
-    ),
+    icon: "/Companies/LogoTAMI.webp",
+    alt: "Tami",
+    width: 98,
+    height: 114,
   },
   {
-    icon: (
-      <Image
-        src={"/Companies/YUNTASLogo.webp"}
-        alt="especialista"
-        width={114}
-        height={114}
-      />
-    ),
+    icon: "/Companies/YUNTASLogo.webp",
+    alt: "Yuntas",
+    width: 114,
+    height: 114,
   },
   {
-    icon: (
-      <Image
-        src={"/Companies/ASDEN.webp"}
-        alt="especialista"
-        width={126}
-        height={114}
-      />
-    ),
+    icon: "/Companies/ASDEN.webp",
+    alt: "Asden",
+    width: 126,
+    height: 114,
   },
   {
-    icon: (
-      <Image
-        src={"/Companies/LOGONLS.webp"}
-        alt="especialista"
-        width={138}
-        height={104}
-      />
-    ),
+    icon: "/Companies/LOGONLS.webp",
+    alt: "Nls",
+    width: 138,
+    height: 104,
   },
   {
-    icon: (
-      <Image
-        src={"/Companies/DigiLogo.webp"}
-        alt="especialista"
-        width={114}
-        height={114}
-      />
-    ),
+    icon: "/Companies/DigiLogo.webp",
+    alt: "Digimedia",
+    width: 114,
+    height: 114,
   },
   {
-    icon: (
-      <Image
-        src={"/Companies/NHLLOGO.webp"}
-        alt="especialista"
-        width={93}
-        height={114}
-      />
-    ),
+    icon: "/Companies/NHLLOGO.webp",
+    alt: "Nhl",
+    width: 93,
+    height: 114,
   },
 ];
 
@@ -72,11 +49,16 @@ export default function RealiableCompanies() {
         Empresas que confían en nuestra orientación psicológica
       </p>
       <div className="flex flex-wrap justify-center gap-24 mt-16 mb-28">
-        {Companies.map((company, index) => (
+        {enterprises.map((company, index) => (
           <div key={index}>
-            <div className="p-4">
-              {company.icon}
-            </div>
+              <Image
+                src={company.icon}
+                alt={company.alt}
+                width={company.width}
+                height={company.height}
+                style={{ width: 'auto', height: 'auto', maxHeight: '80px' }}
+                className="object-contain"
+              />
           </div>
         ))}
       </div>
