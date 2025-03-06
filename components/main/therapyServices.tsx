@@ -86,16 +86,16 @@ export default function TherapyServices() {
         </div>
       </div>
 
-      {/* Div que solo se muestra en pantallas pequeñas (lg para abajo) */}
+      {/* solo se muestra en tamaños pequeños */}
       <div className="block lg:hidden">
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-1 m-3 ">
           {services.map((service, index) => (
             <motion.div
               key={service.title}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              className={`bg-[#634AE2] p-3 text-white duration-400 flex flex-col
+              className={`bg-[#634AE2] p-3 text-white duration-400 flex flex-col rounded-2xl
               hover:shadow-[0_7px_29px_0px_rgba(99,74,226,0.2)]
               ${services.length % 2 !== 0 && index === services.length - 1 ? "col-span-2" : ""}`}
             >
