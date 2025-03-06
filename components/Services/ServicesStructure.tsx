@@ -81,7 +81,7 @@ export default function ServicesStructure({
                         />
                       </div>
                       <div className="flex-grow flex items-center justify-center px-4">
-                        <p className="text-center text-[14px] md:text-[16px] text-[white] font-normal leading-[20px] md:leading-[24px] w-full">
+                        <p className="text-center text-[14px] md:text-[16px] text-white font-normal leading-[20px] md:leading-[24px] w-full">
                           {card.text}
                         </p>
                       </div>
@@ -100,8 +100,8 @@ export default function ServicesStructure({
               backgroundSize: "1280px 788px",
             }}
           >
-            <div className="pt-24 flex justify-start pl-96">
-              <div className="w-[837px] text-title h-[74px] font-semibold text-[24px] leading-[33px] text-center">
+            <div className="pt-0 md:pt-24 flex items-center pl-0 md:pl-96">
+              <div className="w-full max-w-[837px] text-title h-[74px] font-semibold text-[24px] leading-[33px] text-center">
                 {item.tittleIcon}
               </div>
             </div>
@@ -160,10 +160,11 @@ export default function ServicesStructure({
 
           <div className="sticky bottom-0 left-0 w-full bg-[#DEDEFF] flex justify-center items-center z-[50] h-20">
             <div className="flex flex-col md:flex-row items-center justify-between w-full max-w-[1230px] px-6 space-x-0 ">
-              <p className="text-[18px] w-full font-medium text-[#634AE2] md:text-start"
-               dangerouslySetInnerHTML={{__html:item.textfooter}}
-              />  
-              
+              <p
+                className="text-[18px] w-full font-medium text-[#634AE2] md:text-start"
+                dangerouslySetInnerHTML={{ __html: item.textfooter }}
+              />
+
               <Link href="/ReservarCita">
                 <button className="w-full md:w-[329px]  h-[50px] bg-[#5A4AE8] rounded-[34px] text-white font-normal text-[18px] md:text-[18px] leading-[33px] text-center">
                   Reserva tu cita gratuita

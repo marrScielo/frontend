@@ -2,8 +2,9 @@ import { useState } from "react";
 import { ThemeToggle } from "./Themetoggle";
 import { Icons } from "@/icons";
 import Link from "next/link";
+import { NavItem } from "@/interface";
 
-export function MobileNav({ navItems }: any) {
+export function MobileNav({ navItems }: {navItems: NavItem[]}) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
 
@@ -68,7 +69,7 @@ export function MobileNav({ navItems }: any) {
         {/* Cuerpo del menú */}
         <div className="flex-1 p-4">
           <div className="grid">
-            {navItems.map((navItem: any, idx: number) => (
+            {navItems.map((navItem, idx) => (
               <div className="w-full" key={idx}>
                 {navItem.name === "Iniciar Sesión" ? (
                   <div className="flex justify-center items-center h-full">
