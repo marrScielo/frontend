@@ -32,7 +32,7 @@ const navItems = [
 
 
 
-const PageHome = () => {
+const pageHome = () => {
   const [user, setUser] = useState<UsuarioLocalStorage|null>(null);
 
 
@@ -58,7 +58,7 @@ const PageHome = () => {
             <div className="bg-[#eaeded] flex items-start justify-between w-full">
               <div>
                 <div className="text-4xl font-bold text-[#634AE2]">
-                  <h1>Buenos días, {user.name} {user.lastname}</h1>
+                  <h1>Buenos días, {user.nombre} {user.apellido}</h1>
                 </div>
                 <div className="text-0xl font-normal text-[#634AE2] pt-1">
                   Prepárate para un gran día.

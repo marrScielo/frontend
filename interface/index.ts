@@ -118,7 +118,7 @@ export interface BlogApi {
   tema: string,
   contenido: string,
   imagen: string,
-  idPsicologo: number | null,
+  idPsicologo: number | null;
 
 }
 
@@ -132,11 +132,12 @@ export interface BlogApiGEt {
 
 }
 export interface UsuarioLocalStorage {
+  id: number,
   token: string,
   nombre: string,
   apellido: string,
   email: string,
-  id: number,
+  
   rol: string,
 }
 
