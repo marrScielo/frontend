@@ -1,7 +1,8 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React,{useState, useEffect} from "react";
 import { ThemeToggle } from "@/components/Themetoggle";
 import Link from "next/link";
+
 import { DateRangePicker } from "@heroui/react";
 import DashboardComponents from "@/components/User/Dashboard/DashboardComponents";
 
@@ -28,10 +29,24 @@ const navItems = [
   },
 ];
 
-const PageHome = () => {
+const pageHome = () => {
+  const [user, setUser] = useState<any>(null);
 
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const storedUser = localStorage.getItem("user");
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      }
+    }
+  }, []);
+
+  if (!user) {
+    return <div>Loading..</div>; 
+  }
+  
   return (
-    <div className="pb-8">
+    <div className="pb-8 bg-[#eaeded]">
       {/* Header */}
       <div className="flex flex-1 bg-[#eaeded] w-full z-30 mt-4">
         <div>
@@ -39,7 +54,7 @@ const PageHome = () => {
             <div className="bg-[#eaeded] flex items-start justify-between w-full">
               <div>
                 <div className="text-4xl font-bold text-[#634AE2]">
-                  <h1>¡Buenos días, X!</h1>
+                  <h1>Buenos días, {user.name} {user.lastname}</h1>
                 </div>
                 <div className="text-0xl font-normal text-[#634AE2] pt-1">
                   Prepárate para un gran día.
@@ -119,4 +134,4 @@ const PageHome = () => {
   );
 };
 
-export default PageHome;
+export default pageHome;
