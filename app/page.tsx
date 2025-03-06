@@ -7,19 +7,17 @@ import { metadataTarron } from "./metadata";
 
 export const metadata = {
   ...metadataTarron,
-  title: "Inicio - ContigoVoy", 
+  title: "Inicio - ContigoVoy",
 };
-
 
 export default function Home() {
   return (
     <div className="min-h-screen w-full overflow-hidden">
-  <MainSlider />
-  <TherapyServices />
-  <ChooseUs />
-  <RealiableCompanies />
-  <OnlinePsychology />
-</div>
-
+      <MainSlider />
+      <TherapyServices />
+      <ChooseUs />
+      <RealiableCompanies />
+      <OnlinePsychology />
+    </div>
   );
 }

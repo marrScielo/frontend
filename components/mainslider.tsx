@@ -75,7 +75,7 @@ export default function MainSlider() {
           {sections.map((item, index) => (
             <div className="embla__slide" key={index}>
               <div
-                className="lg:h-[700px] h-[340px] bg-cover flex items-center bg-center lg:pl-[79px] pl-[40px]"
+                className="lg:h-[700px] h-[340px] bg-cover flex items-center lg:bg-center bg-right vg-left lg:pl-[79px] pl-[30px] custom-bg-position"
                 style={{
                   backgroundImage: `linear-gradient(to right,rgba(120, 99, 227, 0.64), rgba(99, 74, 226, 0.48)),url(${item.background})`,
                 }}
@@ -107,9 +107,9 @@ export default function MainSlider() {
                     }}
                   />
                   <Link href="/ReservarCita">
-                  <Button  className="bg-[#634AE2] max-w-[188px] lg:p-6 text-white rounded-[30px] hover:bg-purple-700">
-                    Reservar Cita
-                  </Button>
+                    <Button className="bg-[#634AE2] max-w-[188px] lg:p-6 text-white rounded-[30px] hover:bg-purple-700">
+                      Reservar Cita
+                    </Button>
                   </Link>
                 </div>
               </div>
@@ -119,22 +119,20 @@ export default function MainSlider() {
       </div>
 
       {/* Dots Navigation */}
-      <div className="absolute right-10 top-1/2 transform -translate-y-1/2 flex flex-col space-y-2">
-        {sections.map((_, index) => (
-          <button
-          key={index}
-          onClick={() => scrollTo(index)}
-          aria-label={`Ir a la sección ${index + 1}`}
-          className={`
+      <div className="lg:block hidden">
+        <div className="absolute right-10 top-1/2 transform -translate-y-1/2 flex flex-col space-y-2">
+          {sections.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => scrollTo(index)}
+              aria-label={`Ir a la sección ${index + 1}`}
+              className={`
             w-3 h-3 rounded-full transition-all duration-300
-            ${
-              selectedIndex === index
-                ? "bg-[#634AE2]"
-                : "bg-white"
-            }
+            ${selectedIndex === index ? "bg-[#634AE2]" : "bg-white"}
           `}
-        />
-        ))}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
