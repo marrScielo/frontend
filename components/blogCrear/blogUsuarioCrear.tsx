@@ -6,9 +6,10 @@ import React, { useEffect, useState } from "react";
 
 import { Listarblog } from "./listarblog";
 import Tiptap from "./textEdit";
-import { BlogApi, Categoria } from "@/interface";
-import { toast, Zoom } from "react-toastify";
+import { BlogApi, Categoria, UsuarioLocalStorage } from "@/interface";
+
 import { parseCookies } from "nookies";
+import showToast from "../ToastStyle";
 
 export const CategoriaGet = async () => {
   try {
@@ -37,7 +38,7 @@ export default function BlogUsuarioCrear() {
   const [url, setUrl] = useState("");
   const [view, setView] = useState("crear");
   const [contenido, setContenido] = useState("");
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<UsuarioLocalStorage|null>(null);
 
   useEffect(() => {
     const fetchCategoria = async () => {
@@ -62,7 +63,7 @@ export default function BlogUsuarioCrear() {
     tema: tema,
     contenido: contenido,
     imagen: url,
-    idPsicologo: user?.id ?? null, // Evita error si user aún es null
+    idPsicologo: user?.id ?? null, 
   };
 
   const postNewCategoria = async () => {
@@ -117,57 +118,24 @@ export default function BlogUsuarioCrear() {
           },
           body: JSON.stringify(dataToSend),
         }
+        
       );
-  
-      // Resto del código...
-      const data = await response.json();
-      console.log("Respuesta del servidor:", data);
-  
-      if (response.ok) {
-        console.log("Éxito:", data.description);
-      } else {
-        if (
-          data.errors &&
-          data.errors.email &&
-          data.errors.email.includes("The email has already been taken.")
-        ) {
-          toast.warning(
-            "El email ya está siendo utilizado por otra cuenta. Por favor, utiliza un email diferente.",
-            {
-              position: "top-right",
-              autoClose: 3000,
-              hideProgressBar: false,
-              closeOnClick: false,
-              pauseOnHover: true,
-              draggable: true,
-              progress: 1,
-              theme: "colored",
-              transition: Zoom,
-            }
-          );
+      
+     
+        const data = await response.json();
+        
+      
+        if (response.ok) {
+           showToast("success", "Publicación creada correctamente");
+          await new Promise(resolve => setTimeout(resolve, 2600)); 
+          window.location.reload();
+       
         } else {
-          toast.warn(
-            data.message || "Ha ocurrido un error al procesar tu solicitud.",
-            {
-              position: "bottom-right",
-              autoClose: 1300,
-            }
-          );
+          showToast(response.status.toString(), data.message || "Error desconocido");
         }
-  
-        console.error(
-          "Error en la solicitud:",
-          data.message || "Error desconocido"
-        );
-        console.error("Detalles:", data.errors || "No hay detalles");
+      } catch (error) {
+        showToast("error", "Error de conexión. Intenta nuevamente.");
       }
-    } catch (error) {
-      toast.error("Error de conexión. Por favor, intenta de nuevo más tarde.", {
-        position: "top-center",
-        autoClose: 1300,
-      });
-      console.error("Error al enviar al backend:", error);
-    }
   };
 
   return (
@@ -204,7 +172,7 @@ export default function BlogUsuarioCrear() {
               }}
               radius="full"
               height={43}
-              value={tema}
+    
               onChange={(e) => setTema(e.target.value)}
             />
 
@@ -245,7 +213,7 @@ export default function BlogUsuarioCrear() {
               }}
               radius="full"
               height={43}
-              value={url}
+           
               onChange={(e) => setUrl(e.target.value)}
             />
           </div>
