@@ -17,6 +17,8 @@ body {
 }
 
 
+
+
 /* Fondo Preguntras Frecuentes */
 .background_faq {
   height: 110vh;
@@ -28,7 +30,8 @@ body {
       #7863E37A 70%, 
       #7863E370 100% 
     ),
-    url(/ChicaPreguntando.webp);
+    url(/preguntas-sobre-terapia-en-linea.jpg);
+
     background-repeat: no-repeat;
   background-size: contain;  
   background-position: 130% 100%;
