@@ -19,7 +19,7 @@ const features = [
     title: "Recibe terapia en casa",
     description:
       "Accede a sesiones por videollamada o llamada disfrutando de la comodidad de tu hogar.",
-    background: "/CarruselInferiorMain/abuela_2.webp",
+    background: "/CarruselInferiorMain/psicologia-online-paso-a-paso-Señora-sonriendo.webp",
   },
   {
     icon: (
@@ -34,7 +34,7 @@ const features = [
     description:
       "Te asignamos un psicólogo colegiado que te guiará en cada sesión, con técnicas efectivas para tus necesidades.",
 
-    background: "/CarruselInferiorMain/azul_2.webp",
+    background: "/CarruselInferiorMain/terapia-online-facil-y-rapida-Joven.webp",
   },
   {
     icon: (
@@ -48,7 +48,7 @@ const features = [
     title: "Inicia tu terapia en línea",
     description:
       "Conéctate a tu consulta psicológica a través de contigo voy y empieza tu proceso terapéutico.",
-    background: "/CarruselInferiorMain/brazos_2.webp",
+    background: "/CarruselInferiorMain/guia-para-terapia-psicologica-online.webp",
   },
   {
     icon: (
@@ -62,7 +62,7 @@ const features = [
     title: "Agenda tu horario ideal",
     description:
       "Programa tus sesiones en el día y la hora que mejor se ajusten a tu rutina.",
-    background: "/CarruselInferiorMain/cruzado_2.webp",
+    background: "/CarruselInferiorMain/como-es-una-terapia-psicologica-virtual.webp",
   },
 ];
 //hola

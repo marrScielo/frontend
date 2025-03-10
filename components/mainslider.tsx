@@ -21,28 +21,28 @@ const sections: SliderSection[] = [
     smallPhrase:
       "Con nuestras terapias virtuales, transformamos <br> tu vida y te acompañamos en cada paso de tu <br> camino hacia la sanación.",
     button: true,
-    background: "/carruselImages/chicofix.webp",
+    background: "/carruselImages/salud-mental-terapia-virtual.webp",
   },
   {
     phrase: "Apoyo a un <br> click de distancia",
     smallPhrase:
       "Nuestras terapias virtuales te permiten cuidar <br> de tu bienestar desde la comodidad de tu <br>hogar cuando más lo necesites.",
     button: true,
-    background: "/carruselImages/clickpos.webp",
+    background: "/carruselImages/centro-psicologico-terapia-online.webp",
   },
   {
     phrase: "Tu bienestar emocional <br> inicia aqui",
     smallPhrase:
       "Transforma tu vida con nuestras <br> terapias diseñadas para ayudarte <br> a sanar y crecer.",
     button: true,
-    background: "/carruselImages/bienestar.webp",
+    background: "/carruselImages/bienestar-mental-terapia-virtual.webp",
   },
   {
     phrase: "No dejemos que el <br> silencio sea el enemigo",
     smallPhrase:
       "8 de cada 10 peruanos no reciben <br> la atención mental que necesitan. <br>",
     button: true,
-    background: "/carruselImages/silencio.webp",
+    background: "/carruselImages/psicologo-en-linea-ayuda-emocional.webp",
   },
 ];
 

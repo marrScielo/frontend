@@ -14,7 +14,7 @@ const ContactUs = () => {
     <div
       className="min-h-screen max-h-[2000px] w-full bg-cover bg-center "
       style={{
-          backgroundImage: `linear-gradient(#634AE27A, #634AE27A), url('/SB.webp')`,
+          backgroundImage: `linear-gradient(#634AE27A, #634AE27A), url('/consulta-asesoría-psicológica-online.webp')`,
           backgroundSize: '130%',
           backgroundPosition: '50% 80%', 
           
