@@ -1,21 +1,17 @@
 "use client";
 
-import { Button, Input } from "@heroui/react";
-
-import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, Search } from "lucide-react";
+import { Autocomplete, AutocompleteItem, Button, Input } from "@heroui/react";
+import React, { useEffect, useState } from "react";
 import { Listarblog } from "./listarblog";
 import Tiptap from "./textEdit";
-import { Especialidad } from "@/interface";
+import { BlogApi, Categoria, UsuarioLocalStorage } from "@/interface";
+import { parseCookies } from "nookies";
+import showToast from "../ToastStyle";
 
-
-
-
-export const EspecialidadGet = async () => {
+export const CategoriaGet = async () => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}api/especialidades/show`,
+      `${process.env.NEXT_PUBLIC_API_URL}api/categorias/show`,
       {
         method: "GET",
         headers: {
@@ -26,37 +22,159 @@ export const EspecialidadGet = async () => {
     );
 
     const data = await response.json();
-    return data.result; // Solo retornamos el array de especialidades
+    return data.result;
   } catch (error) {
     console.error("Error:", error);
     return [];
   }
 };
 
-
+export const BlogById = async (id: number) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}api/blogs/show/${id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      }
+    );
+    const data = await response.json();
+    return data.result;
+  } catch (error) {
+    console.error("Error fetching blog by ID:", error);
+    return null;
+  }
+};
 
 export default function BlogUsuarioCrear() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedEspecialidad, setSelectedEspecialidad] = useState<Especialidad | null>(null);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [especialidades, setEspecialidades] = useState<Especialidad[]>([]);
+  const [categoria, setCategoria] = useState<Categoria[]>([]);
   const [tema, setTema] = useState("");
   const [url, setUrl] = useState("");
   const [view, setView] = useState("crear");
+  const [contenido, setContenido] = useState("");
+  const [user, setUser] = useState<UsuarioLocalStorage | null>(null);
+  const [value, setValue] = useState("");
+  const [selectedKey, setSelectedKey] = useState<string | null>(null);
+  const [editingBlogId, setEditingBlogId] = useState<number | null>(null);
+  const [originalIdPsicologo, setOriginalIdPsicologo] = useState<number | null>(null); 
 
   useEffect(() => {
-    const fetchEspecialidades = async () => {
-      const data = await EspecialidadGet();
-      setEspecialidades(data);
+    const fetchCategoria = async () => {
+      const data = await CategoriaGet();
+      setCategoria(data);
     };
-    fetchEspecialidades();
+    fetchCategoria();
   }, []);
 
- const filteredEspecialidades = especialidades.filter((esp) =>
-    esp.nombre.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  useEffect(() => {
+    const fetchUser = () => {
+      const storedUser = localStorage.getItem("user");
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      }
+    };
+    fetchUser();
+  }, []);
 
-  
+  const dataApi: BlogApi = {
+    idCategoria: selectedKey ? parseInt(selectedKey) : null,
+    tema: tema,
+    contenido: contenido,
+    imagen: url,
+    idPsicologo: originalIdPsicologo ?? user?.id ?? null, 
+  };
+
+  const postNewCategoria = async () => {
+    try {
+      const cookies = parseCookies();
+      const token = cookies["session"];
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}api/categorias/create`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ nombre: value }),
+        }
+      );
+      const info = await response.json();
+      setSelectedKey(info.result.idCategoria);
+      return info.result.idCategoria;
+    } catch (error) {
+      console.error("Error:", error);
+      return null;
+    }
+  };
+
+  const handleSubmit = async () => {
+    try {
+      let categoriaId = selectedKey;
+      if (selectedKey === null) {
+        categoriaId = await postNewCategoria();
+      }
+
+      const dataToSend = {
+        ...dataApi,
+        idCategoria: categoriaId,
+      };
+
+      const cookies = parseCookies();
+      const token = cookies["session"];
+
+      const url = editingBlogId
+        ? `${process.env.NEXT_PUBLIC_API_URL}api/blogs/update/${editingBlogId}`
+        : `${process.env.NEXT_PUBLIC_API_URL}api/blogs/create`;
+
+      const method = editingBlogId ? "PUT" : "POST";
+
+      const response = await fetch(url, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(dataToSend),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        showToast(
+          "success",
+          editingBlogId
+            ? "Publicación actualizada correctamente"
+            : "Publicación creada correctamente"
+        );
+        await new Promise((resolve) => setTimeout(resolve, 2600));
+        window.location.reload();
+      } else {
+        showToast(response.status.toString(), data.message || "Error desconocido");
+      }
+    } catch (error) {
+      console.error(error);
+      showToast("error", "Error de conexión. Intenta nuevamente.");
+    }
+  };
+
+  const handleEdit = async (id: number) => {
+    const blog = await BlogById(id);
+    if (blog) {
+      setTema(blog.tema);
+      setUrl(blog.imagen);
+      setContenido(blog.contenido);
+      setSelectedKey(blog.idCategoria.toString());
+      setEditingBlogId(blog.idBlog);
+      setOriginalIdPsicologo(blog.idPsicologo); 
+      setView("crear");
+    }
+  };
 
   return (
     <div>
@@ -65,123 +183,107 @@ export default function BlogUsuarioCrear() {
           <Button
             radius="full"
             className="bg-white text-[16px] leading-[20px] text-[#634AE2] font-bold"
-            onPress={() => setView("crear")}
+            onPress={() => {
+              setView("crear");
+              setEditingBlogId(null); 
+              setOriginalIdPsicologo(null); 
+            }}
           >
             Crear Blog
           </Button>
-          <Button  onPress={() => setView("blogs")} className="text-white text-[16px] leading-[20px] bg-[#634AE2] a" >
+          <Button
+            onPress={() => setView("blogs")}
+            className="text-white text-[16px] leading-[20px] bg-[#634AE2] a"
+          >
             Ver Blogs
           </Button>
         </div>
       </div>
 
       {view === "crear" ? (
-      <div className="grid grid-cols-2 gap-10 mx-10 mt-14">
-        <div className="flex flex-col items-center col-span-1 w-96 gap-y-3 mx-auto">
-          <h1 className="h-10 bg-[#6364F4] w-full font-semibold text-white text-xl rounded-full flex items-center justify-start pl-3">
-            Titulo
-          </h1>
-          <Input
-            aria-label="Titulo"
-            placeholder="Ingresar Titulo"
-            className="w-full max-w-[400px]"
-            radius="full"
-            height={43}
-            value={tema}
-            onChange={(e) => setTema(e.target.value)}
-          />
-
-          <h1 className="h-10 bg-[#6364F4] w-full font-semibold text-white text-xl rounded-full flex items-center justify-start pl-3">
-            Tema
-          </h1>
-          <div className="relative w-full max-w-[400px]">
-            <Button
+        <div className="flex flex-col md:flex-row gap-10 mx-10 mt-14">
+          <div className="flex flex-col items-center w-full max-w-[500px] gap-y-3 mx-auto">
+            <h1 className="h-10 bg-[#6364F4] w-full font-semibold text-white text-xl rounded-full flex items-center justify-start pl-3">
+              Titulo
+            </h1>
+            <Input
+              aria-label="Titulo"
+              placeholder="Ingresar Titulo"
+              classNames={{
+                input: "!text-[#634AE2] ",
+              }}
               radius="full"
-              className="w-full h-[43px] bg-white border-2 border-gray-200 justify-between"
-              onPress={() => setIsOpen(!isOpen)}
-            >
-              <span>
-                {selectedEspecialidad
-                  ? selectedEspecialidad.nombre
-                  : "Seleccionar especialidad"}
-              </span>
-              <motion.div
-                animate={{ rotate: isOpen ? 180 : 0 }}
-                transition={{ duration: 0.2 }}
+              height={43}
+              value={tema}
+              onChange={(e) => setTema(e.target.value)}
+            />
+
+            <h1 className="h-10 bg-[#6364F4] w-full font-semibold text-white text-xl rounded-full flex items-center justify-start pl-3">
+              Categoria
+            </h1>
+            <div className="flex w-full flex-col">
+              <Autocomplete
+                radius="full"
+                inputProps={{
+                  className: "!text-[#634AE2]",
+                }}
+                allowsCustomValue={true}
+                placeholder="Ingresar Categoria"
+                defaultItems={categoria}
+                aria-label="Categoria"
+                variant="faded"
+                selectedKey={selectedKey}
+                onInputChange={(value) => setValue(value)}
+                onSelectionChange={(value) =>
+                  setSelectedKey(value?.toString() || null)
+                }
               >
-                <ChevronDown className="h-4 w-4" />
-              </motion.div>
-            </Button>
+                {(categoria) => (
+                  <AutocompleteItem key={categoria.idCategoria}>
+                    {categoria.nombre}
+                  </AutocompleteItem>
+                )}
+              </Autocomplete>
+            </div>
 
-            <AnimatePresence>
-              {isOpen && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.2 }}
-                  className="absolute top-full left-0 w-full mt-2 bg-white rounded-lg shadow-lg border border-gray-200 z-50"
+            <h1 className="h-10 bg-[#6364F4] w-full font-semibold text-white text-xl rounded-full flex items-center justify-start pl-3">
+              URL Imagen
+            </h1>
+            <Input
+              placeholder="Url de imagen"
+              classNames={{
+                input: "!text-[#634AE2]",
+              }}
+              radius="full"
+              height={43}
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
+            />
+          </div>
+
+          <div className="w-full max-w-full md:max-w-[50%]">
+            <h1 className="h-10 bg-[#6364F4] w-full font-semibold text-white text-xl rounded-full flex items-center justify-start pl-3">
+              Descripción
+            </h1>
+            <div className="py-4 w-full">
+              <Tiptap setContenido={setContenido} contenido={contenido} />
+              <div className="flex pt-4 justify-center md:justify-end">
+                <Button
+                  onClick={handleSubmit}
+                  radius="full"
+                  className="text-white bg-[#634AE2] w-full max-w-32 font-normal text-sm"
                 >
-                  <div className="p-2">
-                    <div className="relative">
-                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                      <input
-                        type="text"
-                        className="w-full pl-10 pr-4 py-2 rounded-full border border-gray-200"
-                        placeholder="Buscar especialidad..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                      />
-                    </div>
-                  </div>
-                  <div className="max-h-48 overflow-y-auto">
-                    {filteredEspecialidades.map((especialidad) => (
-                      <motion.div
-                      key={especialidad.idEspecialidad} // Falta el atributo key aquí
-                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                        whileHover={{ backgroundColor: "#f3f4f6" }}
-                        onClick={() => {
-                          setSelectedEspecialidad(especialidad);
-                          setIsOpen(false);
-                          setSearchTerm("");
-                        }}
-                      >
-                        {especialidad.nombre}
-                      </motion.div>
-                    ))}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-
-          <h1 className="h-10 bg-[#6364F4] w-full font-semibold text-white text-xl rounded-full flex items-center justify-start pl-3">
-            URL Imagen
-          </h1>
-          <Input
-            placeholder="Url de imagen"
-            className="w-full max-w-[400px] placeholder:text-[#634AE2]"
-            radius="full"
-            height={43}
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-          />
-        </div>
-
-        <div className="col-span-1">
-          <h1 className="h-10 bg-[#6364F4] w-full font-semibold text-white text-xl rounded-full flex items-center justify-start pl-3">
-            Descripción
-          </h1>
-          <div className="py-4 w-full">
-          <Tiptap tema={tema}  url={url} />
+                  {editingBlogId ? "Actualizar" : "Enviar"}
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-   ):( <div className="mx-10 mt-14">
-      
-      <Listarblog />
-    </div>)}
-     </div>
+      ) : (
+        <div className="mx-10 mt-14">
+          <Listarblog onEdit={handleEdit} />
+        </div>
+      )}
+    </div>
   );
 }
-

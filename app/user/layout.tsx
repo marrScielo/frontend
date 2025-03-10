@@ -14,10 +14,11 @@ export default function HomeLayout({
       enableSystem
       disableTransitionOnChange
     >
-      <div className="bg-[#eaeded] min-h-screen">
+      <div className="min-h-screen">
         <NavbarUser />
-        <div className="lg:hidden block min-h-[80vh] ml-24"> {children} </div>
-        <div className="lg:block hidden min-h-[89vh] ml-72"> {children} </div>
+        <div className="min-h-[80vh] ml-20 lg:min-h-[89vh] lg:ml-72">
+          {children}
+        </div>
       </div>
     </ThemeProvider>
   );

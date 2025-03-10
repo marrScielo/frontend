@@ -1,9 +1,25 @@
 import BlogAside from "./blogaside";
-
 import {ScrollShadow} from "@heroui/react";
 import BlogPreview from "./blogpreview";
+import { BlogGet } from "./blogCrear/listarblog";
+import { useEffect, useState } from "react";
+import { BlogApiGEt } from "@/interface";
+import Blog from "@/app/user/blog/page";
+
+
 
 export default function BlogPageComponent() {
+ 
+  const [data, setData] = useState<BlogApiGEt[]>([]);
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      const blogs = await BlogGet();
+      setData(blogs);
+    };
+
+    fetchBlogs();
+  }, []);
   return (
     <div className="flex justify-center text-[#634AE2]">
       <div className="w-full max-w-7xl px-4"> {/* Adds max-width and padding */}
@@ -13,6 +29,8 @@ export default function BlogPageComponent() {
           <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="col-span-2">
             <ScrollShadow hideScrollBar className=" h-[870px]">
+             
+              
               <BlogPreview />
               <BlogPreview />
               <BlogPreview />
