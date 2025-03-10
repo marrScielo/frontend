@@ -158,6 +158,7 @@ export default function BlogUsuarioCrear() {
         showToast(response.status.toString(), data.message || "Error desconocido");
       }
     } catch (error) {
+      console.error(error);
       showToast("error", "Error de conexión. Intenta nuevamente.");
     }
   };

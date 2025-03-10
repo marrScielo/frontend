@@ -1,6 +1,7 @@
 import { ServicesStructureProps } from "@/interface";
 import SliderPrice from "./SliderPrice";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function ServicesStructure({
   services,
@@ -9,8 +10,7 @@ export default function ServicesStructure({
 }) {
   return (
     <div className="relative">
-      {" "}
-      {/* Agregamos 'relative' aquí */}
+
       {services.map((item, index) => (
         <div className="embla__slide" key={index}>
           <div className="flex justify-between mx-6  pt-6 text-title pb-8 items-center ">

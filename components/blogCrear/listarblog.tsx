@@ -58,7 +58,7 @@ export const eliminarBlog = async (id: number|null) => {
   }
 };
 
-export function Listarblog( {onEdit}:{onEdit:Function} ) {
+export function Listarblog({ onEdit }: { onEdit: (id: number) => Promise<void> }) {
   const [bloge, setBlog] = useState<BlogApiGEt[]>([]);
 
   useEffect(() => {
@@ -80,7 +80,10 @@ export function Listarblog( {onEdit}:{onEdit:Function} ) {
   };
 
   const handleEditarBlog=(id:number|null)=>{
-    onEdit(id)
+
+   if (id !== null) {
+  onEdit(id);
+}
   }
 
   return (

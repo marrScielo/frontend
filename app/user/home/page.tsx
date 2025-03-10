@@ -1,5 +1,5 @@
 "use client";
-import React,{useState, useEffect} from "react";
+import React, { useEffect, useState} from "react";
 import { ThemeToggle } from "@/components/Themetoggle";
 import Link from "next/link";
 
@@ -32,7 +32,7 @@ const navItems = [
 
 
 
-const pageHome = () => {
+const PageHome = () => {
   const [user, setUser] = useState<UsuarioLocalStorage|null>(null);
 
 
@@ -138,4 +138,4 @@ const pageHome = () => {
   );
 };
 
-export default pageHome;
+export default PageHome;
