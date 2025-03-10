@@ -124,7 +124,7 @@ export interface BlogApi {
 
 export interface BlogApiGEt {
   idBlog: number | null,
-  idCategoria: number | null,
+  categoria: string,
   tema: string,
   contenido: string,
   imagen: string,

@@ -58,7 +58,7 @@ export const eliminarBlog = async (id: number|null) => {
   }
 };
 
-export function Listarblog() {
+export function Listarblog( {onEdit}:{onEdit:Function} ) {
   const [bloge, setBlog] = useState<BlogApiGEt[]>([]);
 
   useEffect(() => {
@@ -79,6 +79,9 @@ export function Listarblog() {
     }
   };
 
+  const handleEditarBlog=(id:number|null)=>{
+    onEdit(id)
+  }
 
   return (
     <div className="max-h-[500px] overflow-y-auto overflow-scroll:scrollbar-none">
@@ -101,7 +104,7 @@ export function Listarblog() {
                 className="px-4 py-2 "
                 
               >{blog.tema}</td>
-              <td className="px-4 py-2">{blog.idCategoria}</td>
+              <td className="px-4 py-2">{blog.categoria}</td>
               <td className="px-4 py-2 flex justify-center items-center">
                 <Image
                   isZoomed
@@ -116,6 +119,7 @@ export function Listarblog() {
                 <div className="flex flex-row items-center justify-center gap-x-4">
                   <div className="">
                     <button 
+                    onClick={()=> handleEditarBlog(blog.idBlog)}
                     className="flex flex-col items-center justify-center hover:opacity-75"
                     >
                     <svg
@@ -132,7 +136,7 @@ export function Listarblog() {
                   </div>
                   <div className="">
                     <button
-                      onClick={()=> handleEliminarBlog(blog.idBlog)} // Pasa el id del blog
+                      onClick={()=> handleEliminarBlog(blog.idBlog)} 
                       className="flex flex-col items-center justify-center hover:opacity-75"
                     >
                       <svg

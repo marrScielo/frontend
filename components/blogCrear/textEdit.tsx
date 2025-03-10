@@ -298,7 +298,9 @@ const extensions = [
 
 export const Tiptap = ({
   setContenido,
+  contenido,
 }: {
+  contenido: string;
   setContenido: React.Dispatch<React.SetStateAction<string>>;
 }) => {
 
@@ -321,6 +323,7 @@ export const Tiptap = ({
         slotBefore={<MenuBar />}
         extensions={extensions}
         onUpdate={handleUpdate}
+        content={contenido}
         autofocus={true}
       >
         <div className="prose prose-sm sm:prose lg:prose-lg mx-auto p-6">
