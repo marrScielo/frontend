@@ -51,10 +51,10 @@ export const eliminarBlog = async (id: number|null) => {
     }
 
     const data = await reponse.json();
-    return data; // Devuelve los datos JSON
+    return data; 
   } catch (error) {
     console.error("Error deleting blog:", error);
-    throw error; // Relanza el error para manejarlo en el componente
+    throw error; 
   }
 };
 
@@ -71,9 +71,9 @@ export function Listarblog( {onEdit}:{onEdit:Function} ) {
 
   const handleEliminarBlog = async (id: number|null) => {
     try {
-      await eliminarBlog(id); // Elimina el blog
-      const updatedBlogs = await BlogGet(); // Obtiene la lista actualizada
-      setBlog(updatedBlogs); // Actualiza el estado
+      await eliminarBlog(id); 
+      const updatedBlogs = await BlogGet(); 
+      setBlog(updatedBlogs); 
     } catch (error) {
       console.error("Error al eliminar el blog:", error);
     }

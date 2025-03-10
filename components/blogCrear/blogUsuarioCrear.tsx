@@ -59,7 +59,7 @@ export default function BlogUsuarioCrear() {
   const [value, setValue] = useState("");
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
   const [editingBlogId, setEditingBlogId] = useState<number | null>(null);
-  const [originalIdPsicologo, setOriginalIdPsicologo] = useState<number | null>(null); // Estado para almacenar el idPsicologo original
+  const [originalIdPsicologo, setOriginalIdPsicologo] = useState<number | null>(null); 
 
   useEffect(() => {
     const fetchCategoria = async () => {
@@ -84,7 +84,7 @@ export default function BlogUsuarioCrear() {
     tema: tema,
     contenido: contenido,
     imagen: url,
-    idPsicologo: originalIdPsicologo ?? user?.id ?? null, // Usa el idPsicologo original si existe, de lo contrario, usa el del usuario actual
+    idPsicologo: originalIdPsicologo ?? user?.id ?? null, 
   };
 
   const postNewCategoria = async () => {
@@ -170,7 +170,7 @@ export default function BlogUsuarioCrear() {
       setContenido(blog.contenido);
       setSelectedKey(blog.idCategoria.toString());
       setEditingBlogId(blog.idBlog);
-      setOriginalIdPsicologo(blog.idPsicologo); // Guarda el idPsicologo original
+      setOriginalIdPsicologo(blog.idPsicologo); 
       setView("crear");
     }
   };
@@ -184,8 +184,8 @@ export default function BlogUsuarioCrear() {
             className="bg-white text-[16px] leading-[20px] text-[#634AE2] font-bold"
             onPress={() => {
               setView("crear");
-              setEditingBlogId(null); // Reinicia el estado de edición
-              setOriginalIdPsicologo(null); // Reinicia el idPsicologo original
+              setEditingBlogId(null); 
+              setOriginalIdPsicologo(null); 
             }}
           >
             Crear Blog
