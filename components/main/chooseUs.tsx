@@ -159,7 +159,6 @@ export default function ChooseUs() {
 
       {/*contenido para pantallas pequeñas*/}
       <div className="block lg:hidden w-full  ">
-        
         <div className="grid grid-cols-2 gap-1">
           <div className="col-span-1 flex items-center ">
             <div

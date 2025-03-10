@@ -2,7 +2,13 @@
 import {Image, User } from "@heroui/react";
 import Link from "next/link";
 
+
+
+
+
+
 export default function BlogPreview() {
+
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
