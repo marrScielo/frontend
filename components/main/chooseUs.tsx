@@ -81,6 +81,7 @@ export default function ChooseUs() {
       stopOnInteraction: false,
       delay: 4000,
     }),
+    
   ]);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
