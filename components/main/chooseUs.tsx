@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
+import Fade from "embla-carousel-fade"; // Asegúrate de importar el plugin Fade
 
 export default function ChooseUs() {
   const features = [
@@ -76,13 +77,23 @@ export default function ChooseUs() {
     },
   ];
 
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
-    Autoplay({
-      stopOnInteraction: false,
-      delay: 4000,
-    }),
-    
-  ]);
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    {
+      loop: true,
+      skipSnaps: true,
+      duration: 0,
+    },
+    [
+      Autoplay({
+        stopOnInteraction: false,
+        delay: 4000,
+      }),
+      Fade({
+        active: true, // Activa el efecto de desvanecimiento
+      }),
+    ]
+  );
+
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   useEffect(() => {
@@ -99,12 +110,12 @@ export default function ChooseUs() {
   };
 
   return (
-    <div className="w-full flex flex-col items-center justify-center pb-24 bg-background">
+    <div className="w-full flex flex-col items-center justify-center lg:pb-24 pb-10 bg-background mt-16">
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="text-center mb-12"
+        className="text-center lg:mb-12"
       >
         <h2 className="lg:text-4xl font-bold text-title mb-5 text-2xl">
           ¿Por qué elegirnos?
@@ -157,14 +168,15 @@ export default function ChooseUs() {
         </motion.div>
       </div>
 
-      {/*contenido para pantallas pequeñas*/}
-      <div className="block lg:hidden w-full  ">
+      {/* Contenido para pantallas pequeñas */}
+      <div className="block lg:hidden w-full">
         <div className="grid grid-cols-2 gap-1">
-          <div className="col-span-1 flex items-center ">
+          <div className="col-span-1 flex items-center">
             <div
-              className="w-[345px] h-[345px] bg-cover bg-center bg-no-repeat "
+              className="w-[345px] h-[405px] bg-cover bg-center bg-no-repeat"
               style={{
                 backgroundImage: `url(/psicologa.webp)`,
+                backgroundSize: "auto", // Fija el tamaño de la imagen
               }}
             />
           </div>
@@ -175,8 +187,8 @@ export default function ChooseUs() {
               <div className="embla__container">
                 {features.map((feature, index) => (
                   <div className="embla__slide" key={index}>
-                    <div className="flex flex-col items-center justify-center p-6">
-                      <div className="flex flex-col items-center justify-center w-28 h-28 rounded-full bg-[#634AE2] backdrop-blur-sm transition-all duration-300 cursor-pointer">
+                    <div className="flex flex-col items-center justify-center p-6 mt-14">
+                      <div className="flex flex-col items-center justify-center w-28 h-28 rounded-full bg-[#634AE2] backdrop-blur-sm transition-all duration-300 cursor-pointer opacity-70">
                         <div className="bg-[#634AE2] rounded-full group-hover:bg-[#9494F3] transition-colors duration-300 w-14">
                           {feature.icon}
                         </div>

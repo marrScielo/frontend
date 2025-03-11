@@ -33,7 +33,7 @@ const redes = [
 const RedesSociales = () => {
   return (
     <div>
-      <ul className="wrapper">
+      <ul className="wrapper  ">
         {redes.map((rede, index) => (
           <li
           className={`icon ${rede.nombre} w-5 fill-current text-[#634AE2]`}

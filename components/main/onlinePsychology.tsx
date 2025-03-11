@@ -196,6 +196,7 @@ export default function ChooseUs() {
         {/**contenido para pantallas pequeñas*/}
         <div className="block lg:hidden w-full">
           <div className="grid grid-cols-2 gap-4">
+
             {/* Columna izquierda: Carrusel de iconos */}
             <div className="col-span-1">
               <div className="embla" ref={emblaRef}>
@@ -241,7 +242,8 @@ export default function ChooseUs() {
               <div
                 className=" h-[345px] bg-cover bg-center bg-no-repeat rounded-lg"
                 style={{
-                  backgroundImage: `url(/CarruselInferiorMain/psicologia-online-paso-a-paso-Señora-sonriendo.webp)`,
+                  backgroundImage: `url(/mediaLunaInicio.webp)`,
+                  backgroundSize: "auto",
                 }}
               />
             </div>

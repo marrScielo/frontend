@@ -11,21 +11,21 @@ export default function Footer() {
     { text: "Inicio", href: "/" },
     { text: "Sobre Nosotros", href: "/sobreNosotros" },
     { text: "Servicios", href: "/servicios/terapia/infantes" },
-    { text: "Contáctanos", href: "/contactanos" },
+    { text: "Reservar cita", href: "/ReservarCita" },
   ];
 
   const rightLinks = [
+    { text: "Contáctanos", href: "/contactanos" },
     { text: "Preguntas Frecuentes", href: "/PreguntasFrecuentes" },
     { text: "Blog", href: "/blog" },
     { text: "Iniciar sesión", href: "/login" },
-    { text: "Reservar cita", href: "/ReservarCita" },
   ];
 
   return (
     <footer className="bg-[#634AE2] text-white">
-      <div className="max-w-7xl mx-auto px-4 py-16">
+      <div className="lg:max-w-7xl lg:mx-auto lg:px-4 py-16 mx-10 ml-16">
         {/* Contenido Principal */}
-        <div className="flex flex-col md:flex-row justify-between items-center md:items-start space-y-12 md:space-y-0">
+        <div className="flex flex-col md:flex-row justify-between items-start space-y-8 md:space-y-0">
           {/* Logo */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
@@ -42,9 +42,9 @@ export default function Footer() {
           </motion.div>
 
           {/* Sección de Enlaces */}
-          <div className="w-full md:w-auto  flex flex-col text-center md:text-left items-center md:items-start">
-            <h3 className="text-xl font-semibold mb-2">Enlaces</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+          <div className="flex flex-col text-start w-full md:w-auto">
+            <h3 className="text-xl font-semibold mb-5">Enlaces</h3>
+            <div className="grid grid-cols-2 lg:gap-20">
               {/* Columna izquierda */}
               <ul className="space-y-3">
                 {leftLinks.map((link) => (
@@ -81,11 +81,45 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Redes Sociales */}
-          <div className="flex flex-col items-center text-center md:text-left justify-start w-full md:w-auto md:items-start">
-            <h3 className="text-xl font-semibold text-white mb-4">Síguenos</h3>
-            <div className="flex justify-start space-x-6">
-              <RedesSociales />
+          {/* Redes Sociales y Contacto */}
+          <div className="flex flex-col space-y-6">
+            {/* Redes Sociales */}
+            <div className="flex flex-col text-start w-full md:w-auto">
+              <h3 className="text-xl font-semibold text-white mb-4">
+                Síguenos
+              </h3>
+              <div className="flex justify-start space-x-6">
+                <RedesSociales />
+              </div>
+            </div>
+
+            {/* Contacto */}
+            <div className="flex flex-col text-start w-full md:w-auto">
+              <h3 className="text-xl font-semibold text-white mb-4">
+                Contacto
+              </h3>
+
+              
+              <div className="flex items-center space-x-2 mb-2">
+                <Image
+                  src="/WSP.webp"
+                  alt="whatsapp"
+                  width={20} 
+                  height={20} 
+                />
+                <p className="font-light">+51 983 027 828</p>
+              </div>
+
+              
+              <div className="flex items-center space-x-2">
+                <Image
+                  src="/WSP.webp"
+                  alt="whatsapp"
+                  width={20} 
+                  height={20} 
+                />
+                <p className="font-light">+54 922 130 326 75</p>
+              </div>
             </div>
           </div>
         </div>
