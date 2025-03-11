@@ -1,7 +1,7 @@
 import { ServicesStructureProps } from "@/interface";
 import SliderPrice from "./SliderPrice";
 import Link from "next/link";
-import Image from "next/image";
+
 
 export default function ServicesStructure({
   services,
