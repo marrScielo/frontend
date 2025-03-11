@@ -38,7 +38,7 @@ interface AuthState {
         }
         
         const data = await response.json();
-        const token = data.result.token.slice(2);
+        const token = data.result.token.slice(3);
         
   
         setCookie(null, 'session', token, {
