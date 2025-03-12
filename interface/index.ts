@@ -41,6 +41,7 @@ export interface ServicesStructureProps {
   motto: string;
   background: string;
   bgdown: string;
+  bgup: string;
   description: string;
   tittleIcon: string;
   iconos: {

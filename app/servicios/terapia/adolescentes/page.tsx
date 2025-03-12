@@ -8,6 +8,7 @@ import { ServicesStructureProps } from "@/interface"
       "¿Listo para dar el primer paso hacia el bienestar emocional de tu hijo?",
     background: "/Services/teen/bgteen.webp",
     bgdown:"/Services/teen/bgdownadolescentes.webp",
+    bgup:"/Services/teen/chica_Sentada.webp",
     description:
       "Ayuda a tu hijo a sentirse escuchado y comprendido en esta etapa tan crucial de su desarrollo con nuestra terapia integral. Apoyamos a los adolescentes a manejar sus emociones, fortalecer su autoestima y desarrollar su habilidades sociales en un espacio seguro.",
     tittleIcon:
