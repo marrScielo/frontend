@@ -6,8 +6,10 @@ import { ServicesStructureProps } from "@/interface"
   title: "Terapia de pareja",
   edad: "Para parejas de toda edad",
   motto: "¿Tu relación está en crisis? ¿Buscas fortalecer el vínculo?",
+
   background: "/Services/couple/ayuda-para-parejas-en-crisis.webp", 
   bgdown:"/Services/couple/psicoterapia-para-relaciones-de-pareja.webp",
+  bgup:"/Services/couple/bguppareja.webp",
   description:
     "Todas las parejas enfrentan desafíos y buscar ayuda es un paso hacia una relación más satisfactoria. En Contigo Voy, pueden iniciar una terapia de pareja online diseñada para cuidar su bienestar de forma accesible y práctica.",
   tittleIcon:
