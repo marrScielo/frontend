@@ -10,6 +10,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 
+
 export default function ServicesStructure({
   services,
 }: {
@@ -17,8 +18,7 @@ export default function ServicesStructure({
 }) {
   return (
     <div className="relative">
-      {" "}
-      {/* Agregamos 'relative' aquí */}
+
       {services.map((item, index) => (
         <div className="embla__slide" key={index}>
           <div className="flex justify-between mx-6  pt-6 text-title pb-8 items-center ">
@@ -191,6 +191,7 @@ export default function ServicesStructure({
             }}
           >
             <div className="pt-8 md:pt-24 flex items-center px-10 md:px-0 md:pl-96">
+
               <div className="w-full max-w-[837px] text-title h-[74px] font-semibold text-[24px] leading-[33px] text-center">
                 {item.tittleIcon}
               </div>
@@ -301,6 +302,15 @@ export default function ServicesStructure({
                 className="text-[18px] w-full font-medium text-[#634AE2] text-center md:text-start"
                 dangerouslySetInnerHTML={{ __html: item.textfooter }}
               />
+
+
+          <div className="sticky bottom-0 left-0 w-full bg-[#DEDEFF] flex justify-center items-center z-[50] h-20">
+            <div className="flex flex-col md:flex-row items-center justify-between w-full max-w-[1230px] px-6 space-x-0 ">
+              <p
+                className="text-[18px] w-full font-medium text-[#634AE2] md:text-start"
+                dangerouslySetInnerHTML={{ __html: item.textfooter }}
+              />
+
 
               <Link href="/ReservarCita">
                 <button className="w-full md:w-[329px] h-10 md:h-[50px] bg-[#5A4AE8] rounded-[34px] text-white font-normal text-[18px] leading-[33px] text-center mt-6 md:mt-0 px-16 md:px-0">

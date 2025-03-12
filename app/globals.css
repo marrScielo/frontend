@@ -17,6 +17,11 @@ body {
 }
 
 
+.slide {
+  flex: 0 0 33.33%; /* Cada slide ocupa 1/3 del contenedor */
+  min-width: 0; /* Evita problemas de flexbox */
+}
+
 /* Fondo Preguntras Frecuentes */
 .background_faq {
   height: 110vh;
@@ -28,7 +33,8 @@ body {
       #7863E37A 70%, 
       #7863E370 100% 
     ),
-    url(/ChicaPreguntando.webp);
+    url(/preguntas-sobre-terapia-en-linea.jpg);
+
     background-repeat: no-repeat;
   background-size: contain;  
   background-position: 130% 100%;

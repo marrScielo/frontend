@@ -15,6 +15,7 @@ export default function HomeLayout({
       disableTransitionOnChange
     >
       <div className="min-h-screen bg-[#eaeded]">
+
         <NavbarUser />
         <div className="min-h-[80vh] ml-20 lg:min-h-[89vh] lg:ml-72">
           {children}

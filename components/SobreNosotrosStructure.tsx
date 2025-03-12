@@ -32,7 +32,7 @@ export default function SobreNosotrosStructure({ qs }: { qs: QuienesSomos[] }) {
             <div
               className=" h-80 sm:h-[800px] bg-white  bg-contain md:bg-cover bg-center bg-no-repeat"
               style={{
-                backgroundImage: `linear-gradient(to right, #3616D87A 0%, #3616D870 30%, #7863E37A 70%, #7863E370 100%),url('/AboutUs/hands.webp')`,
+                backgroundImage: `linear-gradient(to right, #3616D87A 0%, #3616D870 30%, #7863E37A 70%, #7863E370 100%),url('/AboutUs/nosotros-centro-psicologico-contigovoy-Manos-apoyándose.webp')`,
               }}
             ></div>
 
@@ -64,7 +64,7 @@ export default function SobreNosotrosStructure({ qs }: { qs: QuienesSomos[] }) {
           <div
             className="h-96 md:h-[890px] bg-white bg-cover bg-center bg-no-repeat"
             style={{
-              backgroundImage: `linear-gradient(to right, #3616D87A 0%, #3616D870 30%, #7863E37A 70%, #7863E370 100%),url('/AboutUs/bg.webp')`,
+              backgroundImage: `linear-gradient(to right, #3616D87A 0%, #3616D870 30%, #7863E37A 70%, #7863E370 100%),url('/AboutUs/terapeutas-especializados-familia-feliz.webp')`,
             }}
           />
         </div>

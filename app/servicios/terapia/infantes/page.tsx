@@ -7,8 +7,8 @@ const NinosTerapias:ServicesStructureProps[] =[{
     edad: "De 3 a 12 años de edad",
     motto:
       "¿Por qué no darle a tu pequeño la oportunidad de crecer emocionalmente con la ayuda de un profesional?",
-    background: "/Services/ninos/childs.webp",
-    bgdown:"/Services/ninos/bgInfantes.webp",
+    background: "/Services/niños/terapia-psicologica-para-ninos.webp",
+    bgdown:"/Services/niños/ayuda-emocional-para-ninos-madre-tablet.webp",
     bgup:"/Services/ninos/bgupinfante.webp",
 
     description:

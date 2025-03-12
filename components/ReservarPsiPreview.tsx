@@ -62,10 +62,11 @@ export default function ReservarPsiPreview({
                 Psicólogo
               </CardDescription>
               <CardTitle className="text-[#634AE2] text-xl sm:text-2xl">
-                {psicologo.name} {psicologo.lastname}
+                {psicologo.name} <br/>{psicologo.lastname}
               </CardTitle>
             </div>
           </div>
+          <hr className="my-2.5 border-t border-[#9494F3] w-[390px]" />
         </div>
 
         <CardContent className="border-[#9494F3] mt-2">

@@ -51,14 +51,14 @@ export const eliminarBlog = async (id: number|null) => {
     }
 
     const data = await reponse.json();
-    return data; // Devuelve los datos JSON
+    return data; 
   } catch (error) {
     console.error("Error deleting blog:", error);
-    throw error; // Relanza el error para manejarlo en el componente
+    throw error; 
   }
 };
 
-export function Listarblog() {
+export function Listarblog({ onEdit }: { onEdit: (id: number) => Promise<void> }) {
   const [bloge, setBlog] = useState<BlogApiGEt[]>([]);
 
   useEffect(() => {
@@ -71,14 +71,20 @@ export function Listarblog() {
 
   const handleEliminarBlog = async (id: number|null) => {
     try {
-      await eliminarBlog(id); // Elimina el blog
-      const updatedBlogs = await BlogGet(); // Obtiene la lista actualizada
-      setBlog(updatedBlogs); // Actualiza el estado
+      await eliminarBlog(id); 
+      const updatedBlogs = await BlogGet(); 
+      setBlog(updatedBlogs); 
     } catch (error) {
       console.error("Error al eliminar el blog:", error);
     }
   };
 
+  const handleEditarBlog=(id:number|null)=>{
+
+   if (id !== null) {
+  onEdit(id);
+}
+  }
 
   return (
     <div className="max-h-[500px] overflow-y-auto overflow-scroll:scrollbar-none">
@@ -101,7 +107,7 @@ export function Listarblog() {
                 className="px-4 py-2 "
                 
               >{blog.tema}</td>
-              <td className="px-4 py-2">{blog.idCategoria}</td>
+              <td className="px-4 py-2">{blog.categoria}</td>
               <td className="px-4 py-2 flex justify-center items-center">
                 <Image
                   isZoomed
@@ -116,6 +122,7 @@ export function Listarblog() {
                 <div className="flex flex-row items-center justify-center gap-x-4">
                   <div className="">
                     <button 
+                    onClick={()=> handleEditarBlog(blog.idBlog)}
                     className="flex flex-col items-center justify-center hover:opacity-75"
                     >
                     <svg
@@ -132,7 +139,7 @@ export function Listarblog() {
                   </div>
                   <div className="">
                     <button
-                      onClick={()=> handleEliminarBlog(blog.idBlog)} // Pasa el id del blog
+                      onClick={()=> handleEliminarBlog(blog.idBlog)} 
                       className="flex flex-col items-center justify-center hover:opacity-75"
                     >
                       <svg

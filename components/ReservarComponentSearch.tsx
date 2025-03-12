@@ -31,9 +31,8 @@ export default function ReservarComponentSearch() {
   return (
     <div className="w-full sm:w-[250px] p-4 border-r-1 pb-20 border-[#9494F3]">
       <Divider orientation="vertical" />
-      
+
       <div className="flex items-center gap-2 sm:block">
-       
         <div className="relative flex-1">
           <input
             type="text"
@@ -52,7 +51,6 @@ export default function ReservarComponentSearch() {
           />
         </div>
 
-      
         <button
           onClick={toggleFilters}
           className="sm:hidden bg-[#EAEAFF] text-[#634AE2] py-2 px-4 rounded-full text-lg font-normal transition-colors w-44 flex items-center justify-between gap-x-4"
@@ -66,7 +64,6 @@ export default function ReservarComponentSearch() {
         </button>
       </div>
 
-      
       <div className={`${isFiltersOpen ? "block" : "hidden"} sm:block`}>
         <div className="pt-5"></div>
 
@@ -78,8 +75,9 @@ export default function ReservarComponentSearch() {
             <div key={index} className="flex items-center space-x-3 pt-2 ml-5">
               <Checkbox
                 id={`pais-${index}`}
-                className="text-xl rounded-2xl bg-white"
+                className="text-xl rounded-2xl border-[#634AE2]  checked:border-[#634AE2]"
               />
+
               <div className="grid ">
                 <label
                   htmlFor={`pais-${index}`}
@@ -92,14 +90,13 @@ export default function ReservarComponentSearch() {
           ))}
         </div>
 
-       
         <div className="border-t-1 border-[#9494F3] mt-4">
           <p className="pt-4 text-xl font-normal text-[#634AE2]">Género</p>
           {genero.map((item, index) => (
             <div key={index} className="flex items-center space-x-3 pt-2 ml-5">
               <Checkbox
-                id={`genero-${index}`}
-                className="text-xl rounded-2xl bg-white"
+                id={`pais-${index}`}
+                className="text-xl rounded-2xl border-[#634AE2]  checked:border-[#634AE2]"
               />
               <div className="grid ">
                 <label
@@ -113,14 +110,13 @@ export default function ReservarComponentSearch() {
           ))}
         </div>
 
-        
         <div className="border-t-1 border-[#9494F3] mt-4">
           <p className="pt-4 text-xl font-normal text-[#634AE2]">Idioma</p>
           {idioma.map((item, index) => (
             <div key={index} className="flex items-center space-x-3 pt-2 ml-5">
-              <Checkbox
-                id={`idioma-${index}`}
-                className="text-xl rounded-2xl bg-white"
+             <Checkbox
+                id={`pais-${index}`}
+                className="text-xl rounded-2xl border-[#634AE2]  checked:border-[#634AE2]"
               />
               <div className="grid ">
                 <label
@@ -134,14 +130,13 @@ export default function ReservarComponentSearch() {
           ))}
         </div>
 
-       
         <div className="border-t-1 border-[#9494F3] mt-4">
           <p className="pt-4 text-xl font-normal text-[#634AE2]">Enfoque</p>
           {Enfoque.map((item, index) => (
             <div key={index} className="flex items-center space-x-3 pt-2 ml-5">
               <Checkbox
-                id={`enfoque-${index}`}
-                className="text-xl rounded-2xl bg-white"
+                id={`pais-${index}`}
+                className="text-xl rounded-2xl border-[#634AE2]  checked:border-[#634AE2]"
               />
               <div className="grid ">
                 <label
