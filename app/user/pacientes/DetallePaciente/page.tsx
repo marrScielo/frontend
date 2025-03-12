@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
-import DashboardComponents from "@/components/User/Dashboard/DashboardComponents";
 import CerrarSesion from "@/components/CerrarSesion";
 import { Icons } from "@/icons";
 import NavbarPaciente from "@/components/User/Pacientes/NavbarPaciente";
+import DatosPaciente from "@/components/User/Pacientes/DatosPaciente";
 
 const PageHome = () => {
   return (
@@ -40,7 +40,8 @@ const PageHome = () => {
       </div>
       {/* Navbar */}
       <NavbarPaciente/>
-      
+
+      <DatosPaciente/>
     </div>
   );
 };
