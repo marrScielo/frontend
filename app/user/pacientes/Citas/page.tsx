@@ -3,7 +3,7 @@ import React from "react";
 import CerrarSesion from "@/components/CerrarSesion";
 import { Icons } from "@/icons";
 import NavbarPaciente from "@/components/User/Pacientes/NavbarPaciente";
-import DatosPaciente from "@/components/User/Pacientes/DatosPaciente";
+import CitasPaciente from "@/components/User/Pacientes/CitasPaciente"; 
 
 const PageHome = () => {
   return (
@@ -39,11 +39,11 @@ const PageHome = () => {
         </div>
       </div>
       {/* Navbar */}
-        <NavbarPaciente />
-      
-      {/* DatosPaciente */}
-      <div className="flex justify-center"  style={{ position: 'relative', zIndex: 1 }}>
-        <DatosPaciente />
+      <NavbarPaciente />
+
+      {/* CitasPaciente */}
+      <div className="flex justify-center" style={{ position: 'relative', zIndex: 1 }}>
+        <CitasPaciente />
       </div>
     </div>
   );

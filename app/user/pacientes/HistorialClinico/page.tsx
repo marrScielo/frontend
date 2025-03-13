@@ -3,11 +3,11 @@ import React from "react";
 import CerrarSesion from "@/components/CerrarSesion";
 import { Icons } from "@/icons";
 import NavbarPaciente from "@/components/User/Pacientes/NavbarPaciente";
-import DatosPaciente from "@/components/User/Pacientes/DatosPaciente";
+import HistorialPaciente from "@/components/User/Pacientes/HistorialClinico";
 
 const PageHome = () => {
   return (
-    <div className="pb-4 bg-[#eaeded]">
+    <div className="pb-8 bg-[#eaeded]">
       {/* Header */}
       <div className="flex flex-1 bg-[#eaeded] w-full z-30 mt-4">
         <div>
@@ -42,8 +42,8 @@ const PageHome = () => {
         <NavbarPaciente />
       
       {/* DatosPaciente */}
-      <div className="flex justify-center"  style={{ position: 'relative', zIndex: 1 }}>
-        <DatosPaciente />
+      <div className="flex justify-center" style={{ position: 'relative', zIndex: 1 }}>
+        <HistorialPaciente/>
       </div>
     </div>
   );
