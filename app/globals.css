@@ -2,14 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
-
-@media (max-width: 640px) { /* sm */
-  .responsive-bg {
-    background-position: 70% 120%; 
-    background-size: 200%;
-  }
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 body {
@@ -32,43 +29,21 @@ body {
   min-width: 0; /* Evita problemas de flexbox */
 }
 
-/* Fondo Preguntras Frecuentes */
-.background_faq {
-  height: 110vh;
-  background-image: 
-  linear-gradient(
-      to right,
-      #3616D87A 0%, 
-      #3616D870 30%, 
-      #7863E37A 70%, 
-      #7863E370 100% 
-    ),
-    url(/preguntas-sobre-terapia-en-linea.jpg);
-
-    background-repeat: no-repeat;
-  background-size: contain;  
-  background-position: 130% 100%;
-  background-color: #f4f4f4;
+.background_faq{
+  background-size: contain;
 }
 
-/*responsive*/
-@media (max-width: 1000px) {
+
+@media (max-width: 640px) { /* sm */
+  .responsive-bg {
+    background-position: 70% 120%; 
+    background-size: 200%;
+  }
   .background_faq {
-    background-size: cover;
-    background-position: center center;
-    height: 100vh;  
+    background-position: 70% 100%; 
+    background-size: 180%;
   }
 }
-
-
-@media (max-width: 480px) {
-  .background_faq {
-    background-size: cover;
-    background-position: center center;
-    height: 100vh; 
-  }
-}
-
 
 .head {
   text-align: center;

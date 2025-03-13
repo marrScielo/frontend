@@ -32,11 +32,15 @@ export default function App() {
   ];
 
   return (
-    <div className="background_faq">
-      <div className="text-left font-bold text-5xl pt-[60px] pb-[70px] text-white pl-7 sm:pl-10 md:pl-20">
+    <div className="min-h-screen bg-no-repeat lg:bg-bottom  bg-bottom background_faq"
+    style={{
+      backgroundImage: `linear-gradient(#634AE27A, #634AE27A), url('/preguntas-sobre-terapia-en-linea.webp')`,
+    }}>
+      
+      <div className="lg:text-left md:text-left font-bold lg:text-5xl text-2xl pt-[60px] pb-[70px] text-white lg:pl-20 text-center md:pl-20">
         Preguntas frecuentes
       </div>
-      <div className="grid gap-4 pb-28 max-w-full sm:max-w-md md:max-w-2xl pl-5 sm:pl-10 md:pl-20">
+      <div className="grid gap-4 pb-28 max-w-full sm:max-w-[150px] md:max-w-2xl pl-5 sm:pl-10 md:pl-20">
         <AccordionQuest faqs={faqs} />
       </div>
     </div>
