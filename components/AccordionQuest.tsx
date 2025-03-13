@@ -38,9 +38,9 @@ const AccordionQuest: React.FC<AccordionQuestProps> = ({ faqs }) => {
         <AccordionItem
           key={Question}
           aria-label={Question}
-          title={<div className="truncate text-white inline">{Question}</div>}
+          title={<div className=" text-white text-base lg:text-lg lg:w-full w-[280px]">{Question}</div>}
           indicator={
-            <div className="mx-6 truncate">
+            <div className="lg:mx-9  truncate">
               <AnchorIcon />
             </div>
           }
