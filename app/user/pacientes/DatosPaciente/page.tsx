@@ -48,18 +48,79 @@ export default function App() {
       </div>
       <div className="flex mt-4 text-[#634AE2] font-bold text-normal">
         <div className="flex-1 ml-5 mr-5 bg-[#fff] rounded-2xl p-4">
-          <div className="flex pt-2">
+          <div className="flex pt-6">
             <div className="flex-1 items-center justify-items-center">
-              <div>Nombre</div>
+              <div className="py-1 mt-2">Nombre</div>
               <div className="relative">
                 <input
                   type="text"
                   className="pl-12 pr-3 text-sm h-9 mt-2 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
                 />
+              </div>
+            </div>
+            <div className="flex-1 items-center justify-items-center">
+              <div className="py-1 mt-2">DNI</div>
+              <div className="relative">
+                <input
+                  type="text"
+                  className="pl-12 pr-3 text-sm h-9 mt-2 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
+                />
+              </div>
+            </div>
+          </div>
+          <div className="flex pt-1">
+            <div className="flex-1 items-center justify-items-center">
+              <div className="py-1 mt-2">Apellido Paterno</div>
+              <div className="relative">
+                <input
+                  type="text"
+                  className="pl-12 pr-3 text-sm h-9 mt-1 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
+                />
+              </div>
+            </div>
+            <div className="flex-1 items-center justify-items-center">
+              <div className="py-1 mt-2">Apellido Materno</div>
+              <div className="relative">
+                <input
+                  type="text"
+                  className="pl-12 pr-3 text-sm h-9 mt-1 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
+                />
+              </div>
+            </div>
+          </div>
+          <div className="flex pt-1">
+            <div className="flex-1 items-center justify-items-center">
+              <div className="py-1 mt-2">Fecha de nacimiento</div>
+              <div className="relative">
+                <input
+                  type="text"
+                  className="pl-12 pr-3 text-sm h-9 mt-1 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
+                />
+              </div>
+            </div>
+            <div className="flex-1 items-center justify-items-center">
+              <div className="py-1 mt-2">Edad</div>
+              <div className="relative">
+                <input
+                  type="text"
+                  className="pl-12 pr-3 text-sm h-9 mt-1 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
+                />
+              </div>
+            </div>
+          </div>
+          <div className="flex pt-1">
+            <div className="flex-1 items-center justify-items-center">
+              <div className="py-1 mt-2">Estado civil</div>
+              <div className="relative">
+                <input
+                  type="text"
+                  className="pl-12 pr-3 text-sm h-9 mt-1 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
+                  placeholder="Seleccionar"
+                />
                 <span
                   className="text-[#634AE2] transition-colors absolute right-3 top-1/2 transform -translate-y-1/2"
                   dangerouslySetInnerHTML={{
-                    __html: Icons.loup.replace(
+                    __html: Icons.arrow.replace(
                       /<svg /,
                       '<svg fill="currentColor" '
                     ),
@@ -72,119 +133,46 @@ export default function App() {
               </div>
             </div>
             <div className="flex-1 items-center justify-items-center">
-              <div>DNI</div>
+              <div className="py-1 mt-2">Genero</div>
               <div className="relative">
                 <input
                   type="text"
-                  className="pl-12 pr-3 text-sm h-9 mt-2 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
+                  className="pl-12 pr-3 text-sm h-9 mt-1 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
+                  placeholder="Seleccionar"
+                />
+                <span
+                  className="text-[#634AE2] transition-colors absolute right-3 top-1/2 transform -translate-y-1/2"
+                  dangerouslySetInnerHTML={{
+                    __html: Icons.arrow.replace(
+                      /<svg /,
+                      '<svg fill="currentColor" '
+                    ),
+                  }}
+                  style={{
+                    width: "1.2em",
+                    height: "1.2em",
+                  }}
                 />
               </div>
             </div>
           </div>
-          <div className="flex pt-1">
-            <div className="flex-1 items-center justify-items-center">
-              <div>Apellido Paterno</div>
-              <div className="relative">
-                <input
-                  type="text"
-                  className="pl-12 pr-3 text-sm h-9 mt-1 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
-                />
-              </div>
-            </div>
-            <div className="flex-1 items-center justify-items-center">
-              <div>Apellido Materno</div>
-              <div className="relative">
-                <input
-                  type="text"
-                  className="pl-12 pr-3 text-sm h-9 mt-1 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
-                />
-              </div>
-            </div>
-          </div>
-          <div className="flex pt-1">
-            <div className="flex-1 items-center justify-items-center">
-              <div>Fecha de nacimiento</div>
-              <div className="relative">
-                <input
-                  type="text"
-                  className="pl-12 pr-3 text-sm h-9 mt-1 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
-                />
-              </div>
-            </div>
-            <div className="flex-1 items-center justify-items-center">
-              <div>Edad</div>
-              <div className="relative">
-                <input
-                  type="text"
-                  className="pl-12 pr-3 text-sm h-9 mt-1 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
-                />
-              </div>
-            </div>
-          </div>
-          <div className="flex pt-1">
-            <div className="flex-1 items-center justify-items-center">
-              <div>Estado civil</div>
-              <div className="relative">
-                <input
-                  type="text"
-                  className="pl-12 pr-3 text-sm h-9 mt-1 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
-                /><span
-                className="text-[#634AE2] transition-colors absolute right-3 top-1/2 transform -translate-y-1/2"
-                dangerouslySetInnerHTML={{
-                  __html: Icons.arrow.replace(
-                    /<svg /,
-                    '<svg fill="currentColor" '
-                  ),
-                }}
-                style={{
-                  width: "1.2em",
-                  height: "1.2em",
-                }}
-              />
-              </div>
-            </div>
-            <div className="flex-1 items-center justify-items-center">
-              <div>Genero</div>
-              <div className="relative">
-                <input
-                  type="text"
-                  className="pl-12 pr-3 text-sm h-9 mt-1 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
-                /><span
-                className="text-[#634AE2] transition-colors absolute right-3 top-1/2 transform -translate-y-1/2"
-                dangerouslySetInnerHTML={{
-                  __html: Icons.arrow.replace(
-                    /<svg /,
-                    '<svg fill="currentColor" '
-                  ),
-                }}
-                style={{
-                  width: "1.2em",
-                  height: "1.2em",
-                }}
-              />
-              </div>
-            </div>
-          </div>
-          <div className="text-center pt-1 pb-1">
-            Celular
-          </div>
+          <div className="text-center pt-1 pb-1 py-1 mt-4">Celular</div>
           <div className="flex justify-center">
-            <textarea
-              className="bg-[#F3F3F3] w-11/12 h-20 border-1 font-light text-[#634AE2] p-3 rounded-3xl placeholder:text-[#634AE2] text-base"
-              placeholder="Objetivos Alcanzados"
+            <input
+              type="text"
+              placeholder="Ejemp. 999999999"
+              className="pl-12 pr-3 text-sm h-9 mt-2 outline-none focus:ring-0 focus:outline-none w-11/12 rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
             />
           </div>
-         
         </div>
         {/*Segunda Columna*/}
         <div className="flex-1 mr-5 ml-5 bg-[#fff] rounded-2xl p-6">
-          <div className="text-center pt-1 pb-1">
-            Últimos objetivos / Objetivo alcanzado
-          </div>
+          <div className="text-center pt-1 pb-1 py-1 mt-4">Celular</div>
           <div className="flex justify-center">
-            <textarea
-              className="bg-[#F3F3F3] w-11/12 h-20 border-1 font-light text-[#634AE2] p-3 rounded-3xl placeholder:text-[#634AE2] text-base"
-              placeholder="Objetivos Alcanzados"
+            <input
+              type="text"
+              placeholder="Ejemp. 999999999"
+              className="pl-12 pr-3 text-sm h-9 mt-2 outline-none focus:ring-0 focus:outline-none w-11/12 rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
             />
           </div>
           <div className="flex pt-1">
@@ -207,22 +195,40 @@ export default function App() {
               </div>
             </div>
           </div>
-          <div className="text-center pt-1 pb-1">Clasificación</div>
+          <div className="flex pt-1">
+            <div className="flex-1 items-center justify-items-center">
+              <div>DSM5</div>
+              <div className="relative">
+                <input
+                  type="text"
+                  className="pl-12 pr-3 text-sm h-9 mt-2 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
+                />
+              </div>
+            </div>
+            <div className="flex-1 items-center justify-items-center">
+              <div>CEA 10</div>
+              <div className="relative">
+                <input
+                  type="text"
+                  className="pl-12 pr-3 text-sm h-9 mt-2 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
+                />
+              </div>
+            </div>
+          </div>
+          <div className="text-center pt-1 pb-1 py-1 mt-4">Celular</div>
           <div className="flex justify-center">
-            <textarea
-              className="bg-[#F3F3F3] w-11/12 h-20 border-1 font-light text-[#634AE2] p-3 rounded-3xl placeholder:text-[#634AE2] text-base"
-              placeholder="Ingrese su diagnóstico"
+            <input
+              type="text"
+              placeholder="Ejemp. 999999999"
+              className="pl-12 pr-3 text-sm h-9 mt-2 outline-none focus:ring-0 focus:outline-none w-11/12 rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
             />
           </div>
-          <div className="text-center pt-1 pb-1">Documento adicionales</div>
+          <div className="text-center pt-1 pb-1 py-1 mt-4">Celular</div>
           <div className="flex justify-center">
-            <DropzoneWithoutKeyboard />
-          </div>
-          <div className="text-center pt-1 pb-1">Comentario</div>
-          <div className="flex justify-center">
-            <textarea
-              className="bg-[#F3F3F3] w-11/12 h-20 border-1 font-light text-[#634AE2] p-3 rounded-3xl placeholder:text-[#634AE2] text-base"
-              placeholder="Ingrese sus observaciones"
+            <input
+              type="text"
+              placeholder="Ejemp. 999999999"
+              className="pl-12 pr-3 text-sm h-9 mt-2 outline-none focus:ring-0 focus:outline-none w-11/12 rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
             />
           </div>
         </div>
