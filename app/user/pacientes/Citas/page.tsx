@@ -38,13 +38,20 @@ const PageHome = () => {
           </nav>
         </div>
       </div>
-      {/* Navbar */}
-      <NavbarPaciente />
-
-      {/* CitasPaciente */}
-      <div className="flex justify-center" style={{ position: 'relative', zIndex: 1 }}>
-        <CitasPaciente />
+      <div>
+        {/* Navbar */}
+        <div style={{ position: "relative", zIndex: 2 }}>
+          <NavbarPaciente />
+        </div>
+        {/* CitasPaciente */}
+        <div
+          className="flex justify-center"
+          style={{ position: "relative", zIndex: 100, marginTop: "-180px" }}
+        >
+          <CitasPaciente />
+        </div>
       </div>
+
     </div>
   );
 };
