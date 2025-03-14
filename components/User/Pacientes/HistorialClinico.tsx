@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import HistorialPaciente from "../Historial/HistorialPaciente";
+import DetallesPaciente from "../Historial/DetallesPaciente";
 
 export default function App() {
   const [showCart, setShowCart] = useState(false);
@@ -30,8 +31,8 @@ export default function App() {
               <div className="text-4xl">18/10</div>
               <div className="pt-1">última atención</div>
             </div>
-            <div className="border-2 border-[#634AE2] rounded-full text-center mt-2 justify-items-center py-2" >
-              <button onClick={() => setShowCart(true)}>Ver historial clínico</button>
+            <div className="border-2 border-[#634AE2] rounded-full text-center mt-2 justify-items-center py-2">
+              <button>Ver historial clínico</button>
             </div>
           </div>
         </div>
@@ -53,7 +54,6 @@ export default function App() {
           <div className="font-bold pt-3 w-20">Últimos objetivos</div>
           <div className="pt-3 ml-14">Viernes 18 de octubre de 2024</div>
         </div>
-        
       </div>
       <textarea
         className="bg-[#fff] w-full border-1 font-light text-[#634AE2] p-6 rounded-3xl mt-3 placeholder:text-[#634AE2]"
@@ -63,20 +63,22 @@ export default function App() {
         <button className="text-[#fff] rounded-full bg-[#634AE2] w-52">
           Agregar atencion
         </button>
-        <button className="ml-5 border-2 rounded-full border-[#634AE2] text-[#634AE2] w-36">
+        <button
+          className="ml-5 border-2 rounded-full border-[#634AE2] text-[#634AE2] w-36"
+          onClick={() => setShowCart(true)}>
           Actualizar
         </button>
       </div>
       {showCart && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 justify-center pt-32 z-10 pl-72"
+          className="fixed inset-0 bg-black bg-opacity-50 justify-center pt-10 z-20 pl-[600px] pr-[550px]"
           onClick={() => setShowCart(false)}
         >
           <div
             className="relative bg-white p-6 rounded-3xl z-10"
             onClick={(e) => e.stopPropagation()}
           >
-            <HistorialPaciente/>
+            <DetallesPaciente />
           </div>
         </div>
       )}

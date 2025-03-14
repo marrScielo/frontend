@@ -1,29 +1,9 @@
 "use client";
 import React from "react";
 import { Icons } from "@/icons";
-import { useDropzone } from "react-dropzone";
 import CerrarSesion from "@/components/CerrarSesion";
-
-function DropzoneWithoutKeyboard() {
-  const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
-    noKeyboard: true,
-  });
-  const files = acceptedFiles.map((file) => (
-    <li key={file.path}>{file.path}</li>
-  ));
-
-  return (
-    <section className="container border-1 border-[#634AE2] rounded-2xl w-11/12">
-      <div {...getRootProps({ className: "dropzone" })}>
-        <input {...getInputProps()} />
-        <p className="text-[#634AE2] text-center text-8xl">+</p>
-      </div>
-      <aside>
-        <ul>{files}</ul>
-      </aside>
-    </section>
-  );
-}
+import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 export default function App() {
   return (
@@ -279,7 +259,12 @@ export default function App() {
         </div>
       </div>
       <div className="flex justify-center w-full p-4 ">
-        <button className="text-[#fff] bg-[#634AE2] pt-1 rounded-full w-auto h-8 mr-16 px-6 flex">
+        <Link
+          href="/user/pacientes/RegistroFamiliar"
+          className={cn(
+            "text-[#fff] bg-[#634AE2] pt-1 rounded-full w-auto h-8 mr-16 px-6 flex"
+          )}
+        >
           <span
             className="text-[#634AE2] transition-colors"
             dangerouslySetInnerHTML={{
@@ -290,7 +275,7 @@ export default function App() {
             }}
           />
           Registro familiar
-        </button>
+        </Link>
         <button className="text-[#634AE2] bg-[#fff] rounded-full border-2 border-[#634AE2] w-28 h-8 mr-12">
           Registrar
         </button>

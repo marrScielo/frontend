@@ -1,9 +1,12 @@
+"use client";
+import Link from "next/link";
 import React from "react";
+import { cn } from "@/lib/utils";
 
 const DatosPaciente = () => {
   return (
     <div>
-      <div className="bg-background rounded-3xl p-4 flex justify-around mt-2 w-6/12 h-full">
+      <div className="bg-background rounded-3xl p-4 flex justify-around mt-2 w-full h-full">
         <div className="text-[#634AE2] font-bold flex flex-col gap-y-6">
           <div className="flex gap-6">
             <div className="w-28">Nombre</div>
@@ -46,10 +49,15 @@ const DatosPaciente = () => {
             <div className="font-normal">*********</div>
           </div>
         </div>
-        <div>
-          <button className="bg-transparent text-[#634AE2] border-[#634AE2] border-1 rounded-full py-2 px-4 mt-4">
+        <div className="mt-2">
+          <Link
+            href="/user/pacientes/DatosPaciente"
+            className={cn(
+              "bg-transparent text-[#634AE2] border-[#634AE2] border-1 rounded-full py-2 px-4 mt-4 hover:bg-[#634AE2] hover:text-[#fff]",
+            )}
+          >
             Editar
-          </button>
+          </Link>
         </div>
       </div>
     </div>
