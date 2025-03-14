@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
-import { ThemeToggle } from "@/components/Themetoggle";
 import { Icons } from "@/icons";
 import { useDropzone } from "react-dropzone";
+import CerrarSesion from "@/components/CerrarSesion";
 
 function DropzoneWithoutKeyboard() {
   const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
@@ -34,7 +34,7 @@ export default function App() {
           <nav className="bg-[#eaeded] rounded-2xl flex items-center w-[calc(95vw-270px)] p-4">
             <div className="bg-[#eaeded] flex items-end justify-end w-full">
               <div className="flex gap-x-5">
-                <ThemeToggle />
+                <CerrarSesion />
               </div>
             </div>
           </nav>
