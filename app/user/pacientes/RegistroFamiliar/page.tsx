@@ -40,7 +40,7 @@ export default function App() {
           </nav>
           <div>
             <div className="pl-12 text-4xl items-center justify-items-center font-bold text-[#634AE2]">
-              <h1>Atencion al paciente</h1>
+              <h1>Registro familiar</h1>
             </div>
           </div>
         </div>
@@ -48,9 +48,9 @@ export default function App() {
       </div>
       <div className="flex mt-4 text-[#634AE2] font-bold text-normal">
         <div className="flex-1 ml-5 mr-5 bg-[#fff] rounded-2xl p-4">
-          <div className="flex pt-2">
+          <div className="flex pt-6">
             <div className="flex-1 items-center justify-items-center">
-              <div>Codigo del Paciente *</div>
+              <div className="py-1 mt-2">Codigo del Paciente*</div>
               <div className="relative">
                 <input
                   type="text"
@@ -72,7 +72,7 @@ export default function App() {
               </div>
             </div>
             <div className="flex-1 items-center justify-items-center">
-              <div>Nombre del Paciente</div>
+              <div className="py-1 mt-2">Nombre del Paciente</div>
               <div className="relative">
                 <input
                   type="text"
@@ -94,7 +94,64 @@ export default function App() {
               </div>
             </div>
           </div>
-          <div className="text-center pt-1">Paciente</div>
+          <div className="text-center pt-1 pb-1 py-1 mt-4">Paciente</div>
+          <div className="flex justify-center">
+            <input
+              type="text"
+              className="pl-12 pr-3 text-sm h-9 mt-2 outline-none focus:ring-0 focus:outline-none w-11/12 rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
+            />
+          </div>
+          <div className="text-center pt-1 pb-1 py-1 mt-4">
+            Nombre de la madre
+          </div>
+          <div className="flex justify-center">
+            <input
+              type="text"
+              className="pl-12 pr-3 text-sm h-9 mt-2 outline-none focus:ring-0 focus:outline-none w-11/12 rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
+            />
+          </div>
+          <div className="text-center pt-1 pb-1 py-1 mt-4">
+            Estado de la madre
+          </div>
+          <div className="flex justify-center">
+            <input
+              type="text"
+              className="pl-12 pr-3 text-sm h-9 mt-2 outline-none focus:ring-0 focus:outline-none w-11/12 rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
+            />
+          </div>
+          <div className="text-center pt-1 pb-1 py-1 mt-4">
+            Nombre del padre
+          </div>
+          <div className="flex justify-center">
+            <input
+              type="text"
+              className="pl-12 pr-3 text-sm h-9 mt-2 outline-none focus:ring-0 focus:outline-none w-11/12 rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
+            />
+          </div>
+          <div className="text-center pt-1 pb-1 py-1 mt-4">
+            Estado del padre
+          </div>
+          <div className="flex justify-center">
+            <input
+              type="text"
+              className="pl-12 pr-3 text-sm h-9 mt-2 outline-none focus:ring-0 focus:outline-none w-11/12 rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
+            />
+          </div>
+        </div>
+        {/*Segunda Columna*/}
+        <div className="flex-1 mr-5 ml-5 bg-[#fff] rounded-2xl p-6">
+          <div className="text-center pt-1 pb-1 py-1 mt-4">
+            Nombre del apoderado
+          </div>
+          <div className="flex justify-center">
+            <input
+              type="text"
+              className="pl-12 pr-3 text-sm h-9 mt-2 outline-none focus:ring-0 focus:outline-none w-11/12 rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
+            />
+          </div>
+          <div className="text-center pt-1 pb-1 py-1 mt-4">
+            Estado del apoderado
+          </div>
           <div className="flex justify-center">
             <input
               type="text"
@@ -103,102 +160,46 @@ export default function App() {
           </div>
           <div className="flex pt-1">
             <div className="flex-1 items-center justify-items-center">
-              <div>Motivo de la consulta</div>
+              <div className="py-1 mt-2">Cantidad de hijos</div>
               <div className="relative">
                 <input
                   type="text"
-                  className="pl-12 pr-3 text-sm h-9 mt-1 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
+                  className="pl-12 pr-3 text-sm h-9 mt-2 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] placeholder:text-base placeholder:font-normal bg-[#F3F3F3]"
                 />
               </div>
             </div>
             <div className="flex-1 items-center justify-items-center">
-              <div>Forma de contacto</div>
+              <div className="py-1 mt-2">Cantidad de hermanos</div>
               <div className="relative">
                 <input
                   type="text"
-                  className="pl-12 pr-3 text-sm h-9 mt-1 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
+                  className="placeholder:text-base placeholder:font-normal pl-12 pr-3 text-sm h-9 mt-2 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
                 />
               </div>
             </div>
           </div>
-          <div className="text-center pt-1 pb-1">Diagnostico</div>
+          <div className="text-center pt-1 pb-1 py-1 mt-4">
+            Integracion familiar
+          </div>
           <div className="flex justify-center">
             <textarea
+              placeholder="Integracion familiar"
               className="bg-[#F3F3F3] w-11/12 h-20 border-1 font-light text-[#634AE2] p-3 rounded-3xl placeholder:text-[#634AE2] text-base"
-              placeholder="Ingrese su diagnóstico"
             />
           </div>
-          <div className="text-center pt-1 pb-1">Tratamiento</div>
-          <div className="flex justify-center">
-            <textarea
-              className="bg-[#F3F3F3] w-11/12 h-20 border-1 font-light text-[#634AE2] p-3 rounded-3xl placeholder:text-[#634AE2] text-base"
-              placeholder="Ingrese tratamiento"
-            />
-          </div>
-          <div className="text-center pt-1 pb-1">Observacion</div>
-          <div className="flex justify-center">
-            <textarea
-              className="bg-[#F3F3F3] w-11/12 h-20 border-1 font-light text-[#634AE2] p-3 rounded-3xl placeholder:text-[#634AE2] text-base"
-              placeholder="Ingrese sus observaciones"
-            />
-          </div>
-        </div>
-        {/*Segunda Columna*/}
-        <div className="flex-1 mr-5 ml-5 bg-[#fff] rounded-2xl p-6">
-          <div className="text-center pt-1 pb-1">
-            Últimos objetivos / Objetivo alcanzado
+          <div className="text-center pt-1 pb-1 py-1 mt-4">
+            Historial familiar
           </div>
           <div className="flex justify-center">
             <textarea
+              placeholder="Historial familiar"
               className="bg-[#F3F3F3] w-11/12 h-20 border-1 font-light text-[#634AE2] p-3 rounded-3xl placeholder:text-[#634AE2] text-base"
-              placeholder="Objetivos Alcanzados"
-            />
-          </div>
-          <div className="flex pt-1">
-            <div className="flex-1 items-center justify-items-center">
-              <div>DSM5</div>
-              <div className="relative">
-                <input
-                  type="text"
-                  className="pl-12 pr-3 text-sm h-9 mt-2 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
-                />
-              </div>
-            </div>
-            <div className="flex-1 items-center justify-items-center">
-              <div>CEA 10</div>
-              <div className="relative">
-                <input
-                  type="text"
-                  className="pl-12 pr-3 text-sm h-9 mt-2 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
-                />
-              </div>
-            </div>
-          </div>
-          <div className="text-center pt-1 pb-1">Clasificación</div>
-          <div className="flex justify-center">
-            <textarea
-              className="bg-[#F3F3F3] w-11/12 h-20 border-1 font-light text-[#634AE2] p-3 rounded-3xl placeholder:text-[#634AE2] text-base"
-              placeholder="Ingrese su diagnóstico"
-            />
-          </div>
-          <div className="text-center pt-1 pb-1">Documento adicionales</div>
-          <div className="flex justify-center">
-            <DropzoneWithoutKeyboard />
-          </div>
-          <div className="text-center pt-1 pb-1">Comentario</div>
-          <div className="flex justify-center">
-            <textarea
-              className="bg-[#F3F3F3] w-11/12 h-20 border-1 font-light text-[#634AE2] p-3 rounded-3xl placeholder:text-[#634AE2] text-base"
-              placeholder="Ingrese sus observaciones"
             />
           </div>
         </div>
       </div>
-      <div className="flex justify-between w-full p-4">
-        <button className="text-[#fff] bg-[#634AE2] rounded-full w-28 h-8">
-          Volver
-        </button>
-        <button className="text-[#634AE2] bg-[#fff] rounded-full border-2 border-[#634AE2] w-28 h-8">
+      <div className="flex justify-center w-full p-4 ">
+        <button className="text-[#634AE2] bg-[#fff] rounded-full border-2 border-[#634AE2] w-28 h-8 mr-12">
           Registrar
         </button>
       </div>
