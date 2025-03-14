@@ -1,3 +1,5 @@
+"use client";
+
 import { ServicesStructureProps } from "@/interface";
 import SliderPrice from "./SliderPrice";
 import Link from "next/link";
@@ -9,6 +11,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
 
 export default function ServicesStructure({
   services,
@@ -36,7 +39,7 @@ export default function ServicesStructure({
                 backgroundRepeat: "no-repeat",
               }}
             >
-              <div className="relative w-[700px] flex items-center justify-center text-white text-left h-[230px] font-bold text-[40px] leading-[54px]">
+              <div className="relative w-[700px] flex items-center justify-center text-white text-left h-[230px] font-bold sm:text-[40px] text-[30px] leading-[54px]">
                 {item.motto}
               </div>
             </div>
@@ -82,8 +85,18 @@ export default function ServicesStructure({
 
           <div className="flex justify-center pt-5">
             <div className="block md:hidden w-96">
-              {/* Solo visible en pantallas pequeñas */}
-              <Carousel className="w-full bg-transparent">
+              <Carousel
+                opts={{
+                  loop: true,
+                  align: "start",
+                }}
+                plugins={[
+                  Autoplay({
+                    delay: 4000,
+                  }),
+                ]}
+                className="w-full bg-transparent"
+              >
                 <CarouselContent>
                   {item.cards?.slice(0, 5).map((card, index) => (
                     <CarouselItem key={index}>
@@ -254,7 +267,18 @@ export default function ServicesStructure({
 
             <div className="flex justify-center pt-8 pb-28">
               <div className="block md:hidden w-96">
-                <Carousel className="w-full bg-transparent pt-16">
+                <Carousel
+                  opts={{
+                    loop: true,
+                    align: "start",
+                  }}
+                  plugins={[
+                    Autoplay({
+                      delay: 4000,
+                    }),
+                  ]}
+                  className="w-full bg-transparent pt-16"
+                >
                   <CarouselContent>
                     {item.iconos?.slice(0, 5).map((icono, index) => (
                       <CarouselItem key={index}>
@@ -293,26 +317,20 @@ export default function ServicesStructure({
           </div>
 
           <SliderPrice />
-          <div className="sticky bottom-0 left-0 w-full bg-[#DEDEFF] flex justify-center items-center z-[50] h-48 md:h-20">
-            
-
-              <div className="sticky bottom-0 left-0 w-full bg-[#DEDEFF] flex justify-center items-center z-[50] h-20">
-                <div className="flex flex-col md:flex-row items-center justify-between w-full max-w-[1230px] px-6 space-x-0 ">
-                  <p
-                    className="text-[18px] w-full font-medium text-[#634AE2] md:text-start"
-                    dangerouslySetInnerHTML={{ __html: item.textfooter }}
-                  />
-
-                  <Link href="/ReservarCita">
-                    <button className="w-full md:w-[329px] h-10 md:h-[50px] bg-[#5A4AE8] rounded-[34px] text-white font-normal text-[18px] leading-[33px] text-center mt-6 md:mt-0 px-16 md:px-0">
-                      Reserva tu cita gratuita
-                    </button>
-                  </Link>
-                </div>
-              </div>
+          <div className="sticky bottom-0 left-0 w-full bg-[#DEDEFF] flex justify-center items-center z-[50] h-40 md:h-20">
+            <div className="flex flex-col lg:flex-row items-center justify-center lg:justify-between w-full max-w-[1230px] px-6 space-x-0">
+              <p
+                className="text-[18px] w-full font-medium text-[#634AE2] lg:text-start text-center px-16"
+                dangerouslySetInnerHTML={{ __html: item.textfooter }}
+              />
+              <Link href="/ReservarCita">
+                <button className="w-full md:w-[329px] h-10 md:h-[50px] bg-[#5A4AE8] rounded-[34px] text-white font-normal text-[18px] leading-[33px] text-center mt-2 md:mt-0 px-16 md:px-0">
+                  Reserva tu cita gratuita
+                </button>
+              </Link>
             </div>
           </div>
-        
+        </div>
       ))}
     </div>
   );

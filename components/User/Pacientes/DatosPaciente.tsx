@@ -1,11 +1,14 @@
+
 "use client";
 import Link from "next/link";
 import React from "react";
 import { cn } from "@/lib/utils";
 
+
 const DatosPaciente = () => {
   return (
     <div>
+
       <div className="bg-background rounded-3xl p-4 flex justify-around mt-2 w-full h-full">
         <div className="text-[#634AE2] font-bold flex flex-col gap-y-6">
           <div className="flex gap-6">
@@ -58,6 +61,7 @@ const DatosPaciente = () => {
           >
             Editar
           </Link>
+  
         </div>
       </div>
     </div>
