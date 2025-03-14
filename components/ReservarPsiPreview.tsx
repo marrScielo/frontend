@@ -10,6 +10,7 @@ import {
 import ReactCountryFlag from "react-country-flag";
 import { Modal, ModalContent, ModalBody, Button } from "@heroui/react";
 import React from "react";
+import HorarioPsicologo from "./horariosPsicologo/horarioPsicologo";
 
 
 interface Psicologo {
@@ -158,7 +159,7 @@ export default function ReservarPsiPreview({
       <Modal
         isOpen={isScheduleOpen}
         onOpenChange={setIsScheduleOpen}
-        size={"2xl"}
+        size={"5xl"}
         backdrop="opaque"
         classNames={{
           body: "py-6",
@@ -173,6 +174,7 @@ export default function ReservarPsiPreview({
           <ModalBody>
             <div className="flex flex-col items-center justify-center">
               <h1 className="text-[#634AE2] text-2xl font-bold">Agendar cita</h1>
+              <HorarioPsicologo />
               <div className="w-full flex justify-center">
                 <Button
                   onPress={() => setIsScheduleOpen(false)}

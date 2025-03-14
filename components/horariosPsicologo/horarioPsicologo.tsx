@@ -68,9 +68,8 @@ const obtenerEtiquetaDia = (fecha: Date, hoyISO: string, mananaISO: string, form
 
 const BotonHorario: React.FC<BotonHorarioProps> = ({ hora, ocupada }) => (
   <button
-    className={`w-full p-3 rounded-full font-semibold ${
-      ocupada ? "line-through bg-[#EDEDED] text-[#CACACB]" : "bg-[#EAEAFF] text-[#634AE2]"
-    }`}
+    className={`w-full p-3 rounded-full font-semibold ${ocupada ? "line-through bg-[#EDEDED] text-[#CACACB]" : "bg-[#EAEAFF] text-[#634AE2]"
+      }`}
     disabled={ocupada}
   >
     {hora}
@@ -95,57 +94,63 @@ const HorarioPsicologo: React.FC = () => {
   return (
     <div className="p-5 bg-white w-full max-w-4xl mx-auto">
       <h2 className="text-xl font-bold text-center text-purple-700">¡Escoge el mejor horario que se adapte a ti!</h2>
-      <div className="flex justify-between items-center text-sm text-gray-500 mt-2">
-        <button onClick={() => cambiarSemana(-1)} disabled={semanaOffset === 0} className={`p-2 ${semanaOffset === 0 ? "opacity-50" : ""}`}>&lt;</button>
+      <div className="flex justify-center mt-2">
         <ZonaHorariaSelect onChange={setZonaHoraria} />
-        <button className="text-lg" onClick={() => cambiarSemana(1)}>&gt;</button>
       </div>
 
-      <div className="mt-4 overflow-x-auto">
-        {/*Cabecera de dias de la semana */}
-        <div className="grid grid-cols-6 gap-2">
-          {diasSemana.map((dia, index) => {
-            const fecha = new Date(fechaBase);
-            fecha.setDate(fechaBase.getDate() - fechaBase.getDay() + index + 1);
-            return (
-              <div key={dia} className="text-center p-3 w-full rounded-full bg-[#9494F3] text-white">
-                <p>{dia}</p>
-                <p className="text-md">{obtenerEtiquetaDia(fecha, hoyISO, mananaISO, formateadorFecha)}</p>
-              </div>
-            );
-          })}
+      {/*Contenedor mayor */}
+      <div className="flex items-start gap-4">
+        {/*Botón izquierdo */}
+        <button onClick={() => cambiarSemana(-1)} disabled={semanaOffset === 0} className={`mt-5 text-4xl text-bold text-[#634AE2] ${semanaOffset === 0 ? "opacity-50" : ""}`}>&lt;</button>
+        <div className="mt-4 overflow-x-auto">
+          {/*Cabecera de dias de la semana */}
+          <div className="grid grid-cols-6 gap-2">
+            {diasSemana.map((dia, index) => {
+              const fecha = new Date(fechaBase);
+              fecha.setDate(fechaBase.getDate() - fechaBase.getDay() + index + 1);
+              return (
+                <div key={dia} className="text-center p-3 w-full rounded-full bg-[#9494F3] text-white">
+                  <p>{dia}</p>
+                  <p className="text-md">{obtenerEtiquetaDia(fecha, hoyISO, mananaISO, formateadorFecha)}</p>
+                </div>
+              );
+            })}
+          </div>
+
+          {/*Horarios del psicologo */}
+          <div className="mt-3 grid grid-cols-6 gap-2">
+            {diasSemana.map((dia, index) => {
+              const fecha = new Date(fechaBase);
+              fecha.setDate(fechaBase.getDate() - fechaBase.getDay() + index + 1);
+              const fechaStr = fecha.toISOString().split("T")[0];
+
+              const horasDisponibles = (horarios[dia] || []).flatMap(([inicio, fin]) =>
+                generarHorarios(inicio, fin, "America/Lima", zonaHoraria)
+              );
+              const maxHoras = Math.max(...Object.values(horarios).flatMap((r) => r.map(([i, f]) => generarHorarios(i, f, "America/Lima", "America/Lima").length)));
+              const horasCompletas = horasDisponibles.concat(Array(maxHoras - horasDisponibles.length).fill(""));
+              const citasConvertidas = citasPendientes.map((cita) => ({
+                fecha: cita.fecha,
+                hora_cita: convertirHoraZona(cita.fecha, cita.hora_cita, "America/Lima", zonaHoraria),
+              }));
+
+              return (
+                <div key={dia} className="text-center space-y-2">
+                  {horasCompletas.map((hora, idx) =>
+                    hora ? (
+                      <BotonHorario key={hora} hora={hora} ocupada={citasConvertidas.some((cita) => cita.fecha === fechaStr && cita.hora_cita.startsWith(hora))} />
+                    ) : (
+                      <button key={`empty-${idx}`} className="w-full p-3 rounded-full bg-[#EDEDED] text-[#CACACB]" disabled>-</button>
+                    )
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
 
-        {/*Horarios del psicologo */}
-        <div className="mt-3 grid grid-cols-6 gap-2">
-          {diasSemana.map((dia, index) => {
-            const fecha = new Date(fechaBase);
-            fecha.setDate(fechaBase.getDate() - fechaBase.getDay() + index + 1);
-            const fechaStr = fecha.toISOString().split("T")[0];
+        <button className="mt-5 text-4xl text-bold text-[#634AE2]" onClick={() => cambiarSemana(1)}>&gt;</button>
 
-            const horasDisponibles = (horarios[dia] || []).flatMap(([inicio, fin]) =>
-              generarHorarios(inicio, fin, "America/Lima", zonaHoraria)
-            );
-            const maxHoras = Math.max(...Object.values(horarios).flatMap((r) => r.map(([i, f]) => generarHorarios(i, f, "America/Lima", "America/Lima").length)));
-            const horasCompletas = horasDisponibles.concat(Array(maxHoras - horasDisponibles.length).fill(""));
-            const citasConvertidas = citasPendientes.map((cita) => ({
-              fecha: cita.fecha,
-              hora_cita: convertirHoraZona(cita.fecha, cita.hora_cita, "America/Lima", zonaHoraria),
-            }));
-
-            return (
-              <div key={dia} className="text-center space-y-2">
-                {horasCompletas.map((hora, idx) =>
-                  hora ? (
-                    <BotonHorario key={hora} hora={hora} ocupada={citasConvertidas.some((cita) => cita.fecha === fechaStr && cita.hora_cita.startsWith(hora))} />
-                  ) : (
-                    <button key={`empty-${idx}`} className="w-full p-3 rounded-full bg-[#EDEDED] text-[#CACACB]" disabled>-</button>
-                  )
-                )}
-              </div>
-            );
-          })}
-        </div>
       </div>
     </div>
   );

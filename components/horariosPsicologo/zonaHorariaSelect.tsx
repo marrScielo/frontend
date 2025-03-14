@@ -20,22 +20,50 @@ const zonasHorarias = [
   { nombre: "EE.UU. - Pacífico (California)", zona: "America/Los_Angeles" },
 ];
 
+
+const obtenerOffset = (zona: string) => {
+  const ahora = new Date();
+  const formato = new Intl.DateTimeFormat("en-US", {
+    timeZone: zona,
+    timeZoneName: "shortOffset",
+  }).formatToParts(ahora);
+
+  const offsetPart = formato.find((part) => part.type === "timeZoneName");
+  return offsetPart ? offsetPart.value.replace("GMT", "") : "";
+};
+
 interface ZonaHorariaSelectProps {
   onChange: (zona: string) => void;
 }
 
 const ZonaHorariaSelect: React.FC<ZonaHorariaSelectProps> = ({ onChange }) => {
   return (
-    <select
-      onChange={(e) => onChange(e.target.value)}
-      className="mt-3 p-2 rounded-full text-base bg-[#EAEAFF] text-[#634AE2]"
-    >
-      {zonasHorarias.map((z) => (
-        <option key={z.zona} value={z.zona}>
-          {z.zona}
-        </option>
-      ))}
-    </select>
+    <div className="relative inline-block">
+      <select
+        onChange={(e) => onChange(e.target.value)}
+        className="mt-3 w-full p-2 pr-9 text-center rounded-full text-base bg-[#EAEAFF] text-[#634AE2] appearance-none">
+        {zonasHorarias.map((z) => (
+          <option key={z.zona} value={z.zona}>
+            {`(${obtenerOffset(z.zona)}:00) ${z.zona}`}
+          </option>
+        ))}
+      </select>
+
+      {/* Flecha */}
+      <svg
+        className="absolute right-4 transform -translate-y-7 pointer-events-none text-[#634AE2]"
+        aria-hidden="true"
+        focusable="false"
+        height="16"
+        width="16"
+        fill="none"
+        viewBox="0 0 24 24"
+        strokeWidth={2.5}
+        stroke="currentColor"
+      >
+        <path d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+      </svg>
+    </div>
   );
 };
 
