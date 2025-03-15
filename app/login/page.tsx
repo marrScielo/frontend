@@ -11,7 +11,7 @@ export default function Logeo() {
       }}
     >
       <div
-        className="rounded-2xl h-[500px] lg:w-96 w-64 bg-[#FFFFFF] flex flex-col items-end pt-10"
+        className="rounded-2xl h-[500px] md:w-96 w-64 bg-[#FFFFFF] flex flex-col items-end pt-10"
         style={{
           backgroundImage: `url(/newlog.webp)`,
           backgroundPosition: "center left",

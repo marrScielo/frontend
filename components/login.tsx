@@ -91,7 +91,7 @@ export default function Login() {
     <>
       <form
         onSubmit={handleSubmit}
-        className="bg-background min-h-72  h-auto lg:w-96 w-60 p-10 rounded-3xl mr-20 "
+        className="bg-background min-h-72  h-auto md:w-96 w-60 p-10 rounded-3xl mr-20 "
       >
         <div className="flex flex-col gap-y-5 ">
           <label className="text-[16px] leading-[20px]  text-title ">

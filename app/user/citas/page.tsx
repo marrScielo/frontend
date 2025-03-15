@@ -162,11 +162,11 @@ const users = [
 
 const columns = [
   { name: "Paciente", uid: "name", sortable: true },
-  { name: "Codigo", uid: "id", sortable: true },
+  { name: "Código", uid: "id", sortable: true },
   { name: "Motivo", uid: "motivo", sortable: true },
   { name: "Estado", uid: "status", sortable: true },
   { name: "Fecha de Inicio", uid: "fecha", sortable: true },
-  { name: "Duracion", uid: "age", sortable: true },
+  { name: "Duración", uid: "age", sortable: true },
 ];
 
 const INITIAL_VISIBLE_COLUMNS = [
