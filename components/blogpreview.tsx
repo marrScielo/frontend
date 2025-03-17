@@ -1,39 +1,33 @@
-'use client';
-import {Image, User } from "@heroui/react";
+"use client";
+import { BlogPreviewData } from "@/interface";
+import { Image, User } from "@heroui/react";
 import Link from "next/link";
 
-
-
-
-
-
-export default function BlogPreview() {
-
+export default function BlogPreview({ Data }: { Data: BlogPreviewData }) {
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
         <div className="md:col-span-2">
           <User
             avatarProps={{
-              src: "https://i.pravatar.cc/150?u=a04258114e29026702d",
+              src: `${Data.psicologoImagenId}`,
             }}
             name={
               <span className="text-sm md:text-base leading-tight">
-                Jhon Angelo Sánchez Garcia
+                {Data.psicologo} {Data.psicologApellido}
               </span>
             }
           />
           <p className="text-xl md:text-2xl pt-2 md:pt-3 pb-1 md:pb-2 font-semibold">
-           <Link href={"/blog/revista"} > Estrategias Efectivas para Mejorar la Autoestima</Link>
+            <Link href={"/blog/revista"}>{Data.tema}</Link>
           </p>
           <p className="text-base md:text-xl leading-relaxed md:leading-7 line-clamp-3 md:h-20">
-            La adolescencia es una etapa de grandes cambios y desafíos. Durante este periodo, se experimenta...
+            {Data.contenido.replace(/<[^>]+>/g, "").slice(0, 100)}...
           </p>
-          
         </div>
         <div className="md:col-span-1 flex items-center justify-center">
           <Image
-            src="/CarruselInferiorMain/abuela.webp"
+            src={Data.imagen}
             isZoomed
             alt="Profile"
             className="w-full md:w-auto"
@@ -43,10 +37,9 @@ export default function BlogPreview() {
           />
         </div>
         <div className="col-span-1 md:col-span-3">
-        <p className="text-sm md:text-lg">Publicado el 17/07/2024</p>
-        <hr className="my-6 md:my-9 border-t-[0.5px] max-w-[785px] border-[#9494F3]" />
+          <p className="text-sm md:text-lg">Publicado el {Data.fecha}</p>
+          <hr className="my-6 md:my-9 border-t-[0.5px] max-w-[785px] border-[#9494F3]" />
         </div>
-        
       </div>
     </>
   );

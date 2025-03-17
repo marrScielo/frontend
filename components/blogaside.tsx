@@ -1,52 +1,40 @@
+import { Authors, Categoria } from "@/interface";
 import { Avatar, Button } from "@heroui/react";
 
-const categorias = [
-  { nombre: "Adicciones" },
-  { nombre: "Ansiedad" },
-  { nombre: "Atención" },
-  { nombre: "Autoestima" },
-  { nombre: "Crianza" },
-  { nombre: "Depresión" },
-  { nombre: "Enfermedades crónicas" },
-  { nombre: "Estrés" },
-  { nombre: "Impulsividad" },
-  { nombre: "TOC" },
-  { nombre: "Ira" },
-  { nombre: "Terapia de pareja" },
-  { nombre: "Sexualidad" },
-  { nombre: "Traumas" },
-  { nombre: "Riesgo suicida" },
-  { nombre: "Sentido de vida" },
-  { nombre: "Orientación vocacional" },
-  { nombre: "Problemas alimenticios" },
-  { nombre: "Relaciones interpersonales" },
-];
+export default function BlogAside({
+  Categories,
+  Authors,
+  onCategoryClick,
+  onAuthorClick,
+  activeCategory,
+  activeAuthor
+}: {
+  Categories: Categoria[];
+  Authors: Authors[];
+  onCategoryClick: (categoryId: number) => void;
+  onAuthorClick: (authorId: number) => void;
+  activeCategory: number | null;
+  activeAuthor: number | null;
+}) {
+  const authorsArray = Array.isArray(Authors) ? Authors : [];
 
-const autores = [
-  {
-    imagen: "/logonombreblog.webp",
-    nombre: "Jhon Angelo Sánchez Garcia",
-  },
-  {
-    imagen: "/logonombreblog.webp",
-    nombre: "Jhon Angelo Sánchez Garcia",
-  },
-];
-
-export default function BlogAside() {
   return (
     <div className="w-[400px] p-4">
-      {/* Sección de categorías */}
       <p className="text-lg font-normal text-[#634AE2] mb-6">Categorías</p>
       <div className="grid grid-cols-2 gap-2">
-        {categorias.map((item, index) => (
+        {Categories?.map((item) => (
           <Button
             radius="full"
-            className={`bg-[#EAEAFF] text-base text-[#634AE2] hover:bg-[#C7B9FF] transition-all whitespace-nowrap ${
+            className={`${
+              activeCategory === item.idCategoria
+                ? "bg-[#634AE2] text-white"
+                : "bg-[#EAEAFF] text-[#634AE2]"
+            } text-base hover:bg-[#C7B9FF] transition-all whitespace-nowrap ${
               item.nombre.length > 15 ? "col-span-2" : ""
             }`}
-            key={index}
-            style={{ maxWidth: "27vh" }} 
+            key={item.idCategoria}
+            style={{ maxWidth: "27vh" }}
+            onClick={() => onCategoryClick(item.idCategoria)}
           >
             {item.nombre}
           </Button>
@@ -54,16 +42,25 @@ export default function BlogAside() {
       </div>
 
       <p className="text-base font-normal pt-7 m-4 text-[#634AE2]">Por autor</p>
-      {autores.map((item, index) => (
-        <Button
-          radius="full"
-          className="bg-[#EAEAFF] pl-0.5 text-base text-[#634AE2] hover:bg-[#C7B9FF] transition-all"
-          key={index}
-        >
-          <Avatar className="" src={item.imagen} />
-          {item.nombre}
-        </Button>
-      ))}
+      {authorsArray.length > 0 ? (
+        authorsArray.map((item) => (
+          <Button
+            radius="full"
+            className={`${
+              activeAuthor === item.id
+                ? "bg-[#634AE2] text-white"
+                : "bg-[#EAEAFF] text-[#634AE2]"
+            } pl-0.5 text-base hover:bg-[#C7B9FF] transition-all mb-2`}
+            key={item.id}
+            onClick={() => onAuthorClick(item.id)}
+          >
+            <Avatar className="" src={item.photo} />
+            {item.name} {item.lastname}
+          </Button>
+        ))
+      ) : (
+        <p className="text-sm text-gray-500">No hay autores disponibles</p>
+      )}
     </div>
   );
 }
