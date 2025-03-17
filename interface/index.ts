@@ -130,15 +130,33 @@ export interface BlogApiGEt {
   contenido: string,
   imagen: string,
   idPsicologo: number,
-
 }
+//BLogs Preview Data
+export interface BlogPreviewData {
+  idBlog: number,
+  tema: string,
+  contenido: string,
+  imagen: string,
+  psicologo: string,
+  psicologApellido: string,
+  psicologoImagenId: string,
+  categoria: string,
+  fecha: string,
+}
+
+
+export interface ApiResponse {
+
+  result: BlogPreviewData[];
+}
+
+
 export interface UsuarioLocalStorage {
   id: number,
   token: string,
   nombre: string,
   apellido: string,
   email: string,
-  
   rol: string,
 }
 
@@ -154,7 +172,28 @@ export interface UserInterface {
 export interface Categoria {
   idCategoria: number;
   nombre: string;
+}
+export interface CategoriaApi {
+  status_code: number;
+  status_message: string;
+  description: string;
+  errorBag: any[];
+  result: Categoria[];
+}
 
+export interface Authors {
+  id: number;
+  name: string;
+  lastname: string;
+  photo: string;
+}
+
+export interface AuthorsApi {
+  status_code: number;
+  status_message: string;
+  description: string;
+  errorBag: any[];
+  result: Authors[];
 }
 
 export interface NavItems {
