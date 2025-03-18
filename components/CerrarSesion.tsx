@@ -1,4 +1,4 @@
-import { Avatar, Button, Image } from "@heroui/react";
+import { Button } from "@heroui/react";
 import { ThemeToggle } from "./Themetoggle";
 import { useAuth } from "@/components/auth/loginsec";
 import { useEffect, useState } from "react";

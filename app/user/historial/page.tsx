@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useMemo, useCallback } from "react";
-import { ThemeToggle } from "@/components/Themetoggle";
+
 import { Navbar } from "@/components/User/Historial/SearchNavbar";
 import { TableComponent } from "@/components/User/Historial/TableComponent";
 import CerrarSesion from "@/components/CerrarSesion";

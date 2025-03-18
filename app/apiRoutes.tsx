@@ -1,4 +1,4 @@
-import { ApiResponse, AuthorsApi, Categoria, CategoriaApi, PsicologoApiResponse } from "@/interface";
+import { ApiResponse, AuthorsApi, CategoriaApi, PsicologoApiResponse } from "@/interface";
 
 export async function BlogsWebSite(): Promise<ApiResponse> {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}api/blogs/getAll`);
