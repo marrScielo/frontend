@@ -27,7 +27,8 @@ export default function BlogPreview({ Data }: { Data: BlogPreviewData }) {
         </div>
         <div className="md:col-span-1 flex items-center justify-center">
           <Image
-            src={Data.imagen}
+            src="/img1.png"
+
             isZoomed
             alt="Profile"
             className="w-full md:w-auto"

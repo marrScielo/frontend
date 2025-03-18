@@ -21,20 +21,17 @@ export default function BlogAside({
   return (
     <div className="w-[400px] p-4">
       <p className="text-lg font-normal text-[#634AE2] mb-6">Categorías</p>
-      <div className="grid grid-cols-2 gap-2">
-        {Categories?.map((item) => (
+
+      <div className="grid md:grid-cols-2 grid-cols-3 gap-2 mr-9">
+        {categorias.map((item, index) => (
           <Button
             radius="full"
-            className={`${
-              activeCategory === item.idCategoria
-                ? "bg-[#634AE2] text-white"
-                : "bg-[#EAEAFF] text-[#634AE2]"
-            } text-base hover:bg-[#C7B9FF] transition-all whitespace-nowrap ${
+            className={`bg-[#EAEAFF] md:text-base text-[#634AE2] hover:bg-[#C7B9FF] transition-all whitespace-nowrap ${
               item.nombre.length > 15 ? "col-span-2" : ""
             }`}
-            key={item.idCategoria}
-            style={{ maxWidth: "27vh" }}
-            onClick={() => onCategoryClick(item.idCategoria)}
+            key={index}
+            style={{ maxWidth: "27vh", minWidth: "12vh" }} 
+
           >
             {item.nombre}
           </Button>

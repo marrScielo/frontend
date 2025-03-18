@@ -1,29 +1,8 @@
 "use client";
 import React from "react";
 import { Icons } from "@/icons";
-import { useDropzone } from "react-dropzone";
 import CerrarSesion from "@/components/CerrarSesion";
 
-function DropzoneWithoutKeyboard() {
-  const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
-    noKeyboard: true,
-  });
-  const files = acceptedFiles.map((file) => (
-    <li key={file.path}>{file.path}</li>
-  ));
-
-  return (
-    <section className="container border-1 border-[#634AE2] rounded-2xl w-11/12">
-      <div {...getRootProps({ className: "dropzone" })}>
-        <input {...getInputProps()} />
-        <p className="text-[#634AE2] text-center text-8xl">+</p>
-      </div>
-      <aside>
-        <ul>{files}</ul>
-      </aside>
-    </section>
-  );
-}
 
 export default function App() {
   return (

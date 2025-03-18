@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import HistorialPaciente from "../Historial/HistorialPaciente";
 import DetallesPaciente from "../Historial/DetallesPaciente";
 
 export default function App() {
