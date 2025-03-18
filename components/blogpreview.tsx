@@ -33,7 +33,7 @@ export default function BlogPreview() {
         </div>
         <div className="md:col-span-1 flex items-center justify-center">
           <Image
-            src="/CarruselInferiorMain/abuela.webp"
+            src="/img1.png"
             isZoomed
             alt="Profile"
             className="w-full md:w-auto"

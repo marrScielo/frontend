@@ -38,15 +38,15 @@ export default function BlogAside() {
     <div className="w-[400px] p-4">
       {/* Sección de categorías */}
       <p className="text-lg font-normal text-[#634AE2] mb-6">Categorías</p>
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid md:grid-cols-2 grid-cols-3 gap-2 mr-9">
         {categorias.map((item, index) => (
           <Button
             radius="full"
-            className={`bg-[#EAEAFF] text-base text-[#634AE2] hover:bg-[#C7B9FF] transition-all whitespace-nowrap ${
+            className={`bg-[#EAEAFF] md:text-base text-[#634AE2] hover:bg-[#C7B9FF] transition-all whitespace-nowrap ${
               item.nombre.length > 15 ? "col-span-2" : ""
             }`}
             key={index}
-            style={{ maxWidth: "27vh" }} 
+            style={{ maxWidth: "27vh", minWidth: "12vh" }} 
           >
             {item.nombre}
           </Button>
