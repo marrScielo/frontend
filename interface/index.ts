@@ -150,14 +150,35 @@ export interface ApiResponse {
   result: BlogPreviewData[];
 }
 
+//Psicologos Preview Data
+export interface PsicologoPreviewData {
+  idPsicologo: number,
+  nombre: string,
+  apellido: string,
+  pais: string,
+  introduccion: string,
+  genero: string,
+  experiencia: number,
+  especialidades: string[],
+  imagen: string,
+}
+
+export interface PsicologoApiResponse {
+  status_code: number;
+  status_message: string;
+  description: string;
+  errorBag: any[];
+  result: PsicologoPreviewData[];
+}
 
 export interface UsuarioLocalStorage {
   id: number,
-  token: string,
+
   nombre: string,
   apellido: string,
   email: string,
   rol: string,
+  imagen: string,
 }
 
 //Usuario LocalStorage

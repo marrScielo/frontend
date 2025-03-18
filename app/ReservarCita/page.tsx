@@ -1,11 +1,13 @@
-"use client";
+
 
 import ReservarComponents from "@/components/ReservarComponents"
+import { GetPsicologos } from "../apiRoutes";
 
-export default function BlogPage() {
+export default async function BlogPage() {
+  const Data= await GetPsicologos();
   return (
     <div >
-      <ReservarComponents/>
+      <ReservarComponents  Psicologos={Data.result}/>
     </div>
   );
 }
