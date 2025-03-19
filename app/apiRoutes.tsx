@@ -1,4 +1,4 @@
-import { ApiResponse, AuthorsApi, Categoria, CategoriaApi } from "@/interface";
+import { ApiResponse, AuthorsApi, CategoriaApi, PsicologoApiResponse } from "@/interface";
 
 export async function BlogsWebSite(): Promise<ApiResponse> {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}api/blogs/getAll`);
@@ -29,6 +29,18 @@ export async function GetBlogsPreviewApi(): Promise<AuthorsApi> {
     throw new Error("Error al obtener los datos");
   }
   const result: AuthorsApi = await res.json();
+
+  return result;
+}
+
+export async function GetPsicologos(): Promise<PsicologoApiResponse> {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}api/psicologos/showAll`
+  );
+  if (!res.ok) {
+    throw new Error("Error al obtener los datos");
+  }
+  const result: PsicologoApiResponse = await res.json();
 
   return result;
 }

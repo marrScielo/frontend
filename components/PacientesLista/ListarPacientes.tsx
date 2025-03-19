@@ -1,6 +1,7 @@
 import { Plus, SlidersHorizontalIcon } from "lucide-react";
 import CerrarSesion from "../CerrarSesion";
 import { Button, Input } from "@heroui/react";
+
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
