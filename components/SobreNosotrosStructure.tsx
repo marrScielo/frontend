@@ -26,38 +26,49 @@ export default function SobreNosotrosStructure({ qs }: { qs: QuienesSomos[] }) {
         {qs.map((item, index) => (
           <div key={index} className="text-center">
             <div className="pt-8 text-[#fff]">
-              <section>
-                <h2 className="text-5xl font-bold mb-3">¿Quiénes Somos?</h2>
-                <p
-                  className="font-extralight text-lg pt-3"
-                  dangerouslySetInnerHTML={{ __html: item.quienesSomos }}
-                />
-              </section>
+              <div className="grid grid-cols-[75%,25%]">
+                <div className="col-span-1">
+                  <section>
+                    <h2 className="text-5xl font-bold mb-3">¿Quiénes Somos?</h2>
+                    <p
+                      className="font-extralight text-lg pt-3"
+                      dangerouslySetInnerHTML={{ __html: item.quienesSomos }}
+                    />
+                  </section>
 
-              <section className="pt-7">
-                <h3 className="font-semibold text-2xl">Misión</h3>
-                <p
-                  className="font-extralight text-lg pt-2"
-                  dangerouslySetInnerHTML={{ __html: item.mision }}
-                />
-              </section>
+                  <section className="pt-7">
+                    <h3 className="font-semibold text-2xl">Misión</h3>
+                    <p
+                      className="font-extralight text-lg pt-2"
+                      dangerouslySetInnerHTML={{ __html: item.mision }}
+                    />
+                  </section>
 
-              <section className="pt-7">
-                <h3 className="font-semibold text-2xl">Visión</h3>
-                <p
-                  className="font-extralight text-lg pt-2"
-                  dangerouslySetInnerHTML={{ __html: item.vision }}
-                />
-              </section>
-
+                  <section className="pt-7">
+                    <h3 className="font-semibold text-2xl">Visión</h3>
+                    <p
+                      className="font-extralight text-lg pt-2"
+                      dangerouslySetInnerHTML={{ __html: item.vision }}
+                    />
+                  </section>
+                </div>
+                <div className="col-span-1 flex items-start max-w-[420px] ml-auto">
+                  <div
+                    className="w-[400px] h-[500px] bg-cover bg-center bg-no-repeat rounded-l-full"
+                    style={{
+                      backgroundImage: `linear-gradient(to right, #3616D87A 0%, #3616D870 30%, #7863E37A 70%, #7863E370 100%),url('/AboutUs/PsicologaPeruana.webp')`,
+                      backgroundSize: "cover"
+                    }}
+                  />
+                </div>
+              </div>
               <div
                 className="h-80 sm:h-[800px] bg-white bg-contain md:bg-cover bg-center bg-no-repeat"
                 style={{
                   backgroundImage: `linear-gradient(to right, #3616D87A 0%, #3616D870 30%, #7863E37A 70%, #7863E370 100%),url('/AboutUs/nosotros-centro-psicologico-contigovoy-Manos-apoyándose.webp')`,
                 }}
-              ></div>
+              />
 
-              
               <section className="pt-20">
                 <h3 className="font-medium text-3xl">Valores de Marca</h3>
                 <div className="pt-7">
@@ -98,13 +109,14 @@ export default function SobreNosotrosStructure({ qs }: { qs: QuienesSomos[] }) {
         {qs.map((item, index) => (
           <div key={index} className="text-center">
             <div className="pt-8 text-[#fff]">
-              
               <Accordion selectionMode="single">
                 <AccordionItem
                   key="quienes-somos"
                   aria-label="¿Quiénes Somos?"
                   title={
-                    <h2 className="text-3xl font-bold text-[#fff] text-center">¿Quiénes Somos?</h2>
+                    <h2 className="text-3xl font-bold text-[#fff] text-center">
+                      ¿Quiénes Somos?
+                    </h2>
                   }
                   indicator={
                     <div className="flex items-center justify-center">
@@ -135,7 +147,6 @@ export default function SobreNosotrosStructure({ qs }: { qs: QuienesSomos[] }) {
                 </AccordionItem>
               </Accordion>
 
-              
               <div
                 className="h-80 sm:h-[800px] bg-white bg-contain md:bg-cover bg-center bg-no-repeat"
                 style={{
@@ -143,13 +154,14 @@ export default function SobreNosotrosStructure({ qs }: { qs: QuienesSomos[] }) {
                 }}
               ></div>
 
-              
               <Accordion selectionMode="single">
                 <AccordionItem
                   key="valores-marca"
                   aria-label="Valores de Marca"
                   title={
-                    <h2 className="text-xl font-bold text-[#fff] text-center">Valores de la marca</h2>
+                    <h2 className="text-xl font-bold text-[#fff] text-center">
+                      Valores de la marca
+                    </h2>
                   }
                   indicator={
                     <div className="flex items-center justify-center">

@@ -129,43 +129,55 @@ export default function ChooseUs() {
 
       {/* Contenido para pantallas grandes */}
       <div className="lg:block hidden">
-        <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-40 justify-items-center">
-          {features.slice(0, 4).map((feature, index) => (
-            <motion.div
-              key={index}
-              whileHover={{ scale: 1.05 }}
-              className="group"
-            >
-              <div className="flex flex-col items-center justify-center w-40 h-40 rounded-full bg-[#634AE2] backdrop-blur-sm transition-all duration-300 cursor-pointer ">
-                <div className="p-4 bg-[#634AE2] rounded-full group-hover:bg-[#9494F3] transition-colors duration-300">
-                  {feature.icon}
-                </div>
-              </div>
-              <h3 className="text-center text-lg w-40 font-semibold text-title mt-3">
-                {feature.title}
-              </h3>
-            </motion.div>
-          ))}
+        <div className="grid grid-cols-2">
+          <div className="col-span-1 flex items-center max-w-[480px]">
+            <div
+              className="w-[550px] h-[605px] bg-cover bg-center bg-no-repeat"
+              style={{
+                backgroundImage: `url(/psicologa.webp)`,
+                backgroundSize: "480px 600px", 
+              }}
+            />
+          </div>
 
-          <div className="lg:col-span-4 flex justify-center gap-40">
-            {features.slice(4).map((feature, index) => (
+          <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-40 justify-items-center -ml-60">
+            {features.slice(0, 4).map((feature, index) => (
               <motion.div
                 key={index}
                 whileHover={{ scale: 1.05 }}
                 className="group"
               >
-                <div className="flex flex-col items-center justify-center w-40 h-40 rounded-full bg-[#634AE2] backdrop-blur-sm transition-all duration-300 cursor-pointer shadow-lg space-y-4">
+                <div className="flex flex-col items-center justify-center w-40 h-40 rounded-full bg-[#634AE2] backdrop-blur-sm transition-all duration-300 cursor-pointer ">
                   <div className="p-4 bg-[#634AE2] rounded-full group-hover:bg-[#9494F3] transition-colors duration-300">
                     {feature.icon}
                   </div>
                 </div>
-                <h3 className="text-center text-lg w-full font-semibold text-title mt-3">
+                <h3 className="text-center text-lg w-40 font-semibold text-title mt-3">
                   {feature.title}
                 </h3>
               </motion.div>
             ))}
-          </div>
-        </motion.div>
+
+            <div className="lg:col-span-4 flex justify-center gap-40">
+              {features.slice(4).map((feature, index) => (
+                <motion.div
+                  key={index}
+                  whileHover={{ scale: 1.05 }}
+                  className="group"
+                >
+                  <div className="flex flex-col items-center justify-center w-40 h-40 rounded-full bg-[#634AE2] backdrop-blur-sm transition-all duration-300 cursor-pointer shadow-lg space-y-4">
+                    <div className="p-4 bg-[#634AE2] rounded-full group-hover:bg-[#9494F3] transition-colors duration-300">
+                      {feature.icon}
+                    </div>
+                  </div>
+                  <h3 className="text-center text-lg w-full font-semibold text-title mt-3">
+                    {feature.title}
+                  </h3>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
       </div>
 
       {/* Contenido para pantallas pequeñas */}
