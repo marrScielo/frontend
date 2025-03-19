@@ -130,12 +130,12 @@ export default function ChooseUs() {
       {/* Contenido para pantallas grandes */}
       <div className="lg:block hidden">
         <div className="grid grid-cols-2">
-          <div className="col-span-1 flex items-center max-w-[550px]">
+          <div className="col-span-1 flex items-center max-w-[480px]">
             <div
               className="w-[550px] h-[605px] bg-cover bg-center bg-no-repeat"
               style={{
                 backgroundImage: `url(/psicologa.webp)`,
-                backgroundSize: "550px 600px", 
+                backgroundSize: "480px 600px", 
               }}
             />
           </div>
