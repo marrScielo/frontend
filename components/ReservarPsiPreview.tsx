@@ -160,9 +160,7 @@ export default function ReservarPsiPreview({
         <ModalContent>
           <ModalBody>
             <div className="flex flex-col items-center justify-center">
-              <h1 className="text-[#634AE2] text-2xl font-bold">
-                Agendar cita
-              </h1>
+
               <div className="w-full flex justify-center">
                 <Button
                   onPress={() => setIsScheduleOpen(false)}
