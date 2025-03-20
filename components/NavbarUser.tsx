@@ -16,12 +16,17 @@ const navItems = [
   {
     name: "Registro de personal",
     link: "/user/personal",
-    icono:Icons.personal,
+    icono: Icons.personal,
   },
   {
     name: "Pacientes",
     link: "/user/pacientes",
     icono: Icons.pacientes,
+  },
+  {
+    name: "Psicologos",
+    link: "/user/psicologos",
+    icono: Icons.psicologos,
   },
   {
     name: "Citas",
@@ -64,7 +69,7 @@ const NavbarUser = () => {
   const [estado, setEstado] = useState<boolean>(false);
   const panelRef = useRef<HTMLDivElement>(null);
   const userRef = useRef<HTMLDivElement>(null);
-  
+
   const handleClickOutside = (event: MouseEvent) => {
     if (
       panelRef.current &&
@@ -95,7 +100,12 @@ const NavbarUser = () => {
         <div className="bg-background w-full h-full rounded-tr-3xl pt-7 flex flex-col">
           <Link href="/">
             <h1 className="font-normal text-3xl flex justify-center items-center">
-              <Image src={"/LOGO.webp"} width={200} height={150} alt="logonava" />
+              <Image
+                src={"/LOGO.webp"}
+                width={200}
+                height={150}
+                alt="logonava"
+              />
             </h1>
           </Link>
           <div className="flex flex-col items-center mt-8 pt-7 mr-7">

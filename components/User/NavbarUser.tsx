@@ -24,6 +24,11 @@ const navItems = [
     icono: Icons.pacientes,
   },
   {
+    name: "Psicologos",
+    link: "/user/psicologos",
+    icono: Icons.psicologos,
+  },
+  {
     name: "Citas",
     link: "/user/citas",
     icono: Icons.citas,

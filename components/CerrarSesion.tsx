@@ -1,3 +1,4 @@
+'use client';
 import { Button } from "@heroui/react";
 import { ThemeToggle } from "./Themetoggle";
 import { useAuth } from "@/components/auth/loginsec";
