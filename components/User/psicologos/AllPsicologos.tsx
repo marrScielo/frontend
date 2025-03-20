@@ -71,6 +71,7 @@ export default function AllPsicologos({
   const handleDelete = async (id: number | null) => {
     try {
       await DeletePsycologo(id);
+      showToast("success", "El psicólogo se eliminó correctamente");
       router.refresh();
     } catch (error) {
       console.error("Error al eliminar el psicólogo:", error);
