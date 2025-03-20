@@ -25,6 +25,8 @@ export const initialFormState: FormData = {
     Miercoles: [["12:00", "16:00"]],
   },
 };
+
+
 export default function PersonalComponent() {
   const [currentView, setCurrentView] = React.useState<"form" | "data">("form");
   const [formData, setFormData] = React.useState<FormData>(initialFormState);

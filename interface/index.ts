@@ -159,6 +159,9 @@ export interface PsicologoPreviewData {
   introduccion: string,
   genero: string,
   experiencia: number,
+  correo: string,
+  contraseña: string,
+  fecha_nacimiento: string,
   especialidades: string[],
   imagen: string,
 }
@@ -169,6 +172,14 @@ export interface PsicologoApiResponse {
   description: string;
   errorBag: any[];
   result: PsicologoPreviewData[];
+}
+
+export interface PsicologoApiResponseAlone {
+  status_code: number;
+  status_message: string;
+  description: string;
+  errorBag: any[];
+  result: PsicologoPreviewData;
 }
 
 export interface UsuarioLocalStorage {
