@@ -8,6 +8,7 @@ import { BlogApi, Categoria, UsuarioLocalStorage } from "@/interface";
 import { parseCookies } from "nookies";
 import showToast from "../ToastStyle";
 
+
 export const CategoriaGet = async () => {
   try {
     const response = await fetch(
