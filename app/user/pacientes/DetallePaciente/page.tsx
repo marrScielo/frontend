@@ -4,8 +4,13 @@ import CerrarSesion from "@/components/CerrarSesion";
 import { Icons } from "@/icons";
 import NavbarPaciente from "@/components/User/Pacientes/NavbarPaciente";
 import DatosPaciente from "@/components/User/Pacientes/DatosPaciente";
+import { useSearchParams } from "next/navigation";
 
 const PageHome = () => {
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
+  const nombre = searchParams.get("nombre");
+
   return (
     <div className="pb-4 bg-[#eaeded]">
       {/* Header */}
@@ -25,7 +30,7 @@ const PageHome = () => {
                   />
                 </button>
                 <h1 className="text-4xl font-bold text-[#634AE2]">
-                  Manuel Peres #1{" "}
+                  {nombre} #{id}
                 </h1>
                 <button className="bg-[#634AE2] text-[#fff] rounded-full text-base px-4 py-2 font-normal">
                   Nueva Cita
@@ -41,14 +46,16 @@ const PageHome = () => {
       <div>
         {/* Navbar */}
         <div style={{ position: "relative", zIndex: 2 }}>
-          <NavbarPaciente />
+          <NavbarPaciente
+            idPaciente={id} />
         </div>
         {/* DatosPaciente */}
         <div
           className="flex justify-center"
           style={{ position: "relative", zIndex: 100, marginTop: "-180px" }}
         >
-          <DatosPaciente />
+          <DatosPaciente 
+            idPaciente={id} />
         </div>
       </div>
     </div>

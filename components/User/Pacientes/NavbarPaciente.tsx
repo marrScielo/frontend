@@ -3,15 +3,16 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { DatosPacienteProps } from "@/interface";
 
-const NavbarPaciente = () => {
+const NavbarPaciente : React.FC<DatosPacienteProps> = ({ idPaciente }) => {
   const [hovered, setHovered] = useState<number | null>(null);
   const pathname = usePathname();
 
   const navItems = [
-    { name: "Datos Personales", link: "/user/pacientes/DetallePaciente" },
-    { name: "Historial Clinico", link: "/user/pacientes/HistorialClinico" },
-    { name: "Citas", link: "/user/pacientes/Citas" },
+    { name: "Datos Personales", link: `/user/pacientes/DetallePaciente/${idPaciente}`},
+    { name: "Historial Clinico", link:`/user/pacientes/HistorialClinico/${idPaciente}` },
+    { name: "Citas", link: `/user/pacientes/Citas/${idPaciente}` },
   ];
   return (
     <div>

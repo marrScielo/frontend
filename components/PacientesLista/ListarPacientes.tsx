@@ -1,37 +1,84 @@
 import { Plus, SlidersHorizontalIcon } from "lucide-react";
 import CerrarSesion from "../CerrarSesion";
 import { Button, Input } from "@heroui/react";
-
+import { parseCookies } from "nookies";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
+import { Paciente } from "@/interface";
+import showToast from "../ToastStyle";
 
-const columns = [
-  {
-    id: 1,
-    Paciente: "Jose",
-    Codigo: "PA001",
-    Dni: "12345678",
-    Correo: "jose@gmail.com",
-    Celular: "+56 987654321",
-  },
-  {
-    id: 2,
-    Paciente: "Jose",
-    Codigo: "PA001",
-    Dni: "12345678",
-    Correo: "jose@gmail.com",
-    Celular: "+56 987654321",
-  },
-  {
-    id: 3,
-    Paciente: "Jose",
-    Codigo: "PA001",
-    Dni: "12345678",
-    Correo: "jose@gmail.com",
-    Celular: "+56 987654321",
-  },
-];
 export default function ListarPacientes() {
+  const [paciente, setPaciente] = useState<Paciente[]>([]);
+
+  const handleGetPacientes = async () => {
+    try {
+      const cookies = parseCookies();
+      const token = cookies["session"];
+      const url = `${process.env.NEXT_PUBLIC_API_URL}api/pacientes/showAll`;
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await response.json();
+      if (response.ok) {
+        if (Array.isArray(data.result)) {
+          setPaciente(data.result);
+          showToast("success", "Pacientes obtenidos correctamente");
+        } else {
+          console.error("La propiedad 'result' no es un array:", data);
+          showToast("error", "Formato de respuesta inválido");
+          setPaciente([]);
+        }
+      } else {
+        showToast("error", data.message || "Error al obtener los pacientes");
+        setPaciente([]);
+      }
+    } catch (error) {
+      console.error(error);
+      showToast("error", "Error de conexión. Intenta nuevamente.");
+      setPaciente([]);
+    }
+  };
+
+  const HandleDeletePaciente = async (idPaciente: number) => {
+    try {
+      const cookies = parseCookies();
+      const token = cookies["session"];
+      const url = `${process.env.NEXT_PUBLIC_API_URL}api/pacientes/delete/ ${idPaciente}`;
+      const response = await fetch(url, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await response.json();
+
+      if (response.ok) {
+        showToast("succes", "Paciente eliminado correctamente");
+        handleGetPacientes();
+      } else {
+        showToast(
+          "error",
+          data.status_message || "Error de conexion. Intenta nuevamente 3"
+        );
+      }
+    } catch (error) {
+      console.error(error);
+      showToast("error", "Error de conexion. Intenta nuevamente 2");
+    }
+  };
+
+  useEffect(() => {
+    handleGetPacientes();
+  }, []);
+
   return (
     <>
       <div className="flex justify-between w-full mt-10 mb-6">
@@ -92,14 +139,17 @@ export default function ListarPacientes() {
           </tr>
         </thead>
         <tbody className="text-center   bg-white text-[#634AE2] font-normal text-[16px] leading-[20px]  ">
-          {columns.map((column, index) => (
-            <tr key={index} className="border-b hover:bg-gray-100  ">
+          {paciente.map((paciente) => (
+            <tr
+              key={paciente.idPaciente}
+              className="border-b hover:bg-gray-100  "
+            >
               <td className="px-4 py-2 text-2xl rounded-l-[34px]">○</td>
-              <td className="px-4 py-2">{column.Paciente}</td>
-              <td className="px-4 py-2">{column.Codigo}</td>
-              <td className="px-4 py-2">{column.Dni}</td>
-              <td className="px-4 py-2">{column.Correo}</td>
-              <td className="py-2">{column.Celular}</td>
+              <td className="px-4 py-2">{paciente.nombre}</td>
+              <td className="px-4 py-2">{paciente.idPaciente}</td>
+              <td className="px-4 py-2">{paciente.DNI}</td>
+              <td className="px-4 py-2">{paciente.email}</td>
+              <td className="py-2">{paciente.celular}</td>
               <td className="py-2 rounded-r-[34px]">
                 <div className="w-full h-full flex items-center justify-center">
                   <div className="flex flex-row items-center justify-center gap-x-4">
@@ -129,7 +179,13 @@ export default function ListarPacientes() {
                       </h1>
                     </Link>
                     <Link
-                      href="/user/pacientes/DetallePaciente/"
+                      href={{
+                        pathname: "/user/pacientes/DetallePaciente",
+                        query: {
+                          id: paciente.idPaciente,
+                          nombre: paciente.nombre,
+                        },
+                      }}
                       className={cn("flex flex-col items-center")}
                     >
                       <svg
@@ -144,18 +200,24 @@ export default function ListarPacientes() {
                       <h1 className="font-light text-sm text-cente">Editar</h1>
                     </Link>
                     <div className="flex flex-col items-center">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        height="34px"
-                        viewBox="0 -960 960 960"
-                        width="34px"
-                        fill="#B158FF"
+                      <button
+                        onClick={() =>
+                          HandleDeletePaciente(paciente.idPaciente)
+                        }
                       >
-                        <path d="M282.98-140q-25.79 0-44.18-18.39t-18.39-44.18v-532.05H180v-50.25h174.05v-30.51h251.9v30.51H780v50.25h-40.41v532.05q0 25.79-18.39 44.18T677.02-140H282.98Zm96.56-133.23h50.25v-379.08h-50.25v379.08Zm150.67 0h50.25v-379.08h-50.25v379.08Z" />
-                      </svg>
-                      <h1 className="text-[#B158FF] font-light text-sm text-center">
-                        Eliminar
-                      </h1>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          height="34px"
+                          viewBox="0 -960 960 960"
+                          width="34px"
+                          fill="#B158FF"
+                        >
+                          <path d="M282.98-140q-25.79 0-44.18-18.39t-18.39-44.18v-532.05H180v-50.25h174.05v-30.51h251.9v30.51H780v50.25h-40.41v532.05q0 25.79-18.39 44.18T677.02-140H282.98Zm96.56-133.23h50.25v-379.08h-50.25v379.08Zm150.67 0h50.25v-379.08h-50.25v379.08Z" />
+                        </svg>
+                        <h1 className="text-[#B158FF] font-light text-sm text-center">
+                          Eliminar
+                        </h1>
+                      </button>
                     </div>
                   </div>
                 </div>

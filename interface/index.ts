@@ -222,3 +222,23 @@ export interface NavItems {
   link: string;
   icono: string;
 }
+
+export interface Paciente {
+  idPaciente: number,
+  DNI: string,
+  nombre: string,
+  apellido:string,
+  email: string,
+  celular: string,
+  fecha_nacimiento: Date,
+  imagen: string,
+  genero: string,
+  ocupacion: string,
+  estadoCivil: string,
+  direccion: string,
+  idPsicologo: number
+}
+
+export interface DatosPacienteProps {
+  idPaciente: number;
+}
