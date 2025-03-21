@@ -107,7 +107,7 @@ export default function Clients() {
                 className="w-3 h-3 rounded-full"
                 style={{ backgroundColor: COLORS[index] }}
               ></div>
-              <span className="text-[#634AE2] font-medium text-base">{entry.name}</span>
+              <span className="text-[#634AE2] font-normal text-base">{entry.name}</span>
             </div>
           ))}
         </div>
