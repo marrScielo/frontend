@@ -9,29 +9,17 @@ import {
 } from "@/components/ui/card";
 import ReactCountryFlag from "react-country-flag";
 import { Modal, ModalContent, ModalBody, Button } from "@heroui/react";
-import React from "react";
+import { PsicologoPreviewData } from "@/interface";
+import { useState } from "react";
 import HorarioPsicologo from "./horariosPsicologo/horarioPsicologo";
-
-
-interface Psicologo {
-  id: number;
-  name: string;
-  lastname: string;
-  description: string;
-  img: string;
-  link: string;
-  flag: string;
-  information: string;
-  specialties: { id: number; texto: string }[];
-}
 
 export default function ReservarPsiPreview({
   psicologo,
 }: {
-  psicologo: Psicologo;
+  psicologo: PsicologoPreviewData;
 }) {
-  const [isScheduleOpen, setIsScheduleOpen] = React.useState(false);
-  const [isProfileOpen, setIsProfileOpen] = React.useState(false);
+  const [isScheduleOpen, setIsScheduleOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   return (
     <>
@@ -41,7 +29,7 @@ export default function ReservarPsiPreview({
             <div className="col-span-1 flex sm:justify-start">
               <div className="flex items-center relative">
                 <Avatar className="w-24 h-24">
-                  <AvatarImage src={psicologo.img} />
+                  <AvatarImage src={psicologo.imagen} />
                 </Avatar>
                 <div className="absolute -bottom-[2px] -right-2 w-8 h-8 sm:w-10 sm:h-10">
                   <ReactCountryFlag
@@ -52,7 +40,7 @@ export default function ReservarPsiPreview({
                       objectFit: "cover",
                       borderRadius: "100%",
                     }}
-                    countryCode={psicologo.flag}
+                    countryCode={psicologo.pais}
                   />
                 </div>
               </div>
@@ -63,7 +51,8 @@ export default function ReservarPsiPreview({
                 Psicólogo
               </CardDescription>
               <CardTitle className="text-[#634AE2] text-xl sm:text-2xl">
-                {psicologo.name} <br/>{psicologo.lastname}
+                {psicologo.nombre} <br />
+                {psicologo.apellido}
               </CardTitle>
             </div>
           </div>
@@ -71,10 +60,9 @@ export default function ReservarPsiPreview({
         </div>
 
         <CardContent className="border-[#9494F3] mt-2">
-          <p
-            className="text-[#634AE2] pt-3 text-sm sm:text-base"
-            dangerouslySetInnerHTML={{ __html: psicologo.description }}
-          />
+          <p className="text-[#634AE2] pt-3 text-sm sm:text-base">
+            {psicologo.introduccion.slice(0, 50)}...
+          </p>
           <CardFooter className="grid grid-cols-2 gap-2 sm:flex sm:space-x-8 pt-3 text-xs">
             <Button
               onPress={() => setIsScheduleOpen(true)}
@@ -115,7 +103,7 @@ export default function ReservarPsiPreview({
                   <div className="h-full w-full flex ">
                     <Avatar className="w-[208px] h-[416px] rounded-2xl overflow-hidden">
                       <AvatarImage
-                        src={psicologo.img}
+                        src={psicologo.imagen}
                         className="w-full h-full object-cover"
                       />
                     </Avatar>
@@ -124,7 +112,7 @@ export default function ReservarPsiPreview({
                   <div className="text-[#634AE2] text-start ">
                     <div className="space-y-1 px-1">
                       <div className="text-[#634AE2] text-2xl font-semibold">
-                        {psicologo.name} {psicologo.lastname}
+                        {psicologo.nombre} {psicologo.apellido}
                       </div>
                     </div>
                     <hr className="my-2.5 border-t border-[#9494F3] w-64" />
@@ -132,22 +120,22 @@ export default function ReservarPsiPreview({
                       <p className="text-[#634AE2] font-normal text-base">
                         Especialidades:
                       </p>
-                      <div className="flex gap-2 mt-1.5 mb-1">
-                        {psicologo.specialties.map((Item, index) => (
+                      <div className="flex flex-wrap gap-2 mt-1.5 mb-1 ">
+                        {psicologo.especialidades.map((item, index) => (
                           <span
                             key={index}
                             className="px-4 py-1 bg-[#E7E7FF] text-[#634AE2] rounded-full text-sm"
                           >
-                            {Item.texto}
+                            {item}
                           </span>
                         ))}
                       </div>
+
                       <hr className="my-2.5 border-t border-[#9494F3] w-11/12" />
                       <p className="text-[#634AE2] text-sm  leading-[22px] content-normal mr-1">
-                        {psicologo.information}
+                        {psicologo.introduccion}
                       </p>
                     </ModalBody>
-                
                   </div>
                 </div>
               </ModalContent>
@@ -175,6 +163,7 @@ export default function ReservarPsiPreview({
             <div className="flex flex-col items-center justify-center">
               <h1 className="text-[#634AE2] text-2xl font-bold">Agendar cita</h1>
               <HorarioPsicologo />
+
               <div className="w-full flex justify-center">
                 <Button
                   onPress={() => setIsScheduleOpen(false)}
@@ -183,11 +172,9 @@ export default function ReservarPsiPreview({
                   Cancelar
                 </Button>
               </div>
-              </div>
+            </div>
           </ModalBody>
-
         </ModalContent>
-
       </Modal>
     </>
   );

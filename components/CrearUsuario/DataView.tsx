@@ -1,5 +1,13 @@
 import { FormData } from "@/interface";
-import { Button, Checkbox, CheckboxGroup, Form, Input, Textarea } from "@heroui/react";
+import { convertImageToWebP, convertToBase64 } from "@/utils/convertir64";
+import {
+  Button,
+  Checkbox,
+  CheckboxGroup,
+  Form,
+  Input,
+  Textarea,
+} from "@heroui/react";
 import { Plus } from "lucide-react";
 import { parseCookies } from "nookies";
 import { useState } from "react";
@@ -16,7 +24,6 @@ export const DataView = ({
   setFormData: React.Dispatch<React.SetStateAction<FormData>>;
   setIsSend: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -43,26 +50,39 @@ export const DataView = ({
         setIsSend(true);
         console.log("Éxito:", data.description);
       } else {
-        if (data.errors && data.errors.email && data.errors.email.includes("The email has already been taken.")) {
-          toast.warning("El email ya está siendo utilizado por otra cuenta. Por favor, utiliza un email diferente.", {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: false,
-            pauseOnHover: true,
-            draggable: true,
-            progress: 1,
-            theme: "colored",
-            transition: Zoom,
-          });
+        if (
+          data.errors &&
+          data.errors.email &&
+          data.errors.email.includes("The email has already been taken.")
+        ) {
+          toast.warning(
+            "El email ya está siendo utilizado por otra cuenta. Por favor, utiliza un email diferente.",
+            {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: false,
+              pauseOnHover: true,
+              draggable: true,
+              progress: 1,
+              theme: "colored",
+              transition: Zoom,
+            }
+          );
         } else {
-          toast.warn(data.message || "Ha ocurrido un error al procesar tu solicitud.", {
-            position: "bottom-right",
-            autoClose: 1300,
-          });
+          toast.warn(
+            data.message || "Ha ocurrido un error al procesar tu solicitud.",
+            {
+              position: "bottom-right",
+              autoClose: 1300,
+            }
+          );
         }
 
-        console.error("Error en la solicitud:", data.message || "Error desconocido");
+        console.error(
+          "Error en la solicitud:",
+          data.message || "Error desconocido"
+        );
         console.error("Detalles:", data.errors || "No hay detalles");
       }
     } catch (error) {
@@ -100,61 +120,12 @@ export const DataView = ({
     setFormData({ ...formData, imagen: base64 });
   };
 
-  const convertImageToWebP = (file: File): Promise<Blob> => {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
-
-      img.onload = () => {
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx?.drawImage(img, 0, 0);
-
-        // Convertir la imagen a WebP
-        canvas.toBlob(
-          (blob) => {
-            if (blob) {
-              resolve(blob);
-            } else {
-              reject(new Error("Error al convertir la imagen a WebP"));
-            }
-          },
-          "image/webp",
-          0.8
-        );
-      };
-
-      img.onerror = () => {
-        reject(new Error("Error al cargar la imagen"));
-      };
-
-      img.src = URL.createObjectURL(file);
-    });
-  };
-
-  const convertToBase64 = (blob: Blob): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        if (typeof reader.result === "string") {
-          resolve(reader.result);
-        } else {
-          reject(new Error("Error al convertir a Base64"));
-        }
-      };
-      reader.onerror = () => {
-        reject(new Error("Error al leer el archivo"));
-      };
-      reader.readAsDataURL(blob);
-    });
-  };
 
   const [especialidad, setEspecialidad] = useState<number[]>([]);
   const [isInvalid, setIsInvalid] = useState(false);
 
   const handleEspecialidadesChange = (values: string[]) => {
-    // Convertir los valores seleccionados a números usando el mapeo
+
     const especialidadesNumeros = values.map(
       (value) => especialidadesMap[value]
     );
@@ -173,7 +144,6 @@ export const DataView = ({
         <div className="grid grid-cols-6 grid-rows-5 gap-10">
           <div className="col-span-2 row-span-2">
             <h3 className="font-bold text-base">Foto</h3>
-            {/* <ImageUploader /> */}
 
             <div className="relative border-2 border-[#634AE2] rounded-lg h-36 w-full flex justify-center items-center cursor-pointer overflow-hidden">
               {base64Image ? (
@@ -196,24 +166,31 @@ export const DataView = ({
               />
             </div>
           </div>
-          <div className="col-start-3  col-span-4 row-span-2  ">
+          <div className="col-start-3 col-span-4 max-w-96 max-h-52 row-span-2 relative">
             <Textarea
               isRequired
-              value={formData.introduccion ?? "error"}
+              value={formData.introduccion ?? ""}
+              minLength={100}
+              maxLength={350}
               classNames={{
-                label: "!text-[#634AE2] font-bold text-base",
+                label: "!text-[#634AE2] font-bold  text-base",
+
                 inputWrapper:
                   "border-2 border-[#634AE2] bg-white w-full h-full",
-                innerWrapper: "min-w-80 min-h-[120px]", // Asegura que el área de texto ocupe todo el espacio disponible
+                innerWrapper: " min-h-[120px]",
               }}
-              onChange={(e) =>
+              onChange={(e) => {
+                const value = e.target.value;
                 setFormData({
                   ...formData,
-                  introduccion: e.target.value,
-                })
-              }
+                  introduccion: value,
+                });
+              }}
               label="Introducción"
               labelPlacement="outside"
+              description={`${
+                formData.introduccion?.length || 0
+              }/350 caracteres (mínimo 100)`}
             />
           </div>
 

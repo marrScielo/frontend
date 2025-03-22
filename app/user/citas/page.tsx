@@ -1,8 +1,10 @@
 "use client";
 import React, { useState, useMemo, useCallback } from "react";
-import { ThemeToggle } from "@/components/Themetoggle";
+
+
 import { Navbar } from "@/components/User/Citas/NavbarCitas";
 import { TableCitas } from "@/components/User/Citas/TableCitas";
+import CerrarSesion from "@/components/CerrarSesion";
 
 const users = [
   {
@@ -161,11 +163,11 @@ const users = [
 
 const columns = [
   { name: "Paciente", uid: "name", sortable: true },
-  { name: "Codigo", uid: "id", sortable: true },
+  { name: "Código", uid: "id", sortable: true },
   { name: "Motivo", uid: "motivo", sortable: true },
   { name: "Estado", uid: "status", sortable: true },
   { name: "Fecha de Inicio", uid: "fecha", sortable: true },
-  { name: "Duracion", uid: "age", sortable: true },
+  { name: "Duración", uid: "age", sortable: true },
 ];
 
 const INITIAL_VISIBLE_COLUMNS = [
@@ -239,7 +241,7 @@ export default function App() {
                 </div>
               </div>
               <div className="flex gap-x-5 mt-2">
-                <ThemeToggle />
+                <CerrarSesion />
               </div>
             </div>
           </nav>

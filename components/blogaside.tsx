@@ -1,60 +1,66 @@
-import { Avatar, Button, Divider } from "@heroui/react";
+import { Authors, Categoria } from "@/interface";
+import { Avatar, Button } from "@heroui/react";
 
+export default function BlogAside({
+  Categories,
+  Authors,
+  onCategoryClick,
+  onAuthorClick,
+  activeCategory,
+  activeAuthor
+}: {
+  Categories: Categoria[];
+  Authors: Authors[];
+  onCategoryClick: (categoryId: number) => void;
+  onAuthorClick: (authorId: number) => void;
+  activeCategory: number | null;
+  activeAuthor: number | null;
+}) {
+  const authorsArray = Array.isArray(Authors) ? Authors : [];
 
-const categorias = [
-  { nombre: "Estrés" },
-  { nombre: "Trastorno Obsesivo Compulsivo (TOC)" },
-  { nombre: "Repulsión Sexual" },
-  { nombre: "Ansiedad" },
-  { nombre: "Depresión" },
-  { nombre: "Fobias" },
-  { nombre: "Trastorno de la Conducta Alimentaria" },
-  { nombre: "Trastorno de Estrés Postraumático (TEPT)" },
-  { nombre: "Trastornos del Sueño" },
-  { nombre: "Trastorno de Ansiedad Generalizada" },
-  { nombre: "Trastorno de Pánico" },
-  { nombre: "Trastorno Bipolar" },
-  { nombre: "Adicciones" },
-  { nombre: "Trastorno de la Personalidad" },
-  { nombre: "Trastorno de la Conducta" },
-];
-const autors = [
-  {  
-     imagen:"/logonombreblog.webp" ,
-     nombre: "Jhon Angelo Sánchez Garcia" 
-    },
-  
-  {      imagen:"/logonombreblog.webp" ,
-
-    nombre: "Jhon Angelo Sánchez Garcia" },
-];
-export default function BlogAside() {
   return (
     <div className="w-[400px] p-4">
-        <Divider orientation="vertical" />
-      <p className="text-xl font-semibold text-[#634AE2]">Categorías</p>
-      
-      {categorias.map((item, index) => (
-        <Button
-          radius="full"
-          className="bg-[#EAEAFF] m-2 text-base text-[#634AE2] hover:bg-[#C7B9FF] transition-all"
-          key={index}
-        >
-          {item.nombre}
-        </Button>
-      ))}
-      <p className="text-base font-normal pt-7 m-4 text-[#634AE2]">Por autor</p>
-      {autors.map((item, index) => (
-         <Button
-
-         radius="full"
-         className="bg-[#EAEAFF] pl-0.5 text-base text-[#634AE2] hover:bg-[#C7B9FF] transition-all"
-         key={index}
-       >
-       <Avatar className="" src={item.imagen}/>
-         {item.nombre}
-       </Button>
-    ))}      
+      <p className="text-lg font-normal text-[#634AE2] mb-6">Categorías</p>
+      <div className="grid grid-cols-2 gap-2">
+        {Categories?.map((item) => (
+          <Button
+            radius="full"
+            className={`${
+              activeCategory === item.idCategoria
+                ? "bg-[#634AE2] text-white"
+                : "bg-[#EAEAFF] text-[#634AE2]"
+            } text-base hover:bg-[#C7B9FF] transition-all whitespace-nowrap ${
+              item.nombre.length > 15 ? "col-span-2" : ""
+            }`}
+            key={item.idCategoria}
+            style={{ maxWidth: "27vh" }}
+            onClick={() => onCategoryClick(item.idCategoria)}
+          >
+            {item.nombre}
+          </Button>
+        ))}
       </div>
+
+      <p className="text-base font-normal pt-7 m-4 text-[#634AE2]">Por autor</p>
+      {authorsArray.length > 0 ? (
+        authorsArray.map((item) => (
+          <Button
+            radius="full"
+            className={`${
+              activeAuthor === item.id
+                ? "bg-[#634AE2] text-white"
+                : "bg-[#EAEAFF] text-[#634AE2]"
+            } pl-0.5 text-base hover:bg-[#C7B9FF] transition-all mb-2`}
+            key={item.id}
+            onClick={() => onAuthorClick(item.id)}
+          >
+            <Avatar className="" src={item.photo} />
+            {item.name} {item.lastname}
+          </Button>
+        ))
+      ) : (
+        <p className="text-sm text-gray-500">No hay autores disponibles</p>
+      )}
+    </div>
   );
 }

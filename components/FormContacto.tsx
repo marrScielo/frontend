@@ -3,8 +3,6 @@ import { Contact } from "@/interface";
 import { Button, Form, Input } from "@heroui/react";
 import React, { useState } from "react";
 
-
-
 export default function FormContacto() {
   const [action, setAction] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -89,7 +87,7 @@ export default function FormContacto() {
 
   return (
     <Form
-      className="w-full max-w-md bg-[#B8B8FF] rounded-2xl p-6 mr-10 relative z-0"
+      className="lg:w-full max-w-md bg-[#B8B8FF] rounded-2xl p-6 md:mr-10  relative z-0 w-64 mr-32"
       validationBehavior="native"
       onSubmit={handleSubmit}
     >

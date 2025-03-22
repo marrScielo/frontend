@@ -39,7 +39,7 @@ export const EyeSlashFilledIcon = (props: React.SVGProps<SVGSVGElement>) => {
   );
 };
 
-export const EyeFilledIcon = (props:React.SVGProps<SVGSVGElement>) => {
+export const EyeFilledIcon = (props: React.SVGProps<SVGSVGElement>) => {
   return (
     <svg
       aria-hidden="true"
@@ -91,10 +91,10 @@ export default function Login() {
     <>
       <form
         onSubmit={handleSubmit}
-        className="bg-background min-h-72  h-auto w-[370px] p-10 rounded-3xl "
+        className="bg-background min-h-72  h-auto md:w-96 w-60 p-10 rounded-3xl mr-20 "
       >
-        <div className="flex flex-col justify-center items-center gap-y-5">
-          <label className="text-[16px] leading-[20px]  text-title">
+        <div className="flex flex-col gap-y-5 ">
+          <label className="text-[16px] leading-[20px]  text-title ">
             Usuario
           </label>
           <Input
@@ -111,12 +111,12 @@ export default function Login() {
             Contraseña
           </label>
           <Input
-            name="password" 
+            name="password"
             isRequired
             className="max-w-xs"
             radius="full"
-            value={credentials.password} 
-            onChange={handleChange} 
+            value={credentials.password}
+            onChange={handleChange}
             endContent={
               <button
                 aria-label="toggle password visibility"
@@ -136,9 +136,9 @@ export default function Login() {
           />
           <button
             type="submit"
-            className="w-1/2 rounded-full bg-[#634AE2] text-white py-2 hover:bg-[#5339d2] transition-colors"
+            className="w-1/2 rounded-full bg-[#634AE2] text-white py-2 hover:bg-[#5339d2] transition-colors mx-auto"
           >
-            Iniciar
+            Ingresar
           </button>
         </div>
       </form>

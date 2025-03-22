@@ -1,3 +1,4 @@
+// layout.tsx
 "use client";
 import "./globals.css";
 import { ThemeProvider } from "../components/theme-provider";
@@ -6,10 +7,11 @@ import { usePathname } from "next/navigation";
 import { Lexend } from "next/font/google";
 import { ToastContainer } from "react-toastify";
 import Footer from "@/components/footer";
-import { metadataTarron } from "./metadata";
-
 
 export const lexend = Lexend({ subsets: ["latin"] });
+
+// Next.js metadata debe estar en un archivo server component, no en un client component
+// No puedes usar "use client" y exportar metadata en el mismo archivo
 
 export default function RootLayout({
   children,
@@ -21,11 +23,9 @@ export default function RootLayout({
     const pathParts = pathname.split("/");
     return `/${pathParts[1]}`;
   };
-
+  
   return (
     <html lang="en" suppressHydrationWarning>
-      <title> {String(metadataTarron.title ?? "")}</title>
-      <meta name="description" content={metadataTarron.description ?? ""} />
       <body className={`${lexend.className} antialiased`}>
         <ThemeProvider
           attribute="class"

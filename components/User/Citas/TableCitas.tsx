@@ -130,7 +130,7 @@ export const TableCitas: React.FC<TableProps> = ({ users, headerColumns, selecte
               </th>
             ))}
             <th className="p-4 text-center rounded-tr-full">
-              <div className="text-lg font-normal text-center">Mas</div>
+              <div className="text-lg font-normal text-center">Más</div>	
             </th>
           </tr>
         </thead>

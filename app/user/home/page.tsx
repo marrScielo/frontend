@@ -1,35 +1,8 @@
 "use client";
 import React, { useEffect, useState} from "react";
-import { ThemeToggle } from "@/components/Themetoggle";
-
-import Link from "next/link";
-
-import { DateRangePicker } from "@heroui/react";
 import DashboardComponents from "@/components/User/Dashboard/DashboardComponents";
 import { UsuarioLocalStorage } from "@/interface";
-
-const navItems = [
-  {
-    name: "General",
-    comp: "/user/home",
-  },
-  {
-    name: "Clientes",
-    comp: "/user/home",
-  },
-  {
-    name: "Citas",
-    comp: "/user/home",
-  },
-  {
-    name: "Ventas",
-    comp: "/user/home",
-  },
-  {
-    name: "Rendimiento",
-    comp: "/user/home",
-  },
-];
+import CerrarSesion from "@/components/CerrarSesion";
 
 
 
@@ -72,7 +45,7 @@ const PageHome = () => {
                 </div>
               </div>
               <div className="flex gap-x-5 mt-2">
-                <ThemeToggle />
+                <CerrarSesion />
               </div>
             </div>
           </nav>
