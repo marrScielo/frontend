@@ -25,13 +25,12 @@ const COLORS = ["#BABAFF", "#9494F3", "#58A6FF", "#B158FF"];
 
 // Datos para el LineChart
 const data = [
-  { name: "Enero", uv: 4000, pv: 2400 },
-  { name: "Febrero", uv: 3000, pv: 1398 },
-  { name: "Marzo", uv: 2000, pv: 9800 },
-  { name: "Abril", uv: 2780, pv: 3908 },
-  { name: "Mayo", uv: 1890, pv: 4800 },
-  { name: "Junio", uv: 2390, pv: 3800 },
-  { name: "Julio", uv: 3490, pv: 4300 },
+  { name: "feb,01", uv: 4000, pv: 2400 },
+  { name: "feb,02", uv: 3000, pv: 1398 },
+  { name: "feb,03", uv: 2000, pv: 9800 },
+  { name: "feb,04", uv: 2780, pv: 3908 },
+  { name: "feb,05", uv: 1890, pv: 4800 },
+  { name: "feb,06", uv: 2390, pv: 3800 },
 ];
 
 const renderCustomizedLabel = ({
