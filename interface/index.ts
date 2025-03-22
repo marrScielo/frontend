@@ -162,3 +162,19 @@ export interface NavItems {
   link: string;
   icono: string;
 }
+
+// Interface for horarios psicologos
+
+export interface Horarios {
+  [dia: string]: [string, string][];
+}
+
+export interface Cita {
+  fecha: string;
+  hora_cita: string;
+}
+
+export interface BotonHorarioProps {
+  hora: string;
+  ocupada: boolean;
+}

@@ -1,19 +1,6 @@
 import React, { useState } from "react";
 import ZonaHorariaSelect from "./zonaHorariaSelect";
-
-interface Horarios {
-  [dia: string]: [string, string][];
-}
-
-interface Cita {
-  fecha: string;
-  hora_cita: string;
-}
-
-interface BotonHorarioProps {
-  hora: string;
-  ocupada: boolean;
-}
+import { Horarios, Cita, BotonHorarioProps } from "@/interface";
 
 const horarios: Horarios = {
   Lunes: [["09:00", "15:00"]],
@@ -148,9 +135,8 @@ const HorarioPsicologo: React.FC = () => {
             })}
           </div>
         </div>
-
+        {/*Botón derecho */}
         <button className="mt-5 text-4xl text-bold text-[#634AE2]" onClick={() => cambiarSemana(1)}>&gt;</button>
-
       </div>
     </div>
   );
