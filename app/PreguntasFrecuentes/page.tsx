@@ -1,9 +1,9 @@
 
 import AccordionQuest from "@/components/AccordionQuest";
-import { metadataTarron } from "../metadata";
+import { metadata } from "../metadata";
 
-export const metadata = {
-  ...metadataTarron,
+export const Metadata = {
+  ...metadata,
   title: "Preguntas Frecuentes - ContigoVoy", 
 };
 
