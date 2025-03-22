@@ -9,8 +9,6 @@ import {
   Line,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Legend,
 } from "recharts";
 
 // Datos para el gráfico de pastel
@@ -25,12 +23,12 @@ const COLORS = ["#BABAFF", "#9494F3", "#58A6FF", "#B158FF"];
 
 // Datos para el LineChart
 const data = [
-  { name: "feb,01", uv: 4000, pv: 2400 },
-  { name: "feb,02", uv: 3000, pv: 1398 },
-  { name: "feb,03", uv: 2000, pv: 9800 },
-  { name: "feb,04", uv: 2780, pv: 3908 },
-  { name: "feb,05", uv: 1890, pv: 4800 },
-  { name: "feb,06", uv: 2390, pv: 3800 },
+  { name: "01", uv: 4000, pv: 2400 },
+  { name: "02", uv: 3000, pv: 1398 },
+  { name: "03", uv: 2000, pv: 9800 },
+  { name: "04", uv: 2780, pv: 3908 },
+  { name: "05", uv: 1890, pv: 4800 },
+  { name: "06", uv: 2390, pv: 3800 },
 ];
 
 const renderCustomizedLabel = ({
@@ -76,17 +74,45 @@ export default function Appointments() {
           <ResponsiveContainer width="90%" height="80%">
             <LineChart
               data={data}
-              margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+              margin={{ top: 5, right: 30, left: 20, bottom: 12 }}
             >
-              <XAxis dataKey="name" />
-              <YAxis tickFormatter={(value: number) => value / 1250} />
+              <XAxis
+                dataKey="name"
+                tickLine={{ stroke: "#634AE2" }}
+                axisLine={{ stroke: "#634AE2" }}
+                tick={({ x, y, payload }) => {
+                  return (
+                    <text
+                      x={x}
+                      y={y + 15}
+                      fill="#634AE2"
+                      textAnchor="middle"
+                      fontSize={12}
+                      fontWeight="500"
+                    >
+                      <tspan x={x} dy="0">
+                        feb,
+                      </tspan>{" "}
+                      <tspan x={x} dy="15">
+                        {payload.value}
+                      </tspan>
+                    </text>
+                  );
+                }}
+              />
+              <YAxis
+                tickFormatter={(value: number) => value / 1250}
+                tick={{ fill: "#634AE2" }}
+                axisLine={{ stroke: "#634AE2" }}
+                tickLine={{ stroke: "#634AE2" }}
+              />
               <Line
                 type="monotone"
                 dataKey="pv"
-                stroke="#8884d8"
-                activeDot={{ r: 8 }}
+                stroke="#634AE2"
+                activeDot={{ r: 8, fill: "#634AE2" }}
               />
-              <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+              
             </LineChart>
           </ResponsiveContainer>
         </div>
