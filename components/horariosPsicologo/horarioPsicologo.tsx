@@ -2,15 +2,6 @@ import React, { useState } from "react";
 import ZonaHorariaSelect from "./zonaHorariaSelect";
 import { Horarios, Cita, BotonHorarioProps } from "@/interface";
 
-const horarios: Horarios = {
-  Lunes: [["09:00", "15:00"]],
-  Martes: [["10:00", "13:00"]],
-  Miércoles: [["08:00", "12:00"]],
-  Jueves: [["09:00", "11:00"]],
-  Viernes: [["10:00", "14:00"]],
-  Sábado: [],
-};
-
 const citasPendientes: Cita[] = [
   { fecha: "2025-03-10", hora_cita: "10:00" },
   { fecha: "2025-03-11", hora_cita: "11:00" },
@@ -63,7 +54,10 @@ const BotonHorario: React.FC<BotonHorarioProps> = ({ hora, ocupada }) => (
   </button>
 );
 
-const HorarioPsicologo: React.FC = () => {
+export default function HorarioPsicologo({ horario
+}: {
+  horario: Horarios;
+}){
   const [semanaOffset, setSemanaOffset] = useState(0);
   const [zonaHoraria, setZonaHoraria] = useState("America/Lima");
 
@@ -111,10 +105,10 @@ const HorarioPsicologo: React.FC = () => {
               fecha.setDate(fechaBase.getDate() - fechaBase.getDay() + index + 1);
               const fechaStr = fecha.toISOString().split("T")[0];
 
-              const horasDisponibles = (horarios[dia] || []).flatMap(([inicio, fin]) =>
+              const horasDisponibles = (horario[dia] || []).flatMap(([inicio, fin]) =>
                 generarHorarios(inicio, fin, "America/Lima", zonaHoraria)
               );
-              const maxHoras = Math.max(...Object.values(horarios).flatMap((r) => r.map(([i, f]) => generarHorarios(i, f, "America/Lima", "America/Lima").length)));
+              const maxHoras = Math.max(...Object.values(horario).flatMap((r) => r.map(([i, f]) => generarHorarios(i, f, "America/Lima", "America/Lima").length)));
               const horasCompletas = horasDisponibles.concat(Array(maxHoras - horasDisponibles.length).fill(""));
               const citasConvertidas = citasPendientes.map((cita) => ({
                 fecha: cita.fecha,
@@ -142,4 +136,3 @@ const HorarioPsicologo: React.FC = () => {
   );
 };
 
-export default HorarioPsicologo;
