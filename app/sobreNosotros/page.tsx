@@ -1,10 +1,10 @@
 import SobreNosotrosStructure from "@/components/SobreNosotrosStructure";
 import { QuienesSomos } from "@/interface";
-import { metadataTarron } from "../metadata";
+import { Metadata } from "next";
 
-export const metadata = {
-  ...metadataTarron,
-  title: "Sobre Nosotros - ContigoVoy", 
+export	const metadata: Metadata = {
+  title: "Sobre Nosotros - ContigoVoy",
+  description: "Sobre nosotros y nuestro equipo",
 };
 
 const dataQS: QuienesSomos[] = [

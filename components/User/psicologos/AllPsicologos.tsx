@@ -23,7 +23,7 @@ import {
   Textarea,
   useDisclosure,
 } from "@heroui/react";
-import { Check, Plus } from "lucide-react";
+import {  Plus } from "lucide-react";
 
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
