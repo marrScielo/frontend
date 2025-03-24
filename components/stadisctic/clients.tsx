@@ -38,6 +38,15 @@ const lugar = [
 ];
 
 // Función para las etiquetas personalizadas en el gráfico de pastel
+interface CustomizedLabelProps {
+  cx: number;
+  cy: number;
+  midAngle: number;
+  innerRadius: number;
+  outerRadius: number;
+  percent: number;
+}
+
 const renderCustomizedLabel = ({
   cx,
   cy,
@@ -45,7 +54,7 @@ const renderCustomizedLabel = ({
   innerRadius,
   outerRadius,
   percent,
-}) => {
+}: CustomizedLabelProps) => {
   const RADIAN = Math.PI / 180;
   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);

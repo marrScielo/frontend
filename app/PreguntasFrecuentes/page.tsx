@@ -1,10 +1,9 @@
-
 import AccordionQuest from "@/components/AccordionQuest";
-import { metadata } from "../metadata";
+import { Metadata } from "next";
 
-export const Metadata = {
-  ...metadata,
-  title: "Preguntas Frecuentes - ContigoVoy", 
+export const metadata: Metadata = {
+  title: "Preguntas Frecuentes - ContigoVoy",
+  description: "Preguntas Frecuentes sobre terapia psicológica",
 };
 
 export default function App() {
@@ -32,11 +31,12 @@ export default function App() {
   ];
 
   return (
-    <div className="min-h-screen bg-no-repeat lg:bg-bottom  bg-bottom background_faq"
-    style={{
-      backgroundImage: `linear-gradient(#634AE27A, #634AE27A), url('/preguntas-sobre-terapia-en-linea.webp')`,
-    }}>
-      
+    <div
+      className="min-h-screen bg-no-repeat lg:bg-bottom  bg-bottom background_faq"
+      style={{
+        backgroundImage: `linear-gradient(#634AE27A, #634AE27A), url('/preguntas-sobre-terapia-en-linea.webp')`,
+      }}
+    >
       <div className="lg:text-left md:text-left font-bold lg:text-5xl text-2xl pt-[60px] pb-[70px] text-white lg:pl-20 text-center md:pl-20">
         Preguntas frecuentes
       </div>

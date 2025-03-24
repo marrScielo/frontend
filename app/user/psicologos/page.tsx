@@ -1,6 +1,6 @@
 
 
-import { GetPsicologos, UpdatePsicolog } from "@/app/apiRoutes";
+import { GetPsicologos } from "@/app/apiRoutes";
 import CerrarSesion from "@/components/CerrarSesion";
 import AllPsicologos from "@/components/User/psicologos/AllPsicologos";
 
