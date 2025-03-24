@@ -7,8 +7,8 @@ import { parseCookies } from "nookies";
 import showToast from "@/components/ToastStyle";
 
 const DatosPaciente: React.FC<DatosPacienteProps> = ({ idPaciente }) => {
-  const [paciente, setPaciente] = useState<Paciente>(null);
-
+  const [paciente, setPaciente] = useState<Paciente | null>(null);
+  
   const HandleGetPaciente = async (idPaciente: number) => {
     try {
       const cookies = parseCookies();
@@ -49,49 +49,54 @@ const DatosPaciente: React.FC<DatosPacienteProps> = ({ idPaciente }) => {
           {/* Datos del paciente */}
           <div className="flex gap-6">
             <div className="w-28">Nombre</div>
-            <div className="font-normal">{paciente.nombre}</div>
+            <div className="font-normal">{paciente?.nombre}</div>
           </div>
           <div className="flex gap-6">
             <div className="w-28">Apellido</div>
-            <div className="font-normal">{paciente.apellido}</div>
+            <div className="font-normal">{paciente?.apellido}</div>
           </div>
           <div className="flex gap-6">
             <div className="w-28">Género</div>
-            <div className="font-normal">{paciente.genero}</div>
+            <div className="font-normal">{paciente?.genero}</div>
           </div>
           <div className="flex gap-6">
             <div className="w-28">Fecha de Nacimiento</div>
             <div className="font-normal">
-              {new Date(paciente.fecha_nacimiento).toLocaleDateString("es-ES", {
-                year: "numeric",
-                month: "2-digit",
-                day: "2-digit",
-              })}
+              {paciente
+                ? new Date(paciente.fecha_nacimiento).toLocaleDateString(
+                    "es-ES",
+                    {
+                      year: "numeric",
+                      month: "2-digit",
+                      day: "2-digit",
+                    }
+                  )
+                : "Fecha no disponible"}
             </div>
           </div>
           <div className="flex gap-6">
             <div className="w-28">Ocupación</div>
-            <div className="font-normal">{paciente.ocupacion}</div>
+            <div className="font-normal">{paciente?.ocupacion}</div>
           </div>
           <div className="flex gap-6">
             <div className="w-28">Estado Civil</div>
-            <div className="font-normal">{paciente.estadoCivil}</div>
+            <div className="font-normal">{paciente?.estadoCivil}</div>
           </div>
           <div className="flex gap-6">
             <div className="w-28">DNI</div>
-            <div className="font-normal">{paciente.DNI}</div>
+            <div className="font-normal">{paciente?.DNI}</div>
           </div>
           <div className="flex gap-6">
             <div className="w-28">Celular</div>
-            <div className="font-normal">{paciente.celular}</div>
+            <div className="font-normal">{paciente?.celular}</div>
           </div>
           <div className="flex gap-6">
             <div className="w-28">Correo</div>
-            <div className="font-normal">{paciente.email}</div>
+            <div className="font-normal">{paciente?.email}</div>
           </div>
           <div className="flex gap-6">
             <div className="w-28">Dirección</div>
-            <div className="font-normal">{paciente.direccion}</div>
+            <div className="font-normal">{paciente?.direccion}</div>
           </div>
         </div>
 

@@ -182,8 +182,7 @@ export default function ListarPacientes() {
                       href={{
                         pathname: "/user/pacientes/DetallePaciente",
                         query: {
-                          id: paciente.idPaciente,
-                          nombre: paciente.nombre,
+                          idPaciente: paciente.idPaciente,
                         },
                       }}
                       className={cn("flex flex-col items-center")}

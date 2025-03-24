@@ -1,28 +1,67 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
 import DetallesPaciente from "../Historial/DetallesPaciente";
+import { DatosPacienteProps, Paciente } from "@/interface";
+import showToast from "@/components/ToastStyle";
+import { parseCookies } from "nookies";
 
-export default function App() {
+const HistorialPaciente: React.FC<DatosPacienteProps> = ({ idPaciente }) => {
   const [showCart, setShowCart] = useState(false);
+  const [paciente, setPaciente] = useState<Paciente | null>(null);
+  console.log(idPaciente);
+  const HandleGetPaciente = async (idPaciente: number) => {
+    try {
+      const cookies = parseCookies();
+      const token = cookies["session"];
+      const url = `${process.env.NEXT_PUBLIC_API_URL}api/pacientes/show/${idPaciente}`;
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await response.json();
+
+      if (response.ok) {
+        setPaciente(data.result);
+        showToast("success", "Paciente obtenido correctamente");
+      } else {
+        console.error("error al cargar");
+        showToast("error", data.message || "Error al obtener el paciente");
+      }
+    } catch (error) {
+      console.error("error al cargar backend");
+      showToast("error", "Error de conexión. Intenta nuevamente.");
+    }
+  };
+
+
+  useEffect(() => {
+    if (idPaciente) {
+      HandleGetPaciente(idPaciente);
+    }
+  }, [idPaciente]);
+
   return (
     <div className="mt-2 w-[500px]">
       <div className="p-4 bg-[#fff] h-max text-[#634AE2] rounded-3xl">
         <div className="flex pl-6">
           <div className="w-[60%] pr-4">
-            <div className="font-bold text-3xl">Manuel Perez</div>
-            <div className="font-bold text-xl">(24 años)</div>
+            <div className="font-bold text-3xl">{paciente?.nombre}</div>
+            <div className="font-bold text-xl"> </div>
             <div className="align-items-center">
               <div className="flex align-items-center">
                 <div className="font-bold pt-5">DNI</div>
-                <div className="pt-5 ml-16">...</div>
+                <div className="pt-5 ml-16">{paciente?.DNI}</div>
               </div>
               <div className="flex align-items-center">
                 <div className="font-bold pt-5">Celular</div>
-                <div className="pt-5 ml-9">999-999-999</div>
+                <div className="pt-5 ml-9">{paciente?.celular}</div>
               </div>
               <div className="flex align-items-center">
                 <div className="font-bold pt-5">Codigo</div>
-                <div className="pt-5 ml-9">...</div>
+                <div className="pt-5 ml-9">{paciente?.idPaciente}</div>
               </div>
             </div>
           </div>
@@ -85,3 +124,5 @@ export default function App() {
     </div>
   );
 }
+
+export default HistorialPaciente;

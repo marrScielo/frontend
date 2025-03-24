@@ -1,15 +1,47 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CerrarSesion from "@/components/CerrarSesion";
 import { Icons } from "@/icons";
 import NavbarPaciente from "@/components/User/Pacientes/NavbarPaciente";
 import DatosPaciente from "@/components/User/Pacientes/DatosPaciente";
 import { useSearchParams } from "next/navigation";
+import { parseCookies } from "nookies";
+import { Paciente } from "@/interface";
+import Link from "next/link";
 
 const PageHome = () => {
   const searchParams = useSearchParams();
-  const id = searchParams.get("id");
-  const nombre = searchParams.get("nombre");
+  const idPaciente = searchParams.get("idPaciente");
+  const [paciente, setPaciente] = useState<Paciente | null>(null);
+  const idPacienteNum = Number(idPaciente);
+  const HandleGetPaciente = async (idPaciente: number) => {
+    try {
+      const cookies = parseCookies();
+      const token = cookies["session"];
+      const url = `${process.env.NEXT_PUBLIC_API_URL}api/pacientes/show/${idPaciente}`;
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await response.json();
+
+      if (response.ok) {
+        setPaciente(data.result);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    if (idPaciente) {
+      HandleGetPaciente(idPacienteNum);
+    }
+  }, [idPaciente]);
 
   return (
     <div className="pb-4 bg-[#eaeded]">
@@ -19,7 +51,7 @@ const PageHome = () => {
           <nav className="bg-[#eaeded] rounded-2xl mt-3 h-[12vh] flex items-center w-[calc(95vw-270px)] p-4">
             <div className="bg-[#eaeded] flex items-start justify-between w-full">
               <div className="flex justify-between gap-5">
-                <button>
+                <Link href={`/user/pacientes/`}>
                   <span
                     dangerouslySetInnerHTML={{
                       __html: Icons.arrow.replace(
@@ -28,9 +60,9 @@ const PageHome = () => {
                       ),
                     }}
                   />
-                </button>
+                </Link>
                 <h1 className="text-4xl font-bold text-[#634AE2]">
-                  {nombre} #{id}
+                  {paciente?.nombre} {paciente?.apellido} #{idPaciente}
                 </h1>
                 <button className="bg-[#634AE2] text-[#fff] rounded-full text-base px-4 py-2 font-normal">
                   Nueva Cita
@@ -46,16 +78,14 @@ const PageHome = () => {
       <div>
         {/* Navbar */}
         <div style={{ position: "relative", zIndex: 2 }}>
-          <NavbarPaciente
-            idPaciente={id} />
+          <NavbarPaciente idPaciente={Number(idPaciente)} />
         </div>
         {/* DatosPaciente */}
         <div
           className="flex justify-center"
           style={{ position: "relative", zIndex: 100, marginTop: "-180px" }}
         >
-          <DatosPaciente 
-            idPaciente={id} />
+          <DatosPaciente idPaciente={Number(idPaciente)} />
         </div>
       </div>
     </div>
