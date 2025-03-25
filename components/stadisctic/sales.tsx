@@ -1,3 +1,4 @@
+import { CustomizedLabelProps } from "@/interface";
 import React from "react";
 import {
   PieChart,
@@ -25,7 +26,7 @@ const renderCustomizedLabel = ({
   innerRadius,
   outerRadius,
   percent,
-}) => {
+}: CustomizedLabelProps) => {
   const RADIAN = Math.PI / 180;
   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
@@ -100,7 +101,7 @@ export default function Sales() {
                         }}
                       />
                       <YAxis
-                        tickFormatter={(value: number) => value / 50}
+                        tickFormatter={(value: number) => `${value / 50}`} 
                         tick={{ fill: "#634AE2" }}
                         axisLine={{ stroke: "#634AE2" }}
                         tickLine={{ stroke: "#634AE2" }}

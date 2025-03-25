@@ -1,3 +1,4 @@
+import { CustomizedLabelProps } from "@/interface";
 import React from "react";
 import {
   PieChart,
@@ -38,7 +39,7 @@ const renderCustomizedLabel = ({
   innerRadius,
   outerRadius,
   percent,
-}) => {
+}: CustomizedLabelProps) => {
   const RADIAN = Math.PI / 180;
   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
@@ -101,7 +102,7 @@ export default function Appointments() {
                 }}
               />
               <YAxis
-                tickFormatter={(value: number) => value / 1250}
+                tickFormatter={(value: number) => `${value / 1250}`} // Convertir a string
                 tick={{ fill: "#634AE2" }}
                 axisLine={{ stroke: "#634AE2" }}
                 tickLine={{ stroke: "#634AE2" }}
@@ -112,7 +113,6 @@ export default function Appointments() {
                 stroke="#634AE2"
                 activeDot={{ r: 8, fill: "#634AE2" }}
               />
-              
             </LineChart>
           </ResponsiveContainer>
         </div>
