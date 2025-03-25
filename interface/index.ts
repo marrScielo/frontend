@@ -233,3 +233,12 @@ export interface NavItems {
   link: string;
   icono: string;
 }
+
+export interface CustomizedLabelProps {
+  cx: number;
+  cy: number;
+  midAngle: number;
+  innerRadius: number;
+  outerRadius: number;
+  percent: number;
+}

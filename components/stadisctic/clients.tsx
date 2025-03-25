@@ -1,3 +1,4 @@
+import { CustomizedLabelProps } from "@/interface";
 import React from "react";
 import {
   PieChart,

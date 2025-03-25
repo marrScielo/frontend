@@ -1,3 +1,4 @@
+import { CustomizedLabelProps } from "@/interface";
 import React from "react";
 import {
   PieChart,
@@ -109,7 +110,9 @@ export default function Appointments() {
                 }}
               />
               <YAxis
-                tickFormatter={(value: number) => (value / 1250).toString()}
+
+                tickFormatter={(value: number) => `${value / 1250}`} // Convertir a string
+
                 tick={{ fill: "#634AE2" }}
                 axisLine={{ stroke: "#634AE2" }}
                 tickLine={{ stroke: "#634AE2" }}

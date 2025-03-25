@@ -1,3 +1,4 @@
+import { CustomizedLabelProps } from "@/interface";
 import React from "react";
 import {
   PieChart,
@@ -72,6 +73,8 @@ export default function Sales() {
     <div className="grid xl:grid-cols-2 lg:grid-cols-1 m-5 place-items-center gap-5 max-w-[950px] mx-auto">
       <div className="flex flex-col w-[547px] h-[660px] gap-5">
         <div className="w-[547px] h-[459px] bg-white rounded-2xl flex flex-col  ">
+
+
           <div className="rounded-r-full w-[247px] h-[60px] bg-[#6364F4] mt-6 flex items-center justify-center">
             <p className="text-white font-medium text-center mr-10 text-xl">
               Citas totales <br /> del período:
@@ -125,6 +128,7 @@ export default function Sales() {
             </ResponsiveContainer>
           </div>
         </div>
+
 
         <div className="w-full h-[234px] bg-white rounded-2xl flex items-center justify-center ">
           <p className="text-black text-lg font-bold">Buenas 2</p>
