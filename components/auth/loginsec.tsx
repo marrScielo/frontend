@@ -32,22 +32,18 @@ export const useAuth = () => {
           body: JSON.stringify({ email, password }),
         }
       );
-
+      const data = await response.json();
       if (!response.ok) {
-        throw new Error("Credenciales inválidas");
+        throw new Error(data.message);
       }
 
-      const data = await response.json();
       const token = data.result.token.split("|")[1];
 
       setCookie(null, "session", token, {
         maxAge: 30 * 24 * 60 * 60,
         path: "/",
-
-        // Añade secure: true y sameSite: 'strict' en producción sas
       });
 
-      // In your login function:
       const userDataToStore = data.user || {
         id: data.result.id,
         email: data.result.email,
@@ -66,24 +62,21 @@ export const useAuth = () => {
         error: null,
       });
 
-      console.log("Inicio de sesión exitoso");
       window.location.assign("/user/home");
     } catch (error: unknown) {
       const errorMessage =
         error instanceof Error
           ? error.message
           : "Se produjo un error desconocido";
-      console.log(errorMessage);
-      console.log(process.env.NEXT_PUBLIC_API_URL);
+
       setAuthState({ ...authState, loading: false, error: errorMessage });
     }
   };
 
   const logout = () => {
-    // Eliminar la cookie al cerrar sesión
     destroyCookie(null, "session", { path: "/" });
 
-    fetch("http://127.0.0.1:8000/api/auth/logout", {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}api/auth/logout`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

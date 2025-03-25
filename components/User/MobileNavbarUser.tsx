@@ -33,7 +33,7 @@ export function MobileNavbar({ navItems }: { navItems: NavItems[] }) {
         {/* Logo reducido */}
         <div className="flex justify-center mb-4">
           <Link href="/">
-            <Image src="/LOGO.webp" alt="logo" width={80} height={60} />
+            <Image src="/LOGO.webp" alt="logo" width={80} priority={true} height={60}  />
           </Link>
         </div>
 

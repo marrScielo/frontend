@@ -31,6 +31,7 @@ export default function RootLayout({
           attribute="class"
           defaultTheme="light"
           enableSystem
+          
           disableTransitionOnChange
         >
           {getBaseRoute() !== "/user" && getBaseRoute() !== "/admin" && (
@@ -46,7 +47,8 @@ export default function RootLayout({
           {getBaseRoute() !== "/user" && getBaseRoute() !== "/admin" && (
             <Footer />
           )}
-        </ThemeProvider>
+          
+        </ThemeProvider >
         <ToastContainer />
       </body>
     </html>

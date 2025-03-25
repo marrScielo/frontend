@@ -3,7 +3,7 @@ import Link from "next/link";
 import React from "react";
 
 import { DesktopNav } from "./DesktopNav";
-import { Image } from "@heroui/react";
+import Image from "next/image";
 
 const navItems = [
   {
@@ -40,12 +40,21 @@ const navItems = [
     isButton: true,
   },
 ];
+
 const Navbar = () => {
   return (
     <nav className="bg-background h-[10vh] flex items-center fixed w-full z-40 top-0">
       <div className="w-full p-6 flex items-center justify-between">
         <Link href="/" className="pl-10 z-0">
-          <Image src="/LOGO.webp" alt="log" width={150} height={50} />
+          <Image
+            src="/LOGO.webp"
+            alt="Company Logo"
+            width={150}
+            height={50}
+            priority
+            style={{ width: 'auto', height: 'auto' }}
+            suppressHydrationWarning
+          />
         </Link>
         <div className="flex items-center gap-x-5">
           <DesktopNav navItems={navItems} />
@@ -54,4 +63,5 @@ const Navbar = () => {
     </nav>
   );
 };
+
 export default Navbar;
