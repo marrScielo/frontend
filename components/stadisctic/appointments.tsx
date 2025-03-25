@@ -32,6 +32,15 @@ const data = [
   { name: "06", uv: 2390, pv: 3800 },
 ];
 
+interface CustomizedLabelProps {
+  cx: number;
+  cy: number;
+  midAngle: number;
+  innerRadius: number;
+  outerRadius: number;
+  percent: number;
+}
+
 const renderCustomizedLabel = ({
   cx,
   cy,
@@ -59,7 +68,6 @@ const renderCustomizedLabel = ({
     </text>
   );
 };
-
 export default function Appointments() {
   return (
     <div className="grid xl:grid-cols-2 lg:grid-cols-1 m-5 place-items-center gap-5 max-w-[920px] mx-auto">
@@ -102,7 +110,9 @@ export default function Appointments() {
                 }}
               />
               <YAxis
+
                 tickFormatter={(value: number) => `${value / 1250}`} // Convertir a string
+
                 tick={{ fill: "#634AE2" }}
                 axisLine={{ stroke: "#634AE2" }}
                 tickLine={{ stroke: "#634AE2" }}
