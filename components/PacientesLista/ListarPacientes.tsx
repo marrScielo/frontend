@@ -114,10 +114,11 @@ export default function ListarPacientes() {
           </div>
         </div>
         <div className="flex flex-row items-center gap-x-1 mr-5">
-          <button className="hover:bg-gray-200 border-white border-1 text-[#634AE2] bg-white p-[2px] rounded-full">
+          <Button className="hover:bg-gray-200 border-white border-1 text-[#634AE2] bg-white p-[2px] rounded-full" href="/user/pacientes/DatosPaciente">
             <Plus />
-          </button>
+          </Button>
           <Button
+            href="/user/pacientes/DatosPaciente"
             radius="full"
             className="border-white text-white border-1 bg-[#fff0]  h-8 mx-auto"
           >
@@ -200,9 +201,11 @@ export default function ListarPacientes() {
                     </Link>
                     <div className="flex flex-col items-center">
                       <button
-                        onClick={() =>
-                          HandleDeletePaciente(paciente.idPaciente)
-                        }
+                        onClick={() => {
+                          if (confirm("¿Estás seguro de eliminar este paciente?")) {
+                            HandleDeletePaciente(paciente.idPaciente); 
+                          }
+                        }}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"

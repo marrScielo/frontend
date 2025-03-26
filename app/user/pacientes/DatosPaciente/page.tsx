@@ -1,11 +1,131 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Icons } from "@/icons";
 import CerrarSesion from "@/components/CerrarSesion";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { parseCookies } from "nookies";
+import showToast from "@/components/ToastStyle";
+import { City, Country, FormPaciente, Paciente2, State } from "@/interface";
+import {
+  CountrySelect,
+  StateSelect,
+  CitySelect,
+} from "react-country-state-city";
 
 export default function App() {
+  const [country, setCountry] = useState<Country | null>(null);
+  const [currentState, setCurrentState] = useState<City | null>(null);
+  const [currentCity, setCurrentCity] = useState<State | null>(null);
+
+  const [formData, setFormData] = useState<FormPaciente>({
+    nombre: "",
+    apellidoPaterno: "",
+    apellidoMaterno: "",
+    DNI: "",
+    email: "",
+    celular: "",
+    fecha_nacimiento: "",
+    genero: "",
+    estadoCivil: "",
+    ocupacion: "",
+    direccion: "",
+    departamento: currentState?.name|| "",
+    provincia: currentCity?.name || "",
+    pais:  country?.name || "",
+    antecedentesMedicos: "",
+    medicamentosPrescritos: "",
+  });
+  const handleCountryChange = (selected: Country | React.ChangeEvent<HTMLInputElement>) => {
+    if (typeof selected === 'object' && 'id' in selected && 'name' in selected) {
+      setCountry(selected);
+      setFormData(prev => ({...prev, pais: selected.name}));
+    } else {
+      setCountry(null);
+      setFormData(prev => ({...prev, pais: ""}));
+    }
+  };
+  
+  const handleStateChange = (selected: State | React.ChangeEvent<HTMLInputElement>) => {
+    if (typeof selected === 'object' && 'id' in selected && 'name' in selected) {
+      setCurrentState(selected);
+      setFormData(prev => ({...prev, departamento: selected.name}));
+    } else {
+      setCurrentState(null);
+      setFormData(prev => ({...prev, departamento: ""}));
+    }
+  };
+  
+  const handleCityChange = (selected: City | React.ChangeEvent<HTMLInputElement>) => {
+    if (typeof selected === 'object' && 'id' in selected && 'name' in selected) {
+      setCurrentCity(selected);
+      setFormData(prev => ({...prev, provincia: selected.name}));
+    } else {
+      setCurrentCity(null);
+      setFormData(prev => ({...prev, provincia: ""}));
+    }
+  };
+  
+  const HandlePostPaciente = async () => {
+    try {
+      const pacienteData: Omit<Paciente2, "idPaciente"> = {
+        DNI: formData.DNI,
+        nombre: formData.nombre,
+        apellido: `${formData.apellidoPaterno} ${formData.apellidoMaterno}`,
+        email: formData.email,
+        celular: formData.celular,
+        fecha_nacimiento: formData.fecha_nacimiento,
+        imagen: "http://algo",
+        genero: formData.genero,
+        ocupacion: formData.ocupacion,
+        estadoCivil: formData.estadoCivil,
+        direccion: `${formData.direccion}, ${formData.pais}, ${formData.provincia}, ${formData.departamento}`
+      };
+
+      const cookies = parseCookies();
+      const token = cookies["session"];
+      const url = `${process.env.NEXT_PUBLIC_API_URL}api/pacientes/create`;
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(pacienteData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        showToast("success", "Paciente creado correctamente");
+        setFormData({
+          nombre: "",
+          apellidoPaterno: "",
+          apellidoMaterno: "",
+          DNI: "",
+          email: "",
+          celular: "",
+          fecha_nacimiento: "",
+          genero: "",
+          estadoCivil: "",
+          ocupacion: "",
+          direccion: "",
+          departamento: "",
+          provincia: "",
+          pais: "",
+          antecedentesMedicos: "",
+          medicamentosPrescritos: "",
+        });
+      } else {
+        showToast("error", data.message || "Error al crear el paciente");
+      }
+    } catch (error) {
+      console.error(error);
+      showToast("error", "Error de conexión. Intenta nuevamente.");
+    }
+  };
+
   return (
     <div className="p-4">
       {/* Header */}
@@ -34,6 +154,10 @@ export default function App() {
               <div className="relative">
                 <input
                   type="text"
+                  value={formData.nombre}
+                  onChange={(e) =>
+                    setFormData({ ...formData, nombre: e.target.value })
+                  }
                   className="pl-12 pr-3 text-sm h-9 mt-2 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
                 />
               </div>
@@ -43,6 +167,10 @@ export default function App() {
               <div className="relative">
                 <input
                   type="text"
+                  value={formData.DNI}
+                  onChange={(e) =>
+                    setFormData({ ...formData, DNI: e.target.value })
+                  }
                   className="pl-12 pr-3 text-sm h-9 mt-2 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
                 />
               </div>
@@ -54,6 +182,13 @@ export default function App() {
               <div className="relative">
                 <input
                   type="text"
+                  value={formData.apellidoPaterno}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      apellidoPaterno: e.target.value,
+                    })
+                  }
                   className="pl-12 pr-3 text-sm h-9 mt-1 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
                 />
               </div>
@@ -63,6 +198,13 @@ export default function App() {
               <div className="relative">
                 <input
                   type="text"
+                  value={formData.apellidoMaterno}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      apellidoMaterno: e.target.value,
+                    })
+                  }
                   className="pl-12 pr-3 text-sm h-9 mt-1 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
                 />
               </div>
@@ -74,15 +216,28 @@ export default function App() {
               <div className="relative">
                 <input
                   type="text"
+                  value={formData.fecha_nacimiento}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      fecha_nacimiento: e.target.value,
+                    })
+                  }
                   className="pl-12 pr-3 text-sm h-9 mt-1 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
                 />
               </div>
             </div>
             <div className="flex-1 items-center justify-items-center">
-              <div className="py-1 mt-2">Edad</div>
+              <div className="py-1 mt-2">Ocupacion</div>
               <div className="relative">
                 <input
                   type="text"
+                  value={formData.ocupacion}
+                  onChange={(e) =>
+                    setFormData ({
+                      ...formData, ocupacion:e.target.value
+                    })
+                  }
                   className="pl-12 pr-3 text-sm h-9 mt-1 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
                 />
               </div>
@@ -91,48 +246,37 @@ export default function App() {
           <div className="flex pt-1">
             <div className="flex-1 items-center justify-items-center">
               <div className="py-1 mt-2">Estado civil</div>
-              <div className="relative">
-                <input
-                  type="text"
-                  className="placeholder:text-base placeholder:font-normal pl-12 pr-3 text-sm h-9 mt-1 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
-                  placeholder="Seleccionar"
-                />
-                <span
-                  className="text-[#634AE2] transition-colors absolute right-3 top-1/2 pt-1 transform -translate-y-1/2"
-                  dangerouslySetInnerHTML={{
-                    __html: Icons.arrow.replace(
-                      /<svg /,
-                      '<svg fill="currentColor" '
-                    ),
-                  }}
-                  style={{
-                    width: "1.2em",
-                    height: "1.2em",
-                  }}
-                />
+              <div className="relative w-60">
+                <select
+                  value={formData.estadoCivil}
+                  onChange={(e) =>
+                    setFormData({ ...formData, estadoCivil: e.target.value })
+                  }
+                  className="font-normal pl-12 pr-3 text-base h-9 mt-1 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none bg-[#F3F3F3]"
+                >
+                  <option value="">Seleccionar</option>
+                  <option value="Soltero">Soltero</option>
+                  <option value="Casado">Casado</option>
+                  <option value="Divorciado">Divorciado</option>
+                  <option value="Otro">Otro</option>
+                </select>
               </div>
             </div>
             <div className="flex-1 items-center justify-items-center">
               <div className="py-1 mt-2">Genero</div>
-              <div className="relative">
-                <input
-                  type="text"
-                  className="placeholder:text-base placeholder:font-normal pl-12 pr-3 text-sm h-9 mt-1 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
-                  placeholder="Seleccionar"
-                />
-                <span
-                  className="text-[#634AE2] transition-colors absolute right-3 top-1/2 pt-1 transform -translate-y-1/2"
-                  dangerouslySetInnerHTML={{
-                    __html: Icons.arrow.replace(
-                      /<svg /,
-                      '<svg fill="currentColor" '
-                    ),
-                  }}
-                  style={{
-                    width: "1.2em",
-                    height: "1.2em",
-                  }}
-                />
+              <div className="relative w-60">
+                <select
+                  value={formData.genero}
+                  onChange={(e) =>
+                    setFormData({ ...formData, genero: e.target.value })
+                  }
+                  className="text-base font-normal pl-12 pr-3 h-9 mt-1 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none bg-[#F3F3F3]"
+                >
+                  <option value="">Seleccionar</option>
+                  <option value="Masculino">Masculino</option>
+                  <option value="Femenino">Femenino</option>
+                  <option value="Otro">Otro</option>
+                </select>
               </div>
             </div>
           </div>
@@ -140,6 +284,10 @@ export default function App() {
           <div className="flex justify-center">
             <input
               type="text"
+              value={formData.celular}
+              onChange={(e) =>
+                setFormData({ ...formData, celular: e.target.value })
+              }
               placeholder="Ejemp. 999999999"
               className="pl-12 pr-3 text-sm h-9 mt-2 outline-none focus:ring-0 focus:outline-none w-11/12 rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
             />
@@ -153,20 +301,25 @@ export default function App() {
           <div className="flex justify-center">
             <input
               type="text"
+              value={formData.email}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
               className="pl-12 pr-3 text-sm h-9 mt-2 outline-none focus:ring-0 focus:outline-none w-11/12 rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
             />
           </div>
           <div className="flex pt-1">
             <div className="flex-1 items-center justify-items-center">
-              <div className="py-1 mt-2">Departamento</div>
+              <div className="py-1 mt-2">Pais</div>
               <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Seleccionar"
-                  className="pl-12 pr-3 text-sm h-9 mt-2 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] placeholder:text-base placeholder:font-normal bg-[#F3F3F3]"
+                <CountrySelect
+                  containerClassName="mt-2 [&_.stdropdown-container]:!border-none [&_.stdropdown-container]:!bg-transparent [&_.stdropdown-input]:!p-0 [&_.stsearch-box]:!bg-[#F3F3F3] [&_.stsearch-box]:!rounded-full [&_.stdropdown-tools]:hidden w-full"
+                  inputClassName="appearance-none !border-none !outline-none pl-12 pr-3 text-sm h-9 w-full placeholder:text-[#634AE2] placeholder:text-base placeholder:font-normal bg-transparent focus:ring-0"
+                  onChange={handleCountryChange}
+                  placeHolder="Seleccionar"
                 />
                 <span
-                  className="text-[#634AE2] transition-colors absolute right-3 top-1/2 pt-1 transform -translate-y-1/2"
+                  className="text-[#634AE2] transition-colors absolute right-3 top-1/2  pt-1 transform -translate-y-1/2"
                   dangerouslySetInnerHTML={{
                     __html: Icons.arrow.replace(
                       /<svg /,
@@ -181,12 +334,14 @@ export default function App() {
               </div>
             </div>
             <div className="flex-1 items-center justify-items-center">
-              <div className="py-1 mt-2">Provincia</div>
+              <div className="py-1 mt-2">Departamento</div>
               <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Seleccionar"
-                  className="placeholder:text-base placeholder:font-normal pl-12 pr-3 text-sm h-9 mt-2 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
+                <StateSelect
+                  countryid={country?.id ?? 0}
+                  containerClassName="mt-2 [&_.stdropdown-container]:!border-none [&_.stdropdown-container]:!bg-transparent [&_.stdropdown-input]:!p-0 [&_.stsearch-box]:!bg-[#F3F3F3] [&_.stsearch-box]:!rounded-full [&_.stdropdown-tools]:hidden w-full"
+                  inputClassName="appearance-none !border-none !outline-none pl-12 pr-3 text-sm h-9 w-full placeholder:text-[#634AE2] placeholder:text-base placeholder:font-normal bg-transparent focus:ring-0"
+                  onChange={handleStateChange}
+                  placeHolder="Seleccionar"
                 />
                 <span
                   className="text-[#634AE2] transition-colors absolute right-3 top-1/2  pt-1 transform -translate-y-1/2"
@@ -206,12 +361,15 @@ export default function App() {
           </div>
           <div className="flex pt-1">
             <div className="flex-1 items-center justify-items-center">
-              <div className="py-1 mt-2">Distrito</div>
+              <div className="py-1 mt-2">Provincia</div>
               <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Seleccionar"
-                  className="placeholder:text-base placeholder:font-normal pl-12 pr-3 text-sm h-9 mt-2 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
+                <CitySelect
+                  countryid={country?.id?? 0}
+                  stateid={currentState?.id?? 0}
+                  onChange={handleCityChange}
+                  containerClassName="mt-2 [&_.stdropdown-container]:!border-none [&_.stdropdown-container]:!bg-transparent [&_.stdropdown-input]:!p-0 [&_.stsearch-box]:!bg-[#F3F3F3] [&_.stsearch-box]:!rounded-full [&_.stdropdown-tools]:hidden w-full"
+                  inputClassName="appearance-none !border-none !outline-none pl-12 pr-3 text-sm h-9 w-full placeholder:text-[#634AE2] placeholder:text-base placeholder:font-normal bg-transparent focus:ring-0"
+                  placeHolder="Seleccionar"
                 />
                 <span
                   className="text-[#634AE2] transition-colors absolute right-3 top-1/2 pt-1 transform -translate-y-1/2"
@@ -233,6 +391,10 @@ export default function App() {
               <div className="relative">
                 <input
                   type="text"
+                  value={formData.direccion}
+                  onChange={(e) =>
+                    setFormData({ ...formData, direccion: e.target.value })
+                  }
                   className="pl-12 pr-3 text-sm h-9 mt-2 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
                 />
               </div>
@@ -244,6 +406,13 @@ export default function App() {
           <div className="flex justify-center">
             <input
               type="text"
+              value={formData.antecedentesMedicos}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  antecedentesMedicos: e.target.value,
+                })
+              }
               className="pl-12 pr-3 text-sm h-9 mt-2 outline-none focus:ring-0 focus:outline-none w-11/12 rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
             />
           </div>
@@ -253,6 +422,13 @@ export default function App() {
           <div className="flex justify-center">
             <input
               type="text"
+              value={formData.medicamentosPrescritos}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  medicamentosPrescritos: e.target.value,
+                })
+              }
               className="pl-12 pr-3 text-sm h-9 mt-2 outline-none focus:ring-0 focus:outline-none w-11/12 rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
             />
           </div>
@@ -276,7 +452,10 @@ export default function App() {
           />
           Registro familiar
         </Link>
-        <button className="text-[#634AE2] bg-[#fff] rounded-full border-2 border-[#634AE2] w-28 h-8 mr-12">
+        <button
+          onClick={HandlePostPaciente}
+          className="text-[#634AE2] bg-[#fff] rounded-full border-2 border-[#634AE2] w-28 h-8 mr-12"
+        >
           Registrar
         </button>
       </div>
