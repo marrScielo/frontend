@@ -126,7 +126,7 @@ export default function ChooseUs() {
   };
 
   return (
-    <div className="w-full max-w-full flex flex-col items-center justify-center px-4 py-16 bg-[#9494f3] relative overflow-hidden">
+    <div className="w-full max-w-full flex flex-col items-center justify-center py-16 my-4 bg-[#9494f3] relative overflow-hidden">
       <div className="relative w-full max-w-full">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -195,7 +195,7 @@ export default function ChooseUs() {
 
         {/**contenido para pantallas pequeñas*/}
         <div className="block lg:hidden w-full">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 ">
 
             {/* Columna izquierda: Carrusel de iconos */}
             <div className="col-span-1">
@@ -221,7 +221,7 @@ export default function ChooseUs() {
                 </div>
               </div>
 
-              {/* Dots Navigation */}
+        
               <div className="flex justify-center space-x-2 mt-6">
                 {features.map((_, index) => (
                   <button
@@ -240,7 +240,7 @@ export default function ChooseUs() {
             {/* Columna derecha: Imagen */}
             <div className="col-span-1">
               <div
-                className=" h-[345px] bg-cover bg-center bg-no-repeat rounded-lg"
+                className=" h-[345px] -mr-10 md:-mr-0 bg-cover bg-center bg-no-repeat rounded-lg"
                 style={{
                   backgroundImage: `url(/mediaLunaInicio.webp)`,
                   backgroundSize: "auto",

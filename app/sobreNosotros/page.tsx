@@ -28,11 +28,7 @@ export default function Home() {
   return (
     <div
       className="w-full h-full pt-8"
-      style={{
-        backgroundImage: `linear-gradient(to right, #3616D87A 0%, #3616D870 30%, #7863E37A 70%, #7863E370 100%)`,
-        backgroundColor: "#fff",
-        
-      }}>
+      >
       <SobreNosotrosStructure qs={dataQS} />
     </div>
   );

@@ -128,11 +128,11 @@ export default function ChooseUs() {
       </motion.div>
 
       {/* Contenido para pantallas grandes */}
-      <div className="lg:block hidden">
-        <div className="grid grid-cols-2">
-          <div className="col-span-1 flex items-center max-w-[480px]">
+      <div className="lg:block hidden w-full">
+        <div className="grid grid-cols-2 ">
+          <div className="col-span-1 flex items-center max-w-full">
             <div
-              className="w-[550px] h-[605px] bg-cover bg-center bg-no-repeat"
+              className="w-[482px] h-[605px] bg-cover bg-center bg-no-repeat"
               style={{
                 backgroundImage: `url(/psicologa.webp)`,
                 backgroundSize: "480px 600px", 
@@ -140,7 +140,7 @@ export default function ChooseUs() {
             />
           </div>
 
-          <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-40 justify-items-center -ml-60">
+          <motion.div className="grid grid-cols-1 mx-auto md:grid-cols-2 lg:grid-cols-4 gap-40 justify-items-center -ml-60">
             {features.slice(0, 4).map((feature, index) => (
               <motion.div
                 key={index}
@@ -185,7 +185,7 @@ export default function ChooseUs() {
         <div className="grid grid-cols-2 gap-1">
           <div className="col-span-1 flex items-center">
             <div
-              className="w-[345px] h-[405px] bg-cover bg-center bg-no-repeat"
+              className="w-[345px] h-[405px] -ml-5 bg-cover bg-center bg-no-repeat"
               style={{
                 backgroundImage: `url(/psicologa.webp)`,
                 backgroundSize: "auto", // Fija el tamaño de la imagen

@@ -30,8 +30,7 @@ export default function RootLayout({
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
-          enableSystem
-          
+          enableSystem    
           disableTransitionOnChange
         >
           {getBaseRoute() !== "/user" && getBaseRoute() !== "/admin" && (
