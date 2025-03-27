@@ -8,7 +8,7 @@ import showToast from "@/components/ToastStyle";
 
 const DatosPaciente: React.FC<DatosPacienteProps> = ({ idPaciente }) => {
   const [paciente, setPaciente] = useState<Paciente | null>(null);
-  
+  //Traer un paciente por el ID
   const HandleGetPaciente = async (idPaciente: number) => {
     try {
       const cookies = parseCookies();
@@ -92,7 +92,7 @@ const DatosPaciente: React.FC<DatosPacienteProps> = ({ idPaciente }) => {
           </div>
           <div className="flex gap-6">
             <div className="w-28">Correo</div>
-            <div className="font-normal">{paciente?.email}</div>
+            <div className="font-normal">{paciente?.correo}</div>
           </div>
           <div className="flex gap-6">
             <div className="w-28">Dirección</div>

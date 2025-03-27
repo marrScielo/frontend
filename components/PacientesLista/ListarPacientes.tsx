@@ -34,6 +34,7 @@ export default function ListarPacientes() {
     setFilteredPacientes(paciente);
   };
 
+  //funcion para traer a los pacientes a todos, y con el filtro
   const handleGetPacientes = async () => {
     try {
       const cookies = parseCookies();
@@ -72,6 +73,7 @@ export default function ListarPacientes() {
     }
   };
 
+  //Funcion para eliminar Paciente
   const HandleDeletePaciente = async (idPaciente: number) => {
     try {
       const cookies = parseCookies();
@@ -108,6 +110,7 @@ export default function ListarPacientes() {
 
   return (
     <>
+    {/* Navbar*/}
       <div className="flex justify-between w-full mt-10 mb-6">
         <h1 className=" flex items-center font-bold text-[32px]  leading-[40px]  ml-11   text-[#634AE2]  ">
           Pacientes
@@ -168,7 +171,8 @@ export default function ListarPacientes() {
           </Link>
         </div>
       </div>
-
+    
+    {/* Encabezado tabla */}
       <table className="max-w-screen-2xl mx-auto w-full pt-9 border-separate border-spacing-y-4 px-8">
         <thead className="rounded-full">
           <tr className="bg-[#6364F4] text-white h-11 ">
@@ -181,6 +185,7 @@ export default function ListarPacientes() {
             <th className="rounded-tr-full font-normal">Más</th>
           </tr>
         </thead>
+      {/* Tablas */}  
         <tbody className="text-center bg-white text-[#634AE2] font-normal text-[16px] leading-[20px]">
           {filteredPacientes.map((paciente) => (
             <tr

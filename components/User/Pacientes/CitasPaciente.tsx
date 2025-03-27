@@ -1,7 +1,7 @@
 import { DatosPacienteProps } from "@/interface";
 import React from "react";
 
-const CitasPaciente : React.FC<DatosPacienteProps> = ({ idPaciente }) => {
+const CitasPaciente : React.FC<DatosPacienteProps> = () => {
   
   return (
     <div>

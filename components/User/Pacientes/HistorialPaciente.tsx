@@ -7,7 +7,7 @@ import { parseCookies } from "nookies";
 const HistorialPaciente: React.FC<DatosPacienteProps> = ({ idPaciente }) => {
   const [showCart, setShowCart] = useState(false);
   const [paciente, setPaciente] = useState<Paciente | null>(null);
-  console.log(idPaciente);
+  //Traer un paciente por el ID
   const HandleGetPaciente = async (idPaciente: number) => {
     try {
       const cookies = parseCookies();
