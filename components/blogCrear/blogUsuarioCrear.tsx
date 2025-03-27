@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Autocomplete, AutocompleteItem, Button, Input } from "@heroui/react";
@@ -12,7 +13,7 @@ import showToast from "../ToastStyle";
 export const CategoriaGet = async () => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}api/categorias/show`,
+      `${process.env.NEXT_PUBLIC_API_URL}api/categorias`,
       {
         method: "GET",
         headers: {

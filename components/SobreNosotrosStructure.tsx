@@ -1,7 +1,6 @@
 "use client";
 import { QuienesSomos } from "@/interface";
 import { Accordion, AccordionItem } from "@heroui/react";
-import { ThemeToggle } from "./Themetoggle";
 
 const AnchorIcon = () => {
   return (

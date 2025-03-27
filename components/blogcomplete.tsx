@@ -1,3 +1,4 @@
+import { BlogPreviewData } from "@/interface";
 import { Button, Divider, Form, Image, User } from "@heroui/react";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
@@ -14,13 +15,6 @@ const comentarios = [
     usuario: "Juan Flores",
     comentario:
       "Creo que es uno de los mejores artículos que he leído en relación al tema. Es claro, conciso y bastante fácil de seguir y entender la lectura. Gracias por la información.",
-  },
-];
-
-const textos = [
-  {
-    id: 1,
-    text: "La autoestima es un aspecto crucial de nuestro bienestar mental y emocional. Tener una buena autoestima significa reconocer y valorar nuestras capacidades y logros, mientras que una baja autoestima puede afectar negativamente nuestras relaciones, rendimiento y calidad de vida. A continuación, te presentamos algunas estrategias efectivas para mejorar y fortalecer tu autoestima. <br/> <br/><strong> Practica la Autoaceptación</strong><br/>  Acepta tus imperfecciones y comprende que todos cometemos errores. La autoaceptación es el primer paso hacia una autoestima saludable. Haz una lista de tus fortalezas y áreas de mejora y trabaja en ellas sin juzgarte.<br/><br/><b> Establece Metas Realistas</b><br/> Fija objetivos alcanzables y celebra tus logros, por pequeños que sean. Establecer metas realistas te permite experimentar el éxito, lo cual refuerza tu confianza en ti mismo.<br/><br/><b> Desarrolla Habilidades Nuevas</b><br/>  Aprender nuevas habilidades o mejorar las existentes puede aumentar tu sentido de competencia y autoeficacia. Participa en actividades que te interesen y desafíen.<br/><br/><b>Rodeate de Personas Positivas </b><br/>Las relaciones saludables y de apoyo pueden tener un gran impacto en tu autoestima. Rodéate de personas que te valoren y te animen a ser tu mejor versión. <br/><br/><b>Cuida de Tu Salud Física</b><br/> El ejercicio regular, una dieta equilibrada y un buen sueño son fundamentales para mantener un equilibrio físico y mental. Cuidar de tu cuerpo también mejora tu percepción de ti mismo.<br/><br/><b> Practica la Autocompasión </b><br/>Sé amable contigo mismo en momentos de dificultad. La autocompasión implica tratarte con la misma amabilidad y comprensión con la que tratarías a un amigo cercano.<br/><br/><b> Evita Compararte con Otros</b><br/> Cada persona tiene su propio camino y sus propias luchas. Compararte con los demás puede ser dañino. Enfócate en tu propio crecimiento y progreso. <br/><br/><b>Busca Ayuda Profesional</b><br/> Si sientes que tus esfuerzos no son suficientes, considera buscar la ayuda de un terapeuta o consejero. La terapia puede proporcionarte herramientas y perspectivas valiosas para mejorar tu autoestima.",
   },
 ];
 
@@ -42,7 +36,7 @@ const artículo = [
   },
 ];
 
-export default function BlogComplete() {
+export default function BlogComplete({ data }: { data: BlogPreviewData }) {
   return (
     <>
       <div className="max-w-7xl w-full flex flex-col items-center mx-auto px-4">
@@ -59,28 +53,28 @@ export default function BlogComplete() {
             radius="full"
             className="bg-[#EAEAFF] md:m-2 text-base text-[#634AE2]"
           >
-            Autoestima
+            {data?.categoria}
           </Button>
         </div>
 
         <div className="text-[#634AE2] w-full">
           <p className="font-semibold md:text-[64px] text-2xl md:leading-[80px] mt-4">
-            Estrategias Efectivas para Mejorar la Autoestima
+            {data?.tema}
           </p>
           <User
             className="mt-6"
             avatarProps={{
-              src: "https://i.pravatar.cc/150?u=a04258114e29026702d",
-              size: "lg",
+              src: data?.psicologoImagenId,
+              size: "md",
             }}
             name={
               <p className="text-sm font-normal ml-2 md:text-base">
-                Jhon Angelo Sánchez Garcia
+                {data?.psicologo} {data?.psicologApellido}
               </p>
             }
             description={
               <p className="text-[#634AE2] text-[14px] ml-2 pt-4 leading-[20px] font-extralight md:block hidden">
-                Publicado el 17/07/2024
+                Publicado el {data?.fecha}
               </p>
             }
           />
@@ -89,23 +83,20 @@ export default function BlogComplete() {
       </div>
 
       <div className="w-full">
-        <Image
+        <img
           className="pt-9 rounded-none"
-          src="/img2.png"
+          src= {data?.imagen}
           alt="blogfondo"
           width="100%"
-          height={"auto"}
+          height="50%"
         />
       </div>
 
-      <div className="max-w-7xl w-full mx-auto px-4">
-        {textos.map((item, index) => (
-          <p
-            key={index}
-            className="md:text-2xl text-sm my-8 text-[#634AE2]"
-            dangerouslySetInnerHTML={{ __html: item.text }}
-          />
-        ))}
+      <div className="max-w-7xl  w-full mx-auto px-4">
+        <p
+          className="md:text-2xl text-sm my-8 text-[#634AE2]"
+          dangerouslySetInnerHTML={{ __html: data?.contenido }}
+        />
 
         <Divider className="max-w-7xl" />
         <h1 className="text-[#634AE2] my-8 text-[24px] leading-[36px] font-semibold">
@@ -131,9 +122,7 @@ export default function BlogComplete() {
             </a>
           </div>
         ))}
-        <Button
-          className="rounded-full text-[16px] bg-white text-[#634AE2] h-10 px-7 border border-[#634AE2] leading-9"
-        >
+        <Button className="rounded-full text-[16px] bg-white text-[#634AE2] h-10 px-7 border border-[#634AE2] leading-9">
           Ver todas las respuestas
         </Button>
       </div>

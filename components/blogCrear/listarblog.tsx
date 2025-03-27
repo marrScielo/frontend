@@ -101,8 +101,8 @@ export function Listarblog({ onEdit }: { onEdit: (id: number) => Promise<void> }
 
         <tbody className="text-center   bg-white text-[#634AE2] font-normal text-[16px] leading-[20px]  ">
           {bloge.map((blog) => (
-            <tr key={blog.idBlog} className="border-b hover:bg-gray-100  ">
-              <td className="px-4 py-2 rounded-l-[34px]">{blog.idBlog}</td>
+            <tr key={blog.id} className="border-b hover:bg-gray-100  ">
+              <td className="px-4 py-2 rounded-l-[34px]">{blog.id}</td>
               <td
                 className="px-4 py-2 "
                 
@@ -122,7 +122,7 @@ export function Listarblog({ onEdit }: { onEdit: (id: number) => Promise<void> }
                 <div className="flex flex-row items-center justify-center gap-x-4">
                   <div className="">
                     <button 
-                    onClick={()=> handleEditarBlog(blog.idBlog)}
+                    onClick={()=> handleEditarBlog(blog.id)}
                     className="flex flex-col items-center justify-center hover:opacity-75"
                     >
                     <svg
@@ -139,7 +139,7 @@ export function Listarblog({ onEdit }: { onEdit: (id: number) => Promise<void> }
                   </div>
                   <div className="">
                     <button
-                      onClick={()=> handleEliminarBlog(blog.idBlog)} 
+                      onClick={()=> handleEliminarBlog(blog.id)} 
                       className="flex flex-col items-center justify-center hover:opacity-75"
                     >
                       <svg
