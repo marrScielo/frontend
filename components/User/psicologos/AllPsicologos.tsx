@@ -23,7 +23,7 @@ import {
   Textarea,
   useDisclosure,
 } from "@heroui/react";
-import {  Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
@@ -57,8 +57,7 @@ export default function AllPsicologos({
       console.error("Error: formData es null");
       return;
     }
-  
-    
+
     try {
       await UpdatePsicologo(id, formData);
       showToast("success", "El psicólogo se actualizó correctamente");
