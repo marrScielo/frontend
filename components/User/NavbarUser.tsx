@@ -24,6 +24,11 @@ const navItems = [
     icono: Icons.pacientes,
   },
   {
+    name: "Psicologos",
+    link: "/user/psicologos",
+    icono: Icons.psicologos,
+  },
+  {
     name: "Citas",
     link: "/user/citas",
     icono: Icons.citas,
@@ -95,7 +100,7 @@ const NavbarUser = () => {
         <div className="bg-background w-full h-full rounded-tr-3xl pt-7 flex flex-col">
           <Link href="/">
             <h1 className="font-normal text-3xl flex justify-center items-center">
-              <Image src={"/LOGO.webp"} width={200} height={150} alt="logo" />
+              <Image src={"/LOGO.webp"} priority={true} width={200} height={150} alt="logo" />
             </h1>
           </Link>
           <div className="flex flex-col items-center mt-8 pt-7 mr-7">

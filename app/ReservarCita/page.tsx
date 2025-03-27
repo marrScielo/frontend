@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import ReservarComponents from "@/components/ReservarComponents";
 import { GetPsicologos } from "../apiRoutes";
 import { PsicologoApiResponse } from "@/interface";
+import LoadingPages from "@/components/LoadingPages";
 
 export default function BlogPage() {
 
@@ -28,7 +29,7 @@ export default function BlogPage() {
 
   return (
     <div>
-      {loading && <p>Cargando...</p>}
+      {loading && <LoadingPages />}
       {error && <p>{error}</p>}
       {psicologos && <ReservarComponents Psicologos={psicologos.result} />}
     </div>

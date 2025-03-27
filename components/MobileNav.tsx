@@ -125,6 +125,11 @@ export function MobileNav({ navItems }: {navItems: NavItem[]}) {
                             Terapia familiar
                           </button>
                         </Link>
+                        <Link href="/servicios/terapia/empresarial/">
+                          <button className="w-full bg-none text-[#634AE2] text-lg text-left">
+                            Terapia empresarial
+                          </button>
+                        </Link>
                       </div>
                     )}
                   </>

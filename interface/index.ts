@@ -124,7 +124,7 @@ export interface BlogApi {
 }
 
 export interface BlogApiGEt {
-  idBlog: number | null,
+  id: number | null,
   categoria: string,
   tema: string,
   contenido: string,
@@ -144,6 +144,9 @@ export interface BlogPreviewData {
   fecha: string,
 }
 
+export interface ApiResponseBLogAlone {
+  result: BlogPreviewData;
+}
 
 export interface ApiResponse {
 
@@ -159,6 +162,9 @@ export interface PsicologoPreviewData {
   introduccion: string,
   genero: string,
   experiencia: number,
+  correo: string,
+  contraseña: string,
+  fecha_nacimiento: string,
   especialidades: string[],
   imagen: string,
 }
@@ -169,6 +175,14 @@ export interface PsicologoApiResponse {
   description: string;
   errorBag: any[];
   result: PsicologoPreviewData[];
+}
+
+export interface PsicologoApiResponseAlone {
+  status_code: number;
+  status_message: string;
+  description: string;
+  errorBag: any[];
+  result: PsicologoPreviewData;
 }
 
 export interface UsuarioLocalStorage {
@@ -289,4 +303,12 @@ export interface State {
 export interface City {
   id: number;
   name: string;
+}
+export interface CustomizedLabelProps {
+  cx: number;
+  cy: number;
+  midAngle: number;
+  innerRadius: number;
+  outerRadius: number;
+  percent: number;
 }
