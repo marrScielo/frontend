@@ -228,7 +228,7 @@ export interface Paciente {
   DNI: string,
   nombre: string,
   apellido:string,
-  email: string,
+  correo: string,
   celular: string,
   fecha_nacimiento: Date,
   imagen: string,
