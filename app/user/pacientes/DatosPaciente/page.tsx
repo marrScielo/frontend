@@ -39,8 +39,8 @@ export default function App() {
   });
   const handleDateChange = (value: CalendarDate | null) => {
     if (value) {
-      const date = new Date(value.year, value.month - 1, value.day);
-      const formattedDate = date.toISOString().split('T')[0];
+      // Formatear directamente como DD/MM/YYYY
+      const formattedDate = `${value.day.toString().padStart(2, '0')}/${value.month.toString().padStart(2, '0')}/${value.year}`;
       setFormData({ ...formData, fecha_nacimiento: formattedDate });
     } else {
       setFormData({ ...formData, fecha_nacimiento: "" });
@@ -49,7 +49,8 @@ export default function App() {
 
   const parseDateString = (dateString: string): CalendarDate | null => {
     if (!dateString) return null;
-    const [year, month, day] = dateString.split('/').map(Number);
+    const [day, month, year] = dateString.split('/').map(Number);
+    if (isNaN(day) || isNaN(month) || isNaN(year)) return null;
     return new CalendarDate(year, month, day);
   };
 
