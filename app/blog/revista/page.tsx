@@ -1,5 +1,6 @@
 "use client";
 import BlogComplete from "@/components/blogcomplete";
+import LoadingPages from "@/components/LoadingPages";
 import { BlogPreviewData } from "@/interface";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -39,7 +40,7 @@ function RevistaContent() {
 
 export default function Revista() {
   return (
-    <Suspense fallback={<div>Cargando...</div>}>
+    <Suspense fallback={<div><LoadingPages/></div>}>
       <RevistaContent />
     </Suspense>
   );
