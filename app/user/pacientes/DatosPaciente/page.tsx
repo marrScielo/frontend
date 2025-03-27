@@ -12,7 +12,7 @@ import {
   StateSelect,
   CitySelect,
 } from "react-country-state-city";
-import { DateRangePicker } from "@heroui/react";
+import { Calendar, DatePicker } from "@heroui/react";
 
 export default function App() {
   const [country, setCountry] = useState<Country | null>(null);
@@ -31,42 +31,60 @@ export default function App() {
     estadoCivil: "",
     ocupacion: "",
     direccion: "",
-    departamento: currentState?.name|| "",
+    departamento: currentState?.name || "",
     provincia: currentCity?.name || "",
-    pais:  country?.name || "",
+    pais: country?.name || "",
     antecedentesMedicos: "",
     medicamentosPrescritos: "",
   });
-  const handleCountryChange = (selected: Country | React.ChangeEvent<HTMLInputElement>) => {
-    if (typeof selected === 'object' && 'id' in selected && 'name' in selected) {
+  const handleCountryChange = (
+    selected: Country | React.ChangeEvent<HTMLInputElement>
+  ) => {
+    if (
+      typeof selected === "object" &&
+      "id" in selected &&
+      "name" in selected
+    ) {
       setCountry(selected);
-      setFormData(prev => ({...prev, pais: selected.name}));
+      setFormData((prev) => ({ ...prev, pais: selected.name }));
     } else {
       setCountry(null);
-      setFormData(prev => ({...prev, pais: ""}));
+      setFormData((prev) => ({ ...prev, pais: "" }));
     }
   };
-  
-  const handleStateChange = (selected: State | React.ChangeEvent<HTMLInputElement>) => {
-    if (typeof selected === 'object' && 'id' in selected && 'name' in selected) {
+
+  const handleStateChange = (
+    selected: State | React.ChangeEvent<HTMLInputElement>
+  ) => {
+    if (
+      typeof selected === "object" &&
+      "id" in selected &&
+      "name" in selected
+    ) {
       setCurrentState(selected);
-      setFormData(prev => ({...prev, departamento: selected.name}));
+      setFormData((prev) => ({ ...prev, departamento: selected.name }));
     } else {
       setCurrentState(null);
-      setFormData(prev => ({...prev, departamento: ""}));
+      setFormData((prev) => ({ ...prev, departamento: "" }));
     }
   };
-  
-  const handleCityChange = (selected: City | React.ChangeEvent<HTMLInputElement>) => {
-    if (typeof selected === 'object' && 'id' in selected && 'name' in selected) {
+
+  const handleCityChange = (
+    selected: City | React.ChangeEvent<HTMLInputElement>
+  ) => {
+    if (
+      typeof selected === "object" &&
+      "id" in selected &&
+      "name" in selected
+    ) {
       setCurrentCity(selected);
-      setFormData(prev => ({...prev, provincia: selected.name}));
+      setFormData((prev) => ({ ...prev, provincia: selected.name }));
     } else {
       setCurrentCity(null);
-      setFormData(prev => ({...prev, provincia: ""}));
+      setFormData((prev) => ({ ...prev, provincia: "" }));
     }
   };
-  
+
   const HandlePostPaciente = async () => {
     try {
       const pacienteData: Omit<Paciente2, "idPaciente"> = {
@@ -80,7 +98,7 @@ export default function App() {
         genero: formData.genero,
         ocupacion: formData.ocupacion,
         estadoCivil: formData.estadoCivil,
-        direccion: `${formData.direccion}, ${formData.pais}, ${formData.provincia}, ${formData.departamento}`
+        direccion: `${formData.direccion}, ${formData.pais}, ${formData.provincia}, ${formData.departamento}`,
       };
 
       const cookies = parseCookies();
@@ -215,40 +233,10 @@ export default function App() {
             <div className="flex-1 items-center justify-items-center">
               <div className="py-1 mt-2">Fecha de nacimiento</div>
               <div className="relative">
-              <DateRangePicker
+                <DatePicker
                   showMonthAndYearPickers
-                  selectorButtonPlacement="start"
-                  aria-label="Example static collection table"
-                  aria-labelledby="label-id"
-                  classNames={{
-                    inputWrapper: "bg-[#E7E7FF] rounded-full ",
-                    segment: "!text-[#634AE2]",
-                  }}
-                  calendarProps={{
-                    classNames: {
-                      pickerMonthList: "bg-[#E7E7FF]",
-                      pickerYearList: "bg-[#E7E7FF]",
-                      pickerItem: "!text-[#634AE2]",
-                      base: "bg-background text-[#634AE2]",
-                      headerWrapper: "pt-4 bg-[#E7E7FF] text-[#634AE2]",
-                      prevButton:
-                        "border-1 border-default-200 rounded-small bg-[#E7E7FF] text-xl text-[#634AE2]",
-                      nextButton:
-                        "border-1 border-default-200 rounded-small bg-[#E7E7FF] text-xl text-[#634AE2]",
-                      gridHeader:
-                        "bg-background shadow-none border-b-1 border-default-100 bg-[#E7E7FF] text-[#634AE2]",
-                      cellButton: [
-                        "data-[today=true]:bg-[#E7E7FF] data-[selected=true] text-[#634AE2]:bg-[#E7E7FF] rounded-full text-[#634AE2]",
-                        "data-[selected=true]:!bg-[#E7E7FF] data-[selected=true]:!text-[#634AE2] rounded-full",
-                        "data-[range-start=true]:before:rounded-l-small font-bold text-[#634AE2] ",
-                        "data-[selection-start=true]:before:rounded-l-small font-bold text-[#634AE2]",
-                        "data-[range-end=true]:before:rounded-r-small font-bold text-[#634AE2]",
-                        "data-[selection-end=true]:before:rounded-r-small font-bold text-[#634AE2] ",
-                        "data-[selected=true]:data-[selection-start=true]:data-[range-selection=true]:rounded-small font-bold text-[#634AE2]",
-                        "data-[selected=true]:data-[selection-end=true]:data-[range-selection=true]:rounded-small font-bold text-[#634AE2]",
-                      ],
-                    },
-                  }}
+                  label="Birth Date"
+                  variant="bordered"
                 />
                 <input
                   type="text"
@@ -270,8 +258,9 @@ export default function App() {
                   type="text"
                   value={formData.ocupacion}
                   onChange={(e) =>
-                    setFormData ({
-                      ...formData, ocupacion:e.target.value
+                    setFormData({
+                      ...formData,
+                      ocupacion: e.target.value,
                     })
                   }
                   className="pl-12 pr-3 text-sm h-9 mt-1 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
@@ -400,8 +389,8 @@ export default function App() {
               <div className="py-1 mt-2">Provincia</div>
               <div className="relative">
                 <CitySelect
-                  countryid={country?.id?? 0}
-                  stateid={currentState?.id?? 0}
+                  countryid={country?.id ?? 0}
+                  stateid={currentState?.id ?? 0}
                   onChange={handleCityChange}
                   containerClassName="mt-2 [&_.stdropdown-container]:!border-none [&_.stdropdown-container]:!bg-transparent [&_.stdropdown-input]:!p-0 [&_.stsearch-box]:!bg-[#F3F3F3] [&_.stsearch-box]:!rounded-full [&_.stdropdown-tools]:hidden w-full"
                   inputClassName="appearance-none !border-none !outline-none pl-12 pr-3 text-sm h-9 w-full placeholder:text-[#634AE2] placeholder:text-base placeholder:font-normal bg-transparent focus:ring-0"
