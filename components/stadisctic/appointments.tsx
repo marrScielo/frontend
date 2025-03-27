@@ -32,14 +32,6 @@ const data = [
   { name: "06", uv: 2390, pv: 3800 },
 ];
 
-interface CustomizedLabelProps {
-  cx: number;
-  cy: number;
-  midAngle: number;
-  innerRadius: number;
-  outerRadius: number;
-  percent: number;
-}
 
 const renderCustomizedLabel = ({
   cx,

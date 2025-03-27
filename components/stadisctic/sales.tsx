@@ -19,14 +19,7 @@ const genero = [
   { name: "Ausencias", Total: 10 },
 ];
 
-interface CustomizedLabelProps {
-  cx: number;
-  cy: number;
-  midAngle: number;
-  innerRadius: number;
-  outerRadius: number;
-  percent: number;
-}
+
 
 const renderCustomizedLabel = ({
   cx,

@@ -1,5 +1,5 @@
 import { BlogPreviewData } from "@/interface";
-import { Button, Divider, Form, User } from "@heroui/react";
+import { Button, Divider, Form } from "@heroui/react";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
