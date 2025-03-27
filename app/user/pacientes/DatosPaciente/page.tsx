@@ -12,6 +12,7 @@ import {
   StateSelect,
   CitySelect,
 } from "react-country-state-city";
+import { DateRangePicker } from "@heroui/react";
 
 export default function App() {
   const [country, setCountry] = useState<Country | null>(null);
@@ -214,6 +215,41 @@ export default function App() {
             <div className="flex-1 items-center justify-items-center">
               <div className="py-1 mt-2">Fecha de nacimiento</div>
               <div className="relative">
+              <DateRangePicker
+                  showMonthAndYearPickers
+                  selectorButtonPlacement="start"
+                  aria-label="Example static collection table"
+                  aria-labelledby="label-id"
+                  classNames={{
+                    inputWrapper: "bg-[#E7E7FF] rounded-full ",
+                    segment: "!text-[#634AE2]",
+                  }}
+                  calendarProps={{
+                    classNames: {
+                      pickerMonthList: "bg-[#E7E7FF]",
+                      pickerYearList: "bg-[#E7E7FF]",
+                      pickerItem: "!text-[#634AE2]",
+                      base: "bg-background text-[#634AE2]",
+                      headerWrapper: "pt-4 bg-[#E7E7FF] text-[#634AE2]",
+                      prevButton:
+                        "border-1 border-default-200 rounded-small bg-[#E7E7FF] text-xl text-[#634AE2]",
+                      nextButton:
+                        "border-1 border-default-200 rounded-small bg-[#E7E7FF] text-xl text-[#634AE2]",
+                      gridHeader:
+                        "bg-background shadow-none border-b-1 border-default-100 bg-[#E7E7FF] text-[#634AE2]",
+                      cellButton: [
+                        "data-[today=true]:bg-[#E7E7FF] data-[selected=true] text-[#634AE2]:bg-[#E7E7FF] rounded-full text-[#634AE2]",
+                        "data-[selected=true]:!bg-[#E7E7FF] data-[selected=true]:!text-[#634AE2] rounded-full",
+                        "data-[range-start=true]:before:rounded-l-small font-bold text-[#634AE2] ",
+                        "data-[selection-start=true]:before:rounded-l-small font-bold text-[#634AE2]",
+                        "data-[range-end=true]:before:rounded-r-small font-bold text-[#634AE2]",
+                        "data-[selection-end=true]:before:rounded-r-small font-bold text-[#634AE2] ",
+                        "data-[selected=true]:data-[selection-start=true]:data-[range-selection=true]:rounded-small font-bold text-[#634AE2]",
+                        "data-[selected=true]:data-[selection-end=true]:data-[range-selection=true]:rounded-small font-bold text-[#634AE2]",
+                      ],
+                    },
+                  }}
+                />
                 <input
                   type="text"
                   value={formData.fecha_nacimiento}
