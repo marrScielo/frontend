@@ -27,8 +27,7 @@ export default function Revista() {
 
   return (
     <>
-    
-      <BlogComplete  data={order as BlogPreviewData}/>
+      <BlogComplete data={order as BlogPreviewData} />
     </>
   );
 }

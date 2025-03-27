@@ -1,5 +1,5 @@
 import { BlogPreviewData } from "@/interface";
-import { Button, Divider, Form, Image, User } from "@heroui/react";
+import { Button, Divider, Form, User } from "@heroui/react";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
@@ -61,23 +61,21 @@ export default function BlogComplete({ data }: { data: BlogPreviewData }) {
           <p className="font-semibold md:text-[64px] text-2xl md:leading-[80px] mt-4">
             {data?.tema}
           </p>
-          <User
-            className="mt-6"
-            avatarProps={{
-              src: data?.psicologoImagenId,
-              size: "md",
-            }}
-            name={
-              <p className="text-sm font-normal ml-2 md:text-base">
+          <div className="mt-6 flex items-center gap-4">
+            <img
+              src={data?.psicologoImagenId }
+              alt={data?.psicologo || "Avatar"}
+              className="w-12 h-12 rounded-full object-cover"
+            />
+            <div>
+              <p className="text-sm font-normal md:text-base">
                 {data?.psicologo} {data?.psicologApellido}
               </p>
-            }
-            description={
-              <p className="text-[#634AE2] text-[14px] ml-2 pt-4 leading-[20px] font-extralight md:block hidden">
+              <p className="text-[#634AE2] text-[14px] leading-[20px] font-extralight md:block hidden">
                 Publicado el {data?.fecha}
               </p>
-            }
-          />
+            </div>
+          </div>
           <Divider className="max-w-7xl mt-8" />
         </div>
       </div>
@@ -85,7 +83,7 @@ export default function BlogComplete({ data }: { data: BlogPreviewData }) {
       <div className="w-full">
         <img
           className="pt-9 rounded-none"
-          src= {data?.imagen}
+          src={data?.imagen}
           alt="blogfondo"
           width="100%"
           height="50%"
