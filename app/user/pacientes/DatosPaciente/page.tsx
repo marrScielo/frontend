@@ -12,13 +12,13 @@ import {
   StateSelect,
   CitySelect,
 } from "react-country-state-city";
-import { Calendar, DatePicker } from "@heroui/react";
+import { DatePicker } from "@heroui/react";
+import { CalendarDate } from "@internationalized/date"
 
 export default function App() {
   const [country, setCountry] = useState<Country | null>(null);
   const [currentState, setCurrentState] = useState<City | null>(null);
   const [currentCity, setCurrentCity] = useState<State | null>(null);
-
   const [formData, setFormData] = useState<FormPaciente>({
     nombre: "",
     apellidoPaterno: "",
@@ -37,6 +37,22 @@ export default function App() {
     antecedentesMedicos: "",
     medicamentosPrescritos: "",
   });
+  const handleDateChange = (value: CalendarDate | null) => {
+    if (value) {
+      const date = new Date(value.year, value.month - 1, value.day);
+      const formattedDate = date.toISOString().split('T')[0];
+      setFormData({ ...formData, fecha_nacimiento: formattedDate });
+    } else {
+      setFormData({ ...formData, fecha_nacimiento: "" });
+    }
+  };
+
+  const parseDateString = (dateString: string): CalendarDate | null => {
+    if (!dateString) return null;
+    const [year, month, day] = dateString.split('/').map(Number);
+    return new CalendarDate(year, month, day);
+  };
+
   const handleCountryChange = (
     selected: Country | React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -235,19 +251,38 @@ export default function App() {
               <div className="relative">
                 <DatePicker
                   showMonthAndYearPickers
-                  label="Birth Date"
-                  variant="bordered"
-                />
-                <input
-                  type="text"
-                  value={formData.fecha_nacimiento}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      fecha_nacimiento: e.target.value,
-                    })
-                  }
-                  className="pl-12 pr-3 text-sm h-9 mt-1 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
+                  selectorButtonPlacement="start"
+                  classNames={{
+                    inputWrapper: "bg-[#E7E7FF] rounded-full",
+                    segment: "!text-[#634AE2]",
+                  }}
+                  calendarProps={{
+                    classNames: {
+                      pickerMonthList: "bg-[#E7E7FF]",
+                      pickerYearList: "bg-[#E7E7FF]",
+                      pickerItem: "!text-[#634AE2]",
+                      base: "bg-background text-[#634AE2]",
+                      headerWrapper: "pt-4 bg-[#E7E7FF] text-[#634AE2]",
+                      prevButton:
+                        "border-1 border-default-200 rounded-small bg-[#E7E7FF] text-xl text-[#634AE2]",
+                      nextButton:
+                        "border-1 border-default-200 rounded-small bg-[#E7E7FF] text-xl text-[#634AE2]",
+                      gridHeader:
+                        "bg-background shadow-none border-b-1 border-default-100 bg-[#E7E7FF] text-[#634AE2]",
+                      cellButton: [
+                        "data-[today=true]:bg-[#E7E7FF] data-[selected=true] text-[#634AE2]:bg-[#E7E7FF] rounded-full text-[#634AE2]",
+                        "data-[selected=true]:!bg-[#E7E7FF] data-[selected=true]:!text-[#634AE2] rounded-full",
+                        "data-[range-start=true]:before:rounded-l-small font-bold text-[#634AE2]",
+                        "data-[selection-start=true]:before:rounded-l-small font-bold text-[#634AE2]",
+                        "data-[range-end=true]:before:rounded-r-small font-bold text-[#634AE2]",
+                        "data-[selection-end=true]:before:rounded-r-small font-bold text-[#634AE2]",
+                        "data-[selected=true]:data-[selection-start=true]:data-[range-selection=true]:rounded-small font-bold text-[#634AE2]",
+                        "data-[selected=true]:data-[selection-end=true]:data-[range-selection=true]:rounded-small font-bold text-[#634AE2]",
+                      ],
+                    },
+                  }}
+                  onChange={handleDateChange}
+                  value={parseDateString(formData.fecha_nacimiento)}
                 />
               </div>
             </div>
