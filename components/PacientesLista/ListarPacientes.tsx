@@ -39,7 +39,7 @@ export default function ListarPacientes() {
     try {
       const cookies = parseCookies();
       const token = cookies["session"];
-      const url = `${process.env.NEXT_PUBLIC_API_URL}api/pacientes/showAll`;
+      const url = `${process.env.NEXT_PUBLIC_API_URL}api/pacientes`;
       const response = await fetch(url, {
         method: "GET",
         headers: {
@@ -78,7 +78,7 @@ export default function ListarPacientes() {
     try {
       const cookies = parseCookies();
       const token = cookies["session"];
-      const url = `${process.env.NEXT_PUBLIC_API_URL}api/pacientes/delete/ ${idPaciente}`;
+      const url = `${process.env.NEXT_PUBLIC_API_URL}api/pacientes/${idPaciente}`;
       const response = await fetch(url, {
         method: "DELETE",
         headers: {

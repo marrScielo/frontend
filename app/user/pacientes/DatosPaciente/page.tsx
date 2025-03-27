@@ -120,7 +120,7 @@ export default function App() {
 
       const cookies = parseCookies();
       const token = cookies["session"];
-      const url = `${process.env.NEXT_PUBLIC_API_URL}api/pacientes/create`;
+      const url = `${process.env.NEXT_PUBLIC_API_URL}api/pacientes`;
       const response = await fetch(url, {
         method: "POST",
         headers: {
