@@ -19,7 +19,7 @@ export default function BlogPreview({ Data }: { Data: BlogPreviewData }) {
             }
           />
           <p className="text-xl md:text-2xl pt-2 md:pt-3 pb-1 md:pb-2 font-semibold">
-            <Link href={`/blog/revista/${Data.idBlog}`}>{Data.tema}</Link>
+            <Link href={`/blog/revista?id=${Data.idBlog}`}>{Data.tema}</Link>
           </p>
           <p className="text-base md:text-xl leading-relaxed md:leading-7 line-clamp-3 md:h-20">
             {Data.contenido.replace(/<[^>]+>/g, "").slice(0, 100)}...
