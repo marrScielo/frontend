@@ -1,4 +1,5 @@
 import AccordionQuest from "@/components/AccordionQuest";
+
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

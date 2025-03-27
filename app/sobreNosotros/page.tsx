@@ -1,5 +1,6 @@
 import SobreNosotrosStructure from "@/components/SobreNosotrosStructure";
 import { QuienesSomos } from "@/interface";
+
 import { Metadata } from "next";
 
 export	const metadata: Metadata = {

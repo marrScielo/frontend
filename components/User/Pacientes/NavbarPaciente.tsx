@@ -3,16 +3,18 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { DatosPacienteProps } from "@/interface";
 
-const NavbarPaciente = () => {
+const NavbarPaciente : React.FC<DatosPacienteProps> = ({ idPaciente }) => {
   const [hovered, setHovered] = useState<number | null>(null);
   const pathname = usePathname();
 
   const navItems = [
-    { name: "Datos Personales", link: "/user/pacientes/DetallePaciente" },
-    { name: "Historial Clinico", link: "/user/pacientes/HistorialClinico" },
-    { name: "Citas", link: "/user/pacientes/Citas" },
+    { name: "Datos Personales", link: `/user/pacientes/DetallePaciente/`},
+    { name: "Historial Clinico", link:`/user/pacientes/HistorialClinico/` },
+    { name: "Citas", link: `/user/pacientes/Citas/` },
   ];
+  
   return (
     <div>
       <div className="flex w-full mt-4 pl-8 h-72">
@@ -31,7 +33,12 @@ const NavbarPaciente = () => {
               {navItems.map((item, idx) => (
                 <Link
                   key={idx}
-                  href={item.link}
+                  href={{
+                    pathname: item.link,
+                    query: {
+                      idPaciente: idPaciente,
+                    },
+                  }}
                   onMouseEnter={() => setHovered(idx)}
                   onMouseLeave={() => setHovered(null)}
                   className={cn(
