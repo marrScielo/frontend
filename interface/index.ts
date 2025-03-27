@@ -124,7 +124,7 @@ export interface BlogApi {
 }
 
 export interface BlogApiGEt {
-  idBlog: number | null,
+  id: number | null,
   categoria: string,
   tema: string,
   contenido: string,
@@ -144,6 +144,9 @@ export interface BlogPreviewData {
   fecha: string,
 }
 
+export interface ApiResponseBLogAlone {
+  result: BlogPreviewData;
+}
 
 export interface ApiResponse {
 

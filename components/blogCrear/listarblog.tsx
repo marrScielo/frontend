@@ -1,4 +1,4 @@
-import {  BlogApiGEt } from "@/interface";
+import { BlogApiGEt } from "@/interface";
 import { Image } from "@heroui/react";
 import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
@@ -30,7 +30,7 @@ export const BlogGet = async () => {
   }
 };
 
-export const eliminarBlog = async (id: number|null) => {
+export const eliminarBlog = async (id: number | null) => {
   try {
     const cookies = parseCookies();
     const token = cookies["session"];
@@ -51,14 +51,18 @@ export const eliminarBlog = async (id: number|null) => {
     }
 
     const data = await reponse.json();
-    return data; 
+    return data;
   } catch (error) {
     console.error("Error deleting blog:", error);
-    throw error; 
+    throw error;
   }
 };
 
-export function Listarblog({ onEdit }: { onEdit: (id: number) => Promise<void> }) {
+export function Listarblog({
+  onEdit,
+}: {
+  onEdit: (id: number) => Promise<void>;
+}) {
   const [bloge, setBlog] = useState<BlogApiGEt[]>([]);
 
   useEffect(() => {
@@ -69,22 +73,21 @@ export function Listarblog({ onEdit }: { onEdit: (id: number) => Promise<void> }
     fetchBlogs();
   }, []);
 
-  const handleEliminarBlog = async (id: number|null) => {
+  const handleEliminarBlog = async (id: number | null) => {
     try {
-      await eliminarBlog(id); 
-      const updatedBlogs = await BlogGet(); 
-      setBlog(updatedBlogs); 
+      await eliminarBlog(id);
+      const updatedBlogs = await BlogGet();
+      setBlog(updatedBlogs);
     } catch (error) {
       console.error("Error al eliminar el blog:", error);
     }
   };
 
-  const handleEditarBlog=(id:number|null)=>{
-
-   if (id !== null) {
-  onEdit(id);
-}
-  }
+  const handleEditarBlog = (id: number | null) => {
+    if (id !== null) {
+      onEdit(id);
+    }
+  };
 
   return (
     <div className="max-h-[500px] overflow-y-auto overflow-scroll:scrollbar-none">
@@ -101,12 +104,9 @@ export function Listarblog({ onEdit }: { onEdit: (id: number) => Promise<void> }
 
         <tbody className="text-center   bg-white text-[#634AE2] font-normal text-[16px] leading-[20px]  ">
           {bloge.map((blog) => (
-            <tr key={blog.idBlog} className="border-b hover:bg-gray-100  ">
-              <td className="px-4 py-2 rounded-l-[34px]">{blog.idBlog}</td>
-              <td
-                className="px-4 py-2 "
-                
-              >{blog.tema}</td>
+            <tr key={blog.id} className="border-b hover:bg-gray-100  ">
+              <td className="px-4 py-2 rounded-l-[34px]">{blog.id}</td>
+              <td className="px-4 py-2 ">{blog.tema}</td>
               <td className="px-4 py-2">{blog.categoria}</td>
               <td className="px-4 py-2 flex justify-center items-center">
                 <Image
@@ -121,25 +121,25 @@ export function Listarblog({ onEdit }: { onEdit: (id: number) => Promise<void> }
               <td className="px-4 py-2 rounded-r-[34px]">
                 <div className="flex flex-row items-center justify-center gap-x-4">
                   <div className="">
-                    <button 
-                    onClick={()=> handleEditarBlog(blog.idBlog)}
-                    className="flex flex-col items-center justify-center hover:opacity-75"
+                    <button
+                      onClick={() => handleEditarBlog(blog.id)}
+                      className="flex flex-col items-center justify-center hover:opacity-75"
                     >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      height="34px"
-                      viewBox="0 -960 960 960"
-                      width="34px"
-                      fill="#634AE2"
-                    >
-                      <path d="M120-120v-142l559.33-558.33q9.34-9 21.5-14 12.17-5 25.5-5 12.67 0 25 5 12.34 5 22 14.33L821-772q10 9.67 14.5 22t4.5 24.67q0 12.66-4.83 25.16-4.84 12.5-14.17 21.84L262-120H120Zm607.33-560.67L772.67-726l-46-46-45.34 45.33 46 46Z" />
-                    </svg>
-                    <h1 className="font-light text-sm">Editar</h1>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="34px"
+                        viewBox="0 -960 960 960"
+                        width="34px"
+                        fill="#634AE2"
+                      >
+                        <path d="M120-120v-142l559.33-558.33q9.34-9 21.5-14 12.17-5 25.5-5 12.67 0 25 5 12.34 5 22 14.33L821-772q10 9.67 14.5 22t4.5 24.67q0 12.66-4.83 25.16-4.84 12.5-14.17 21.84L262-120H120Zm607.33-560.67L772.67-726l-46-46-45.34 45.33 46 46Z" />
+                      </svg>
+                      <h1 className="font-light text-sm">Editar</h1>
                     </button>
                   </div>
                   <div className="">
                     <button
-                      onClick={()=> handleEliminarBlog(blog.idBlog)} 
+                      onClick={() => handleEliminarBlog(blog.id)}
                       className="flex flex-col items-center justify-center hover:opacity-75"
                     >
                       <svg
