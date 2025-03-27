@@ -13,7 +13,7 @@ export default function ListarPacientes() {
   const [filteredPacientes, setFilteredPacientes] = useState<Paciente[]>([]);
   const [filterValue, setFilterValue] = useState("");
 
-  // Función para manejar la búsqueda
+  // Funcion para la busqueda
   const onSearchChange = (value: string) => {
     setFilterValue(value);
     if (value === "") {
@@ -51,7 +51,7 @@ export default function ListarPacientes() {
       if (response.ok) {
         if (Array.isArray(data.result)) {
           setPaciente(data.result);
-          setFilteredPacientes(data.result); 
+          setFilteredPacientes(data.result);
           showToast("success", "Pacientes obtenidos correctamente");
         } else {
           console.error("La propiedad 'result' no es un array:", data);
@@ -149,19 +149,23 @@ export default function ListarPacientes() {
           </div>
         </div>
         <div className="flex flex-row items-center gap-x-1 mr-5">
-          <Button
-            className="hover:bg-gray-200 border-white border-1 text-[#634AE2] bg-white p-[2px] rounded-full"
-            href="/user/pacientes/DatosPaciente"
-          >
-            <Plus />
-          </Button>
-          <Button
-            href="/user/pacientes/DatosPaciente"
-            radius="full"
-            className="border-white text-white border-1 bg-[#fff0]  h-8 mx-auto"
-          >
-            Agregar nuevo paciente
-          </Button>
+          <Link href="/user/pacientes/DatosPaciente" passHref legacyBehavior>
+            <Button
+              as="a"
+              className="hover:bg-gray-200 border border-white text-[#634AE2] bg-white p-[2px] rounded-full"
+            >
+              <Plus />
+            </Button>
+          </Link>
+          <Link href="/user/pacientes/DatosPaciente" passHref legacyBehavior>
+            <Button
+              as="a"
+              radius="full"
+              className="border border-white text-white bg-transparent hover:bg-white hover:bg-opacity-20 h-8 mx-auto"
+            >
+              Agregar nuevo paciente
+            </Button>
+          </Link>
         </div>
       </div>
 
