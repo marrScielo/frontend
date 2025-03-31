@@ -260,6 +260,11 @@ export interface CitasPendientesApiResponse {
   result: CitasPendientes[]; 
 }
 
+export interface PrePaciente {
+  nombre: string,
+  celular: string,
+  email: string,
+}
 
 export interface Paciente {
   idPaciente: number,

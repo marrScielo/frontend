@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import ReactCountryFlag from "react-country-flag";
 import { Modal, ModalContent, ModalBody, Button } from "@heroui/react";
-import { PsicologoPreviewData } from "@/interface";
+import { PrePaciente, PsicologoPreviewData } from "@/interface";
 import { useState } from "react";
 import HorarioPsicologo from "./horariosPsicologo/horarioPsicologo";
 
@@ -29,17 +29,79 @@ export default function ReservarPsiPreview({
   const [celular, setCelular] = useState("");
   const [correo, setCorreo] = useState("");
 
+  const [action, setAction] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [formData, setFormData] = useState<PrePaciente>({
+    nombre: "",
+    celular: "",
+    email: "",
+  });
+
   // Manejo del envío del formulario
-  const handleSubmit = (e: React.FormEvent) => {
+  // const handleSubmit = (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   console.log("Datos de formulario:", { nombreCompleto, celular, correo });
+  //   setIsFormOpen(false); // Cierra el modal al terminar
+  // };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Aquí puedes llamar a tu endpoint que crea prepaciente + cita.
-    // Ejemplo:
-    // await fetch("/api/crearCitaYPrepaciente", { method: "POST", body: JSON.stringify({ nombreCompleto, celular, correo, ... }) })
+    setError(null);
+    setLoading(true);
 
-    console.log("Datos de formulario:", { nombreCompleto, celular, correo });
-    setIsFormOpen(false); // Cierra el modal al terminar
+    const formDataEntries = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formDataEntries) as unknown as PrePaciente;
+
+    // Asegúrate de que todas las propiedades necesarias estén presentes
+    if (!data.nombre || !data.celular || !data.email) {
+      setError("Por favor, completa todos los campos del formulario.");
+      setLoading(false);
+      return;
+    }
+
+    if (data.celular) {
+      data.celular = String(data.celular); // Asegúrate de que celular sea un string
+    }
+
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}api/pre-pacientes/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
+
+      const result: { message?: string } = await response.json();
+
+      if (!response.ok)
+        throw new Error(result.message || "Error al enviar el formulario");
+
+      setAction("¡Mensaje enviado! Nuestro equipo se pondrá en contacto contigo lo antes posible.");
+      setFormData({
+        nombre: "",
+        celular: "",
+        email: "",
+      });
+
+      setTimeout(() => {
+        setAction(null);
+      }, 6000);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message || "No se pudo enviar el formulario.");
+      } else {
+        setError("No se pudo enviar el formulario.");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
-
 
   return (
     <>
