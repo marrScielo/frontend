@@ -290,3 +290,12 @@ export interface City {
   id: number;
   name: string;
 }
+
+export interface Citas {
+  paciente: string;
+  codigo: string;
+  motivo: string;
+  estado: string;
+  fecha_inicio: string;
+  duracion: string;
+}
