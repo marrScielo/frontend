@@ -238,6 +238,7 @@ export interface Paciente {
   direccion: string,
   idPsicologo: number
 }
+
 export interface Paciente2 {
   idPaciente: number,
   DNI: string,
@@ -298,4 +299,13 @@ export interface Citas {
   estado: string;
   fecha_inicio: string;
   duracion: string;
+}
+
+interface User {
+  id: string;
+  name: string;
+  fecha: string;
+  status: string;
+  age: string;
+  motivo: string;
 }

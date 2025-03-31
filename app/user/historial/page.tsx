@@ -1,180 +1,36 @@
 "use client";
-import React, { useState, useMemo, useCallback } from "react";
-
-
-
+import React, { useState, useMemo, useCallback, useEffect } from "react";
 import { Navbar } from "@/components/User/Historial/SearchNavbar";
 import { TableComponent } from "@/components/User/Historial/TableComponent";
 import CerrarSesion from "@/components/CerrarSesion";
-
-
-const users = [
-  {
-    id: "PA001",
-    name: "Tony Reichert",
-    fecha: "2024-07-06 13:30",
-    status: "Confirmado",
-    age: "29",
-    motivo: "Ataque de ansiedad",
-  },
-  {
-    id: "PA002",
-    name: "Zoey Lang",
-    fecha: "2024-07-06 13:30",
-    status: "SinConfirmar",
-    age: "25",
-    motivo: "Ataque de ansiedad",
-  },
-  {
-    id: "PA003",
-    name: "Jane Fisher",
-    fecha: "2024-07-06 13:30",
-    status: "Confirmado",
-    age: "22",
-    motivo: "Ataque de ansiedad",
-  },
-  {
-    id: "PA004",
-    name: "William Howard",
-    fecha: "2024-07-06 13:30",
-    status: "SinConfirmar",
-    age: "28",
-    motivo: "Ataque de ansiedad",
-  },
-  {
-    id: "PA005",
-    name: "Kristen Copper",
-    fecha: "2024-07-06 13:30",
-    status: "Confirmado",
-    age: "24",
-    motivo: "Ataque de ansiedad",
-  },
-  {
-    id: "PA006",
-    name: "John Doe",
-    fecha: "2024-07-06 14:00",
-    status: "SinConfirmar",
-    age: "30",
-    motivo: "Estrés laboral",
-  },
-  {
-    id: "PA007",
-    name: "Maria Lopez",
-    fecha: "2024-07-06 14:30",
-    status: "Confirmado",
-    age: "27",
-    motivo: "Crisis emocional",
-  },
-  {
-    id: "PA008",
-    name: "Carlos Perez",
-    fecha: "2024-07-06 15:00",
-    status: "SinConfirmar",
-    age: "32",
-    motivo: "Ataque de ansiedad",
-  },
-  {
-    id: "PA009",
-    name: "Sofia Martinez",
-    fecha: "2024-07-06 15:30",
-    status: "Confirmado",
-    age: "25",
-    motivo: "Estrés emocional",
-  },
-  {
-    id: "PA010",
-    name: "Lucas Silva",
-    fecha: "2024-07-06 16:00",
-    status: "SinConfirmar",
-    age: "29",
-    motivo: "Ataque de pánico",
-  },
-  {
-    id: "PA011",
-    name: "Ana Gonzalez",
-    fecha: "2024-07-06 16:30",
-    status: "Confirmado",
-    age: "26",
-    motivo: "Ansiedad generalizada",
-  },
-  {
-    id: "PA012",
-    name: "Diego Fernandez",
-    fecha: "2024-07-06 17:00",
-    status: "SinConfirmar",
-    age: "33",
-    motivo: "Crisis nerviosa",
-  },
-  {
-    id: "PA013",
-    name: "Laura Vega",
-    fecha: "2024-07-06 17:30",
-    status: "Confirmado",
-    age: "24",
-    motivo: "Estrés por trabajo",
-  },
-  {
-    id: "PA014",
-    name: "Tomás Reyes",
-    fecha: "2024-07-06 18:00",
-    status: "SinConfirmar",
-    age: "31",
-    motivo: "Ataque de ansiedad",
-  },
-  {
-    id: "PA015",
-    name: "Mariana Castillo",
-    fecha: "2024-07-06 18:30",
-    status: "Confirmado",
-    age: "28",
-    motivo: "Crisis emocional",
-  },
-  {
-    id: "PA016",
-    name: "Diego Fernandez",
-    fecha: "2024-07-06 17:00",
-    status: "SinConfirmar",
-    age: "33",
-    motivo: "Crisis nerviosa",
-  },
-  {
-    id: "PA017",
-    name: "Laura Vega",
-    fecha: "2024-07-06 17:30",
-    status: "Confirmado",
-    age: "24",
-    motivo: "Estrés por trabajo",
-  },
-  {
-    id: "PA018",
-    name: "Tomás Reyes",
-    fecha: "2024-07-06 18:00",
-    status: "SinConfirmar",
-    age: "31",
-    motivo: "Ataque de ansiedad",
-  },
-  {
-    id: "PA019",
-    name: "Mariana Castillo",
-    fecha: "2024-07-06 18:30",
-    status: "Confirmado",
-    age: "28",
-    motivo: "Crisis emocional",
-  },
-];
+import { Citas, Paciente } from "@/interface";
+import { parseCookies } from "nookies";
+import showToast from "@/components/ToastStyle";
 
 const columns = [
   { name: "Codigo", uid: "id", sortable: true },
   { name: "Paciente", uid: "name", sortable: true },
-  { name: "Fecha de Inicio", uid: "fecha", sortable: true },
+  { name: "Fecha de Cita", uid: "fecha", sortable: true },
   { name: "Diagnostico", uid: "motivo", sortable: true },
+  { name: "Estado", uid: "status", sortable: true },
 ];
 
-const INITIAL_VISIBLE_COLUMNS = ["id", "name", "fecha", "motivo"];
+const INITIAL_VISIBLE_COLUMNS = ["id", "name", "fecha", "motivo", "status"];
+
+interface CombinedData {
+  id: string;
+  name: string;
+  fecha: string;
+  status: string;
+  age?: string;
+  motivo: string;
+}
 
 export default function App() {
   const [filterValue, setFilterValue] = useState("");
-
+  const [pacientes, setPacientes] = useState<Paciente[]>([]);
+  const [citas, setCitas] = useState<Citas[]>([]);
+  const [combinedData, setCombinedData] = useState<CombinedData[]>([]);
   const [visibleColumns, setVisibleColumns] = useState<Set<string>>(
     new Set(INITIAL_VISIBLE_COLUMNS)
   );
@@ -191,15 +47,36 @@ export default function App() {
     );
   }, [visibleColumns]);
 
+  // Función para combinar datos de pacientes y citas
+  const combineData = useCallback((pacientes: Paciente[], citas: Citas[]) => {
+    return citas.map(cita => {
+      const paciente = pacientes.find(p => p.id === cita.paciente_id);
+      return {
+        id: paciente?.idPaciente || '',
+        name: paciente ? `${paciente.nombre} ${paciente.apellido}` : 'Paciente no encontrado',
+        fecha: cita.fecha_inicio || '',
+        status: cita.estado || '',
+        age: paciente ? '' : '',
+        motivo: cita.motivo || ''
+      };
+    });
+  }, []);
+
+  useEffect(() => {
+    if (pacientes.length > 0 && citas.length > 0) {
+      setCombinedData(combineData(pacientes, citas));
+    }
+  }, [pacientes, citas, combineData]);
+
   const filteredItems = useMemo(() => {
-    let filteredUsers = [...users];
+    let filteredData = [...combinedData];
     if (hasSearchFilter) {
-      filteredUsers = filteredUsers.filter((user) =>
-        user.name.toLowerCase().includes(filterValue.toLowerCase())
+      filteredData = filteredData.filter((item) =>
+        item.name.toLowerCase().includes(filterValue.toLowerCase())
       );
     }
-    return filteredUsers;
-  }, [users, filterValue]);
+    return filteredData;
+  }, [combinedData, filterValue]);
 
   const sortedItems = useMemo(() => {
     return [...filteredItems].sort((a, b) => {
@@ -210,15 +87,7 @@ export default function App() {
     });
   }, [sortDescriptor, filteredItems]);
 
-  interface User {
-    id: string;
-    name: string;
-    fecha: string;
-    status: string;
-    age: string ;
-    motivo: string;
-  }
-  const renderCell = useCallback((user: User, columnKey: React.Key) => {
+  const renderCell = useCallback((user: CombinedData, columnKey: React.Key) => {
     const cellValue = user[columnKey as keyof typeof user];
     switch (columnKey) {
       case "name":
@@ -227,7 +96,7 @@ export default function App() {
         return (
           <div className="flex flex-col">
             <p className="text-bold text-small capitalize">{cellValue}</p>
-            <p className="text-bold text-small capitalize">{user.age}</p>
+            {user.age && <p className="text-bold text-small capitalize">Edad: {user.age}</p>}
           </div>
         );
       default:
@@ -257,6 +126,7 @@ export default function App() {
           : "ascending",
     });
   };
+  
   const handleSortByName = () => {
     setSortDescriptor({
       column: "name",
@@ -267,6 +137,79 @@ export default function App() {
           : "ascending",
     });
   };
+
+  // Funcion para traer a todos los pacientes
+  const handleGetPacientes = async () => {
+    try {
+      const cookies = parseCookies();
+      const token = cookies["session"];
+      const url = `${process.env.NEXT_PUBLIC_API_URL}api/pacientes`;
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await response.json();
+      if (response.ok) {
+        if (Array.isArray(data.result)) {
+          setPacientes(data.result);
+        } else {
+          console.error("La propiedad 'result' no es un array:", data);
+          showToast("error", "Formato de respuesta inválido");
+          setPacientes([]);
+        }
+      } else {
+        showToast("error", data.message || "Error al obtener los pacientes");
+        setPacientes([]);
+      }
+    } catch (error) {
+      console.error(error);
+      showToast("error", "Error de conexión. Intenta nuevamente.");
+      setPacientes([]);
+    }
+  };
+
+  // Funcion para traer todas las citas
+  const handleGetCitas = async () => {
+    try {
+      const cookies = parseCookies();
+      const token = cookies["session"];
+      const url = `${process.env.NEXT_PUBLIC_API_URL}api/citas/showAll`;
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await response.json();
+      if (response.ok) {
+        if (Array.isArray(data.result)) {
+          setCitas(data.result);
+        } else {
+          console.error("La propiedad 'result' no es un array:", data);
+          showToast("error", "Formato de respuesta inválido");
+          setCitas([]);
+        }
+      } else {
+        showToast("error", data.message || "Error al obtener las citas");
+        setCitas([]);
+      }
+    } catch (error) {
+      console.error(error);
+      showToast("error", "Error de conexión. Intenta nuevamente.");
+      setCitas([]);
+    }
+  };
+
+  useEffect(() => {
+    handleGetPacientes();
+    handleGetCitas();
+  }, []);
 
   return (
     <div className="p-4">
