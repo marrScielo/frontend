@@ -20,7 +20,6 @@ const zonasHorarias = [
   { nombre: "EE.UU. - Pacífico (California)", zona: "America/Los_Angeles" },
 ];
 
-
 const obtenerOffset = (zona: string) => {
   const ahora = new Date();
   const formato = new Intl.DateTimeFormat("en-US", {

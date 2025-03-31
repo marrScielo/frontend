@@ -238,12 +238,23 @@ export interface Horarios {
   [dia: string]: [string, string][];
 }
 
-export interface Cita {
-  fecha: string;
-  hora_cita: string;
-}
-
 export interface BotonHorarioProps {
   hora: string;
   ocupada: boolean;
+  onClick: () => void;
 }
+
+export interface CitasPendientes {
+  fecha: string;
+  hora: string;
+}
+
+export interface CitasPendientesApiResponse {
+  status_code: number;
+  status_message: string;
+  description: string;
+  errorBag: any[];
+  result: CitasPendientes[]; 
+}
+
+

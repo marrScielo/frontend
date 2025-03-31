@@ -1,14 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ZonaHorariaSelect from "./zonaHorariaSelect";
-import { Horarios, Cita, BotonHorarioProps } from "@/interface";
-
-const citasPendientes: Cita[] = [
-  { fecha: "2025-03-10", hora_cita: "10:00" },
-  { fecha: "2025-03-11", hora_cita: "11:00" },
-  { fecha: "2025-03-12", hora_cita: "09:00" },
-  { fecha: "2025-03-13", hora_cita: "14:00" },
-  { fecha: "2025-03-14", hora_cita: "12:00" },
-];
+import { Horarios, BotonHorarioProps, CitasPendientesApiResponse } from "@/interface";
+import { GetCitasPendientes } from "@/app/apiRoutes";
 
 const diasSemana = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
 
@@ -22,7 +15,7 @@ const convertirHoraZona = (fechaISO: string, hora: string, zonaOrigen: string, z
   });
 };
 
-const generarHorarios = (inicio: string, fin: string, zonaOrigen: string, zonaDestino: string): string[] => {
+const generarHorarios = (inicio: string, fin: string, zonaDestino: string): string[] => {
   const horas: string[] = [];
   const actual = new Date(`2025-01-01T${inicio}`);
   const end = new Date(`2025-01-01T${fin}`);
@@ -44,22 +37,42 @@ const obtenerEtiquetaDia = (fecha: Date, hoyISO: string, mananaISO: string, form
   return fechaISO === hoyISO ? "Hoy" : fechaISO === mananaISO ? "Mañana" : formateador.format(fecha).concat(".");
 };
 
-const BotonHorario: React.FC<BotonHorarioProps> = ({ hora, ocupada }) => (
+const BotonHorario: React.FC<BotonHorarioProps> = ({ hora, ocupada, onClick }) => (
   <button
     className={`w-full p-3 rounded-full font-semibold ${ocupada ? "line-through bg-[#EDEDED] text-[#CACACB]" : "bg-[#EAEAFF] text-[#634AE2]"
       }`}
     disabled={ocupada}
+    onClick={onClick}
   >
     {hora}
   </button>
 );
 
-export default function HorarioPsicologo({ horario
-}: {
-  horario: Horarios;
-}){
+export default function HorarioPsicologo({ idPsicologo, horario, onClose, onOpenConfirm, onSelectHorario }:
+  {
+    idPsicologo: number; horario: Horarios;
+    onClose: () => void;
+    onOpenConfirm: () => void;
+    onSelectHorario: (hora: string, fecha: string) => void;
+  }) {
+  const [citasPendientes, setCitasPendientes] = useState<CitasPendientesApiResponse | null>(null);
   const [semanaOffset, setSemanaOffset] = useState(0);
   const [zonaHoraria, setZonaHoraria] = useState("America/Lima");
+
+  useEffect(() => {
+    const fetchCitasPendientes = async () => {
+      try {
+        const data = await GetCitasPendientes(idPsicologo);
+        setCitasPendientes(data);
+      } catch (error) {
+        console.error("Error obteniendo citas pendientes:", error);
+      }
+    };
+
+    if (idPsicologo) {
+      fetchCitasPendientes();
+    }
+  }, [idPsicologo]);
 
   const fechaBase = new Date();
   fechaBase.setDate(fechaBase.getDate() + semanaOffset * 7);
@@ -79,12 +92,16 @@ export default function HorarioPsicologo({ horario
         <ZonaHorariaSelect onChange={setZonaHoraria} />
       </div>
 
-      {/*Contenedor mayor */}
       <div className="flex items-start gap-4">
-        {/*Botón izquierdo */}
-        <button onClick={() => cambiarSemana(-1)} disabled={semanaOffset === 0} className={`mt-5 text-4xl text-bold text-[#634AE2] ${semanaOffset === 0 ? "opacity-50" : ""}`}>&lt;</button>
+        <button
+          onClick={() => cambiarSemana(-1)}
+          disabled={semanaOffset === 0}
+          className={`mt-5 text-4xl font-bold text-[#634AE2] ${semanaOffset === 0 ? "opacity-50" : ""}`}
+        >
+          &lt;
+        </button>
+
         <div className="mt-4 overflow-x-auto">
-          {/*Cabecera de dias de la semana */}
           <div className="grid grid-cols-6 gap-2">
             {diasSemana.map((dia, index) => {
               const fecha = new Date(fechaBase);
@@ -98,7 +115,6 @@ export default function HorarioPsicologo({ horario
             })}
           </div>
 
-          {/*Horarios del psicologo */}
           <div className="mt-3 grid grid-cols-6 gap-2">
             {diasSemana.map((dia, index) => {
               const fecha = new Date(fechaBase);
@@ -106,21 +122,30 @@ export default function HorarioPsicologo({ horario
               const fechaStr = fecha.toISOString().split("T")[0];
 
               const horasDisponibles = (horario[dia] || []).flatMap(([inicio, fin]) =>
-                generarHorarios(inicio, fin, "America/Lima", zonaHoraria)
+                generarHorarios(inicio, fin, zonaHoraria)
               );
-              const maxHoras = Math.max(...Object.values(horario).flatMap((r) => r.map(([i, f]) => generarHorarios(i, f, "America/Lima", "America/Lima").length)));
+              const maxHoras = Math.max(...Object.values(horario).flatMap((r) => r.map(([i, f]) => generarHorarios(i, f, zonaHoraria).length)));
               const horasCompletas = horasDisponibles.concat(Array(maxHoras - horasDisponibles.length).fill(""));
-              const citasConvertidas = citasPendientes.map((cita) => ({
+
+              const citasConvertidas = citasPendientes?.result?.map((cita) => ({
                 fecha: cita.fecha,
-                hora_cita: convertirHoraZona(cita.fecha, cita.hora_cita, "America/Lima", zonaHoraria),
-              }));
+                hora: convertirHoraZona(cita.fecha, cita.hora, "America/Lima", zonaHoraria),
+              })) || [];
 
               return (
                 <div key={dia} className="text-center space-y-2">
                   {horasCompletas.map((hora, idx) =>
                     hora ? (
-                      <BotonHorario key={hora} hora={hora} ocupada={citasConvertidas.some((cita) => cita.fecha === fechaStr && cita.hora_cita.startsWith(hora))} />
-                    ) : (
+                      <BotonHorario
+                        key={hora}
+                        hora={hora}
+                        ocupada={citasConvertidas.some((cita) => cita.fecha === fechaStr && cita.hora.startsWith(hora))}
+                        onClick={() => {
+                          onClose();
+                          onOpenConfirm();
+                          onSelectHorario(hora, fechaStr);
+                        }}
+                      />) : (
                       <button key={`empty-${idx}`} className="w-full p-3 rounded-full bg-[#EDEDED] text-[#CACACB]" disabled>-</button>
                     )
                   )}
@@ -129,10 +154,11 @@ export default function HorarioPsicologo({ horario
             })}
           </div>
         </div>
-        {/*Botón derecho */}
-        <button className="mt-5 text-4xl text-bold text-[#634AE2]" onClick={() => cambiarSemana(1)}>&gt;</button>
+
+        <button className="mt-5 text-4xl font-bold text-[#634AE2]" onClick={() => cambiarSemana(1)}>
+          &gt;
+        </button>
       </div>
     </div>
   );
-};
-
+}

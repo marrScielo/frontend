@@ -20,6 +20,26 @@ export default function ReservarPsiPreview({
 }) {
   const [isScheduleOpen, setIsScheduleOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [horaSeleccionada, setHoraSeleccionada] = useState("");
+  const [fechaSeleccionada, setFechaSeleccionada] = useState("");
+  // Estados para los campos del formulario
+  const [nombreCompleto, setNombreCompleto] = useState("");
+  const [celular, setCelular] = useState("");
+  const [correo, setCorreo] = useState("");
+
+  // Manejo del envío del formulario
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Aquí puedes llamar a tu endpoint que crea prepaciente + cita.
+    // Ejemplo:
+    // await fetch("/api/crearCitaYPrepaciente", { method: "POST", body: JSON.stringify({ nombreCompleto, celular, correo, ... }) })
+
+    console.log("Datos de formulario:", { nombreCompleto, celular, correo });
+    setIsFormOpen(false); // Cierra el modal al terminar
+  };
+
 
   return (
     <>
@@ -162,8 +182,15 @@ export default function ReservarPsiPreview({
           <ModalBody>
             <div className="flex flex-col items-center justify-center">
               <h1 className="text-[#634AE2] text-2xl font-bold">Agendar cita</h1>
-              <HorarioPsicologo horario={psicologo.horario} />
-              
+              <HorarioPsicologo
+                idPsicologo={psicologo.idPsicologo}
+                horario={psicologo.horario}
+                onClose={() => setIsScheduleOpen(false)}
+                onOpenConfirm={() => setIsConfirmOpen(true)}
+                onSelectHorario={(hora, fecha) => {
+                  setHoraSeleccionada(hora);
+                  setFechaSeleccionada(fecha);
+                }} />
               <div className="w-full flex justify-center">
                 <Button
                   onPress={() => setIsScheduleOpen(false)}
@@ -173,6 +200,77 @@ export default function ReservarPsiPreview({
                 </Button>
               </div>
             </div>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+
+      {/* Modal de confirmación */}
+      <Modal
+        isOpen={isConfirmOpen}
+        onOpenChange={setIsConfirmOpen}
+        size={"2xl"}
+        backdrop="opaque"
+        classNames={{
+          body: "py-6",
+          backdrop: "bg-[#d8dceb]/50 backdrop-opacity-40",
+          base: "border-[#d8dceb] bg-[#ffffff] dark:bg-[#ffffff] text-[#a8b0d3]",
+        }}
+      >
+        <ModalContent>
+          <ModalBody>
+            <h2 className="text-xl font-bold text-center text-[#634AE2]">
+              ¡Bríndanos tus datos para agendar la cita!
+            </h2>
+            <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+              <div>
+                <label className="block text-[#634AE2] text-sm mb-1">
+                  Nombres y apellidos
+                </label>
+                <input
+                  type="text"
+                  className="w-full border border-gray-300 rounded-full px-4 py-2 outline-none focus:border-[#634AE2]"
+                  placeholder="Nombres y apellidos"
+                  value={nombreCompleto}
+                  onChange={(e) => setNombreCompleto(e.target.value)}
+                />
+              </div>
+              <div>
+                <label className="block text-[#634AE2] text-sm mb-1">
+                  Número de celular
+                </label>
+                <input
+                  type="text"
+                  className="w-full border border-gray-300 rounded-full px-4 py-2 outline-none focus:border-[#634AE2]"
+                  placeholder="Número de celular"
+                  value={celular}
+                  onChange={(e) => setCelular(e.target.value)}
+                />
+              </div>
+              <div>
+                <label className="block text-[#634AE2] text-sm mb-1">
+                  Correo electrónico
+                </label>
+                <input
+                  type="email"
+                  className="w-full border border-gray-300 rounded-full px-4 py-2 outline-none focus:border-[#634AE2]"
+                  placeholder="Correo electrónico"
+                  value={correo}
+                  onChange={(e) => setCorreo(e.target.value)}
+                />
+              </div>
+              <p className="text-sm text-center text-[#634AE2] mt-2">
+                Has seleccionado: <strong>{fechaSeleccionada}</strong> a las <strong>{horaSeleccionada}</strong>
+              </p>
+
+              <div className="flex justify-center mt-6">
+                <Button
+                  type="submit"
+                  className="rounded-3xl bg-[#634AE2] text-white px-6 py-1 font-light"
+                >
+                  Reservar
+                </Button>
+              </div>
+            </form>
           </ModalBody>
         </ModalContent>
       </Modal>
