@@ -8,11 +8,10 @@ import { BlogApi, Categoria, UsuarioLocalStorage } from "@/interface";
 import { parseCookies } from "nookies";
 import showToast from "../ToastStyle";
 
-
 export const CategoriaGet = async () => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}api/categorias/show`,
+      `${process.env.NEXT_PUBLIC_API_URL}api/categorias`,
       {
         method: "GET",
         headers: {
@@ -60,7 +59,9 @@ export default function BlogUsuarioCrear() {
   const [value, setValue] = useState("");
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
   const [editingBlogId, setEditingBlogId] = useState<number | null>(null);
-  const [originalIdPsicologo, setOriginalIdPsicologo] = useState<number | null>(null); 
+  const [originalIdPsicologo, setOriginalIdPsicologo] = useState<number | null>(
+    null
+  );
 
   useEffect(() => {
     const fetchCategoria = async () => {
@@ -85,7 +86,7 @@ export default function BlogUsuarioCrear() {
     tema: tema,
     contenido: contenido,
     imagen: url,
-    idPsicologo: originalIdPsicologo ?? user?.id ?? null, 
+    idPsicologo: originalIdPsicologo ?? user?.id ?? null,
   };
 
   const postNewCategoria = async () => {
@@ -156,9 +157,7 @@ export default function BlogUsuarioCrear() {
         await new Promise((resolve) => setTimeout(resolve, 2600));
         window.location.reload();
       } else {
-        showToast("error", data.status_message|| "Error desconocido");
- 
-
+        showToast("error", data.status_message || "Error desconocido");
       }
     } catch (error) {
       console.error(error);
@@ -173,8 +172,8 @@ export default function BlogUsuarioCrear() {
       setUrl(blog.imagen);
       setContenido(blog.contenido);
       setSelectedKey(blog.idCategoria.toString());
-      setEditingBlogId(blog.idBlog);
-      setOriginalIdPsicologo(blog.idPsicologo); 
+      setEditingBlogId(blog.id);
+      setOriginalIdPsicologo(blog.idPsicologo);
       setView("crear");
     }
   };
@@ -188,8 +187,8 @@ export default function BlogUsuarioCrear() {
             className="bg-white text-[16px] leading-[20px] text-[#634AE2] font-bold"
             onPress={() => {
               setView("crear");
-              setEditingBlogId(null); 
-              setOriginalIdPsicologo(null); 
+              setEditingBlogId(null);
+              setOriginalIdPsicologo(null);
             }}
           >
             Crear Blog

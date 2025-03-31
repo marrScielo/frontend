@@ -18,9 +18,19 @@ const AnchorIcon = () => {
   );
 };
 
+
+
 export default function SobreNosotrosStructure({ qs }: { qs: QuienesSomos[] }) {
+  
+
   return (
-    <div className="w-full">
+    <div
+      className="w-full"
+      style={{
+        backgroundImage: `linear-gradient(to right, #3616D87A 0%, #3616D870 30%, #7863E37A 70%, #7863E370 100%)`,
+        backgroundColor: "#fff",
+      }}
+    >
       {/* Muestra para pantallas grandes */}
       <div className="lg:block hidden">
         {qs.map((item, index) => (
@@ -57,7 +67,7 @@ export default function SobreNosotrosStructure({ qs }: { qs: QuienesSomos[] }) {
                     className="w-[400px] h-[500px] bg-cover bg-center bg-no-repeat rounded-l-full"
                     style={{
                       backgroundImage: `linear-gradient(to right, #3616D87A 0%, #3616D870 30%, #7863E37A 70%, #7863E370 100%),url('/AboutUs/PsicologaPeruana.webp')`,
-                      backgroundSize: "cover"
+                      backgroundSize: "cover",
                     }}
                   />
                 </div>

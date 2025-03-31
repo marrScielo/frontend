@@ -6,6 +6,6 @@ const nextConfig: NextConfig = {
       unoptimized: true,
     },
     trailingSlash: true,  // Añade esto
-    basePath: '',         // Asegúrate que esto esté vacío si estás en la raíz
+    basePath: '',         // Asegúrate que esto esté vacío si estás en la raíz*/
   };
 export default nextConfig;

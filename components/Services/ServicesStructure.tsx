@@ -39,7 +39,7 @@ export default function ServicesStructure({
                 backgroundRepeat: "no-repeat",
               }}
             >
-              <div className="relative w-[700px] flex items-center justify-center text-white text-left h-[230px] font-bold sm:text-[40px] text-[30px] leading-[54px]">
+              <div className="relative w-[700px] flex items-center justify-center text-white text-left  font-bold sm:text-[40px] text-2xl leading-1 sm:leading-[54px]">
                 {item.motto}
               </div>
             </div>
@@ -71,9 +71,9 @@ export default function ServicesStructure({
             className="block md:hidden w-[600px] h-[728px] mt-10"
             style={{
               backgroundImage: `linear-gradient(to bottom, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 1) 100%), url(${item.bgup})`,
-              backgroundPosition: "center center",
-              backgroundRepeat: "no-repeat",
-              backgroundSize: "600px 728px",
+              backgroundPosition: "",
+              
+              backgroundSize: "cover",
             }}
           />
 
@@ -158,7 +158,7 @@ export default function ServicesStructure({
                         />
                       </div>
                       <div className="flex-grow flex items-center justify-center px-4">
-                        <p className="text-center text-[14px] md:text-[16px] text-white font-normal leading-[20px] md:leading-[24px] w-full">
+                        <p className="text-center text-[14px] md:text-[16px] text-white font- leading-[20px] md:leading-[24px] w-full">
                           {card.text}
                         </p>
                       </div>

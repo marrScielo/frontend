@@ -1,3 +1,4 @@
+import { CustomizedLabelProps } from "@/interface";
 import React from "react";
 import {
   PieChart,
@@ -18,6 +19,8 @@ const genero = [
   { name: "Ausencias", Total: 10 },
 ];
 
+
+
 const renderCustomizedLabel = ({
   cx,
   cy,
@@ -25,7 +28,7 @@ const renderCustomizedLabel = ({
   innerRadius,
   outerRadius,
   percent,
-}) => {
+}: CustomizedLabelProps) => {
   const RADIAN = Math.PI / 180;
   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
@@ -63,59 +66,62 @@ export default function Sales() {
     <div className="grid xl:grid-cols-2 lg:grid-cols-1 m-5 place-items-center gap-5 max-w-[950px] mx-auto">
       <div className="flex flex-col w-[547px] h-[660px] gap-5">
         <div className="w-[547px] h-[459px] bg-white rounded-2xl flex flex-col  ">
-                <div className="rounded-r-full w-[247px] h-[60px] bg-[#6364F4] mt-6 flex items-center justify-center">
-                  <p className="text-white font-medium text-center mr-10 text-xl">
-                    Citas totales <br /> del período:
-                  </p>
-                </div>
-        
-                <div className="flex-1 flex items-center justify-center">
-                  <ResponsiveContainer width="90%" height="80%">
-                    <LineChart
-                      data={data}
-                      margin={{ top: 5, right: 30, left: 20, bottom: 12 }}
-                    >
-                      <XAxis
-                        dataKey="name"
-                        tickLine={{ stroke: "#634AE2" }}
-                        axisLine={{ stroke: "#634AE2" }}
-                        tick={({ x, y, payload }) => {
-                          return (
-                            <text
-                              x={x}
-                              y={y + 15}
-                              fill="#634AE2"
-                              textAnchor="middle"
-                              fontSize={12}
-                              fontWeight="500"
-                            >
-                              <tspan x={x} dy="0">
-                                feb,
-                              </tspan>{" "}
-                              <tspan x={x} dy="15">
-                                {payload.value}
-                              </tspan>
-                            </text>
-                          );
-                        }}
-                      />
-                      <YAxis
-                        tickFormatter={(value: number) => value / 50}
-                        tick={{ fill: "#634AE2" }}
-                        axisLine={{ stroke: "#634AE2" }}
-                        tickLine={{ stroke: "#634AE2" }}
-                      />
-                      
-                      <Line
-                        type="monotone"
-                        dataKey="uv"
-                        stroke="#634AE2"
-                        activeDot={{ r: 8, fill: "#634AE2" }}
-                      />
-                    </LineChart>
-                  </ResponsiveContainer>
-                </div>
-              </div>
+
+
+          <div className="rounded-r-full w-[247px] h-[60px] bg-[#6364F4] mt-6 flex items-center justify-center">
+            <p className="text-white font-medium text-center mr-10 text-xl">
+              Citas totales <br /> del período:
+            </p>
+          </div>
+
+          <div className="flex-1 flex items-center justify-center">
+            <ResponsiveContainer width="90%" height="80%">
+              <LineChart
+                data={data}
+                margin={{ top: 5, right: 30, left: 20, bottom: 12 }}
+              >
+                <XAxis
+                  dataKey="name"
+                  tickLine={{ stroke: "#634AE2" }}
+                  axisLine={{ stroke: "#634AE2" }}
+                  tick={({ x, y, payload }) => {
+                    return (
+                      <text
+                        x={x}
+                        y={y + 15}
+                        fill="#634AE2"
+                        textAnchor="middle"
+                        fontSize={12}
+                        fontWeight="500"
+                      >
+                        <tspan x={x} dy="0">
+                          feb,
+                        </tspan>{" "}
+                        <tspan x={x} dy="15">
+                          {payload.value}
+                        </tspan>
+                      </text>
+                    );
+                  }}
+                />
+                <YAxis
+                  tickFormatter={(value: number) => (value / 1250).toString()}
+                  tick={{ fill: "#634AE2" }}
+                  axisLine={{ stroke: "#634AE2" }}
+                  tickLine={{ stroke: "#634AE2" }}
+                />
+
+                <Line
+                  type="monotone"
+                  dataKey="uv"
+                  stroke="#634AE2"
+                  activeDot={{ r: 8, fill: "#634AE2" }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
 
         <div className="w-full h-[234px] bg-white rounded-2xl flex items-center justify-center ">
           <p className="text-black text-lg font-bold">Buenas 2</p>

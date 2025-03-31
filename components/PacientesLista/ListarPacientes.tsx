@@ -1,39 +1,116 @@
 import { Plus, SlidersHorizontalIcon } from "lucide-react";
 import CerrarSesion from "../CerrarSesion";
 import { Button, Input } from "@heroui/react";
-
+import { parseCookies } from "nookies";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
+import { Paciente } from "@/interface";
+import showToast from "../ToastStyle";
 
-const columns = [
-  {
-    id: 1,
-    Paciente: "Jose",
-    Codigo: "PA001",
-    Dni: "12345678",
-    Correo: "jose@gmail.com",
-    Celular: "+56 987654321",
-  },
-  {
-    id: 2,
-    Paciente: "Jose",
-    Codigo: "PA001",
-    Dni: "12345678",
-    Correo: "jose@gmail.com",
-    Celular: "+56 987654321",
-  },
-  {
-    id: 3,
-    Paciente: "Jose",
-    Codigo: "PA001",
-    Dni: "12345678",
-    Correo: "jose@gmail.com",
-    Celular: "+56 987654321",
-  },
-];
 export default function ListarPacientes() {
+  const [paciente, setPaciente] = useState<Paciente[]>([]);
+  const [filteredPacientes, setFilteredPacientes] = useState<Paciente[]>([]);
+  const [filterValue, setFilterValue] = useState("");
+
+  // Funcion para la busqueda
+  const onSearchChange = (value: string) => {
+    setFilterValue(value);
+    if (value === "") {
+      setFilteredPacientes(paciente);
+    } else {
+      const filtered = paciente.filter((pac) =>
+        `${pac.nombre} ${pac.DNI} ${pac.celular}`
+          .toLowerCase()
+          .includes(value.toLowerCase())
+      );
+      setFilteredPacientes(filtered);
+    }
+  };
+
+  // Función para limpiar el buscador
+  const onClear = () => {
+    setFilterValue("");
+    setFilteredPacientes(paciente);
+  };
+
+  //funcion para traer a los pacientes a todos, y con el filtro
+  const handleGetPacientes = async () => {
+    try {
+      const cookies = parseCookies();
+      const token = cookies["session"];
+      const url = `${process.env.NEXT_PUBLIC_API_URL}api/pacientes`;
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await response.json();
+      if (response.ok) {
+        if (Array.isArray(data.result)) {
+          setPaciente(data.result);
+          setFilteredPacientes(data.result);
+          showToast("success", "Pacientes obtenidos correctamente");
+        } else {
+          console.error("La propiedad 'result' no es un array:", data);
+          showToast("error", "Formato de respuesta inválido");
+          setPaciente([]);
+          setFilteredPacientes([]);
+        }
+      } else {
+        showToast("error", data.message || "Error al obtener los pacientes");
+        setPaciente([]);
+        setFilteredPacientes([]);
+      }
+    } catch (error) {
+      console.error(error);
+      showToast("error", "Error de conexión. Intenta nuevamente.");
+      setPaciente([]);
+      setFilteredPacientes([]);
+    }
+  };
+
+  //Funcion para eliminar Paciente
+  const HandleDeletePaciente = async (idPaciente: number) => {
+    try {
+      const cookies = parseCookies();
+      const token = cookies["session"];
+      const url = `${process.env.NEXT_PUBLIC_API_URL}api/pacientes/${idPaciente}`;
+      const response = await fetch(url, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await response.json();
+
+      if (response.ok) {
+        showToast("succes", "Paciente eliminado correctamente");
+        handleGetPacientes();
+      } else {
+        showToast(
+          "error",
+          data.status_message || "Error de conexion. Intenta nuevamente 3"
+        );
+      }
+    } catch (error) {
+      console.error(error);
+      showToast("error", "Error de conexion. Intenta nuevamente 2");
+    }
+  };
+
+  useEffect(() => {
+    handleGetPacientes();
+  }, []);
+
   return (
     <>
+    {/* Navbar*/}
       <div className="flex justify-between w-full mt-10 mb-6">
         <h1 className=" flex items-center font-bold text-[32px]  leading-[40px]  ml-11   text-[#634AE2]  ">
           Pacientes
@@ -58,27 +135,44 @@ export default function ListarPacientes() {
               <path d="M380-320q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l224 224q11 11 11 28t-11 28q-11 11-28 11t-28-11L532-372q-30 24-69 38t-83 14Zm0-80q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
             </svg>
             <Input
-              placeholder="Buscar Pacientes"
-              className="w-full max-w-[400px] "
+              type="text"
+              placeholder="Buscar paciente"
+              isClearable
+              size="sm"
               radius="full"
-              height={43}
-              onChange={(e) => console.log(e.target.value)}
+              variant="bordered"
+              className="rounded-full bg-[#EAEAFF] ml-4 w-48"
+              classNames={{
+                input: "placeholder:text-[#9494F3]",
+              }}
+              value={filterValue}
+              onClear={onClear}
+              onValueChange={onSearchChange}
             />
           </div>
         </div>
         <div className="flex flex-row items-center gap-x-1 mr-5">
-          <button className="hover:bg-gray-200 border-white border-1 text-[#634AE2] bg-white p-[2px] rounded-full">
-            <Plus />
-          </button>
-          <Button
-            radius="full"
-            className="border-white text-white border-1 bg-[#fff0]  h-8 mx-auto"
-          >
-            Agregar nuevo paciente
-          </Button>
+          <Link href="/user/pacientes/DatosPaciente" passHref legacyBehavior>
+            <Button
+              as="a"
+              className="hover:bg-gray-200 border border-white text-[#634AE2] bg-white p-[2px] rounded-full"
+            >
+              <Plus />
+            </Button>
+          </Link>
+          <Link href="/user/pacientes/DatosPaciente" passHref legacyBehavior>
+            <Button
+              as="a"
+              radius="full"
+              className="border border-white text-white bg-transparent hover:bg-white hover:bg-opacity-20 h-8 mx-auto"
+            >
+              Agregar nuevo paciente
+            </Button>
+          </Link>
         </div>
       </div>
-
+    
+    {/* Encabezado tabla */}
       <table className="max-w-screen-2xl mx-auto w-full pt-9 border-separate border-spacing-y-4 px-8">
         <thead className="rounded-full">
           <tr className="bg-[#6364F4] text-white h-11 ">
@@ -91,15 +185,19 @@ export default function ListarPacientes() {
             <th className="rounded-tr-full font-normal">Más</th>
           </tr>
         </thead>
-        <tbody className="text-center   bg-white text-[#634AE2] font-normal text-[16px] leading-[20px]  ">
-          {columns.map((column, index) => (
-            <tr key={index} className="border-b hover:bg-gray-100  ">
+      {/* Tablas */}  
+        <tbody className="text-center bg-white text-[#634AE2] font-normal text-[16px] leading-[20px]">
+          {filteredPacientes.map((paciente) => (
+            <tr
+              key={paciente.idPaciente}
+              className="border-b hover:bg-gray-100  "
+            >
               <td className="px-4 py-2 text-2xl rounded-l-[34px]">○</td>
-              <td className="px-4 py-2">{column.Paciente}</td>
-              <td className="px-4 py-2">{column.Codigo}</td>
-              <td className="px-4 py-2">{column.Dni}</td>
-              <td className="px-4 py-2">{column.Correo}</td>
-              <td className="py-2">{column.Celular}</td>
+              <td className="px-2 py-2">{paciente.nombre}</td>
+              <td className="px-2 py-2">{paciente.idPaciente}</td>
+              <td className="px-2 py-2">{paciente.DNI}</td>
+              <td className="px-2 py-2">{paciente.correo}</td>
+              <td className="py-2">{paciente.celular}</td>
               <td className="py-2 rounded-r-[34px]">
                 <div className="w-full h-full flex items-center justify-center">
                   <div className="flex flex-row items-center justify-center gap-x-4">
@@ -129,7 +227,12 @@ export default function ListarPacientes() {
                       </h1>
                     </Link>
                     <Link
-                      href="/user/pacientes/DetallePaciente/"
+                      href={{
+                        pathname: "/user/pacientes/DetallePaciente",
+                        query: {
+                          idPaciente: paciente.idPaciente,
+                        },
+                      }}
                       className={cn("flex flex-col items-center")}
                     >
                       <svg
@@ -144,18 +247,28 @@ export default function ListarPacientes() {
                       <h1 className="font-light text-sm text-cente">Editar</h1>
                     </Link>
                     <div className="flex flex-col items-center">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        height="34px"
-                        viewBox="0 -960 960 960"
-                        width="34px"
-                        fill="#B158FF"
+                      <button
+                        onClick={() => {
+                          if (
+                            confirm("¿Estás seguro de eliminar este paciente?")
+                          ) {
+                            HandleDeletePaciente(paciente.idPaciente);
+                          }
+                        }}
                       >
-                        <path d="M282.98-140q-25.79 0-44.18-18.39t-18.39-44.18v-532.05H180v-50.25h174.05v-30.51h251.9v30.51H780v50.25h-40.41v532.05q0 25.79-18.39 44.18T677.02-140H282.98Zm96.56-133.23h50.25v-379.08h-50.25v379.08Zm150.67 0h50.25v-379.08h-50.25v379.08Z" />
-                      </svg>
-                      <h1 className="text-[#B158FF] font-light text-sm text-center">
-                        Eliminar
-                      </h1>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          height="34px"
+                          viewBox="0 -960 960 960"
+                          width="34px"
+                          fill="#B158FF"
+                        >
+                          <path d="M282.98-140q-25.79 0-44.18-18.39t-18.39-44.18v-532.05H180v-50.25h174.05v-30.51h251.9v30.51H780v50.25h-40.41v532.05q0 25.79-18.39 44.18T677.02-140H282.98Zm96.56-133.23h50.25v-379.08h-50.25v379.08Zm150.67 0h50.25v-379.08h-50.25v379.08Z" />
+                        </svg>
+                        <h1 className="text-[#B158FF] font-light text-sm text-center">
+                          Eliminar
+                        </h1>
+                      </button>
                     </div>
                   </div>
                 </div>

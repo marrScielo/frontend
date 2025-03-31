@@ -121,7 +121,7 @@ export interface BlogApi {
 }
 
 export interface BlogApiGEt {
-  idBlog: number | null,
+  id: number | null,
   categoria: string,
   tema: string,
   contenido: string,
@@ -141,6 +141,9 @@ export interface BlogPreviewData {
   fecha: string,
 }
 
+export interface ApiResponseBLogAlone {
+  result: BlogPreviewData;
+}
 
 export interface ApiResponse {
 
@@ -258,3 +261,78 @@ export interface CitasPendientesApiResponse {
 }
 
 
+export interface Paciente {
+  idPaciente: number,
+  DNI: string,
+  nombre: string,
+  apellido:string,
+  correo: string,
+  celular: string,
+  fecha_nacimiento: Date,
+  imagen: string,
+  genero: string,
+  ocupacion: string,
+  estadoCivil: string,
+  direccion: string,
+  idPsicologo: number
+}
+export interface Paciente2 {
+  idPaciente: number,
+  DNI: string,
+  nombre: string,
+  apellido:string,
+  email: string,
+  celular: string,
+  fecha_nacimiento: String,
+  imagen: string,
+  genero: string,
+  ocupacion: string,
+  estadoCivil: string,
+  direccion: string,
+}
+
+export interface FormPaciente {
+  nombre: string;
+  apellidoPaterno: string;
+  apellidoMaterno: string;
+  DNI: string;
+  email: string;
+  celular: string;
+  fecha_nacimiento: string;
+  genero: string;
+  estadoCivil: string;
+  ocupacion: string;
+  direccion: string;
+  departamento: string| null;
+  provincia: string| null;
+  pais: string| null;
+  antecedentesMedicos: string;
+  medicamentosPrescritos: string;
+}
+
+export interface DatosPacienteProps {
+  idPaciente: number;
+}
+
+export interface Country {
+  id: number;
+  name: string;
+}
+
+export interface State {
+  id: number;
+  name: string;
+}
+
+export interface City {
+  id: number;
+  name: string;
+}
+export interface CustomizedLabelProps {
+  cx: number;
+  cy: number;
+  midAngle: number;
+  innerRadius: number;
+  outerRadius: number;
+  percent: number;
+}

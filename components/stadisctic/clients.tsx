@@ -1,3 +1,4 @@
+import { CustomizedLabelProps } from "@/interface";
 import React from "react";
 import {
   PieChart,
@@ -37,7 +38,8 @@ const lugar = [
   { name: "San Borja", Total: 6 },
 ];
 
-// Función para las etiquetas personalizadas en el gráfico de pastel
+
+
 const renderCustomizedLabel = ({
   cx,
   cy,
@@ -45,7 +47,7 @@ const renderCustomizedLabel = ({
   innerRadius,
   outerRadius,
   percent,
-}) => {
+}: CustomizedLabelProps) => {
   const RADIAN = Math.PI / 180;
   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);

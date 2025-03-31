@@ -10,7 +10,7 @@ import {
 import { parseCookies } from "nookies";
 export const token = parseCookies()["session"];
 
-export async function BlogsWebSite(): Promise<ApiResponse> { 
+export async function BlogsWebSite(): Promise<ApiResponse> {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}api/blogs/getAll`);
   if (!res.ok) {
     throw new Error("Error al obtener los datos");
@@ -21,7 +21,7 @@ export async function BlogsWebSite(): Promise<ApiResponse> {
 
 export async function GetCagetories(): Promise<CategoriaApi> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}api/categorias/show`
+    `${process.env.NEXT_PUBLIC_API_URL}api/categorias`
   );
   if (!res.ok) {
     throw new Error("Error al obtener los datos");
