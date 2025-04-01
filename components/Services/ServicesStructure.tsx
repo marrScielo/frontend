@@ -19,7 +19,7 @@ export default function ServicesStructure({
   services: ServicesStructureProps[];
 }) {
   return (
-    <div className="relative">
+    <div className="relative ">
       {services.map((item, index) => (
         <div className="embla__slide" key={index}>
           <div className="flex justify-between mx-6  pt-6 text-title pb-8 items-center ">
@@ -40,7 +40,7 @@ export default function ServicesStructure({
               }}
             >
               <div className="relative w-[700px] flex items-center justify-center text-white text-left  font-bold sm:text-[40px] text-2xl leading-1 sm:leading-[54px]">
-                {item.motto}
+                {item.motto} 
               </div>
             </div>
           </div>
@@ -317,7 +317,7 @@ export default function ServicesStructure({
           </div>
 
           <SliderPrice />
-          <div className="sticky bottom-0 left-0 w-full bg-[#DEDEFF] flex justify-center items-center z-[50] h-40 md:h-20">
+          <div className="sticky bottom-0 left-0 right-0 w-full bg-[#DEDEFF] flex justify-center items-center z-[50] h-40 md:h-20">
             <div className="flex flex-col lg:flex-row items-center justify-center lg:justify-between w-full max-w-[1230px] px-6 space-x-0">
               <p
                 className="text-[18px] w-full font-medium text-[#634AE2] lg:text-start text-center px-16"
