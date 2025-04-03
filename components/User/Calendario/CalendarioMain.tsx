@@ -4,8 +4,6 @@ import { Button } from "@heroui/react";
 import { getLocalTimeZone, today } from "@internationalized/date";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Week from "./SelectorDate";
-import Calendar from "./Calendar";
-import Calendario from "./Calendar";
 
 export default function CalendarioMain() {
   const Fecha = today(getLocalTimeZone());
@@ -72,7 +70,7 @@ export default function CalendarioMain() {
           </Button>
         </div>
       </div>
-      <Calendario/>
+      <Week />
     </>
   );
 }

@@ -1,11 +1,14 @@
 "use client";
-import { Button, Input, TimeInput } from "@heroui/react";
-import { endOfWeek, getDayOfWeek, getLocalTimeZone, startOfWeek, today } from "@internationalized/date";
+import { Button, Input} from "@heroui/react";
+{
+  /*
+  import { endOfWeek, getLocalTimeZone, startOfWeek, today } from "@internationalized/date";
+  */}
 
 
 import { X } from "lucide-react";
 import { useState } from "react";
-import { start } from "repl";
+
 
 const daysOfWeek = [
   "Lunes",
@@ -53,7 +56,7 @@ export default function Week() {
     }
   };
 
-  const HandleFecha = () => {
+  { /*const HandleFecha = () => {
     const date = startOfWeek(today(getLocalTimeZone()), 'es-ES');
     const finalDate = endOfWeek(today(getLocalTimeZone()), 'es-ES');
     const startDateJS = (date.year, date.month , date.day);
@@ -66,7 +69,7 @@ export default function Week() {
     const dayNames = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
     
   };
-
+   */}
   const handleDeleteSchedule = (id: number) => {
     setHorarios((prev) => prev.filter((item) => item.id !== id));
   };
@@ -121,7 +124,7 @@ export default function Week() {
       <Button
         radius="full"
         className="bg-[#634AE2] mx-auto mb-10 px-10 text-white font-light"
-        onPress={HandleFecha}
+        onPress={handleAddSchedule}
       >
         Agregar
       </Button>

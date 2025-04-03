@@ -4,18 +4,12 @@ import dayjs from 'dayjs';
 export default function Calendario() {
  const localizer = dayjsLocalizer(dayjs);
   return (
-    <div className="calendario">        
+    <div style={{
+      height: '95vh',
+      width: '70wh',
+    }}>        
     <Calendar
-      localizer={localizer}
-      style={{ height: 500 }}
-      events={[]}
-      defaultView="month"
-      views={["month", "week", "day"]}
-      step={30}
-      showMultiDayTimes
-      defaultDate={new Date()}
-      onSelectEvent={(event) => console.log(event)} 
-
+      localizer={localizer}       
     />
     </div>
   );
