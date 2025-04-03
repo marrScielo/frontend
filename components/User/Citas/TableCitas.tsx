@@ -5,7 +5,7 @@ import React from "react";
 import { Citas } from "@/interface";
 
 interface TableProps {
-  users: Citas[];  // Cambiado de User[] a Citas[]
+  users: Citas[]; 
   headerColumns: { name: string; uid: string; sortable?: boolean }[];
   selectedKeys: Set<React.Key>;
   setSelectedKeys: (keys: Set<React.Key>) => void;
@@ -22,7 +22,7 @@ export const TableCitas: React.FC<TableProps> = ({ users, headerColumns, selecte
     if (selectedKeys.size === users.length) {
       setSelectedKeys(new Set());
     } else {
-      const allKeys = new Set(users.map(user => user.codigo));  // Cambiado de user.id a user.id_cita
+      const allKeys = new Set(users.map(user => user.codigo));  
       setSelectedKeys(allKeys);
     }
   }, [selectedKeys, users, setSelectedKeys]);
@@ -38,7 +38,7 @@ export const TableCitas: React.FC<TableProps> = ({ users, headerColumns, selecte
   }, [selectedKeys, setSelectedKeys]);
 
   const renderCell = useCallback(
-    (user: Citas, columnKey: keyof Citas | "actions") => {  // Cambiado de User a Citas
+    (user: Citas, columnKey: keyof Citas | "actions") => { 
       if (columnKey === "actions") {
         return (
           <div className="pl-6 flex gap-4">
@@ -76,13 +76,19 @@ export const TableCitas: React.FC<TableProps> = ({ users, headerColumns, selecte
       const cellValue = user[columnKey];
 
       switch (columnKey) {
-        case "paciente":  // Cambiado de "name" a "paciente_nombre"
+        case "paciente":  
           return (
             <div className="flex flex-col">
               <span className="font-medium">{cellValue}</span>
             </div>
           );
-        case "estado":  // Cambiado de "status" a "estado"
+          case "codigo":  
+          return (
+            <div className="flex flex-col">
+              <span className="font-medium">{cellValue}</span>
+            </div>
+          );
+        case "estado":  
           return (
             <span className={`px-3 py-1 rounded-full text-xs ${
               cellValue === "Confirmado" 
@@ -92,7 +98,7 @@ export const TableCitas: React.FC<TableProps> = ({ users, headerColumns, selecte
               {cellValue}
             </span>
           );
-        case "fecha_inicio":  // Cambiado de "fecha" a "fecha_hora"
+        case "fecha_inicio":  
           return new Date(cellValue).toLocaleString();
         default:
           return cellValue;
@@ -135,13 +141,13 @@ export const TableCitas: React.FC<TableProps> = ({ users, headerColumns, selecte
         </thead>
         <tbody>
           {users.map((item) => (
-            <tr key={item.codigo} className="border-y-4 bg-white hover:bg-gray-100">  {/* Cambiado de item.id a item.id_cita */}
+            <tr key={item.codigo} className="border-y-4 bg-white hover:bg-gray-100"> 
               <td className="p-4 text-center rounded-l-3xl">
                 <input
                   type="checkbox"
                   className="w-4 h-4 rounded-full border-[#634AE2] border-3 bg-white focus:ring-0 checked:bg-[#634AE2] appearance-none"
-                  checked={selectedKeys.has(item.codigo)}  // Cambiado de item.id a item.id_cita
-                  onChange={() => handleSelectItem(item.codigo)}  // Cambiado de item.id a item.id_cita
+                  checked={selectedKeys.has(item.codigo)}  
+                  onChange={() => handleSelectItem(item.codigo)}  
                 />
               </td>
 
@@ -152,7 +158,7 @@ export const TableCitas: React.FC<TableProps> = ({ users, headerColumns, selecte
                     index === headerColumns.length - 1 ? "" : ""
                   }`}
                 >
-                  {renderCell(item, column.uid as keyof Citas)}  {/* Cambiado de User a Citas */}
+                  {renderCell(item, column.uid as keyof Citas)}  
                 </td>
               ))}
               <td className="p-4 text-center rounded-r-3xl">
