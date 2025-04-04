@@ -58,7 +58,7 @@ export default function CalendarioMain() {
                 ? "text-[#634AE2] bg-white"
                 : "bg-transparent border-1 text-background font-light"
             }`}
-            onClick={() => cambiarVista("calendario")}
+            onPress={() => cambiarVista("calendario")}
           >
             Calendario
           </Button>
@@ -69,7 +69,7 @@ export default function CalendarioMain() {
                 ? "text-[#634AE2] bg-white"
                 : "bg-transparent border-1 text-background font-light"
             }`}
-            onClick={() => cambiarVista("horarios")}
+            onPress={() => cambiarVista("horarios")}
           >
             Mis Horarios
           </Button>
