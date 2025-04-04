@@ -167,6 +167,9 @@ export interface PsicologoPreviewData {
   fecha_nacimiento: string,
   especialidades: string[],
   imagen: string,
+  horario: {
+    [key: string]: string[][];
+  };
 }
 
 export interface PsicologoApiResponse {
