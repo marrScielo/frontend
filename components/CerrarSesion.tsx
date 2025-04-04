@@ -35,7 +35,7 @@ export default function CerrarSesion() {
       <Button
         radius="full"
         className="border-[#634AE2] text-[#634AE2] border-2 bg-[#fff0] h-8 mx-auto"
-        onClick={logout}
+        onPress={logout}
       >
         Cerrar Sesión
       </Button>
