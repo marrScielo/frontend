@@ -94,9 +94,6 @@ export interface FormData {
   imagen: string;
   experiencia: number;
   especialidades: number[];
-  horario: {
-    [key: string]: string[][];
-  };
 }
 
 //interface for the component EspecialidadGet BlogUsuarioCrear
@@ -167,9 +164,11 @@ export interface PsicologoPreviewData {
   fecha_nacimiento: string,
   especialidades: string[],
   imagen: string,
+
   horario: {
     [key: string]: string[][];
   };
+
 }
 
 export interface PsicologoApiResponse {
@@ -239,6 +238,32 @@ export interface NavItems {
   link: string;
   icono: string;
 }
+
+// Interface for horarios psicologos
+
+export interface Horarios {
+  [dia: string]: [string, string][];
+}
+
+export interface BotonHorarioProps {
+  hora: string;
+  ocupada: boolean;
+  onClick: () => void;
+}
+
+export interface CitasPendientes {
+  fecha: string;
+  hora: string;
+}
+
+export interface CitasPendientesApiResponse {
+  status_code: number;
+  status_message: string;
+  description: string;
+  errorBag: any[];
+  result: CitasPendientes[]; 
+}
+
 
 export interface Paciente {
   idPaciente: number,
