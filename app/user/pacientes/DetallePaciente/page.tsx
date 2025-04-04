@@ -14,6 +14,7 @@ const PageHome = () => {
   const idPaciente = searchParams.get("idPaciente");
   const [paciente, setPaciente] = useState<Paciente | null>(null);
   const idPacienteNum = Number(idPaciente);
+  
   const HandleGetPaciente = async (idPaciente: number) => {
     try {
       const cookies = parseCookies();

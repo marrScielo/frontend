@@ -304,3 +304,6 @@ export interface Citas {
   motivo: string;
 }
 
+export interface DatePacienteProps {
+  pacienteId: string | null;
+}

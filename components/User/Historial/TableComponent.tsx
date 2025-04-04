@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import DatePaciente from "./DatePaciente";
 import { Citas } from "@/interface";
+import { DatePaciente } from "./DatePaciente";
 
 interface TableProps {
   citas: Citas[];
@@ -16,6 +16,7 @@ export const TableComponent: React.FC<TableProps> = ({
 }) => {
   const [isClient, setIsClient] = useState(false);
   const [showCart, setShowCart] = useState(false);
+  const [selectedPacienteId, setSelectedPacienteId] = useState<string | null>(null);
 
   useEffect(() => {
     setIsClient(true);
@@ -67,7 +68,10 @@ export const TableComponent: React.FC<TableProps> = ({
                 <td className="text-center bg-[#eaeded]">
                   <button
                     className="ml-2 text-[#fff] bg-[#634AE2] h-10 w-32 rounded-full font-normal text-x1"
-                    onClick={() => setShowCart(true)}
+                    onClick={() => {
+                      setSelectedPacienteId(cita.idPaciente);
+                      setShowCart(true)
+                    }}
                   >
                     Ver más
                   </button>
@@ -94,7 +98,7 @@ export const TableComponent: React.FC<TableProps> = ({
             className="relative bg-white p-6 rounded-3xl z-10"
             onClick={(e) => e.stopPropagation()}
           >
-            <DatePaciente />
+            <DatePaciente pacienteId={selectedPacienteId} />
           </div>
         </div>
       )}

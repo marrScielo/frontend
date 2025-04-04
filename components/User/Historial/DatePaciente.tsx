@@ -1,28 +1,60 @@
 import { Icons } from "@/icons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import HistorialPaciente from "./HistorialPaciente";
+import { DatePacienteProps, Paciente } from "@/interface";
+import { parseCookies } from "nookies";
 
-export default function App() {
+export const DatePaciente: React.FC<DatePacienteProps> = ({ pacienteId }) => {
   const [showCart, setShowCart] = useState(false);
+  const [pacienteData, setpacienteData] = useState<Paciente | null>(null);
+
+  const handleGetPaciente = async () => {
+    try {
+      const cookies = parseCookies();
+      const token = cookies["session"];
+      const url = `${process.env.NEXT_PUBLIC_API_URL}api/pacientes/${pacienteId}`;
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setpacienteData(data.result);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    handleGetPaciente();
+  }, []);
+
   return (
     <div className="max-w-[480px]">
       <div className="bg-[#fff] h-max text-[#634AE2] rounded-3xl">
         <div className="flex pl-6">
           <div className="w-[60%] pr-4">
-            <div className="font-bold text-3xl">Manuel Perez</div>
+            <div className="font-bold text-3xl">
+              {pacienteData?.nombre} {pacienteData?.apellido}
+            </div>
             <div className="font-bold text-xl">(24 años)</div>
             <div className="align-items-center">
               <div className="flex align-items-center">
                 <div className="font-bold pt-5">DNI</div>
-                <div className="pt-5 ml-16">...</div>
+                <div className="pt-5 ml-16">{pacienteData?.DNI}</div>
               </div>
               <div className="flex align-items-center">
                 <div className="font-bold pt-5">Celular</div>
-                <div className="pt-5 ml-9">999-999-999</div>
+                <div className="pt-5 ml-9">{pacienteData?.celular}</div>
               </div>
               <div className="flex align-items-center">
                 <div className="font-bold pt-5">Codigo</div>
-                <div className="pt-5 ml-9">...</div>
+                <div className="pt-5 ml-9">{pacienteData?.idPaciente}</div>
               </div>
             </div>
           </div>
@@ -32,7 +64,9 @@ export default function App() {
               <div className="pt-1">última atención</div>
             </div>
             <div className="border-2 border-[#634AE2] rounded-full text-center mt-2 justify-items-center pl-3 pr-3">
-              <button onClick={() => setShowCart(true)}>Ver historial clínico</button>
+              <button onClick={() => setShowCart(true)}>
+                Ver historial clínico
+              </button>
             </div>
           </div>
         </div>
@@ -112,10 +146,10 @@ export default function App() {
             className="relative bg-white p-6 rounded-3xl z-10"
             onClick={(e) => e.stopPropagation()}
           >
-            <HistorialPaciente/>
+            <HistorialPaciente />
           </div>
         </div>
       )}
     </div>
   );
-}
+};
