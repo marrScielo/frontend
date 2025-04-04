@@ -1,24 +1,16 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import DatePaciente from "./DatePaciente";
-
-interface User {
-  id: string;
-  name: string;
-  fecha: string;
-  status: string;
-  age: string;
-  motivo: string;
-}
+import { Citas } from "@/interface";
 
 interface TableProps {
-  users: User[];
+  citas: Citas[];
   headerColumns: { name: string; uid: string; sortable?: boolean }[];
-  renderCell: (user: User, columnKey: React.Key) => React.ReactNode;
+  renderCell: (cita: Citas, columnKey: React.Key) => React.ReactNode;
 }
 
 export const TableComponent: React.FC<TableProps> = ({
-  users,
+  citas,
   headerColumns,
   renderCell,
 }) => {
@@ -57,9 +49,9 @@ export const TableComponent: React.FC<TableProps> = ({
         </thead>
         {/* Cuerpo de la tabla */}
         <tbody>
-          {users.length > 0 ? (
-            users.map((item) => (
-              <tr key={item.id} className="bg-[#fff] pt-8">
+          {citas.length > 0 ? (
+            citas.map((cita) => (
+              <tr key={cita.idCita} className="bg-[#fff] pt-8">
                 {headerColumns.map((column, index) => (
                   <td
                     key={column.uid}
@@ -69,7 +61,7 @@ export const TableComponent: React.FC<TableProps> = ({
                       index === headerColumns.length - 1 ? "rounded-r-3xl" : ""
                     }`}
                   >
-                    {renderCell(item, column.uid)}
+                    {renderCell(cita, column.uid)}
                   </td>
                 ))}
                 <td className="text-center bg-[#eaeded]">
@@ -85,7 +77,7 @@ export const TableComponent: React.FC<TableProps> = ({
           ) : (
             <tr>
               <td colSpan={headerColumns.length} className="text-center p-4">
-                No users found
+                No se encontraron citas
               </td>
             </tr>
           )}

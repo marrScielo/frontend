@@ -293,19 +293,14 @@ export interface City {
 }
 
 export interface Citas {
+  idCita: string;
+  idPaciente: string;
+  idPsicologo: string;
   paciente: string;
   codigo: string;
-  motivo: string;
-  estado: string;
   fecha_inicio: string;
-  duracion: string;
-}
-
-interface User {
-  id: string;
-  name: string;
-  fecha: string;
-  status: string;
+  estado: string;
   age: string;
   motivo: string;
 }
+

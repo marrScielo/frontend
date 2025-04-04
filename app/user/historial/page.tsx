@@ -3,39 +3,28 @@ import React, { useState, useMemo, useCallback, useEffect } from "react";
 import { Navbar } from "@/components/User/Historial/SearchNavbar";
 import { TableComponent } from "@/components/User/Historial/TableComponent";
 import CerrarSesion from "@/components/CerrarSesion";
-import { Citas, Paciente } from "@/interface";
+import { Citas } from "@/interface";
 import { parseCookies } from "nookies";
 import showToast from "@/components/ToastStyle";
 
 const columns = [
-  { name: "Codigo", uid: "id", sortable: true },
-  { name: "Paciente", uid: "name", sortable: true },
-  { name: "Fecha de Cita", uid: "fecha", sortable: true },
-  { name: "Diagnostico", uid: "motivo", sortable: true },
-  { name: "Estado", uid: "status", sortable: true },
+  { name: "Código", uid: "codigo", sortable: true },
+  { name: "Paciente", uid: "paciente", sortable: true },
+  { name: "Fecha de Cita", uid: "fecha_inicio", sortable: true },
+  { name: "Diagnóstico", uid: "motivo", sortable: true },
+  { name: "Estado", uid: "estado", sortable: true },
 ];
 
-const INITIAL_VISIBLE_COLUMNS = ["id", "name", "fecha", "motivo", "status"];
-
-interface CombinedData {
-  id: string;
-  name: string;
-  fecha: string;
-  status: string;
-  age?: string;
-  motivo: string;
-}
+const INITIAL_VISIBLE_COLUMNS = ["codigo", "paciente", "fecha_inicio", "motivo", "estado"];
 
 export default function App() {
   const [filterValue, setFilterValue] = useState("");
-  const [pacientes, setPacientes] = useState<Paciente[]>([]);
   const [citas, setCitas] = useState<Citas[]>([]);
-  const [combinedData, setCombinedData] = useState<CombinedData[]>([]);
   const [visibleColumns, setVisibleColumns] = useState<Set<string>>(
     new Set(INITIAL_VISIBLE_COLUMNS)
   );
   const [sortDescriptor, setSortDescriptor] = useState({
-    column: "fecha",
+    column: "fecha_inicio",
     direction: "ascending",
   });
 
@@ -47,36 +36,15 @@ export default function App() {
     );
   }, [visibleColumns]);
 
-  // Función para combinar datos de pacientes y citas
-  const combineData = useCallback((pacientes: Paciente[], citas: Citas[]) => {
-    return citas.map(cita => {
-      const paciente = pacientes.find(p => p.id === cita.paciente_id);
-      return {
-        id: paciente?.idPaciente || '',
-        name: paciente ? `${paciente.nombre} ${paciente.apellido}` : 'Paciente no encontrado',
-        fecha: cita.fecha_inicio || '',
-        status: cita.estado || '',
-        age: paciente ? '' : '',
-        motivo: cita.motivo || ''
-      };
-    });
-  }, []);
-
-  useEffect(() => {
-    if (pacientes.length > 0 && citas.length > 0) {
-      setCombinedData(combineData(pacientes, citas));
-    }
-  }, [pacientes, citas, combineData]);
-
   const filteredItems = useMemo(() => {
-    let filteredData = [...combinedData];
+    let filteredData = [...citas];
     if (hasSearchFilter) {
       filteredData = filteredData.filter((item) =>
-        item.name.toLowerCase().includes(filterValue.toLowerCase())
+        item.paciente.toLowerCase().includes(filterValue.toLowerCase())
       );
     }
     return filteredData;
-  }, [combinedData, filterValue]);
+  }, [citas, filterValue]);
 
   const sortedItems = useMemo(() => {
     return [...filteredItems].sort((a, b) => {
@@ -87,16 +55,17 @@ export default function App() {
     });
   }, [sortDescriptor, filteredItems]);
 
-  const renderCell = useCallback((user: CombinedData, columnKey: React.Key) => {
-    const cellValue = user[columnKey as keyof typeof user];
+  const renderCell = useCallback((cita: Citas, columnKey: React.Key) => {
+    const cellValue = cita[columnKey as keyof typeof cita];
+    
     switch (columnKey) {
-      case "name":
-        return user.name;
-      case "fecha":
+      case "paciente":
+        return cita.paciente;
+      case "fecha_inicio":
         return (
           <div className="flex flex-col">
             <p className="text-bold text-small capitalize">{cellValue}</p>
-            {user.age && <p className="text-bold text-small capitalize">Edad: {user.age}</p>}
+            {cita.age && <p className="text-bold text-small capitalize">Edad: {cita.age}</p>}
           </div>
         );
       default:
@@ -118,9 +87,9 @@ export default function App() {
 
   const handleSortByDate = () => {
     setSortDescriptor({
-      column: "fecha",
+      column: "fecha_inicio",
       direction:
-        sortDescriptor.column === "fecha" &&
+        sortDescriptor.column === "fecha_inicio" &&
         sortDescriptor.direction === "ascending"
           ? "descending"
           : "ascending",
@@ -129,55 +98,20 @@ export default function App() {
   
   const handleSortByName = () => {
     setSortDescriptor({
-      column: "name",
+      column: "paciente",
       direction:
-        sortDescriptor.column === "name" &&
+        sortDescriptor.column === "paciente" &&
         sortDescriptor.direction === "ascending"
           ? "descending"
           : "ascending",
     });
   };
 
-  // Funcion para traer a todos los pacientes
-  const handleGetPacientes = async () => {
-    try {
-      const cookies = parseCookies();
-      const token = cookies["session"];
-      const url = `${process.env.NEXT_PUBLIC_API_URL}api/pacientes`;
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          "Content-type": "application/json",
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = await response.json();
-      if (response.ok) {
-        if (Array.isArray(data.result)) {
-          setPacientes(data.result);
-        } else {
-          console.error("La propiedad 'result' no es un array:", data);
-          showToast("error", "Formato de respuesta inválido");
-          setPacientes([]);
-        }
-      } else {
-        showToast("error", data.message || "Error al obtener los pacientes");
-        setPacientes([]);
-      }
-    } catch (error) {
-      console.error(error);
-      showToast("error", "Error de conexión. Intenta nuevamente.");
-      setPacientes([]);
-    }
-  };
-
-  // Funcion para traer todas las citas
   const handleGetCitas = async () => {
     try {
       const cookies = parseCookies();
       const token = cookies["session"];
-      const url = `${process.env.NEXT_PUBLIC_API_URL}api/citas/showAll`;
+      const url = `${process.env.NEXT_PUBLIC_API_URL}api/citas`;
       const response = await fetch(url, {
         method: "GET",
         headers: {
@@ -207,7 +141,6 @@ export default function App() {
   };
 
   useEffect(() => {
-    handleGetPacientes();
     handleGetCitas();
   }, []);
 
@@ -242,7 +175,7 @@ export default function App() {
           onSortByName={handleSortByName}
         />
         <TableComponent
-          users={sortedItems}
+          citas={sortedItems}
           headerColumns={headerColumns}
           renderCell={renderCell}
         />

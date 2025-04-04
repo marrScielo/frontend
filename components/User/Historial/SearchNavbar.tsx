@@ -138,7 +138,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               />
               {/* Botón de agregar nueva cita */}
               <button className="text-[#fff] font-light text-xl border-1 rounded-full px-4">
-                Agregar nueva cita
+                Agregar atencion
               </button>
             </div>
           </div>
