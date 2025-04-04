@@ -12,7 +12,7 @@ export const token = parseCookies()["session"];
 
 
 export async function BlogsWebSite(): Promise<ApiResponse> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}api/blogs/getAll`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}api/blogs`);
   if (!res.ok) {
     throw new Error("Error al obtener los datos");
   }
@@ -46,7 +46,7 @@ export async function GetBlogsPreviewApi(): Promise<AuthorsApi> {
 
 export async function GetPsicologos(): Promise<PsicologoApiResponse> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}api/psicologos/showAll`
+    `${process.env.NEXT_PUBLIC_API_URL}api/psicologos`
   );
   if (!res.ok) {
     throw new Error("Error al obtener los datos");
@@ -78,7 +78,7 @@ export async function GetPsicologosById(
   id: number | null
 ): Promise<PsicologoApiResponseAlone> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}api/psicologos/show/${id}`,
+    `${process.env.NEXT_PUBLIC_API_URL}api/psicologos/${id}`,
     {
       method: "GET",
       headers: {
@@ -100,7 +100,7 @@ export async function UpdatePsicologo(
   data: PsicologoPreviewData
 ): Promise<void> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}api/psicologos/update/${id}`,
+    `${process.env.NEXT_PUBLIC_API_URL}api/psicologos/${id}`,
     {
       method: "PUT",
       headers: {
