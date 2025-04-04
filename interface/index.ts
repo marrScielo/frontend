@@ -190,12 +190,12 @@ export interface PsicologoApiResponseAlone {
 
 export interface UsuarioLocalStorage {
   id: number,
-
   nombre: string,
   apellido: string,
   email: string,
   rol: string,
   imagen: string,
+  idpsicologo?: number,
 }
 
 //Usuario LocalStorage

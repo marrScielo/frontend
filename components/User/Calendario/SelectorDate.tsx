@@ -123,7 +123,7 @@ export default function Week() {
       console.log ("Token:", token);
       // Realizar la petición PUT
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}api/psicologos/${parsedUser.id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}api/psicologos/${parsedUser.idpsicologo}`,
         {
           method: "PUT",
           headers: {
