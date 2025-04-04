@@ -1,14 +1,7 @@
 "use client";
-import { UpdatePsicologo } from "@/app/apiRoutes";
 import showToast from "@/components/ToastStyle";
-import { PsicologoPreviewData, UsuarioLocalStorage } from "@/interface";
+import { UsuarioLocalStorage } from "@/interface";
 import { Button, Input, ScrollShadow } from "@heroui/react";
-import { error } from "console";
-{
-  /*
-  import { endOfWeek, getLocalTimeZone, startOfWeek, today } from "@internationalized/date";
-  */
-}
 
 import { X } from "lucide-react";
 import { parseCookies } from "nookies";
@@ -21,7 +14,6 @@ const daysOfWeek = [
   "Jueves",
   "Viernes",
   "Sábado",
-  "Domingo",
 ];
 
 interface TimesInterface {
@@ -40,7 +32,16 @@ export default function Week() {
   });
   const [horarios, setHorarios] = useState<TimesInterface[]>([]);
 
+  // Función para verificar si un día ya tiene horario
+  const hasSchedule = (day: string) => {
+    return horarios.some((horario) => horario.dia === day);
+  };
+
   const handleDayClick = (day: string) => {
+    // No hacer nada si el día ya tiene horario
+    if (hasSchedule(day)) {
+      return;
+    }
     setFecha((prev) => ({ ...prev, dia: day }));
   };
 
@@ -78,6 +79,7 @@ export default function Week() {
       end: "18:00",
     });
   };
+
   const formatHorariosForBackend = (horarios: TimesInterface[]) => {
     const formattedHorarios: Record<string, string[][]> = {};
 
@@ -91,37 +93,33 @@ export default function Week() {
       formattedHorarios[dia].push([start, end]);
     });
 
-    return {  horarios: formattedHorarios };
+    return { horario: formattedHorarios };
   };
+
   const handleUpdate = async () => {
     try {
-      // Validación de horarios
       if (horarios.length === 0) {
         showToast("error", "No hay horarios para guardar");
         return;
       }
-  
-      // Obtener usuario del localStorage
+
       const storedUser = localStorage.getItem("user");
       if (!storedUser) {
         showToast("error", "No se encontró el usuario en el almacenamiento local");
         return;
       }
-  
-      // Parsear usuario y obtener token
+
       const parsedUser: UsuarioLocalStorage = JSON.parse(storedUser);
       const token = parseCookies()["session"];
-  
+
       if (!token) {
         showToast("error", "No se encontró el token de autenticación");
         return;
       }
-  
-      // Formatear datos para el backend
+
       const formattedData = formatHorariosForBackend(horarios);
       console.log("Datos a enviar:", formattedData);
-      console.log ("Token:", token);
-      // Realizar la petición PUT
+      console.log("Token:", token);
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}api/psicologos/${parsedUser.idpsicologo}`,
         {
@@ -134,29 +132,24 @@ export default function Week() {
           body: JSON.stringify(formattedData),
         }
       );
-  
-      // Manejar la respuesta
+
       if (!response.ok) {
         const errorData = await response.json();
         console.error("Error del backend:", errorData);
         throw new Error(errorData.message || "Error al actualizar horarios");
       }
-  
+
       const data = await response.json();
       console.log("Respuesta del backend:", data);
-  
+
       showToast("success", "Horarios guardados correctamente");
-      
-      // Opcional: Resetear horarios después de guardar
+
       setHorarios([]);
-      
     } catch (error) {
       console.error("Error al guardar horarios:", error);
       showToast(
-        "error", 
-        error instanceof Error 
-          ? error.message 
-          : "Error al guardar horarios"
+        "error",
+        error instanceof Error ? error.message : "Error al guardar horarios"
       );
     }
   };
@@ -175,10 +168,13 @@ export default function Week() {
           <Button
             key={day}
             onPress={() => handleDayClick(day)}
+            isDisabled={hasSchedule(day)} // Deshabilitar si ya tiene horario
             className={`gap-3 text-[#634AE2] px-4 mx-1 my-1 rounded-full transition 
               ${
                 fecha.dia === day
                   ? "bg-[#634AE2] text-white"
+                  : hasSchedule(day)
+                  ? "bg-gray-300 cursor-not-allowed" // Estilo para botón deshabilitado
                   : "bg-[#D2D2FF] hover:bg-[#B8B8FF]"
               }`}
           >
