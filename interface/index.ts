@@ -164,7 +164,11 @@ export interface PsicologoPreviewData {
   fecha_nacimiento: string,
   especialidades: string[],
   imagen: string,
-  horario: Horarios;
+
+  horario: {
+    [key: string]: string[][];
+  };
+
 }
 
 export interface PsicologoApiResponse {
@@ -185,12 +189,12 @@ export interface PsicologoApiResponseAlone {
 
 export interface UsuarioLocalStorage {
   id: number,
-
   nombre: string,
   apellido: string,
   email: string,
   rol: string,
   imagen: string,
+  idpsicologo?: number,
 }
 
 //Usuario LocalStorage

@@ -1,16 +1,49 @@
-import { Calendar } from 'react-big-calendar';
-import { dayjsLocalizer } from 'react-big-calendar';
+import { Calendar, dayjsLocalizer } from "react-big-calendar";
 import dayjs from 'dayjs';
+import 'dayjs/locale/es'; 
+dayjs.locale('es'); 
+import "react-big-calendar/lib/css/react-big-calendar.css";
+
 export default function Calendario() {
- const localizer = dayjsLocalizer(dayjs);
+  const localizer = dayjsLocalizer(dayjs);
+  const events = [
+    {
+      title: 'Evento 1',
+      start: dayjs('2025-04-04').toDate(),
+      end: dayjs('2025-04-04').toDate()
+    },
+    
+  ]
   return (
-    <div style={{
-      height: '95vh',
-      width: '70wh',
-    }}>        
-    <Calendar
-      localizer={localizer}       
-    />
+    <div className="mx-auto mt-3"
+      style={{
+        height: "90vh",
+        width: "80vw",
+      }}
+    >
+      <Calendar
+        messages={{
+          allDay: 'Todo el día',
+          previous: 'Anterior',
+          next: 'Siguiente',
+          today: 'Hoy',
+          month: 'Mes',
+          week: 'Semana',
+          day: 'Día',
+          agenda: 'Agenda',
+          date: 'Fecha',
+          time: 'Hora',
+          event: 'Evento',
+          noEventsInRange: 'No hay eventos en este rango',
+          showMore: total => `+ Ver más (${total})`
+
+        }}
+        className="bg-white text-[#634AE2]  "
+        
+        
+        localizer={localizer}
+        events={events}
+      />
     </div>
   );
 }
