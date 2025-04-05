@@ -4,15 +4,38 @@ import HistorialPaciente from "./HistorialPaciente";
 import { DatePacienteProps, Paciente } from "@/interface";
 import { parseCookies } from "nookies";
 
-export const DatePaciente: React.FC<DatePacienteProps> = ({ pacienteId }) => {
+export const DatePaciente: React.FC<DatePacienteProps> = ({ pacienteId, citaId }) => {
   const [showCart, setShowCart] = useState(false);
   const [pacienteData, setpacienteData] = useState<Paciente | null>(null);
+  const [CitaData, setCitaData] = useState<Paciente | null>(null);
 
   const handleGetPaciente = async () => {
     try {
       const cookies = parseCookies();
       const token = cookies["session"];
       const url = `${process.env.NEXT_PUBLIC_API_URL}api/pacientes/${pacienteId}`;
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setpacienteData(data.result);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleGetCita = async () => {
+    try {
+      const cookies = parseCookies();
+      const token = cookies["session"];
+      const url = `${process.env.NEXT_PUBLIC_API_URL}api/cita/${citaId}`;
       const response = await fetch(url, {
         method: "GET",
         headers: {

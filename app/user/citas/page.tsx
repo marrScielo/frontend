@@ -32,7 +32,7 @@ export default function App() {
       setError(null);
       const cookies = parseCookies();
       const token = cookies["session"];
-      const url = `${process.env.NEXT_PUBLIC_API_URL}api/citas/showAll`;
+      const url = `${process.env.NEXT_PUBLIC_API_URL}api/citas`;
       const response = await fetch(url, {
         method: "GET",
         headers: {

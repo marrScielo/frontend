@@ -306,4 +306,5 @@ export interface Citas {
 
 export interface DatePacienteProps {
   pacienteId: string | null;
+  citaId?: string | null;
 }

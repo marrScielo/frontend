@@ -17,6 +17,7 @@ export const TableComponent: React.FC<TableProps> = ({
   const [isClient, setIsClient] = useState(false);
   const [showCart, setShowCart] = useState(false);
   const [selectedPacienteId, setSelectedPacienteId] = useState<string | null>(null);
+  const [selectedCitaId, setSelectedCitaId] = useState<string | null>(null);
 
   useEffect(() => {
     setIsClient(true);
@@ -29,7 +30,6 @@ export const TableComponent: React.FC<TableProps> = ({
   return (
     <div className="relative max-h-[585px] overflow-auto rounded-lg pt-6 pl-8 pr-8 text-[#634AE2]">
       <table className="w-8/12 border-separate border-spacing-y-3">
-        {/* Encabezado de la tabla */}
         <thead className="sticky top-0 bg-[#6364F4] overflow-hidden">
           <tr>
             {headerColumns.map((column, index) => (
@@ -48,7 +48,6 @@ export const TableComponent: React.FC<TableProps> = ({
             ))}
           </tr>
         </thead>
-        {/* Cuerpo de la tabla */}
         <tbody>
           {citas.length > 0 ? (
             citas.map((cita) => (
@@ -67,11 +66,19 @@ export const TableComponent: React.FC<TableProps> = ({
                 ))}
                 <td className="text-center bg-[#eaeded]">
                   <button
-                    className="ml-2 text-[#fff] bg-[#634AE2] h-10 w-32 rounded-full font-normal text-x1"
+                    className={`ml-2 h-10 w-32 rounded-full font-normal text-x1 ${
+                      !cita.idPaciente
+                        ? "bg-gray-400 cursor-not-allowed"
+                        : "bg-[#634AE2] text-[#fff] hover:bg-[#5340D2]"
+                    }`}
                     onClick={() => {
-                      setSelectedPacienteId(cita.idPaciente);
-                      setShowCart(true)
+                      if (cita.idPaciente) {
+                        setSelectedPacienteId(cita.idPaciente);
+                        setSelectedCitaId(cita.idCita);
+                        setShowCart(true);
+                      }
                     }}
+                    disabled={!cita.idPaciente}
                   >
                     Ver más
                   </button>
@@ -88,8 +95,7 @@ export const TableComponent: React.FC<TableProps> = ({
         </tbody>
       </table>
 
-      {/* Modal de Detalles del Paciente */}
-      {showCart && (
+      {showCart && selectedPacienteId && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 flex justify-end pt-24 z-10 pr-28"
           onClick={() => setShowCart(false)}
@@ -98,7 +104,10 @@ export const TableComponent: React.FC<TableProps> = ({
             className="relative bg-white p-6 rounded-3xl z-10"
             onClick={(e) => e.stopPropagation()}
           >
-            <DatePaciente pacienteId={selectedPacienteId} />
+            <DatePaciente 
+              pacienteId={selectedPacienteId} 
+              citaId={selectedCitaId} 
+            />
           </div>
         </div>
       )}
