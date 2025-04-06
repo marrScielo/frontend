@@ -62,11 +62,11 @@ export default function SobreNosotrosStructure({ qs }: { qs: QuienesSomos[] }) {
                     />
                   </section>
                 </div>
-                <div className="col-span-1 flex items-start max-w-[420px] ml-auto">
+                <div className="col-span-1 flex items-start mr-24">
                   <div
-                    className="w-[400px] h-[500px] bg-cover bg-center bg-no-repeat rounded-l-full"
+                    className="w-[450px] h-[550px] bg-white bg-contain md:bg-cover bg-center bg-no-repeat"
                     style={{
-                      backgroundImage: `linear-gradient(to right, #3616D87A 0%, #3616D870 30%, #7863E37A 70%, #7863E370 100%),url('/AboutUs/PsicologaPeruana.webp')`,
+                      backgroundImage: `linear-gradient(to right, #7863E37A 0%, #7863E37A 30%, #7863E37A 70%, #7863E370 100%),url('/AboutUs/ContigoVoy-LauraVillanueva-Psicologa2.webp')`,
                       backgroundSize: "cover",
                     }}
                   />

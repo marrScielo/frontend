@@ -132,16 +132,16 @@ export default function ChooseUs() {
         <div className="grid grid-cols-2 ">
           <div className="col-span-1 flex items-center max-w-full">
             <div
-              className="w-[482px] h-[605px] bg-cover bg-center bg-no-repeat"
+              className="w-[660px] h-[660px] bg-cover bg-center bg-no-repeat"
               style={{
-                backgroundImage: `url(/psicologa.webp)`,
-                backgroundSize: "480px 600px", 
+                backgroundImage: `url(/ContigoVoy-LauraVillanueva-Psicologa.webp)`,
+                backgroundSize: "660px 660px", 
               }}
             />
           </div>
 
           <motion.div className="grid grid-cols-1 mx-auto md:grid-cols-2 lg:grid-cols-4 gap-40 justify-items-center -ml-60">
-            {features.slice(0, 4).map((feature, index) => (
+            {features.slice(0, 3).map((feature, index) => (
               <motion.div
                 key={index}
                 whileHover={{ scale: 1.05 }}
@@ -159,7 +159,7 @@ export default function ChooseUs() {
             ))}
 
             <div className="lg:col-span-4 flex justify-center gap-40">
-              {features.slice(4).map((feature, index) => (
+              {features.slice(3).map((feature, index) => (
                 <motion.div
                   key={index}
                   whileHover={{ scale: 1.05 }}
