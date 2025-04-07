@@ -35,6 +35,9 @@ body {
   background-size: contain;
 }
 
+ .mask-fade-bottom {
+  mask-image: linear-gradient(to bottom, black 98%, transparent 100%);
+}
 
 @media (max-width: 640px) { /* sm */
   .responsive-bg {
