@@ -2,7 +2,7 @@
 
 import { Button } from "@heroui/react";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Fullscreen } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -141,7 +141,7 @@ export default function TherapyServices() {
               ))}
             </div>
           </div>
-          <div className="flex justify-center items-start mt-6 ">
+          <div className=" justify-center hidden lg:block items-start mt-6 ">
             <Image
               src="/FOTOACEPTADA1.webp"
               alt="Descripción de la imagen"
@@ -176,7 +176,9 @@ export default function TherapyServices() {
                     height={63}
                   />
                 </div>
-                <h3 className="mt-3 mb-4 text-xl font-bold">{service.title}</h3>
+                <h3 className="mt-3 mb-4 text-xl font-bold" 
+                dangerouslySetInnerHTML={{ __html: service.title }}
+                />
                 <div className="flex flex-col items-end mt-auto mb-5">
                   <button
                     onClick={() => router.push(`/servicios${service.id}`)}
@@ -191,7 +193,17 @@ export default function TherapyServices() {
                 </div>
               </motion.div>
             ))}
+           
           </div>
+          <div className=" justify-center block md:hidden mx-auto mt-6 ">
+              <Image
+              className="mx-auto mask-fade-bottom"
+                src="/FOTOACEPTADA1.webp"
+                alt="Descripción de la imagen"
+                width={400}
+                height={500}
+              />
+            </div>
         </div>
       </div>
     </>

@@ -86,7 +86,7 @@ export default function ChooseUs() {
     [
       Autoplay({
         stopOnInteraction: false,
-        delay: 4000,
+        delay: 2000,
       }),
       Fade({
         active: true, // Activa el efecto de desvanecimiento
