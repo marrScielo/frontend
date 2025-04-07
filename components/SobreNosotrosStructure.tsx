@@ -36,8 +36,8 @@ export default function SobreNosotrosStructure({ qs }: { qs: QuienesSomos[] }) {
         {qs.map((item, index) => (
           <div key={index} className="text-center">
             <div className="pt-8 text-[#fff]">
-              <div className="grid grid-cols-[75%,25%]">
-                <div className="col-span-1">
+              <div className="grid grid-cols-3">
+                <div className="col-span-2">
                   <section>
                     <h2 className="text-5xl font-bold mb-3">¿Quiénes Somos?</h2>
                     <p
