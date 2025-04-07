@@ -266,7 +266,11 @@ export const PersonalForm = ({
               >
                 Masculino
               </SelectItem>
-              <SelectItem className="text-[#634AE2]" key="otros" textValue="otros">
+              <SelectItem
+                className="text-[#634AE2]"
+                key="otros"
+                textValue="otros"
+              >
                 Otros
               </SelectItem>
             </Select>
@@ -309,24 +313,6 @@ export const PersonalForm = ({
                 setFormData({ ...formData, apellido: e.target.value })
               }
             />
-            <Input
-              label="Edad"
-              labelPlacement="outside"
-              value={formData.edad.toString()}
-              classNames={{
-                label: "!text-[#634AE2]",
-                inputWrapper: "border-2 border-[#634AE2]",
-                input: "placeholder:!text-[#634AE2]",
-              }}
-              placeholder="ingrese su edad"
-              type="number"
-              isRequired
-              radius="full"
-              variant="faded"
-              onChange={(e) =>
-                setFormData({ ...formData, edad: parseInt(e.target.value) })
-              }
-            />
 
             <div className="flex items-center gap-2 !mt-4 !pt-0">
               <span className="text-[#634AE2] text-sm">Pais</span>
@@ -354,7 +340,6 @@ export const PersonalForm = ({
                 </AutocompleteItem>
               ))}
             </Autocomplete>
-
 
             <Input
               name="password"

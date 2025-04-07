@@ -85,7 +85,7 @@ export interface FormData {
   name: string;
   apellido: string;
   fecha_nacimiento: DateValue | string;
-  edad: number;
+
   genero: string;
   pais: string;
   email: string;
