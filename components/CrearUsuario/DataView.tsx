@@ -32,7 +32,7 @@ export const DataView = ({
       const token = cookies["session"];
 
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}api/psicologos/create`,
+        `${process.env.NEXT_PUBLIC_API_URL}api/psicologos`,
         {
           method: "POST",
           headers: {

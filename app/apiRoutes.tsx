@@ -59,7 +59,7 @@ export async function GetPsicologos(): Promise<PsicologoApiResponse> {
 
 export async function DeletePsycologo(id: number | null): Promise<void> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}api/psicologos/delete/${id}`,
+    `${process.env.NEXT_PUBLIC_API_URL}api/psicologos/${id}`,
     {
       method: "DELETE",
       headers: {
