@@ -322,21 +322,21 @@ export default function AllPsicologos({
                   <SelectItem
                     className="text-[#634AE2]"
                     key="femenino"
-                    value="femenino"
+                    textValue="femenino"
                   >
                     Femenino
                   </SelectItem>
                   <SelectItem
                     className="text-[#634AE2]"
                     key="masculino"
-                    value="masculino"
+                    textValue="masculino"
                   >
                     Masculino
                   </SelectItem>
                   <SelectItem
                     className="text-[#634AE2]"
                     key="otros"
-                    value="otros"
+                    textValue="otros"
                   >
                     Otros
                   </SelectItem>

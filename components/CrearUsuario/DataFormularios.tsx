@@ -255,18 +255,18 @@ export const PersonalForm = ({
               <SelectItem
                 className="text-[#634AE2]"
                 key="femenino"
-                value="femenino"
+                textValue="femenino"
               >
                 Femenino
               </SelectItem>
               <SelectItem
                 className="text-[#634AE2]"
                 key="masculino"
-                value="masculino"
+                textValue="masculino"
               >
                 Masculino
               </SelectItem>
-              <SelectItem className="text-[#634AE2]" key="otros" value="otros">
+              <SelectItem className="text-[#634AE2]" key="otros" textValue="otros">
                 Otros
               </SelectItem>
             </Select>
@@ -349,7 +349,7 @@ export const PersonalForm = ({
               variant="faded"
             >
               {Flags.map((item) => (
-                <AutocompleteItem key={item.value} value={item.value}>
+                <AutocompleteItem key={item.value} textValue={item.value}>
                   {item.label}
                 </AutocompleteItem>
               ))}

@@ -28,7 +28,7 @@ function DropzoneWithoutKeyboard() {
 }
 
 export default function App() {
-  const [pacienteData, setPacienteData] = useState<Paciente | null>(null);
+ // const [pacienteData, setPacienteData] = useState<Paciente | null>(null);
   const [pacientes, setPacientes] = useState<Paciente[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
@@ -72,11 +72,11 @@ export default function App() {
     setShowDropdown(false);
   };
 
-  const handlePacienteIdSelect = (paciente: Paciente) => {
+ /* const handlePacienteIdSelect = (paciente: Paciente) => {
     setSelectedPaciente(paciente);
     setSearchTerm(paciente.idPaciente);
     setShowDropdown(false);
-  };
+  };*/
 
   return (
     <div className="p-4">
@@ -122,7 +122,7 @@ export default function App() {
                         <div
                           key={paciente.idPaciente}
                           className="p-2 hover:bg-[#F3F3F3] cursor-pointer"
-                          onClick={() => handlePacienteIdSelect(paciente)}
+                         // onClick={() => handlePacienteIdSelect(paciente)}
                         >
                           {paciente.idPaciente}
                         </div>

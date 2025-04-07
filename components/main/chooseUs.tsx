@@ -134,7 +134,7 @@ export default function ChooseUs() {
             <div
               className="w-[600px] mask-fade-bottom h-[500px] bg-cover bg-center bg-no-repeat"
               style={{
-                backgroundImage: `url(/psicologafinale.webp)`,
+                backgroundImage: `url(./psicologaFinale.webp)`,
                 backgroundSize: "cover",
                 
               }}

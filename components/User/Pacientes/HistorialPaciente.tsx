@@ -30,8 +30,8 @@ const HistorialPaciente: React.FC<DatosPacienteProps> = ({ idPaciente }) => {
         console.error("error al cargar");
         showToast("error", data.message || "Error al obtener el paciente");
       }
-    } catch (error) {
-      console.error("error al cargar backend");
+    } catch  {
+      
       showToast("error", "Error de conexión. Intenta nuevamente.");
     }
   };

@@ -94,6 +94,9 @@ export interface FormData {
   imagen: string;
   experiencia: number;
   especialidades: number[];
+  horario: { 
+    [key: string]: string[][];
+  };
 }
 
 //interface for the component EspecialidadGet BlogUsuarioCrear
@@ -166,7 +169,7 @@ export interface PsicologoPreviewData {
   imagen: string,
 
   horario: {
-    [key: string]: string[][];
+    [key: string]: [string, string][];
   };
 
 }

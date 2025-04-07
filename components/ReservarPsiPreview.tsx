@@ -21,7 +21,7 @@ export default function ReservarPsiPreview({
   const [isScheduleOpen, setIsScheduleOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
-  const [isFormOpen, setIsFormOpen] = useState(false);
+ // const [isFormOpen, setIsFormOpen] = useState(false);
   const [horaSeleccionada, setHoraSeleccionada] = useState("");
   const [fechaSeleccionada, setFechaSeleccionada] = useState("");
   // Estados para los campos del formulario
@@ -37,7 +37,7 @@ export default function ReservarPsiPreview({
     // await fetch("/api/crearCitaYPrepaciente", { method: "POST", body: JSON.stringify({ nombreCompleto, celular, correo, ... }) })
 
     console.log("Datos de formulario:", { nombreCompleto, celular, correo });
-    setIsFormOpen(false); // Cierra el modal al terminar
+     // Cierra el modal al terminar
   };
 
 
