@@ -62,9 +62,9 @@ export default function SobreNosotrosStructure({ qs }: { qs: QuienesSomos[] }) {
                     />
                   </section>
                 </div>
-                <div className="col-span-1 flex items-start mr-24">
+                <div className="col-span-1 flex items-start ">
                   <div
-                    className="w-[450px] mask-fade-bottom h-[550px] bg-white bg-contain md:bg-cover bg-center bg-no-repeat"
+                    className="w-[450px] mask-fade-bottom flex items-end h-[550px] bg-white bg-contain md:bg-cover bg-center bg-no-repeat"
                     style={{
                       backgroundImage: `linear-gradient(to right, #7863E37A 0%, #7863E37A 30%, #7863E37A 70%, #7863E370 100%),url('/AboutUs/psicologaAbout.webp')`,
                       backgroundSize: "cover",

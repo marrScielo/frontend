@@ -130,13 +130,12 @@ export default function ChooseUs() {
       <div className="lg:block hidden w-full">
         <div className="grid grid-cols-3">
           {/* Columna 1: Imagen (ocupa solo 1 columna) */}
-          <div className="col-span-1 mask-fade-bottom flex items-center justify-center">
+          <div className="col-span-1 flex  justify-end">
             <div
               className="w-[600px] h-[500px] bg-cover bg-center bg-no-repeat"
               style={{
                 backgroundImage: `url(/psicologafinale.webp)`,
                 backgroundSize: "cover",
-                
               }}
             />
           </div>
