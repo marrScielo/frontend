@@ -93,32 +93,55 @@ export default function Footer() {
               </div>
             </div>
 
-            {/* Contacto */}
             <div className="flex flex-col text-start w-full md:w-auto">
               <h3 className="text-xl font-semibold text-white mb-4">
                 Contacto
               </h3>
 
-              
-              <div className="flex items-center space-x-2 mb-2">
-                <Image
-                  src="/WSP.webp"
-                  alt="whatsapp"
-                  width={20} 
-                  height={20} 
-                />
-                <p className="font-light">+51 983 027 828</p>
-              </div>
+              <div className="flex flex-col space-y-2">
+                <div className="flex flex-col space-y-2">
+          
+                  <div className="flex flex-col space-y-2">
+            
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm">+51 983 027 828</span>
+                      <a
+                        href="https://w.app/dvwynv"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center space-x-1 bg-green-500/80 rounded-full px-3 py-1 hover:bg-green-600/80 transition-colors"
+                      >
+                        <Image
+                          src="/WSP.webp"
+                          alt="WhatsApp Perú"
+                          width={16}
+                          height={16}
+                          className="flex-shrink-0"
+                        />
+                        <span className="text-white text-sm">Perú</span>
+                      </a>
+                    </div>
 
-              
-              <div className="flex items-center space-x-2">
-                <Image
-                  src="/WSP.webp"
-                  alt="whatsapp"
-                  width={20} 
-                  height={20} 
-                />
-                <p className="font-light">+54 922 130 326 75</p>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm">+54 9 221 303 2675</span>
+                      <a
+                        href="https://w.app/qv4uqn"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center space-x-1 bg-green-500/80 rounded-full px-3 py-1 hover:bg-green-600/80 transition-colors"
+                      >
+                        <Image
+                          src="/WSP.webp"
+                          alt="WhatsApp Argentina"
+                          width={16}
+                          height={16}
+                          className="flex-shrink-0"
+                        />
+                        <span className="text-white text-sm">Argentina</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
