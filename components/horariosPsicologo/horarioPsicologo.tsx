@@ -87,7 +87,7 @@ export default function HorarioPsicologo({ idPsicologo, horario, onClose, onOpen
 
   return (
     <div className="p-5 bg-white w-full max-w-4xl mx-auto">
-      <h2 className="text-xl font-bold text-center text-purple-700">¡Escoge el mejor horario que se adapte a ti!</h2>
+      <h2 className="text-xl font-bold text-center text-[#634AE2]">¡Escoge el mejor horario que se adapte a ti!</h2>
       <div className="flex justify-center mt-2">
         <ZonaHorariaSelect onChange={setZonaHoraria} />
       </div>

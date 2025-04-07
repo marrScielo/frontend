@@ -263,7 +263,10 @@ export interface CitasPendientesApiResponse {
 export interface PrePaciente {
   nombre: string,
   celular: string,
-  email: string,
+  correo: string,
+  fecha_cita: string,
+  hora_cita: string,
+  idPsicologo: number,
 }
 
 export interface Paciente {

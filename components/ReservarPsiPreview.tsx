@@ -21,29 +21,41 @@ export default function ReservarPsiPreview({
   const [isScheduleOpen, setIsScheduleOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
-  const [isFormOpen, setIsFormOpen] = useState(false);
   const [horaSeleccionada, setHoraSeleccionada] = useState("");
   const [fechaSeleccionada, setFechaSeleccionada] = useState("");
   // Estados para los campos del formulario
-  const [nombreCompleto, setNombreCompleto] = useState("");
-  const [celular, setCelular] = useState("");
-  const [correo, setCorreo] = useState("");
-
   const [action, setAction] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [formData, setFormData] = useState<PrePaciente>({
     nombre: "",
     celular: "",
-    email: "",
+    correo: "",
+    fecha_cita: "",
+    hora_cita: "",
+    idPsicologo: psicologo.idPsicologo
   });
 
-  // Manejo del envío del formulario
-  // const handleSubmit = (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   console.log("Datos de formulario:", { nombreCompleto, celular, correo });
-  //   setIsFormOpen(false); // Cierra el modal al terminar
-  // };
+  const handleSelectHorario = (hora: string, fecha: string) => {
+    setHoraSeleccionada(hora);
+    setFechaSeleccionada(fecha);
+    
+    setFormData((prevData) => ({
+      ...prevData,
+      fecha,
+      hora,
+    }));
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -53,15 +65,18 @@ export default function ReservarPsiPreview({
     const formDataEntries = new FormData(e.currentTarget);
     const data = Object.fromEntries(formDataEntries) as unknown as PrePaciente;
 
-    // Asegúrate de que todas las propiedades necesarias estén presentes
-    if (!data.nombre || !data.celular || !data.email) {
+    data.fecha_cita = fechaSeleccionada;
+    data.hora_cita = horaSeleccionada;
+    data.idPsicologo = psicologo.idPsicologo;
+
+    if (!data.nombre || !data.celular || !data.correo) {
       setError("Por favor, completa todos los campos del formulario.");
       setLoading(false);
       return;
     }
 
     if (data.celular) {
-      data.celular = String(data.celular); // Asegúrate de que celular sea un string
+      data.celular = String(data.celular);
     }
 
     try {
@@ -83,11 +98,7 @@ export default function ReservarPsiPreview({
         throw new Error(result.message || "Error al enviar el formulario");
 
       setAction("¡Mensaje enviado! Nuestro equipo se pondrá en contacto contigo lo antes posible.");
-      setFormData({
-        nombre: "",
-        celular: "",
-        email: "",
-      });
+      setFormData({ nombre: "", celular: "", correo: "", fecha_cita: "", hora_cita: "", idPsicologo: psicologo.idPsicologo});
 
       setTimeout(() => {
         setAction(null);
@@ -249,10 +260,8 @@ export default function ReservarPsiPreview({
                 horario={psicologo.horario}
                 onClose={() => setIsScheduleOpen(false)}
                 onOpenConfirm={() => setIsConfirmOpen(true)}
-                onSelectHorario={(hora, fecha) => {
-                  setHoraSeleccionada(hora);
-                  setFechaSeleccionada(fecha);
-                }} />
+                onSelectHorario={handleSelectHorario} 
+                />
               <div className="w-full flex justify-center">
                 <Button
                   onPress={() => setIsScheduleOpen(false)}
@@ -292,8 +301,9 @@ export default function ReservarPsiPreview({
                   type="text"
                   className="w-full border border-gray-300 rounded-full px-4 py-2 outline-none focus:border-[#634AE2]"
                   placeholder="Nombres y apellidos"
-                  value={nombreCompleto}
-                  onChange={(e) => setNombreCompleto(e.target.value)}
+                  name="nombre"
+                  value={formData.nombre}
+                  onChange={handleChange}
                 />
               </div>
               <div>
@@ -304,8 +314,9 @@ export default function ReservarPsiPreview({
                   type="text"
                   className="w-full border border-gray-300 rounded-full px-4 py-2 outline-none focus:border-[#634AE2]"
                   placeholder="Número de celular"
-                  value={celular}
-                  onChange={(e) => setCelular(e.target.value)}
+                  name="celular"
+                  value={formData.celular}
+                  onChange={handleChange}
                 />
               </div>
               <div>
@@ -316,8 +327,9 @@ export default function ReservarPsiPreview({
                   type="email"
                   className="w-full border border-gray-300 rounded-full px-4 py-2 outline-none focus:border-[#634AE2]"
                   placeholder="Correo electrónico"
-                  value={correo}
-                  onChange={(e) => setCorreo(e.target.value)}
+                  name="correo"
+                  value={formData.correo}
+                  onChange={handleChange}
                 />
               </div>
               <p className="text-sm text-center text-[#634AE2] mt-2">
@@ -328,8 +340,9 @@ export default function ReservarPsiPreview({
                 <Button
                   type="submit"
                   className="rounded-3xl bg-[#634AE2] text-white px-6 py-1 font-light"
-                >
-                  Reservar
+                  disabled={loading}
+                  >
+                    {loading ? "Enviando..." : "Reservar"}
                 </Button>
               </div>
             </form>
