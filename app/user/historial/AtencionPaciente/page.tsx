@@ -1,8 +1,10 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Icons } from "@/icons";
 import { useDropzone } from "react-dropzone";
 import CerrarSesion from "@/components/CerrarSesion";
+import { Paciente } from "@/interface";
+import { parseCookies } from "nookies";
 
 function DropzoneWithoutKeyboard() {
   const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
@@ -26,6 +28,56 @@ function DropzoneWithoutKeyboard() {
 }
 
 export default function App() {
+  const [pacienteData, setPacienteData] = useState<Paciente | null>(null);
+  const [pacientes, setPacientes] = useState<Paciente[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [selectedPaciente, setSelectedPaciente] = useState<Paciente | null>(
+    null
+  );
+
+  const handleGetPacientes = async () => {
+    try {
+      const cookies = parseCookies();
+      const token = cookies["session"];
+      const url = `${process.env.NEXT_PUBLIC_API_URL}api/pacientes`;
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setPacientes(data.result);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    handleGetPacientes();
+  }, []);
+
+  const filteredPacientes = pacientes.filter((paciente) =>
+    paciente.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const handlePacienteSelect = (paciente: Paciente) => {
+    setSelectedPaciente(paciente);
+    setSearchTerm(paciente.nombre);
+    setShowDropdown(false);
+  };
+
+  const handlePacienteIdSelect = (paciente: Paciente) => {
+    setSelectedPaciente(paciente);
+    setSearchTerm(paciente.idPaciente);
+    setShowDropdown(false);
+  };
+
   return (
     <div className="p-4">
       {/* Header */}
@@ -52,10 +104,32 @@ export default function App() {
             <div className="flex-1 items-center justify-items-center">
               <div>Codigo del Paciente *</div>
               <div className="relative">
-                <input
-                  type="text"
-                  className="pl-12 pr-3 text-sm h-9 mt-2 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
-                />
+                <div className="flex justify-center relative">
+                  <input
+                    type="text"
+                    value={searchTerm}
+                    onChange={(e) => {
+                      setSearchTerm(e.target.value);
+                      setShowDropdown(true);
+                    }}
+                    onFocus={() => setShowDropdown(true)}
+                    className="pl-12 pr-3 text-sm h-9 font-normal mt-2 outline-none focus:ring-0 focus:outline-none w-11/12 rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
+                    placeholder="Buscar paciente"
+                  />
+                  {showDropdown && filteredPacientes.length > 0 && (
+                    <div className="absolute z-10 top-12 w-11/12 bg-[#efefef] border rounded-lg shadow-lg max-h-60 overflow-auto">
+                      {filteredPacientes.map((paciente) => (
+                        <div
+                          key={paciente.idPaciente}
+                          className="p-2 hover:bg-[#F3F3F3] cursor-pointer"
+                          onClick={() => handlePacienteIdSelect(paciente)}
+                        >
+                          {paciente.idPaciente}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
                 <span
                   className="text-[#634AE2] transition-colors absolute right-3 top-1/2 transform -translate-y-1/2"
                   dangerouslySetInnerHTML={{
@@ -74,10 +148,32 @@ export default function App() {
             <div className="flex-1 items-center justify-items-center">
               <div>Nombre del Paciente</div>
               <div className="relative">
-                <input
-                  type="text"
-                  className="pl-12 pr-3 text-sm h-9 mt-2 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
-                />
+                <div className="flex justify-center relative">
+                  <input
+                    type="text"
+                    value={searchTerm}
+                    onChange={(e) => {
+                      setSearchTerm(e.target.value);
+                      setShowDropdown(true);
+                    }}
+                    onFocus={() => setShowDropdown(true)}
+                    className="pl-12 pr-3 text-sm h-9 font-normal mt-2 outline-none focus:ring-0 focus:outline-none w-11/12 rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
+                    placeholder="Buscar paciente"
+                  />
+                  {showDropdown && filteredPacientes.length > 0 && (
+                    <div className="absolute z-10 top-12 w-11/12 bg-[#efefef] border rounded-lg shadow-lg max-h-60 overflow-auto">
+                      {filteredPacientes.map((paciente) => (
+                        <div
+                          key={paciente.idPaciente}
+                          className="p-2 hover:bg-[#F3F3F3] cursor-pointer"
+                          onClick={() => handlePacienteSelect(paciente)}
+                        >
+                          {paciente.nombre}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
                 <span
                   className="text-[#634AE2] transition-colors absolute right-3 top-1/2 transform -translate-y-1/2"
                   dangerouslySetInnerHTML={{
@@ -96,10 +192,17 @@ export default function App() {
           </div>
           <div className="text-center pt-1">Paciente</div>
           <div className="flex justify-center">
-            <input
-              type="text"
-              className="pl-12 pr-3 text-sm h-9 mt-2 outline-none focus:ring-0 focus:outline-none w-11/12 rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
-            />
+            {selectedPaciente && (
+              <input
+                type="text"
+                readOnly
+                className="pl-12 pr-3 text-sm h-9 font-normal outline-none focus:ring-0 focus:outline-none w-11/12 rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
+                value={selectedPaciente ? selectedPaciente.nombre : ""}
+                placeholder={
+                  selectedPaciente ? "" : "Ningún paciente seleccionado"
+                }
+              />
+            )}
           </div>
           <div className="flex pt-1">
             <div className="flex-1 items-center justify-items-center">
