@@ -26,6 +26,7 @@ export default function ReservarPsiPreview({
   // Estados para los campos del formulario
   const [action, setAction] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [formData, setFormData] = useState<PrePaciente>({
     nombre: "",
@@ -75,6 +76,22 @@ export default function ReservarPsiPreview({
       return;
     }
 
+    // Validación de número
+    const telefonoRegex = /^[0-9]{9,}$/;
+    if (!telefonoRegex.test(data.celular)) {
+      setError("El número de celular debe contener solo números y tener al menos 9 dígitos.");
+      setLoading(false);
+      return;
+    }
+
+    // Validación de correo electrónico
+    const correoRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!correoRegex.test(data.correo)) {
+      setError("Por favor, ingresa un correo electrónico válido.");
+      setLoading(false);
+      return;
+    }
+
     if (data.celular) {
       data.celular = String(data.celular);
     }
@@ -99,6 +116,8 @@ export default function ReservarPsiPreview({
 
       setAction("¡Mensaje enviado! Nuestro equipo se pondrá en contacto contigo lo antes posible.");
       setFormData({ nombre: "", celular: "", correo: "", fecha_cita: "", hora_cita: "", idPsicologo: psicologo.idPsicologo});
+      setIsConfirmOpen(false); 
+      setIsSuccessOpen(true);  
 
       setTimeout(() => {
         setAction(null);
@@ -335,7 +354,7 @@ export default function ReservarPsiPreview({
               <p className="text-sm text-center text-[#634AE2] mt-2">
                 Has seleccionado: <strong>{fechaSeleccionada}</strong> a las <strong>{horaSeleccionada}</strong>
               </p>
-
+              {error && <p className="text-red-500 text-sm">{error}</p>}
               <div className="flex justify-center mt-6">
                 <Button
                   type="submit"
@@ -346,6 +365,41 @@ export default function ReservarPsiPreview({
                 </Button>
               </div>
             </form>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+
+      <Modal
+        isOpen={isSuccessOpen}
+        onOpenChange={setIsSuccessOpen}
+        size={"2xl"}
+        backdrop="opaque"
+        classNames={{
+          body: "py-6",
+          backdrop: "bg-[#d8dceb]/50 backdrop-opacity-40",
+          base: "bg-[#634AE2] text-white rounded-3xl",
+          header: "border-b-[1px] border-[#d8dceb]",
+          footer: "border-t-[1px] border-[#d8dceb]",
+          closeButton: "hover:bg-white/5 active:bg-white/10",
+        }}
+      >
+        <ModalContent>
+          <ModalBody className="text-center">
+            <img
+              src="/send-mail.svg"
+              alt="Icono de correo enviado"
+              className="w-32 h-32 mx-auto mb-4"
+            />
+            <h2 className="text-2xl font-semibold mb-4">¡LISTO! Tu cita ha sido reservada</h2>
+            <p className="mb-6">En unots minutos te enviaremos un correo de confirmación.</p>
+            <div className="flex justify-center mb-4">
+            </div>
+            <Button
+              onPress={() => setIsSuccessOpen(false)}
+              className="inline-block rounded-3xl bg-[#E7E7FF] px-6 sm:px-8 py-1 sm:py-0 text-[#634AE2] font-light"
+            >
+              Cerrar
+            </Button>
           </ModalBody>
         </ModalContent>
       </Modal>
