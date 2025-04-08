@@ -2,7 +2,7 @@
 
 import { Button } from "@heroui/react";
 import { motion } from "framer-motion";
-import { ArrowRight, Fullscreen } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
