@@ -89,8 +89,8 @@ export const DesktopNav: React.FC<DesktopNavProps> = ({ navItems }) => {
 
   return (
     <>
-      <div className="lg:hidden">
-        <MobileNav navItems={navItems}/>
+      <div className="lg:hidden ">
+        <MobileNav navItems={navItems}  />
       </div>
       <motion.div
         onMouseLeave={() => setHovered(null)}

@@ -4,16 +4,25 @@ import { Icons } from "@/icons";
 import Link from "next/link";
 import { NavItem } from "@/interface";
 
-export function MobileNav({ navItems }: {navItems: NavItem[]}) {
+export function MobileNav({ navItems }: { navItems: NavItem[] }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+    // Si estamos cerrando el menú, también cerramos el submenú de servicios
+    if (isMenuOpen) {
+      setIsServicesOpen(false);
+    }
   };
 
   const toggleServices = () => {
-    setIsServicesOpen(!isServicesOpen); 
+    setIsServicesOpen(!isServicesOpen);
+  };
+
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+    setIsServicesOpen(false);
   };
 
   return (
@@ -38,7 +47,7 @@ export function MobileNav({ navItems }: {navItems: NavItem[]}) {
       {/* Menú deslizable */}
       <div
         id="mobile-drawer"
-        className={`fixed top-0 left-0 h-screen w-80 bg-[#E7E7FF] shadow-lg transform transition-transform duration-300 ease-in-out flex flex-col ${
+        className={`fixed top-0 left-0 h-screen w-80 bg-[#E7E7FF] shadow-lg transform transition-transform duration-400 ease-in-out flex flex-col ${
           isMenuOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -48,7 +57,7 @@ export function MobileNav({ navItems }: {navItems: NavItem[]}) {
           <button
             className="p-2 text-2xl focus:outline-none"
             aria-label="Cerrar menú"
-            onClick={toggleMenu}
+            onClick={closeMenu}
           >
             <span
               dangerouslySetInnerHTML={{
@@ -74,59 +83,82 @@ export function MobileNav({ navItems }: {navItems: NavItem[]}) {
                 {navItem.name === "Iniciar Sesión" ? (
                   <div className="flex justify-center items-center h-full">
                     <Link href={navItem.link} className="w-2/3 bg-none text-[#634AE2] font-bold text-base border-2 border-[#634AE2] text-center py-2 rounded-full mt-10">
-                      <button>
+                      <button onClick={closeMenu}>
                         {navItem.name}
                       </button>
                     </Link>
                   </div>
                 ) : (
                   <>
-                    <Link href={navItem.link}>
+                    {navItem.name === "Servicios" ? (
                       <button
                         className="w-full bg-none text-[#634AE2] font-bold text-xl text-left pl-8 mt-5"
-                        onClick={
-                          navItem.name === "Servicios"
-                            ? (e) => {
-                                e.preventDefault(); 
-                                toggleServices();
-                              }
-                            : undefined
-                        }
+                        onClick={(e) => {
+                          e.preventDefault();
+                          toggleServices();
+                        }}
                       >
                         {navItem.name}
                       </button>
-                    </Link>
+                    ) : (
+                      <Link href={navItem.link}>
+                        <button
+                          className="w-full bg-none text-[#634AE2] font-bold text-xl text-left pl-8 mt-5"
+                          onClick={closeMenu}
+                        >
+                          {navItem.name}
+                        </button>
+                      </Link>
+                    )}
 
                     {/* Subelementos de "Servicios" */}
                     {navItem.name === "Servicios" && isServicesOpen && (
                       <div className="pl-8 mt-2 space-y-2">
                         <Link href="/servicios/terapia/infantes/">
-                          <button className="w-full bg-none text-[#634AE2] text-lg text-left">
+                          <button 
+                            className="w-full bg-none text-[#634AE2] text-lg text-left"
+                            onClick={closeMenu}
+                          >
                             Terapia para niños
                           </button>
                         </Link>
                         <Link href="/servicios/terapia/adolescentes/">
-                          <button className="w-full bg-none text-[#634AE2] text-lg text-left">
+                          <button 
+                            className="w-full bg-none text-[#634AE2] text-lg text-left"
+                            onClick={closeMenu}
+                          >
                             Terapia para adolescentes
                           </button>
                         </Link>
                         <Link href="/servicios/terapia/adultos/">
-                          <button className="w-full bg-none text-[#634AE2] text-lg text-left">
+                          <button 
+                            className="w-full bg-none text-[#634AE2] text-lg text-left"
+                            onClick={closeMenu}
+                          >
                             Terapia para adultos
                           </button>
                         </Link>
                         <Link href="/servicios/terapia/parejas/">
-                          <button className="w-full bg-none text-[#634AE2] text-lg text-left">
+                          <button 
+                            className="w-full bg-none text-[#634AE2] text-lg text-left"
+                            onClick={closeMenu}
+                          >
                             Terapia de parejas
                           </button>
                         </Link>
                         <Link href="/servicios/terapia/familia/">
-                          <button className="w-full bg-none text-[#634AE2] text-lg text-left">
+                          <button 
+                            className="w-full bg-none text-[#634AE2] text-lg text-left"
+                            onClick={closeMenu}
+                          >
                             Terapia familiar
                           </button>
                         </Link>
                         <Link href="/servicios/terapia/empresarial/">
-                          <button className="w-full bg-none text-[#634AE2] text-lg text-left">
+                          <button 
+                            className="w-full bg-none text-[#634AE2] text-lg text-left"
+                            onClick={closeMenu}
+                          >
                             Terapia empresarial
                           </button>
                         </Link>

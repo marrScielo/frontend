@@ -317,7 +317,7 @@ export default function ServicesStructure({
           </div>
 
           <SliderPrice />
-          <div className="sticky bottom-0 left-0 right-0 w-full bg-[#DEDEFF] flex justify-center items-center z-[50] h-40 md:h-20">
+          <div className="sticky bottom-0 left-0 right-0 w-full bg-[#DEDEFF] flex justify-center items-center z-[10] h-40 md:h-20">
             <div className="flex flex-col lg:flex-row items-center justify-center lg:justify-between w-full max-w-[1230px] px-6 space-x-0">
               <p
                 className="text-[18px] w-full font-medium text-[#634AE2] lg:text-start text-center px-16"
