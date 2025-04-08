@@ -52,29 +52,3 @@ const PageHome = () => {
 
 export default PageHome;
 
-/*
-<div className="flex flex-1 flex-col bg-[#eaeded] w-full z-30 mt-4">
-  <div className="bg-[#eaeded] rounded-2xl mt-3 h-[12vh] flex items-center w-full max-w-[calc(95vw-270px)] p-4 mx-auto">
-    <div className="flex flex-col md:flex-row items-start md:items-center justify-between w-full gap-4">
-      <div className="flex-1">
-        <h1 className="text-2xl md:text-4xl font-bold text-[#634AE2]">
-          Buenos días, {user.nombre} {user.apellido}
-        </h1>
-        <p className="text-base md:text-xl font-normal text-[#634AE2] pt-1">
-          Prepárate para un gran día.
-        </p>
-        <p className="text-base md:text-xl font-bold text-[#634AE2]">
-          Tienes x citas programadas para hoy
-        </p>
-        <p className="text-base md:text-xl font-normal text-[#634AE2]">
-          Aprovecha para planificar tus próximos objetivos.
-        </p>
-      </div>
-      <div className="flex gap-x-5 mt-2 md:mt-0">
-        <CerrarSesion />
-      </div>
-    </div>
-  </div>
-</div>
-
-*/
