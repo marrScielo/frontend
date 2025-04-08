@@ -1,6 +1,6 @@
 "use client";
 import CerrarSesion from "@/components/CerrarSesion";
-import Showstadistic from "@/components/stadisctic/showstadistic";
+import Showstadistic from "@/components/stadistic/showstadistic";
 
 export default function stadistic() {
   return (
