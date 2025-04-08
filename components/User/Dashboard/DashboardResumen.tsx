@@ -4,7 +4,7 @@ import React from "react";
 export default function DashboardResumen() {
   return (
     <>
-      <div className="space-y-6 max-w-xl w-full">
+      <div className="space-y-6 md:max-w-xl w-full">
         <div className="bg-[#fff] rounded-3xl pt-8">
           <div className="flex rounded-r-full py-6 text-[#fff] bg-[#6364F4] justify-center font-normal text-2xl w-3/4 ">
             Resumen
