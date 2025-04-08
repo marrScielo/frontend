@@ -103,7 +103,7 @@ export default function Footer() {
           
                   <div className="flex flex-col space-y-2">
             
-                    <div className="flex flex-col sm:flex-row items-center">
+                    <div className="flex justify-between items-center">
                       <span className="text-sm">+51 983 027 828</span>
                       <a
                         href="https://w.app/dvwynv"
