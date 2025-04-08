@@ -36,7 +36,7 @@ export default function CalendarioMain() {
   return (
     <>
       <div className="flex justify-between w-full mt-10 mb-6">
-        <div className="flex flex-row justify-evenly space-x-5">
+        <div className="flex flex-col md:flex-row justify-evenly space-x-5">
           <h1 className="flex items-center font-bold text-[32px] leading-[40px] ml-11 text-[#634AE2]">
             Calendario de citas
           </h1>
@@ -74,7 +74,7 @@ export default function CalendarioMain() {
             Mis Horarios
           </Button>
         </div>
-        <div className="text-white font-semibold text-2xl mx-auto">
+        <div className="text-white font-semibold text-2xl hidden md:block mx-auto">
           {nombreMes[0].toUpperCase() + nombreMes.slice(1)} de {Fecha.year}
         </div>
       </div>
