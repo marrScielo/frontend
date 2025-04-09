@@ -5,6 +5,8 @@ import { useDropzone } from "react-dropzone";
 import CerrarSesion from "@/components/CerrarSesion";
 import { AtencionFormData, Enfermedad, Paciente } from "@/interface";
 import { parseCookies } from "nookies";
+import showToast from "@/components/ToastStyle";
+import { useSearchParams } from 'next/navigation';
 
 function DropzoneWithoutKeyboard() {
   const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
@@ -28,6 +30,8 @@ function DropzoneWithoutKeyboard() {
 }
 
 export default function App() {
+  const searchParams = useSearchParams();
+  const idCita = searchParams.get('idCita');
   const [pacientes, setPacientes] = useState<Paciente[]>([]);
   const [idSearchTerm, setIdSearchTerm] = useState("");
   const [nameSearchTerm, setNameSearchTerm] = useState("");
@@ -62,7 +66,7 @@ export default function App() {
     Comentario: "",
     descripcion: "",
   });
-  //Pacinente
+  //Paciente
   const handleGetPacientes = async () => {
     try {
       const cookies = parseCookies();
@@ -191,6 +195,94 @@ export default function App() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  //Post
+  const HandlePostAtencion = async () => {
+    console.log("=== Inicio de HandlePostAtencion ===");
+    
+    if (!selectedPaciente) {
+      console.log("Error: No hay paciente seleccionado");
+      showToast("error", "Selecciona un paciente primero");
+      return;
+    }
+  
+    if (!selectedEnfermedad) {
+      console.log("Error: No hay enfermedad seleccionada");
+      showToast("error", "Selecciona una enfermedad primero");
+      return;
+    }
+  
+    try {
+      const atencionData = {
+        MotivoConsulta: formData.MotivoConsulta,
+        FormaContacto: formData.FormaContacto,
+        Diagnostico: formData.Diagnostico,
+        Tratamiento: formData.Tratamiento,
+        Observacion: formData.Observacion,
+        idEnfermedad: parseInt(formData.idEnfermedad), 
+        UltimosObjetivos: formData.UltimosObjetivos,
+        FechaAtencion: formData.FechaAtencion,
+        DocumentosAdicionales: "formData.DocumentosAdicionales",
+        Comentario: formData.Comentario,
+        descripcion: selectedEnfermedad.nombreEnfermedad,
+      };
+  
+      console.log("Datos a enviar:", atencionData);
+      console.log("ID del paciente seleccionado:", selectedPaciente.idPaciente);
+      console.log("Enfermedad seleccionada:", selectedEnfermedad);
+  
+      const cookies = parseCookies();
+      const token = cookies["session"];
+      console.log("Token de sesión:", token ? "Presente" : "Ausente");
+  
+      const url = `${process.env.NEXT_PUBLIC_API_URL}api/atenciones/${selectedPaciente.idPaciente}`;
+      console.log("URL de la API:", url);
+  
+      console.log("Enviando solicitud...");
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(atencionData),
+      });
+  
+      console.log("Respuesta recibida. Status:", response.status);
+      const data = await response.json();
+      console.log("Datos de respuesta:", data);
+  
+      if (response.ok) {
+        console.log("Atención creada exitosamente");
+        showToast("success", "Atención creada correctamente");
+        
+        // Resetear el formulario
+        setFormData({
+          MotivoConsulta: "",
+          FormaContacto: "",
+          Diagnostico: "",
+          Tratamiento: "",
+          Observacion: "",
+          idEnfermedad: "",
+          UltimosObjetivos: "",
+          FechaAtencion: new Date().toISOString().split("T")[0],
+          DocumentosAdicionales: "",
+          Comentario: "",
+          descripcion: "",
+        });
+        setSelectedPaciente(null);
+        setSelectedEnfermedad(null);
+      } else {
+        console.log("Error en la respuesta:", data.message || "Sin mensaje de error");
+        showToast("error", data.message || "Error al crear la atención");
+      }
+    } catch (error) {
+      console.error("Error en la solicitud:", error);
+      showToast("error", "Error de conexión. Intenta nuevamente.");
+    }
+    
+    console.log("=== Fin de HandlePostAtencion ===");
+  };
 
   return (
     <div className="p-4">
@@ -495,7 +587,11 @@ export default function App() {
               type="text"
               readOnly
               className="pl-12 pr-3 text-sm h-9 font-normal outline-none focus:ring-0 focus:outline-none w-11/12 rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
-              value={selectedEnfermedad ? `${selectedEnfermedad.nombreEnfermedad}` : ""}
+              value={
+                selectedEnfermedad
+                  ? `${selectedEnfermedad.nombreEnfermedad}`
+                  : ""
+              }
               placeholder="Ningúna enfermedad seleccionada"
             />
           </div>
@@ -521,7 +617,10 @@ export default function App() {
         <button className="text-[#fff] bg-[#634AE2] rounded-full w-28 h-8">
           Volver
         </button>
-        <button className="text-[#634AE2] bg-[#fff] rounded-full border-2 border-[#634AE2] w-28 h-8">
+        <button
+          onClick={HandlePostAtencion}
+          className="text-[#634AE2] bg-[#fff] rounded-full border-2 border-[#634AE2] w-28 h-8"
+        >
           Registrar
         </button>
       </div>

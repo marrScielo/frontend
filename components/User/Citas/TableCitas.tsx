@@ -3,15 +3,21 @@ import { Icons } from "@/icons";
 import { useEffect, useState, useCallback } from "react";
 import React from "react";
 import { Citas } from "@/interface";
+import Link from "next/link";
 
 interface TableProps {
-  users: Citas[]; 
+  users: Citas[];
   headerColumns: { name: string; uid: string; sortable?: boolean }[];
   selectedKeys: Set<React.Key>;
   setSelectedKeys: (keys: Set<React.Key>) => void;
 }
 
-export const TableCitas: React.FC<TableProps> = ({ users, headerColumns, selectedKeys, setSelectedKeys }) => {
+export const TableCitas: React.FC<TableProps> = ({
+  users,
+  headerColumns,
+  selectedKeys,
+  setSelectedKeys,
+}) => {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -22,23 +28,26 @@ export const TableCitas: React.FC<TableProps> = ({ users, headerColumns, selecte
     if (selectedKeys.size === users.length) {
       setSelectedKeys(new Set());
     } else {
-      const allKeys = new Set(users.map(user => user.codigo));  
+      const allKeys = new Set(users.map((user) => user.codigo));
       setSelectedKeys(allKeys);
     }
   }, [selectedKeys, users, setSelectedKeys]);
 
-  const handleSelectItem = useCallback((id: string) => {
-    const newSelectedKeys = new Set(selectedKeys);
-    if (newSelectedKeys.has(id)) {
-      newSelectedKeys.delete(id);
-    } else {
-      newSelectedKeys.add(id);
-    }
-    setSelectedKeys(newSelectedKeys);
-  }, [selectedKeys, setSelectedKeys]);
+  const handleSelectItem = useCallback(
+    (id: string) => {
+      const newSelectedKeys = new Set(selectedKeys);
+      if (newSelectedKeys.has(id)) {
+        newSelectedKeys.delete(id);
+      } else {
+        newSelectedKeys.add(id);
+      }
+      setSelectedKeys(newSelectedKeys);
+    },
+    [selectedKeys, setSelectedKeys]
+  );
 
   const renderCell = useCallback(
-    (user: Citas, columnKey: keyof Citas | "actions") => { 
+    (user: Citas, columnKey: keyof Citas | "actions") => {
       if (columnKey === "actions") {
         return (
           <div className="pl-6 flex gap-4">
@@ -69,6 +78,27 @@ export const TableCitas: React.FC<TableProps> = ({ users, headerColumns, selecte
               </div>
               <span className="text-xs text-[#B158FF] mt-2">Eliminar</span>
             </div>
+
+            <div className="flex flex-col items-center pt-1">
+              <Link
+                href={{
+                  pathname: "/user/historial/AtencionPaciente",
+                  query: { idCita: user.idCita},
+                }}
+                className="relative group"
+                passHref
+              >
+                <span
+                  className="text-lg text-[#3df356] cursor-pointer active:opacity-50"
+                  dangerouslySetInnerHTML={{ __html: Icons.hand }}
+                  style={{ width: "1.2em", height: "1.2em", fill: "#3df356" }}
+                />
+                <div className="absolute bottom-10 left-0 hidden group-hover:block bg-lime-500 text-white text-xs p-1 rounded">
+                  Agregar Atencion
+                </div>
+                <span className="text-xs text-[#3df356] mt-2">Atencion</span>
+              </Link>
+            </div>
           </div>
         );
       }
@@ -76,29 +106,31 @@ export const TableCitas: React.FC<TableProps> = ({ users, headerColumns, selecte
       const cellValue = user[columnKey];
 
       switch (columnKey) {
-        case "paciente":  
+        case "paciente":
           return (
             <div className="flex flex-col">
               <span className="font-medium">{cellValue}</span>
             </div>
           );
-          case "codigo":  
+        case "codigo":
           return (
             <div className="flex flex-col">
               <span className="font-medium">{cellValue}</span>
             </div>
           );
-        case "estado":  
+        case "estado":
           return (
-            <span className={`px-3 py-1 rounded-full text-xs ${
-              cellValue === "Confirmado" 
-                ? "bg-green-100 text-green-800" 
-                : "bg-yellow-100 text-yellow-800"
-            }`}>
+            <span
+              className={`px-3 py-1 rounded-full text-xs ${
+                cellValue === "Confirmado"
+                  ? "bg-green-100 text-green-800"
+                  : "bg-yellow-100 text-yellow-800"
+              }`}
+            >
               {cellValue}
             </span>
           );
-        case "fecha_inicio":  
+        case "fecha_inicio":
           return new Date(cellValue).toLocaleString();
         default:
           return cellValue;
@@ -135,19 +167,22 @@ export const TableCitas: React.FC<TableProps> = ({ users, headerColumns, selecte
               </th>
             ))}
             <th className="p-4 text-center rounded-tr-full">
-              <div className="text-lg font-normal text-center">Más</div>	
+              <div className="text-lg font-normal text-center">Más</div>
             </th>
           </tr>
         </thead>
         <tbody>
           {users.map((item) => (
-            <tr key={item.codigo} className="border-y-4 bg-white hover:bg-gray-100"> 
+            <tr
+              key={item.codigo}
+              className="border-y-4 bg-white hover:bg-gray-100"
+            >
               <td className="p-4 text-center rounded-l-3xl">
                 <input
                   type="checkbox"
                   className="w-4 h-4 rounded-full border-[#634AE2] border-3 bg-white focus:ring-0 checked:bg-[#634AE2] appearance-none"
-                  checked={selectedKeys.has(item.codigo)}  
-                  onChange={() => handleSelectItem(item.codigo)}  
+                  checked={selectedKeys.has(item.codigo)}
+                  onChange={() => handleSelectItem(item.codigo)}
                 />
               </td>
 
@@ -158,7 +193,7 @@ export const TableCitas: React.FC<TableProps> = ({ users, headerColumns, selecte
                     index === headerColumns.length - 1 ? "" : ""
                   }`}
                 >
-                  {renderCell(item, column.uid as keyof Citas)}  
+                  {renderCell(item, column.uid as keyof Citas)}
                 </td>
               ))}
               <td className="p-4 text-center rounded-r-3xl">

@@ -57,7 +57,7 @@ export default function App() {
           motivo: cita.motivo_consulta || cita.motivo,
           estado: cita.estado,
           duracion: cita.duracion,
-          // Agrega otros campos necesarios aquí
+          idCita: cita.idCita
         }));
         setCitas(formattedCitas);
         showToast("success", "Citas obtenidas correctamente");
