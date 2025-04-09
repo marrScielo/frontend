@@ -22,8 +22,8 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="h-auto bg-[#634AE2] text-white">
-      <div className="lg:max-w-7xl lg:mx-auto lg:px-4 py-16 mx-10 ml-16">
+    <footer className="h-auto bg-[#634AE2] text-white ">
+      <div className="lg:max-w-7xl p-10 lg:ml-12">
         {/* Contenido Principal */}
         <div className="flex flex-col md:flex-row justify-between items-start space-y-8 md:space-y-0">
           {/* Logo */}
@@ -46,7 +46,7 @@ export default function Footer() {
             <h3 className="text-xl font-semibold mb-5">Enlaces</h3>
             <div className="grid grid-cols-2 lg:gap-20">
               {/* Columna izquierda */}
-              <ul className="space-y-3">
+              <ul className="space-y-5">
                 {leftLinks.map((link) => (
                   <li key={link.text}>
                     <Link
@@ -63,16 +63,16 @@ export default function Footer() {
               </ul>
 
               {/* Columna derecha */}
-              <ul className="space-y-3">
+              <ul className="space-y-5">
                 {rightLinks.map((link) => (
                   <li key={link.text}>
                     <Link
                       href={link.href}
                       className="text-purple-100 hover:text-white transition-colors duration-500 text-sm flex items-center group relative"
                     >
-                      <span className="relative group">
+                      <span className="relative group whitespace-nowrap">
                         {link.text}
-                        <span className="absolute bottom-0 left-0 w-0 transition-all h-0.5 bg-white group-hover:w-full inline-block duration-500"></span>
+                        <span className="absolute bottom-0 left-0 w-10 transition-all h-auto bg-white group-hover:w-full inline-block duration-500"></span>
                       </span>
                     </Link>
                   </li>
@@ -88,7 +88,7 @@ export default function Footer() {
               <h3 className="text-xl font-semibold text-white mb-4">
                 Síguenos
               </h3>
-              <div className="flex justify-start space-x-6">
+              <div className="">
                 <RedesSociales />
               </div>
             </div>
