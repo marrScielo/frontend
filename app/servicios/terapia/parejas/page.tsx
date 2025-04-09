@@ -70,6 +70,8 @@ import { ServicesStructureProps } from "@/interface"
     },
   ],
   textfooter: "¿Listos para fortalecer su relación y crecer juntos?",
+  textfootermobile:
+  "¿Listos para fortalecer su relación <br/> y crecer juntos?",
 },
 
 

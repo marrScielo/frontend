@@ -22,17 +22,15 @@ export default function ServicesStructure({
     <div className="relative ">
       {services.map((item, index) => (
         <div className="embla__slide" key={index}>
-          <div className="flex justify-between mx-6  pt-6 text-title lg:pb-8 pb-2 items-center ">
-            <div>
-              <p className="lg:text-xl font-semibold lg:pl-[71px]  lg:pr-32">
-                {item.title}
-              </p>
-            </div>
-            <div className="w-36 lg:w-64 ">
-              <div className="lg:pr-[80px] text-[15px] ml-5 ">{item.edad}</div>
+          <div className="flex justify-between mx-6  pt-6 text-title pb-8 items-center ">
+            <p className="lg:text-xl font-semibold lg:pl-[71px]  pl-2 lg:pr-32">
+              {item.title}
+            </p>
+            <div className="w-40 lg:w-64">
+              <div className="pl-2 text-[15px] font-semibold">{item.edad}</div>
             </div>
           </div>
-
+          {/* se muestra solo en mobile*/}
           <div className="block md:hidden">
             <div
               className="lg:h-[578px] flex items-center lg:pl-[79px] lg:pr-0 h-[400px] pr-[200px] pl-8"
@@ -43,12 +41,11 @@ export default function ServicesStructure({
                 backgroundRepeat: "no-repeat",
               }}
             >
-              <div className="relative w-[700px] flex items-center justify-center text-white text-left  font-bold sm:text-[40px] text-2xl leading-1 sm:leading-[54px]">
+              <div className="relative w-[700px] flex items-center justify-center text-white text-left  font-bold  text-[21px] leading-1 ">
                 {item.motto}
               </div>
             </div>
           </div>
-
           <div className="hidden md:block">
             <div
               className="lg:h-[578px] flex items-center lg:pl-[79px] lg:pr-0 h-[400px] pr-[200px] pl-8"
@@ -64,29 +61,30 @@ export default function ServicesStructure({
               </div>
             </div>
           </div>
-
           <div className="pt-12 flex justify-center">
-            <div className="lg:max-w-[829px] max-w-[480px] text-title h-[89px] font-normal text-[16px] leading-[28px] text-center">
+            <div className="lg:max-w-[829px] max-w-[430px] mx-8 text-title h-[89px] font-normal text-[16px] leading-[28px] text-center">
               {item.description}
             </div>
           </div>
-
-          <div
-            className="block md:hidden w-[600px] h-[728px] mt-10"
-            style={{
-              backgroundImage: `linear-gradient(to bottom, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 1) 100%), url(${item.bgup})`,
-              backgroundPosition: "",
-
-              backgroundSize: "cover",
-            }}
-          />
-
-          <div className="mt-12 lg:pt-5 flex justify-center px-4 md:px-0">
+          
+          <div className="flex flex-col items-center h-fit md:hidden">
+            <div
+              className="w-[600px] h-[708px] mt-10"
+              style={{
+                backgroundImage: `linear-gradient(to bottom, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 1) 100%), url(${item.bgup})`,
+                backgroundPosition: "center",
+                backgroundSize: "80% 80%",
+                backgroundRepeat: "no-repeat",
+              }}
+            />
+          </div>
+        
+          
+          <div className=" lg:pt-5 flex justify-center px-4 md:px-0">
             <div className="w-full text-title md:w-[937px] h-auto md:h-[74px]  font-semibold text-[28px] md:text-[24px] leading-[28px] md:leading-[33px] text-center">
               {item.tittlecards}
             </div>
           </div>
-
           <div className="flex justify-center pt-5">
             <div className="block md:hidden w-96">
               <Carousel
@@ -143,7 +141,6 @@ export default function ServicesStructure({
               </Carousel>
             </div>
           </div>
-
           <div className="hidden md:flex justify-center py-8 px-4 md:px-8">
             {/* Oculto en móviles, visible en pantallas medianas y grandes */}
             <div className="flex flex-col items-center gap-y-12">
@@ -195,7 +192,6 @@ export default function ServicesStructure({
               </div>
             </div>
           </div>
-
           <div
             className="hidden md:block"
             style={{
@@ -261,7 +257,6 @@ export default function ServicesStructure({
               </div>
             </div>
           </div>
-
           <div className="block md:hidden">
             <div className="pt-8 flex items-center px-10 ">
               <div className="w-full max-w-[837px] text-title h-[74px] font-semibold text-[24px] leading-[33px] text-center">
@@ -319,19 +314,34 @@ export default function ServicesStructure({
               </div>
             </div>
           </div>
-
           <SliderPrice />
-          <div className="sticky bottom-0 left-0 right-0 w-full bg-[#DEDEFF] flex justify-center items-center z-[10] h-40 md:h-20">
-            <div className="flex flex-col lg:flex-row items-center justify-center lg:justify-between w-full max-w-[1230px] px-6 space-x-0">
-              <p
-                className="text-[18px] w-full font-medium text-[#634AE2] lg:text-start text-center px-16"
-                dangerouslySetInnerHTML={{ __html: item.textfooter }}
-              />
-              <Link href="/ReservarCita">
-                <button className="w-full md:w-[329px] h-10 md:h-[50px] bg-[#5A4AE8] rounded-[34px] text-white font-normal text-[18px] leading-[33px] text-center mt-2 md:mt-0 px-16 md:px-0">
-                  Reserva tu cita gratuita
-                </button>
-              </Link>
+          <div className="sticky bottom-0 left-0 right-0 w-full bg-[#DEDEFF] flex justify-center items-center z-[10] h-36 md:h-32">
+            <div className="lg:block hidden">
+              <div className="flex flex-col lg:flex-row items-center justify-center lg:justify-between w-full max-w-[1230px] px-6 space-x-0">
+                <p
+                  className="text-[18px] w-full font-medium text-[#634AE2] lg:text-start text-center px-16"
+                  dangerouslySetInnerHTML={{ __html: item.textfooter }}
+                />
+                <Link href="/ReservarCita">
+                  <button className="w-full md:w-[329px] h-10 md:h-[50px] bg-[#5A4AE8] rounded-[34px] text-white font-normal text-[18px] leading-[33px] text-center mt-2 md:mt-0 px-16 md:px-0">
+                    Reserva tu cita gratuita
+                  </button>
+                </Link>
+              </div>
+            </div>
+
+            <div className="block lg:hidden w-full">
+              <div className="flex flex-col lg:flex-row items-center justify-center lg:justify-between w-full max-w-[1230px] px-6 space-x-0">
+                <p
+                  className="text-[15px] w-full font-medium text-[#634AE2] lg:text-start text-center "
+                  dangerouslySetInnerHTML={{ __html: item.textfootermobile }}
+                />
+                <Link href="/ReservarCita">
+                  <button className="w-full h-10 bg-[#5A4AE8] rounded-[34px] text-white font-normal text-[15px] leading-[33px] text-center mt-2 md:mt-0 px-12 whitespace-nowrap">
+                    Reserva tu cita gratuita
+                  </button>
+                </Link>
+              </div>
             </div>
           </div>
         </div>

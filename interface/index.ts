@@ -56,6 +56,7 @@ export interface ServicesStructureProps {
     icon: string;
   }[];
   textfooter: string;
+  textfootermobile:string;
 }
 //Quienes Somos
 export interface QuienesSomos {

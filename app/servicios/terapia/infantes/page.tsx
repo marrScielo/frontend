@@ -15,6 +15,7 @@ const NinosTerapias:ServicesStructureProps[] =[{
       "  Ayuda a tu hijo a superar sus desafíos emocionales con nuestra terapia infantil. Apoyamos a los niños a comprender y manejar sus emociones, mejorando su bienestar de manera accesible y con la participación activa de los padres en cada sesión online.  ",
     tittleIcon:
       "En Contigo Voy, puedes encontrar a un psicólogo infantil online para ayudar a tu hijo a enfrentar una variedad de temas.",
+      
     iconos: [
       {
         id: 1,
@@ -72,6 +73,10 @@ const NinosTerapias:ServicesStructureProps[] =[{
     ],
     textfooter:
       "¿Tu pequeño enfrenta desafíos como falta de atención?<br/>¿Tiene una conducta agresiva?",
+
+      textfootermobile:
+      "¿Tu pequeño enfrenta desafíos como falta de atención?<br/> ¿Tiene una conducta agresiva?",
+    
   }
 
 

@@ -69,7 +69,9 @@ import { ServicesStructureProps } from "@/interface"
   ],
   textfooter:
     "¿Te atreves a revolucionar tu ambiente laboral y motivar a tu equipo como nunca antes?",
-}
+    textfootermobile:
+    "¿Te atreves a revolucionar tu ambiente laboral y motivar a tu equipo como <br/>nunca antes?",
+  }
 
 ]
 
