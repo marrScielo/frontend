@@ -22,11 +22,15 @@ export default function ServicesStructure({
     <div className="relative ">
       {services.map((item, index) => (
         <div className="embla__slide" key={index}>
-          <div className="flex justify-between mx-6  pt-6 text-title pb-8 items-center ">
-            <p className="text-xl font-semibold lg:pl-[71px] lg:pr-0 pl-2 pr-32">
-              {item.title}
-            </p>
-            <div className="lg:pr-[80px] pr-2">{item.edad}</div>
+          <div className="flex justify-between mx-6  pt-6 text-title lg:pb-8 pb-2 items-center ">
+            <div>
+              <p className="lg:text-xl font-semibold lg:pl-[71px]  lg:pr-32">
+                {item.title}
+              </p>
+            </div>
+            <div className="w-36 lg:w-64 ">
+              <div className="lg:pr-[80px] text-[15px] ml-5 ">{item.edad}</div>
+            </div>
           </div>
 
           <div className="block md:hidden">
@@ -40,7 +44,7 @@ export default function ServicesStructure({
               }}
             >
               <div className="relative w-[700px] flex items-center justify-center text-white text-left  font-bold sm:text-[40px] text-2xl leading-1 sm:leading-[54px]">
-                {item.motto} 
+                {item.motto}
               </div>
             </div>
           </div>
@@ -72,7 +76,7 @@ export default function ServicesStructure({
             style={{
               backgroundImage: `linear-gradient(to bottom, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 1) 100%), url(${item.bgup})`,
               backgroundPosition: "",
-              
+
               backgroundSize: "cover",
             }}
           />
