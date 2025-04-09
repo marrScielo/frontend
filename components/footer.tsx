@@ -100,45 +100,44 @@ export default function Footer() {
 
               <div className="flex flex-col space-y-2">
                 <div className="flex flex-col space-y-2">
-          
                   <div className="flex flex-col space-y-2">
-            
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm">+51 983 027 828</span>
+                    <div className="flex items-center gap-2">
                       <a
                         href="https://w.app/dvwynv"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center space-x-1 bg-green-500/80 rounded-full px-3 py-1 hover:bg-green-600/80 transition-colors"
+                        className="flex items-center space-x-1 border border-white rounded-full px-2 py-0.5 hover:bg-green-600/80 transition-colors"
                       >
+                        <span className="text-white text-[10px]">Perú</span>
                         <Image
                           src="/WSP.webp"
-                          alt="WhatsApp Perú"
-                          width={16}
-                          height={16}
+                          alt="WhatsApp Argentina"
+                          width={14}
+                          height={14}
                           className="flex-shrink-0"
                         />
-                        <span className="text-white text-sm">Perú</span>
                       </a>
+
+                      <span className="text-sm">+51 983 027 828</span>
                     </div>
 
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm">+54 9 221 303 2675</span>
+                    <div className="flex items-center gap-2">
                       <a
                         href="https://w.app/qv4uqn"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center space-x-1 bg-green-500/80 rounded-full px-3 py-1 hover:bg-green-600/80 transition-colors"
+                        className="flex items-center space-x-1 border border-white rounded-full px-2 py-0.5 hover:bg-green-600/80 transition-colors"
                       >
+                        <span className="text-white text-[10px]">Argentina</span>
                         <Image
                           src="/WSP.webp"
                           alt="WhatsApp Argentina"
-                          width={16}
-                          height={16}
+                          width={14}
+                          height={14}
                           className="flex-shrink-0"
                         />
-                        <span className="text-white text-sm">Argentina</span>
                       </a>
+                      <span className="text-sm">+54 922 130 326 75</span>
                     </div>
                   </div>
                 </div>
