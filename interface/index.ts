@@ -226,6 +226,7 @@ export interface NavItems {
 export interface Paciente {
   idPaciente: number,
   DNI: string,
+  codigo: string,
   nombre: string,
   apellido:string,
   correo: string,
@@ -307,4 +308,26 @@ export interface Citas {
 export interface DatePacienteProps {
   pacienteId: string | null;
   citaId?: string | null;
+}
+
+export interface AtencionFormData {
+  MotivoConsulta: string;
+  FormaContacto: string;
+  Diagnostico: string;
+  Tratamiento: string;
+  Observacion: string;
+  idEnfermedad: string;
+  UltimosObjetivos: string;
+  FechaAtencion: string;
+  DocumentosAdicionales: string;
+  Comentario: string;
+  descripcion: string;
+  idCita?: number; 
+}
+
+export interface Enfermedad {
+  idEnfermedad: number;
+  nombreEnfermedad: string;
+  DSM5: string;
+  CEA10: string;
 }
