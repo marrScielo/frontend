@@ -85,7 +85,7 @@ export interface FormData {
   name: string;
   apellido: string;
   fecha_nacimiento: DateValue | string;
-  edad: number;
+
   genero: string;
   pais: string;
   email: string;
@@ -94,6 +94,9 @@ export interface FormData {
   imagen: string;
   experiencia: number;
   especialidades: number[];
+  horario: { 
+    [key: string]: string[][];
+  };
 }
 
 //interface for the component EspecialidadGet BlogUsuarioCrear
@@ -121,7 +124,7 @@ export interface BlogApi {
 }
 
 export interface BlogApiGEt {
-  id: number | null,
+  idBlog: number | null,
   categoria: string,
   tema: string,
   contenido: string,
@@ -164,7 +167,11 @@ export interface PsicologoPreviewData {
   fecha_nacimiento: string,
   especialidades: string[],
   imagen: string,
-  horario: Horarios;
+
+  horario: {
+    [key: string]: [string, string][];
+  };
+
 }
 
 export interface PsicologoApiResponse {
@@ -185,12 +192,12 @@ export interface PsicologoApiResponseAlone {
 
 export interface UsuarioLocalStorage {
   id: number,
-
   nombre: string,
   apellido: string,
   email: string,
   rol: string,
   imagen: string,
+  idpsicologo?: number,
 }
 
 //Usuario LocalStorage

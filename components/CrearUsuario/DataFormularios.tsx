@@ -1,5 +1,6 @@
 import { EyeFilledIcon, EyeSlashFilledIcon } from "@/icons/iconsvg";
 import { FormData } from "@/interface";
+import { Flags } from "@/utils/flagsPsicologos";
 import {
   Autocomplete,
   AutocompleteItem,
@@ -14,150 +15,7 @@ import {
 import { getLocalTimeZone, today } from "@internationalized/date";
 import React from "react";
 
-const Flags = [
-  {
-    label: "Antigua y Barbuda",
-    value: "AG",
-  },
-  {
-    label: "Argentina",
-    value: "AR",
-  },
-  {
-    label: "Bahamas",
-    value: "BS",
-  },
-  {
-    label: "Barbados",
-    value: "BB",
-  },
-  {
-    label: "Belice",
-    value: "BZ",
-  },
-  {
-    label: "Bolivia",
-    value: "BO",
-  },
-  {
-    label: "Brasil",
-    value: "BR",
-  },
-  {
-    label: "Canadá",
-    value: "CA",
-  },
-  {
-    label: "Chile",
-    value: "CL",
-  },
-  {
-    label: "Colombia",
-    value: "CO",
-  },
-  {
-    label: "Costa Rica",
-    value: "CR",
-  },
-  {
-    label: "Cuba",
-    value: "CU",
-  },
-  {
-    label: "Dominica",
-    value: "DM",
-  },
-  {
-    label: "Ecuador",
-    value: "EC",
-  },
-  {
-    label: "El Salvador",
-    value: "SV",
-  },
-  {
-    label: "España",
-    value: "ES",
-  },
 
-  { label: "Estados Unidos", value: "US" },
-  {
-    label: "Granada",
-    value: "GD",
-  },
-  {
-    label: "Guatemala",
-    value: "GT",
-  },
-  {
-    label: "Guyana",
-    value: "GY",
-  },
-  {
-    label: "Haití",
-    value: "HT",
-  },
-  {
-    label: "Honduras",
-    value: "HN",
-  },
-  {
-    label: "Jamaica",
-    value: "JM",
-  },
-  {
-    label: "México",
-    value: "MX",
-  },
-  {
-    label: "Nicaragua",
-    value: "NI",
-  },
-  {
-    label: "Panamá",
-    value: "PA",
-  },
-  {
-    label: "Paraguay",
-    value: "PY",
-  },
-  {
-    label: "Perú",
-    value: "PE",
-  },
-  {
-    label: "República Dominicana",
-    value: "DO",
-  },
-  {
-    label: "San Cristóbal y Nieves",
-    value: "KN",
-  },
-  {
-    label: "San Vicente y las Granadinas",
-    value: "VC",
-  },
-  {
-    label: "Santa Lucía",
-    value: "LC",
-  },
-  {
-    label: "Surinam",
-    value: "SR",
-  },
-  {
-    label: "Trinidad y Tobago",
-    value: "TT",
-  },
-  {
-    label: "Uruguay",
-    value: "UY",
-  },
-  {
-    label: "Venezuela",
-    value: "VE",
-  },
-];
 
 export const PersonalForm = ({
   onNext,
@@ -255,18 +113,22 @@ export const PersonalForm = ({
               <SelectItem
                 className="text-[#634AE2]"
                 key="femenino"
-                value="femenino"
+                textValue="femenino"
               >
                 Femenino
               </SelectItem>
               <SelectItem
                 className="text-[#634AE2]"
                 key="masculino"
-                value="masculino"
+                textValue="masculino"
               >
                 Masculino
               </SelectItem>
-              <SelectItem className="text-[#634AE2]" key="otros" value="otros">
+              <SelectItem
+                className="text-[#634AE2]"
+                key="otros"
+                textValue="otros"
+              >
                 Otros
               </SelectItem>
             </Select>
@@ -309,24 +171,6 @@ export const PersonalForm = ({
                 setFormData({ ...formData, apellido: e.target.value })
               }
             />
-            <Input
-              label="Edad"
-              labelPlacement="outside"
-              value={formData.edad.toString()}
-              classNames={{
-                label: "!text-[#634AE2]",
-                inputWrapper: "border-2 border-[#634AE2]",
-                input: "placeholder:!text-[#634AE2]",
-              }}
-              placeholder="ingrese su edad"
-              type="number"
-              isRequired
-              radius="full"
-              variant="faded"
-              onChange={(e) =>
-                setFormData({ ...formData, edad: parseInt(e.target.value) })
-              }
-            />
 
             <div className="flex items-center gap-2 !mt-4 !pt-0">
               <span className="text-[#634AE2] text-sm">Pais</span>
@@ -349,12 +193,11 @@ export const PersonalForm = ({
               variant="faded"
             >
               {Flags.map((item) => (
-                <AutocompleteItem key={item.value} value={item.value}>
+                <AutocompleteItem key={item.value} textValue={item.value}>
                   {item.label}
                 </AutocompleteItem>
               ))}
             </Autocomplete>
-
 
             <Input
               name="password"

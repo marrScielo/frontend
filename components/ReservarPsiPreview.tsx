@@ -24,7 +24,6 @@ export default function ReservarPsiPreview({
   const [horaSeleccionada, setHoraSeleccionada] = useState("");
   const [fechaSeleccionada, setFechaSeleccionada] = useState("");
   // Estados para los campos del formulario
-  const [action, setAction] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -114,14 +113,10 @@ export default function ReservarPsiPreview({
       if (!response.ok)
         throw new Error(result.message || "Error al enviar el formulario");
 
-      setAction("¡Mensaje enviado! Nuestro equipo se pondrá en contacto contigo lo antes posible.");
       setFormData({ nombre: "", celular: "", correo: "", fecha_cita: "", hora_cita: "", idPsicologo: psicologo.idPsicologo});
       setIsConfirmOpen(false); 
       setIsSuccessOpen(true);  
 
-      setTimeout(() => {
-        setAction(null);
-      }, 6000);
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message || "No se pudo enviar el formulario.");

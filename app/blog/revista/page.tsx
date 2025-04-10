@@ -18,7 +18,7 @@ function RevistaContent() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}api/blogs/show/${blogId}`
+          `${process.env.NEXT_PUBLIC_API_URL}api/blogs/${blogId}`
         );
         const data = await response.json();
         setBlogData(data.result);

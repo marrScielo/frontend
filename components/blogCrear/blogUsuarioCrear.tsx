@@ -32,7 +32,7 @@ export const CategoriaGet = async () => {
 export const BlogById = async (id: number) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}api/blogs/show/${id}`,
+      `${process.env.NEXT_PUBLIC_API_URL}api/blogs/${id}`,
       {
         method: "GET",
         headers: {
@@ -94,7 +94,7 @@ export default function BlogUsuarioCrear() {
       const cookies = parseCookies();
       const token = cookies["session"];
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}api/categorias/create`,
+        `${process.env.NEXT_PUBLIC_API_URL}api/categorias`,
         {
           method: "POST",
           headers: {
@@ -130,8 +130,8 @@ export default function BlogUsuarioCrear() {
       const token = cookies["session"];
 
       const url = editingBlogId
-        ? `${process.env.NEXT_PUBLIC_API_URL}api/blogs/update/${editingBlogId}`
-        : `${process.env.NEXT_PUBLIC_API_URL}api/blogs/create`;
+        ? `${process.env.NEXT_PUBLIC_API_URL}api/blogs/${editingBlogId}`
+        : `${process.env.NEXT_PUBLIC_API_URL}api/blogs`;
 
       const method = editingBlogId ? "PUT" : "POST";
 
