@@ -22,8 +22,8 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-[#634AE2] text-white">
-      <div className="lg:max-w-7xl lg:mx-auto lg:px-4 py-16 mx-10 ml-16">
+    <footer className="h-auto bg-[#634AE2] text-white ">
+      <div className="lg:max-w-7xl p-10 lg:ml-12">
         {/* Contenido Principal */}
         <div className="flex flex-col md:flex-row justify-between items-start space-y-8 md:space-y-0">
           {/* Logo */}
@@ -46,7 +46,7 @@ export default function Footer() {
             <h3 className="text-xl font-semibold mb-5">Enlaces</h3>
             <div className="grid grid-cols-2 lg:gap-20">
               {/* Columna izquierda */}
-              <ul className="space-y-3">
+              <ul className="space-y-5">
                 {leftLinks.map((link) => (
                   <li key={link.text}>
                     <Link
@@ -63,16 +63,16 @@ export default function Footer() {
               </ul>
 
               {/* Columna derecha */}
-              <ul className="space-y-3">
+              <ul className="space-y-5">
                 {rightLinks.map((link) => (
                   <li key={link.text}>
                     <Link
                       href={link.href}
                       className="text-purple-100 hover:text-white transition-colors duration-500 text-sm flex items-center group relative"
                     >
-                      <span className="relative group">
+                      <span className="relative group whitespace-nowrap">
                         {link.text}
-                        <span className="absolute bottom-0 left-0 w-0 transition-all h-0.5 bg-white group-hover:w-full inline-block duration-500"></span>
+                        <span className="absolute bottom-0 left-0 w-10 transition-all h-auto bg-white group-hover:w-full inline-block duration-500"></span>
                       </span>
                     </Link>
                   </li>
@@ -88,37 +88,59 @@ export default function Footer() {
               <h3 className="text-xl font-semibold text-white mb-4">
                 Síguenos
               </h3>
-              <div className="flex justify-start space-x-6">
+              <div className="">
                 <RedesSociales />
               </div>
             </div>
 
-            {/* Contacto */}
             <div className="flex flex-col text-start w-full md:w-auto">
               <h3 className="text-xl font-semibold text-white mb-4">
                 Contacto
               </h3>
 
-              
-              <div className="flex items-center space-x-2 mb-2">
-                <Image
-                  src="/WSP.webp"
-                  alt="whatsapp"
-                  width={20} 
-                  height={20} 
-                />
-                <p className="font-light">+51 983 027 828</p>
-              </div>
+              <div className="flex flex-col space-y-2">
+                <div className="flex flex-col space-y-2">
+                  <div className="flex flex-col space-y-2">
+                    <div className="flex items-center gap-2">
+                      <a
+                        href="https://w.app/dvwynv"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center space-x-1 border border-white rounded-full px-2 py-0.5 hover:bg-green-600/80 transition-colors"
+                      >
+                        <span className="text-white text-[10px]">Perú</span>
+                        <Image
+                          src="/WSP.webp"
+                          alt="WhatsApp Argentina"
+                          width={14}
+                          height={14}
+                          className="flex-shrink-0"
+                        />
+                      </a>
 
-              
-              <div className="flex items-center space-x-2">
-                <Image
-                  src="/WSP.webp"
-                  alt="whatsapp"
-                  width={20} 
-                  height={20} 
-                />
-                <p className="font-light">+54 922 130 326 75</p>
+                      <span className="text-sm">+51 983 027 828</span>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <a
+                        href="https://w.app/qv4uqn"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center space-x-1 border border-white rounded-full px-2 py-0.5 hover:bg-green-600/80 transition-colors"
+                      >
+                        <span className="text-white text-[10px]">Argentina</span>
+                        <Image
+                          src="/WSP.webp"
+                          alt="WhatsApp Argentina"
+                          width={14}
+                          height={14}
+                          className="flex-shrink-0"
+                        />
+                      </a>
+                      <span className="text-sm">+54 922 130 326 75</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

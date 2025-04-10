@@ -36,8 +36,8 @@ export default function SobreNosotrosStructure({ qs }: { qs: QuienesSomos[] }) {
         {qs.map((item, index) => (
           <div key={index} className="text-center">
             <div className="pt-8 text-[#fff]">
-              <div className="grid grid-cols-[75%,25%]">
-                <div className="col-span-1">
+              <div className="grid grid-cols-3">
+                <div className="col-span-2">
                   <section>
                     <h2 className="text-5xl font-bold mb-3">¿Quiénes Somos?</h2>
                     <p
@@ -62,11 +62,11 @@ export default function SobreNosotrosStructure({ qs }: { qs: QuienesSomos[] }) {
                     />
                   </section>
                 </div>
-                <div className="col-span-1 flex items-start max-w-[420px] ml-auto">
+                <div className="col-span-1 flex items-start ">
                   <div
-                    className="w-[400px] h-[500px] bg-cover bg-center bg-no-repeat rounded-l-full"
+                    className="w-[450px] mask-fade-bottom flex items-end h-[550px] bg-white bg-contain md:bg-cover bg-center bg-no-repeat"
                     style={{
-                      backgroundImage: `linear-gradient(to right, #3616D87A 0%, #3616D870 30%, #7863E37A 70%, #7863E370 100%),url('/AboutUs/PsicologaPeruana.webp')`,
+                      backgroundImage: `linear-gradient(to right, #7863E37A 0%, #7863E37A 30%, #7863E37A 70%, #7863E370 100%),url('/AboutUs/psicologaAbout.webp')`,
                       backgroundSize: "cover",
                     }}
                   />

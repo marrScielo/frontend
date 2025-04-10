@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+/*import React, { useEffect, useState } from "react";
 import CerrarSesion from "@/components/CerrarSesion";
 import { Icons } from "@/icons";
 import NavbarPaciente from "@/components/User/Pacientes/NavbarPaciente";
@@ -7,10 +7,10 @@ import HistorialPaciente from "@/components/User/Pacientes/HistorialPaciente";
 import { useSearchParams } from "next/navigation";
 import { parseCookies } from "nookies";
 import { Paciente } from "@/interface";
-import { Link } from "lucide-react";
+import { Link } from "lucide-react";*/
 
 const PageHome = () => {
-  const searchParams = useSearchParams();
+  /*const searchParams = useSearchParams();
   const idPaciente = searchParams.get("idPaciente");
   const [paciente, setPaciente] = useState<Paciente | null>(null);
   const idPacienteNum = Number(idPaciente);
@@ -42,11 +42,11 @@ const PageHome = () => {
       HandleGetPaciente(idPacienteNum);
     }
   }, [idPaciente]);
-
+*/
   return (
     <div className="pb-8 bg-[#eaeded]">
-      {/* Header */}
-      <div className="flex flex-1 bg-[#eaeded] w-full z-30 mt-4">
+      
+    {/*  <div className="flex flex-1 bg-[#eaeded] w-full z-30 mt-4">
         <div>
           <nav className="bg-[#eaeded] rounded-2xl mt-3 h-[12vh] flex items-center w-[calc(95vw-270px)] p-4">
             <div className="bg-[#eaeded] flex items-start justify-between w-full">
@@ -76,11 +76,11 @@ const PageHome = () => {
         </div>
       </div>
       <div>
-        {/* Navbar */}
+        
         <div style={{ position: "relative", zIndex: 2 }}>
           <NavbarPaciente idPaciente={Number(idPaciente)} />
         </div>
-        {/* DatosPaciente */}
+        
         <div
           className="flex justify-center"
           style={{ position: "relative", zIndex: 100, marginTop: "-180px" }}
@@ -88,7 +88,7 @@ const PageHome = () => {
           <HistorialPaciente idPaciente={Number(idPaciente)} />
         </div>
       </div>
-    </div>
+    */}</div>
   );
 };
 

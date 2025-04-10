@@ -10,7 +10,7 @@ export const initialFormState: FormData = {
   name: "",
   apellido: "",
   fecha_nacimiento: today(getLocalTimeZone()),
-  edad: 0,
+
   genero: "",
   pais: "",
   email: "",

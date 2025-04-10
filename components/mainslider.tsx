@@ -69,13 +69,13 @@ export default function MainSlider() {
   };
 
   return (
-    <div className="relative">
+    <div className="relative ">
       <div className="embla" ref={emblaRef}>
         <div className="embla__container">
           {sections.map((item, index) => (
             <div className="embla__slide" key={index}>
               <div
-                className="lg:h-[700px] h-[340px] bg-cover flex items-center lg:bg-center bg-right vg-left lg:pl-[79px] pl-[30px] custom-bg-position"
+                className="lg:h-[650px] h-[340px] pt-56 w-full md:pt-0 bg-cover flex items-center lg:bg-center bg-right vg-left lg:pl-[79px] pl-[30px] custom-bg-position"
                 style={{
                   backgroundImage: `linear-gradient(to right,rgba(120, 99, 227, 0.64), rgba(99, 74, 226, 0.48)),url(${item.background})`,
                 }}
@@ -106,11 +106,13 @@ export default function MainSlider() {
                       __html: item.smallPhrase,
                     }}
                   />
+                  <div className="relative hidden lg:block">
                   <Link href="/ReservarCita">
-                    <Button className="bg-[#634AE2] max-w-[188px] lg:p-6 text-white rounded-[30px] hover:bg-purple-700">
+                    <Button className="bg-[#634AE2]  max-w-[188px] lg:p-6 text-white rounded-[30px] hover:bg-purple-700">
                       Reservar Cita
                     </Button>
                   </Link>
+                  </div>
                 </div>
               </div>
             </div>

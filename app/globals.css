@@ -7,6 +7,8 @@ body, html {
   padding: 0;
   width: 100%;
   overflow-x: hidden;
+  height: 100%;
+
 }
 
 body {
@@ -33,6 +35,9 @@ body {
   background-size: contain;
 }
 
+ .mask-fade-bottom {
+  mask-image: linear-gradient(to bottom, black 98%, transparent 100%);
+}
 
 @media (max-width: 640px) { /* sm */
   .responsive-bg {
@@ -71,7 +76,6 @@ body {
   position: relative;
   background: #ffffff;
   border-radius: 50%;
-  margin: 10px;
   width: 50px;
   height: 50px;
   font-size: 18px;
