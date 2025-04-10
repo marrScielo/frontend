@@ -80,13 +80,13 @@ export default function ServicesStructure({
           </div>
         
           
-          <div className=" lg:pt-5 flex justify-center px-4 md:px-0">
-            <div className="w-full text-title md:w-[937px] h-auto md:h-[74px]  font-semibold text-[28px] md:text-[24px] leading-[28px] md:leading-[33px] text-center">
+          <div className=" lg:pt-5 flex justify-center px-4 md:px-0 pb-3">
+            <div className="w-full text-title md:w-[937px] h-auto md:h-[74px]  font-semibold text-[20px] md:text-[24px] leading-[28px] md:leading-[33px] text-center">
               {item.tittlecards}
             </div>
           </div>
           <div className="flex justify-center pt-5">
-            <div className="block md:hidden w-96">
+            <div className="block md:hidden w-[280px]">
               <Carousel
                 opts={{
                   loop: true,
@@ -101,13 +101,13 @@ export default function ServicesStructure({
               >
                 <CarouselContent>
                   {item.cards?.slice(0, 5).map((card, index) => (
-                    <CarouselItem key={index}>
-                      <Card className="border-none bg-transparent">
+                    <CarouselItem key={index} >
+                      <Card className="border-none bg-transparent shadow-none">
                         <CardContent className="p-0">
-                          <span className="text-4xl font-semibold">
+                          <span className="text-4xl font-semibold  ">
                             <div
                               key={card.id}
-                              className="flex flex-col rounded-3xl bg-[#634AE2] items-center gap-4 p-4 h-[200px]"
+                              className="flex flex-col rounded-3xl bg-[#634AE2] items-center  "
                             >
                               <div className="w-full md:w-[360px] h-auto md:h-[236px] flex flex-col rounded-lg p-4">
                                 <div className="flex justify-center items-center">
@@ -117,7 +117,7 @@ export default function ServicesStructure({
                                     className="w-[140px] md:w-[183.27px] h-[68px] md:h-[88px] object-contain"
                                   />
                                 </div>
-                                <div className="flex-grow flex items-center justify-center px-4 pt-5">
+                                <div className="flex-grow flex items-center justify-center px-1 pt-3">
                                   <p className="text-center text-[14px] md:text-[16px] text-white font-normal leading-[20px] md:leading-[24px] w-full">
                                     {card.text}
                                   </p>
@@ -259,12 +259,12 @@ export default function ServicesStructure({
           </div>
           <div className="block md:hidden">
             <div className="pt-8 flex items-center px-10 ">
-              <div className="w-full max-w-[837px] text-title h-[74px] font-semibold text-[24px] leading-[33px] text-center">
+              <div className="w-full max-w-[837px] text-title font-semibold text-[20px] leading-[33px] text-center">
                 {item.tittleIcon}
               </div>
             </div>
 
-            <div className="flex justify-center pt-8 pb-28">
+            <div className="flex justify-center pt-8 pb-8">
               <div className="block md:hidden w-96">
                 <Carousel
                   opts={{
@@ -276,7 +276,7 @@ export default function ServicesStructure({
                       delay: 4000,
                     }),
                   ]}
-                  className="w-full bg-transparent pt-16"
+                  className="w-full bg-transparent "
                 >
                   <CarouselContent>
                     {item.iconos?.slice(0, 5).map((icono, index) => (
