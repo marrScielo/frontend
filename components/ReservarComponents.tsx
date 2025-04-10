@@ -27,7 +27,7 @@ export default function ReservarComponents({ Psicologos }: { Psicologos: Psicolo
           <br className="block lg:hidden" /> línea, fácil, seguro y privado
         </h5>
         <div className="flex justify-center mt-8 px-4">
-          <div className="grid grid-cols-1 grid-rows-auto gap-4 sm:grid-cols-5 w-full ">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-5 w-full ">
             <div className="col-span-1 sm:row-span-5 sm:col-span-1 ">
               <ReservarComponentSearch 
                 onSearchChange={(term) => setSearchTerm(term)} 

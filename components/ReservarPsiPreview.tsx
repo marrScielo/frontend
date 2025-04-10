@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import ReactCountryFlag from "react-country-flag";
 import { Modal, ModalContent, ModalBody, Button } from "@heroui/react";
-import { PsicologoPreviewData } from "@/interface";
+import { PrePaciente, PsicologoPreviewData } from "@/interface";
 import { useState } from "react";
 import HorarioPsicologo from "./horariosPsicologo/horarioPsicologo";
 
@@ -21,25 +21,117 @@ export default function ReservarPsiPreview({
   const [isScheduleOpen, setIsScheduleOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
- // const [isFormOpen, setIsFormOpen] = useState(false);
   const [horaSeleccionada, setHoraSeleccionada] = useState("");
   const [fechaSeleccionada, setFechaSeleccionada] = useState("");
   // Estados para los campos del formulario
-  const [nombreCompleto, setNombreCompleto] = useState("");
-  const [celular, setCelular] = useState("");
-  const [correo, setCorreo] = useState("");
+  const [action, setAction] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [formData, setFormData] = useState<PrePaciente>({
+    nombre: "",
+    celular: "",
+    correo: "",
+    fecha_cita: "",
+    hora_cita: "",
+    idPsicologo: psicologo.idPsicologo
+  });
 
-  // Manejo del envío del formulario
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Aquí puedes llamar a tu endpoint que crea prepaciente + cita.
-    // Ejemplo:
-    // await fetch("/api/crearCitaYPrepaciente", { method: "POST", body: JSON.stringify({ nombreCompleto, celular, correo, ... }) })
-
-    console.log("Datos de formulario:", { nombreCompleto, celular, correo });
-     // Cierra el modal al terminar
+  const handleSelectHorario = (hora: string, fecha: string) => {
+    setHoraSeleccionada(hora);
+    setFechaSeleccionada(fecha);
+    
+    setFormData((prevData) => ({
+      ...prevData,
+      fecha,
+      hora,
+    }));
   };
 
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
+
+    const formDataEntries = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formDataEntries) as unknown as PrePaciente;
+
+    data.fecha_cita = fechaSeleccionada;
+    data.hora_cita = horaSeleccionada;
+    data.idPsicologo = psicologo.idPsicologo;
+
+    if (!data.nombre || !data.celular || !data.correo) {
+      setError("Por favor, completa todos los campos del formulario.");
+      setLoading(false);
+      return;
+    }
+
+    // Validación de número
+    const telefonoRegex = /^[0-9]{9,}$/;
+    if (!telefonoRegex.test(data.celular)) {
+      setError("El número de celular debe contener solo números y tener al menos 9 dígitos.");
+      setLoading(false);
+      return;
+    }
+
+    // Validación de correo electrónico
+    const correoRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!correoRegex.test(data.correo)) {
+      setError("Por favor, ingresa un correo electrónico válido.");
+      setLoading(false);
+      return;
+    }
+
+    if (data.celular) {
+      data.celular = String(data.celular);
+    }
+
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}api/pre-pacientes/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
+
+      const result: { message?: string } = await response.json();
+
+      if (!response.ok)
+        throw new Error(result.message || "Error al enviar el formulario");
+
+      setAction("¡Mensaje enviado! Nuestro equipo se pondrá en contacto contigo lo antes posible.");
+      setFormData({ nombre: "", celular: "", correo: "", fecha_cita: "", hora_cita: "", idPsicologo: psicologo.idPsicologo});
+      setIsConfirmOpen(false); 
+      setIsSuccessOpen(true);  
+
+      setTimeout(() => {
+        setAction(null);
+      }, 6000);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message || "No se pudo enviar el formulario.");
+      } else {
+        setError("No se pudo enviar el formulario.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -187,10 +279,8 @@ export default function ReservarPsiPreview({
                 horario={psicologo.horario}
                 onClose={() => setIsScheduleOpen(false)}
                 onOpenConfirm={() => setIsConfirmOpen(true)}
-                onSelectHorario={(hora, fecha) => {
-                  setHoraSeleccionada(hora);
-                  setFechaSeleccionada(fecha);
-                }} />
+                onSelectHorario={handleSelectHorario} 
+                />
               <div className="w-full flex justify-center">
                 <Button
                   onPress={() => setIsScheduleOpen(false)}
@@ -230,8 +320,9 @@ export default function ReservarPsiPreview({
                   type="text"
                   className="w-full border border-gray-300 rounded-full px-4 py-2 outline-none focus:border-[#634AE2]"
                   placeholder="Nombres y apellidos"
-                  value={nombreCompleto}
-                  onChange={(e) => setNombreCompleto(e.target.value)}
+                  name="nombre"
+                  value={formData.nombre}
+                  onChange={handleChange}
                 />
               </div>
               <div>
@@ -242,8 +333,9 @@ export default function ReservarPsiPreview({
                   type="text"
                   className="w-full border border-gray-300 rounded-full px-4 py-2 outline-none focus:border-[#634AE2]"
                   placeholder="Número de celular"
-                  value={celular}
-                  onChange={(e) => setCelular(e.target.value)}
+                  name="celular"
+                  value={formData.celular}
+                  onChange={handleChange}
                 />
               </div>
               <div>
@@ -254,23 +346,60 @@ export default function ReservarPsiPreview({
                   type="email"
                   className="w-full border border-gray-300 rounded-full px-4 py-2 outline-none focus:border-[#634AE2]"
                   placeholder="Correo electrónico"
-                  value={correo}
-                  onChange={(e) => setCorreo(e.target.value)}
+                  name="correo"
+                  value={formData.correo}
+                  onChange={handleChange}
                 />
               </div>
               <p className="text-sm text-center text-[#634AE2] mt-2">
                 Has seleccionado: <strong>{fechaSeleccionada}</strong> a las <strong>{horaSeleccionada}</strong>
               </p>
-
+              {error && <p className="text-red-500 text-sm">{error}</p>}
               <div className="flex justify-center mt-6">
                 <Button
                   type="submit"
                   className="rounded-3xl bg-[#634AE2] text-white px-6 py-1 font-light"
-                >
-                  Reservar
+                  disabled={loading}
+                  >
+                    {loading ? "Enviando..." : "Reservar"}
                 </Button>
               </div>
             </form>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+
+      <Modal
+        isOpen={isSuccessOpen}
+        onOpenChange={setIsSuccessOpen}
+        size={"2xl"}
+        backdrop="opaque"
+        classNames={{
+          body: "py-6",
+          backdrop: "bg-[#d8dceb]/50 backdrop-opacity-40",
+          base: "bg-[#634AE2] text-white rounded-3xl",
+          header: "border-b-[1px] border-[#d8dceb]",
+          footer: "border-t-[1px] border-[#d8dceb]",
+          closeButton: "hover:bg-white/5 active:bg-white/10",
+        }}
+      >
+        <ModalContent>
+          <ModalBody className="text-center">
+            <img
+              src="/send-mail.svg"
+              alt="Icono de correo enviado"
+              className="w-32 h-32 mx-auto mb-4"
+            />
+            <h2 className="text-2xl font-semibold mb-4">¡LISTO! Tu cita ha sido reservada</h2>
+            <p className="mb-6">En unots minutos te enviaremos un correo de confirmación.</p>
+            <div className="flex justify-center mb-4">
+            </div>
+            <Button
+              onPress={() => setIsSuccessOpen(false)}
+              className="inline-block rounded-3xl bg-[#E7E7FF] px-6 sm:px-8 py-1 sm:py-0 text-[#634AE2] font-light"
+            >
+              Cerrar
+            </Button>
           </ModalBody>
         </ModalContent>
       </Modal>

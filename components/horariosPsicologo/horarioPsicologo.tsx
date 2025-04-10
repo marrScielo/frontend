@@ -3,8 +3,6 @@ import ZonaHorariaSelect from "./zonaHorariaSelect";
 import { Horarios, BotonHorarioProps, CitasPendientesApiResponse } from "@/interface";
 import { GetCitasPendientes } from "@/app/apiRoutes";
 
-const diasSemana = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
-
 const convertirHoraZona = (fechaISO: string, hora: string, zonaOrigen: string, zonaDestino: string): string => {
   const fecha = new Date(`${fechaISO}T${hora}:00`);
   return fecha.toLocaleTimeString("es-ES", {
@@ -87,7 +85,7 @@ export default function HorarioPsicologo({ idPsicologo, horario, onClose, onOpen
 
   return (
     <div className="p-5 bg-white w-full max-w-4xl mx-auto">
-      <h2 className="text-xl font-bold text-center text-purple-700">¡Escoge el mejor horario que se adapte a ti!</h2>
+      <h2 className="text-xl font-bold text-center text-[#634AE2]">¡Escoge el mejor horario que se adapte a ti!</h2>
       <div className="flex justify-center mt-2">
         <ZonaHorariaSelect onChange={setZonaHoraria} />
       </div>
@@ -103,12 +101,22 @@ export default function HorarioPsicologo({ idPsicologo, horario, onClose, onOpen
 
         <div className="mt-4 overflow-x-auto">
           <div className="grid grid-cols-6 gap-2">
-            {diasSemana.map((dia, index) => {
+            {Array.from({ length: 6 }).map((_, index) => {
               const fecha = new Date(fechaBase);
-              fecha.setDate(fechaBase.getDate() - fechaBase.getDay() + index + 1);
+              if (semanaOffset === 0) {
+                fecha.setDate(fechaBase.getDate() + index); // Desde hoy
+              } else {
+                const diaSemana = fechaBase.getDay();
+                const offsetHastaLunes = diaSemana === 0 ? 1 : 1 - diaSemana;
+                fecha.setDate(fechaBase.getDate() + offsetHastaLunes + index);
+              }
+
+              const diaNombre = fecha.toLocaleDateString("es-ES", { weekday: "long" });
+              const diaCapitalizado = diaNombre.charAt(0).toUpperCase() + diaNombre.slice(1);
+
               return (
-                <div key={dia} className="text-center p-3 w-full rounded-full bg-[#9494F3] text-white">
-                  <p>{dia}</p>
+                <div key={fecha.toISOString()} className="text-center p-3 w-full rounded-full bg-[#9494F3] text-white">
+                  <p>{diaCapitalizado}</p>
                   <p className="text-md">{obtenerEtiquetaDia(fecha, hoyISO, mananaISO, formateadorFecha)}</p>
                 </div>
               );
@@ -116,12 +124,21 @@ export default function HorarioPsicologo({ idPsicologo, horario, onClose, onOpen
           </div>
 
           <div className="mt-3 grid grid-cols-6 gap-2">
-            {diasSemana.map((dia, index) => {
+            {Array.from({ length: 6 }).map((_, index) => {
               const fecha = new Date(fechaBase);
-              fecha.setDate(fechaBase.getDate() - fechaBase.getDay() + index + 1);
-              const fechaStr = fecha.toISOString().split("T")[0];
+              if (semanaOffset === 0) {
+                fecha.setDate(fechaBase.getDate() + index);
+              } else {
+                const diaSemana = fechaBase.getDay();
+                const offsetHastaLunes = diaSemana === 0 ? 1 : 1 - diaSemana;
+                fecha.setDate(fechaBase.getDate() + offsetHastaLunes + index);
+              }
 
-              const horasDisponibles = (horario[dia] || []).flatMap(([inicio, fin]) =>
+              const fechaStr = fecha.toISOString().split("T")[0];
+              const diaNombre = fecha.toLocaleDateString("es-ES", { weekday: "long" }).toLowerCase();
+              const diaCapitalizado = diaNombre.charAt(0).toUpperCase() + diaNombre.slice(1);
+
+              const horasDisponibles = (horario[diaCapitalizado] || []).flatMap(([inicio, fin]) =>
                 generarHorarios(inicio, fin, zonaHoraria)
               );
               const maxHoras = Math.max(...Object.values(horario).flatMap((r) => r.map(([i, f]) => generarHorarios(i, f, zonaHoraria).length)));
@@ -133,7 +150,7 @@ export default function HorarioPsicologo({ idPsicologo, horario, onClose, onOpen
               })) || [];
 
               return (
-                <div key={dia} className="text-center space-y-2">
+                <div key={fechaStr} className="text-center space-y-2">
                   {horasCompletas.map((hora, idx) =>
                     hora ? (
                       <BotonHorario
@@ -145,7 +162,8 @@ export default function HorarioPsicologo({ idPsicologo, horario, onClose, onOpen
                           onOpenConfirm();
                           onSelectHorario(hora, fechaStr);
                         }}
-                      />) : (
+                      />
+                    ) : (
                       <button key={`empty-${idx}`} className="w-full p-3 rounded-full bg-[#EDEDED] text-[#CACACB]" disabled>-</button>
                     )
                   )}

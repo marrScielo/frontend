@@ -267,6 +267,14 @@ export interface CitasPendientesApiResponse {
   result: CitasPendientes[]; 
 }
 
+export interface PrePaciente {
+  nombre: string,
+  celular: string,
+  correo: string,
+  fecha_cita: string,
+  hora_cita: string,
+  idPsicologo: number,
+}
 
 export interface Paciente {
   idPaciente: number,
