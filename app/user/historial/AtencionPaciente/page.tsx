@@ -3,10 +3,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { Icons } from "@/icons";
 import { useDropzone } from "react-dropzone";
 import CerrarSesion from "@/components/CerrarSesion";
-import { AtencionFormData, Enfermedad, Paciente } from "@/interface";
+import { AtencionFormData, Citas, Enfermedad, Paciente } from "@/interface";
 import { parseCookies } from "nookies";
 import showToast from "@/components/ToastStyle";
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 function DropzoneWithoutKeyboard() {
   const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
@@ -31,16 +32,17 @@ function DropzoneWithoutKeyboard() {
 
 export default function App() {
   const searchParams = useSearchParams();
-  const idCita = searchParams.get('idCita');
-  const [pacientes, setPacientes] = useState<Paciente[]>([]);
-  const [idSearchTerm, setIdSearchTerm] = useState("");
-  const [nameSearchTerm, setNameSearchTerm] = useState("");
-  const [showIdDropdown, setShowIdDropdown] = useState(false);
-  const [showNameDropdown, setShowNameDropdown] = useState(false);
-  const [selectedPaciente, setSelectedPaciente] = useState<Paciente | null>(
-    null
-  );
-
+  const idCita = searchParams.get("idCita");
+  const [cita, setCita] = useState<Citas | null>(  {idCita: " ",
+    idPaciente: " ",
+    idPsicologo: " ",
+    paciente: " ",
+    codigo: " ",
+    fecha_inicio: " ",
+    estado: " ",
+    age: " ",
+    motivo: " ",
+  });
   const [enfermedades, setEnfermedades] = useState<Enfermedad[]>([]);
   const [DSM5SearchTerm, setDSM5SearchTerm] = useState("");
   const [CEA10SearchTerm, setCEA10SearchTerm] = useState("");
@@ -48,7 +50,6 @@ export default function App() {
   const [showCEA10Dropdown, setShowCEA10Dropdown] = useState(false);
   const [selectedEnfermedad, setSelectedEnfermedad] =
     useState<Enfermedad | null>(null);
-  const idDropdownRef = useRef<HTMLDivElement>(null);
   const nameDropdownRef = useRef<HTMLDivElement>(null);
   const DSM5DropdownRef = useRef<HTMLDivElement>(null);
   const CEA10DropdownRef = useRef<HTMLDivElement>(null);
@@ -66,12 +67,13 @@ export default function App() {
     Comentario: "",
     descripcion: "",
   });
+
   //Paciente
-  const handleGetPacientes = async () => {
+  const handleGetCita = async () => {
     try {
       const cookies = parseCookies();
       const token = cookies["session"];
-      const url = `${process.env.NEXT_PUBLIC_API_URL}api/pacientes`;
+      const url = `${process.env.NEXT_PUBLIC_API_URL}api/citas/${idCita}`;
       const response = await fetch(url, {
         method: "GET",
         headers: {
@@ -82,32 +84,11 @@ export default function App() {
       });
       const data = await response.json();
       if (response.ok) {
-        setPacientes(data.result);
+        setCita(data.result);
       }
     } catch (error) {
       console.error(error);
     }
-  };
-
-  const filteredPacientesById = idSearchTerm
-    ? pacientes.filter((paciente) =>
-        paciente.idPaciente.toString().includes(idSearchTerm)
-      )
-    : pacientes;
-
-  const filteredPacientesByName = nameSearchTerm
-    ? pacientes.filter((paciente) =>
-        paciente.nombre.toLowerCase().includes(nameSearchTerm.toLowerCase())
-      )
-    : pacientes;
-
-  const handlePacienteSelect = (paciente: Paciente) => {
-    setSelectedPaciente(paciente);
-    setIdSearchTerm(paciente.idPaciente.toString());
-    setNameSearchTerm(paciente.nombre);
-    setShowIdDropdown(false);
-    setShowNameDropdown(false);
-    setFormData({ ...formData, idCita: paciente.idPaciente });
   };
 
   //Enfermedades
@@ -134,7 +115,7 @@ export default function App() {
   };
 
   useEffect(() => {
-    handleGetPacientes();
+    handleGetCita();
     handleGetEnfermedades();
   }, []);
 
@@ -165,18 +146,6 @@ export default function App() {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
-        idDropdownRef.current &&
-        !idDropdownRef.current.contains(event.target as Node)
-      ) {
-        setShowIdDropdown(false);
-      }
-      if (
-        nameDropdownRef.current &&
-        !nameDropdownRef.current.contains(event.target as Node)
-      ) {
-        setShowNameDropdown(false);
-      }
-      if (
         DSM5DropdownRef.current &&
         !DSM5DropdownRef.current.contains(event.target as Node)
       ) {
@@ -199,19 +168,13 @@ export default function App() {
   //Post
   const HandlePostAtencion = async () => {
     console.log("=== Inicio de HandlePostAtencion ===");
-    
-    if (!selectedPaciente) {
-      console.log("Error: No hay paciente seleccionado");
-      showToast("error", "Selecciona un paciente primero");
-      return;
-    }
-  
+
     if (!selectedEnfermedad) {
       console.log("Error: No hay enfermedad seleccionada");
       showToast("error", "Selecciona una enfermedad primero");
       return;
     }
-  
+
     try {
       const atencionData = {
         MotivoConsulta: formData.MotivoConsulta,
@@ -219,25 +182,24 @@ export default function App() {
         Diagnostico: formData.Diagnostico,
         Tratamiento: formData.Tratamiento,
         Observacion: formData.Observacion,
-        idEnfermedad: parseInt(formData.idEnfermedad), 
+        idEnfermedad: parseInt(formData.idEnfermedad),
         UltimosObjetivos: formData.UltimosObjetivos,
         FechaAtencion: formData.FechaAtencion,
         DocumentosAdicionales: "formData.DocumentosAdicionales",
         Comentario: formData.Comentario,
         descripcion: selectedEnfermedad.nombreEnfermedad,
       };
-  
+
       console.log("Datos a enviar:", atencionData);
-      console.log("ID del paciente seleccionado:", selectedPaciente.idPaciente);
       console.log("Enfermedad seleccionada:", selectedEnfermedad);
-  
+
       const cookies = parseCookies();
       const token = cookies["session"];
       console.log("Token de sesión:", token ? "Presente" : "Ausente");
-  
-      const url = `${process.env.NEXT_PUBLIC_API_URL}api/atenciones/${selectedPaciente.idPaciente}`;
+
+      const url = `${process.env.NEXT_PUBLIC_API_URL}api/atenciones/${idCita}`;
       console.log("URL de la API:", url);
-  
+
       console.log("Enviando solicitud...");
       const response = await fetch(url, {
         method: "POST",
@@ -247,15 +209,15 @@ export default function App() {
         },
         body: JSON.stringify(atencionData),
       });
-  
+
       console.log("Respuesta recibida. Status:", response.status);
       const data = await response.json();
       console.log("Datos de respuesta:", data);
-  
+
       if (response.ok) {
         console.log("Atención creada exitosamente");
         showToast("success", "Atención creada correctamente");
-        
+
         // Resetear el formulario
         setFormData({
           MotivoConsulta: "",
@@ -270,17 +232,19 @@ export default function App() {
           Comentario: "",
           descripcion: "",
         });
-        setSelectedPaciente(null);
         setSelectedEnfermedad(null);
       } else {
-        console.log("Error en la respuesta:", data.message || "Sin mensaje de error");
+        console.log(
+          "Error en la respuesta:",
+          data.message || "Sin mensaje de error"
+        );
         showToast("error", data.message || "Error al crear la atención");
       }
     } catch (error) {
       console.error("Error en la solicitud:", error);
       showToast("error", "Error de conexión. Intenta nuevamente.");
     }
-    
+
     console.log("=== Fin de HandlePostAtencion ===");
   };
 
@@ -309,40 +273,13 @@ export default function App() {
           <div className="flex pt-2">
             <div className="flex-1 items-center justify-items-center">
               <div>Codigo del Paciente *</div>
-              <div className="relative" ref={idDropdownRef}>
+              <div className="relative">
                 <input
                   type="text"
-                  value={idSearchTerm}
-                  onChange={(e) => {
-                    setIdSearchTerm(e.target.value);
-                    setShowIdDropdown(true);
-                  }}
-                  onFocus={() => {
-                    setShowIdDropdown(true);
-                    setIdSearchTerm("");
-                  }}
+                  readOnly
+                  value={cita?.idPaciente}
                   className="pl-12 pr-3 text-sm h-9 font-normal mt-2 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
-                  placeholder="Buscar por ID"
                 />
-                {showIdDropdown && (
-                  <div className="absolute z-10 top-12 w-full bg-[#efefef] border rounded-lg shadow-lg max-h-60 overflow-auto">
-                    {filteredPacientesById.length > 0 ? (
-                      filteredPacientesById.map((paciente) => (
-                        <div
-                          key={paciente.idPaciente}
-                          className="p-2 hover:bg-[#F3F3F3] cursor-pointer"
-                          onClick={() => handlePacienteSelect(paciente)}
-                        >
-                          {paciente.idPaciente}
-                        </div>
-                      ))
-                    ) : (
-                      <div className="p-2 text-gray-500">
-                        No se encontraron resultados
-                      </div>
-                    )}
-                  </div>
-                )}
                 <span
                   className="text-[#634AE2] transition-colors absolute right-3 top-1/2 transform -translate-y-1/2"
                   dangerouslySetInnerHTML={{
@@ -363,37 +300,10 @@ export default function App() {
               <div className="relative" ref={nameDropdownRef}>
                 <input
                   type="text"
-                  value={nameSearchTerm}
-                  onChange={(e) => {
-                    setNameSearchTerm(e.target.value);
-                    setShowNameDropdown(true);
-                  }}
-                  onFocus={() => {
-                    setShowNameDropdown(true);
-                    setNameSearchTerm("");
-                  }}
+                  readOnly
+                  value={cita?.paciente}
                   className="pl-12 pr-3 text-sm h-9 font-normal mt-2 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
-                  placeholder="Buscar por nombre"
                 />
-                {showNameDropdown && (
-                  <div className="absolute z-10 top-12 w-full bg-[#efefef] border rounded-lg shadow-lg max-h-60 overflow-auto">
-                    {filteredPacientesByName.length > 0 ? (
-                      filteredPacientesByName.map((paciente) => (
-                        <div
-                          key={paciente.idPaciente}
-                          className="p-2 hover:bg-[#F3F3F3] cursor-pointer"
-                          onClick={() => handlePacienteSelect(paciente)}
-                        >
-                          {paciente.nombre}
-                        </div>
-                      ))
-                    ) : (
-                      <div className="p-2 text-gray-500">
-                        No se encontraron resultados
-                      </div>
-                    )}
-                  </div>
-                )}
                 <span
                   className="text-[#634AE2] transition-colors absolute right-3 top-1/2 transform -translate-y-1/2"
                   dangerouslySetInnerHTML={{
@@ -416,7 +326,7 @@ export default function App() {
               type="text"
               readOnly
               className="pl-12 pr-3 text-sm h-9 font-normal outline-none focus:ring-0 focus:outline-none w-11/12 rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
-              value={selectedPaciente ? `${selectedPaciente.nombre}` : ""}
+              value={cita?.paciente}
               placeholder="Ningún paciente seleccionado"
             />
           </div>
@@ -617,12 +527,20 @@ export default function App() {
         <button className="text-[#fff] bg-[#634AE2] rounded-full w-28 h-8">
           Volver
         </button>
-        <button
-          onClick={HandlePostAtencion}
-          className="text-[#634AE2] bg-[#fff] rounded-full border-2 border-[#634AE2] w-28 h-8"
+        <Link
+          href={{
+            pathname: "/user/citas",
+          }}
+          className="relative group"
+          passHref
         >
-          Registrar
-        </button>
+          <button
+            onClick={HandlePostAtencion}
+            className="text-[#634AE2] bg-[#fff] rounded-full border-2 border-[#634AE2] w-28 h-8"
+          >
+            Registrar
+          </button>
+        </Link>
       </div>
     </div>
   );
