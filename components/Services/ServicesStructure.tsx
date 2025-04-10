@@ -236,7 +236,7 @@ export default function ServicesStructure({
                   {item.iconos?.slice(3, 5).map((icono) => (
                     <div
                       key={icono.id}
-                      className="flex flex-col items-center gap-4"
+                      className="flex flex-col items-center "
                     >
                       <div className="rounded-full bg-[#9494F3] p-6">
                         <div className="w-32 h-32 flex items-center justify-center">
@@ -265,7 +265,7 @@ export default function ServicesStructure({
             </div>
 
             <div className="flex justify-center pt-8 pb-8">
-              <div className="block md:hidden w-96">
+              <div className="block md:hidden w-64">
                 <Carousel
                   opts={{
                     loop: true,
