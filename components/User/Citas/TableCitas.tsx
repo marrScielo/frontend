@@ -4,12 +4,15 @@ import { useEffect, useState, useCallback } from "react";
 import React from "react";
 import { Citas } from "@/interface";
 import Link from "next/link";
+import showToast from "@/components/ToastStyle";
+import { parseCookies } from "nookies";
 
 interface TableProps {
   users: Citas[];
   headerColumns: { name: string; uid: string; sortable?: boolean }[];
   selectedKeys: Set<React.Key>;
   setSelectedKeys: (keys: Set<React.Key>) => void;
+  onCitaDeleted?: (idCita: number) => void;
 }
 
 export const TableCitas: React.FC<TableProps> = ({
@@ -17,12 +20,46 @@ export const TableCitas: React.FC<TableProps> = ({
   headerColumns,
   selectedKeys,
   setSelectedKeys,
+  onCitaDeleted,
 }) => {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  //Funcion para eliminar Citas
+  const HandleDeleteCitas = async (idCita: number) => {
+    try {
+      const cookies = parseCookies();
+      const token = cookies["session"];
+      const url = `${process.env.NEXT_PUBLIC_API_URL}api/citas/${idCita}`;
+      const response = await fetch(url, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await response.json();
+
+      if (response.ok) {
+        showToast("success", "Cita eliminada correctamente");
+        if (onCitaDeleted) {
+          onCitaDeleted(idCita); // Llama a la función de actualización
+        }
+      } else {
+        showToast(
+          "error",
+          data.status_message || "Error de conexión. Intenta nuevamente"
+        );
+      }
+    } catch (error) {
+      console.error(error);
+      showToast("error", "Error de conexión. Intenta nuevamente");
+    }
+  };
 
   const handleSelectAll = useCallback(() => {
     if (selectedKeys.size === users.length) {
@@ -65,7 +102,14 @@ export const TableCitas: React.FC<TableProps> = ({
               <span className="text-xs text-[#634AE2] mt-1">Editar</span>
             </div>
 
-            <div className="flex flex-col items-center pt-1">
+            <button
+              onClick={() => {
+                if (confirm("¿Estás seguro de eliminar esta cita?")) {
+                  HandleDeleteCitas(Number(user.idCita));
+                }
+              }}
+              className="flex flex-col items-center pt-1"
+            >
               <div className="relative group">
                 <span
                   className="text-lg text-[#B158FF] cursor-pointer active:opacity-50"
@@ -77,13 +121,13 @@ export const TableCitas: React.FC<TableProps> = ({
                 </div>
               </div>
               <span className="text-xs text-[#B158FF] mt-2">Eliminar</span>
-            </div>
+            </button>
 
             <div className="flex flex-col items-center pt-1">
               <Link
                 href={{
                   pathname: "/user/historial/AtencionPaciente",
-                  query: { idCita: user.idCita},
+                  query: { idCita: user.idCita },
                 }}
                 className="relative group"
                 passHref

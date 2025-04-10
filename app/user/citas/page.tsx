@@ -176,6 +176,9 @@ export default function App() {
             headerColumns={headerColumns}
             selectedKeys={selectedKeys}
             setSelectedKeys={setSelectedKeys}
+            onCitaDeleted={(idCita) => {
+              setCitas(prevCitas => prevCitas.filter(cita => Number(cita.idCita) !== Number(idCita)));
+            }}
           />
         )}
       </div>
