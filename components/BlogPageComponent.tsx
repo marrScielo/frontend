@@ -1,4 +1,4 @@
-"use client";
+/*"use client";
 import BlogAside from "./blogaside";
 import { ScrollShadow } from "@heroui/react";
 import BlogPreview from "./blogpreview";
@@ -101,4 +101,4 @@ export default function BlogPageComponent({
       </div>
     </div>
   );
-}
+}*/

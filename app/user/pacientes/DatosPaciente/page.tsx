@@ -14,7 +14,7 @@ import {
 } from "react-country-state-city";
 import { DatePicker } from "@heroui/react";
 import { CalendarDate } from "@internationalized/date"
-
+import "react-country-state-city/dist/react-country-state-city.css"
 export default function App() {
   const [country, setCountry] = useState<Country | null>(null);
   const [currentState, setCurrentState] = useState<City | null>(null);
@@ -204,6 +204,7 @@ export default function App() {
                 <input
                   type="text"
                   value={formData.DNI}
+                  maxLength={8}
                   onChange={(e) =>
                     setFormData({ ...formData, DNI: e.target.value })
                   }
@@ -345,6 +346,7 @@ export default function App() {
           <div className="flex justify-center">
             <input
               type="text"
+              maxLength={9}
               value={formData.celular}
               onChange={(e) =>
                 setFormData({ ...formData, celular: e.target.value })
