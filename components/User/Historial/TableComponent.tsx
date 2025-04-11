@@ -17,7 +17,7 @@ export const TableComponent: React.FC<TableProps> = ({
   const [isClient, setIsClient] = useState(false);
   const [showCart, setShowCart] = useState(false);
   const [selectedPacienteId, setSelectedPacienteId] = useState<string | null>(null);
-  const [selectedCitaId, setSelectedCitaId] = useState<string | null>(null);
+  const [, setSelectedCitaId] = useState<string | null>(null);
 
   useEffect(() => {
     setIsClient(true);

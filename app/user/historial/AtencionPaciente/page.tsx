@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Icons } from "@/icons";
 import { useDropzone } from "react-dropzone";
 import CerrarSesion from "@/components/CerrarSesion";
-import { AtencionFormData, Citas, Enfermedad, Paciente } from "@/interface";
+import { AtencionFormData, Citas, Enfermedad} from "@/interface";
 import { parseCookies } from "nookies";
 import showToast from "@/components/ToastStyle";
 import { useSearchParams } from "next/navigation";
@@ -40,6 +40,7 @@ export default function App() {
     codigo: " ",
     fecha_inicio: " ",
     estado: " ",
+    duracion: " ",
     age: " ",
     motivo: " ",
   });
@@ -117,7 +118,7 @@ export default function App() {
   useEffect(() => {
     handleGetCita();
     handleGetEnfermedades();
-  }, []);
+  });
 
   const filteredEnfermedadesByDSM5 = DSM5SearchTerm
     ? enfermedades.filter((enfermedad) =>

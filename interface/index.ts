@@ -303,6 +303,7 @@ export interface Citas {
   estado: string;
   age: string;
   motivo: string;
+  duracion: string;
 }
 
 export interface DatePacienteProps {

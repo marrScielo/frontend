@@ -48,7 +48,7 @@ export const HistorialPaciente: React.FC<DatePacienteProps> = ({
 
   useEffect(() => {
     handleGetAtenciones();
-  }, [pacienteId]);
+  });
 
   return (
     <div className="relative overflow-auto rounded-lg pt-2 text-[#634AE2] bg-[#fff]">

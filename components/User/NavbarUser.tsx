@@ -82,7 +82,7 @@ const NavbarUser = () => {
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
-  }, []);
+  });
   return (
     <div className="flex flex-row">
       {/* Navbar Mobile*/}

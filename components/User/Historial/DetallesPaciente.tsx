@@ -103,3 +103,4 @@ export const DetallesPaciente: React.FC<DetallesAtencionProps> = ({
     </div>
   );
 };
+export default DetallesPaciente;

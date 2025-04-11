@@ -1,11 +1,6 @@
 import React from "react";
 import FormContacto from "@/components/FormContacto";
-import { metadataTarron } from "../metadata";
 
-export const metadata = {
-  ...metadataTarron,
-  title: "Contactanos - ContigoVoy",
-};
 
 const ContactUs = () => {
   return (

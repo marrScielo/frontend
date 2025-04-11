@@ -1,4 +1,4 @@
-import { BlogsWebSite, GetBlogsPreviewApi, GetCagetories } from "@/app/apiRoutes";
+/*import { BlogsWebSite, GetBlogsPreviewApi, GetCagetories } from "@/app/apiRoutes";
 import BlogPageComponent from "@/components/BlogPageComponent";
 
 export default async function BlogPage() {
@@ -15,3 +15,4 @@ export default async function BlogPage() {
     </div>
   );
 }
+*/

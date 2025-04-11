@@ -105,13 +105,13 @@ export const DatePaciente: React.FC<DatePacienteProps> = ({ pacienteId }) => {
   useEffect(() => {
     handleGetPaciente();
     handleGetAtenciones();
-  }, [pacienteId]);
+  });
 
   useEffect(() => {
     if (ultimaAtencion && !Array.isArray(ultimaAtencion)) {
       handleGetAtencion();
     }
-  }, [ultimaAtencion]);
+  });
 
   // Función para formatear fechas
   const formatFecha = (fechaString?: string) => {

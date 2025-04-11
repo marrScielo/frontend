@@ -50,11 +50,11 @@ export default function App() {
 
       if (Array.isArray(data.result)) {
         // Mapear los datos de la API a la estructura esperada
-        const formattedCitas = data.result.map((cita: any) => ({
-          codigo: cita.id_cita || cita.codigo,
-          paciente: cita.paciente_nombre || cita.paciente,
-          fecha_inicio: cita.fecha_hora || cita.fecha_inicio,
-          motivo: cita.motivo_consulta || cita.motivo,
+        const formattedCitas = data.result.map((cita: Citas) => ({
+          codigo: cita.codigo,
+          paciente: cita.paciente,
+          fecha_inicio: cita.fecha_inicio,
+          motivo:  cita.motivo,
           estado: cita.estado,
           duracion: cita.duracion,
           idCita: cita.idCita

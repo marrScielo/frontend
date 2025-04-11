@@ -1,4 +1,4 @@
-import { Authors, Categoria } from "@/interface";
+/*import { Authors, Categoria } from "@/interface";
 import { Avatar, Button } from "@heroui/react";
 
 export default function BlogAside({
@@ -60,4 +60,4 @@ export default function BlogAside({
       )}
     </div>
   );
-}
+}*/

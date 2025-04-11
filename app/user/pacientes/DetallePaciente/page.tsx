@@ -42,7 +42,7 @@ const PageHome = () => {
     if (idPaciente) {
       HandleGetPaciente(idPacienteNum);
     }
-  }, [idPaciente]);
+  });
 
   return (
     <div className="pb-4 bg-[#eaeded]">
