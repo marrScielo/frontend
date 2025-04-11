@@ -36,6 +36,7 @@ const artículo = [
   },
 ];
 
+
 export default function BlogComplete({ data }: { data: BlogPreviewData }) {
   return (
     <>
@@ -82,11 +83,11 @@ export default function BlogComplete({ data }: { data: BlogPreviewData }) {
 
       <div className="w-full">
         <img
-          className="pt-9 rounded-none"
+          className="pt-9 rounded-none mx-auto max-w-7xl "
           src={data?.imagen}
           alt="blogfondo"
           width="100%"
-          height="50%"
+          height="auto"
         />
       </div>
 

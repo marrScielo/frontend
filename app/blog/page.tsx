@@ -5,8 +5,9 @@ import {
   GetBlogsPreviewApi,
   GetCagetories,
 } from "@/app/apiRoutes";
-
 import BlogPageComponent from "@/components/BlogPageComponent";
+
+
 import LoadingPages from "@/components/LoadingPages";
 import {
   ApiResponse,
@@ -54,4 +55,3 @@ export default  function BlogPage() {
     </div>
   );
 }
-*/
