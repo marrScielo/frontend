@@ -130,7 +130,7 @@ export default function ReservarPsiPreview({
 
   return (
     <>
-      <Card className="w-full bg-background p-5 rounded-3xl border-[#9494F3] border-t-[0.5px]">
+      <Card className="w-full md:max-w-md bg-background p-5 rounded-3xl border-[#9494F3]">
         <div>
           <div className="w-full grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="col-span-1 flex sm:justify-start">
