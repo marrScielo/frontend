@@ -75,6 +75,7 @@ export default function App() {
       const cookies = parseCookies();
       const token = cookies["session"];
       const url = `${process.env.NEXT_PUBLIC_API_URL}api/citas/${idCita}`;
+
       const response = await fetch(url, {
         method: "GET",
         headers: {
@@ -86,6 +87,7 @@ export default function App() {
       const data = await response.json();
       if (response.ok) {
         setCita(data.result);
+
       }
     } catch (error) {
       console.error(error);
@@ -275,6 +277,7 @@ export default function App() {
             <div className="flex-1 items-center justify-items-center">
               <div>Codigo del Paciente *</div>
               <div className="relative">
+
                 <input
                   type="text"
                   readOnly
@@ -305,6 +308,7 @@ export default function App() {
                   value={cita?.paciente}
                   className="pl-12 pr-3 text-sm h-9 font-normal mt-2 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
                 />
+
                 <span
                   className="text-[#634AE2] transition-colors absolute right-3 top-1/2 transform -translate-y-1/2"
                   dangerouslySetInnerHTML={{

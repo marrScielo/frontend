@@ -69,7 +69,9 @@ import { ServicesStructureProps } from "@/interface"
   ],
   textfooter:
     "¡Es el momento de dar el primer paso hacia un hogar<br/>más unido y saludable!",
-}
+    textfootermobile:
+    "¡Es el momento de dar el primer <br/>paso hacia un hogar<br/>más unido y saludable!",
+  }
 
 ]
 

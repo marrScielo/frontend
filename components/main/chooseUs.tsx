@@ -86,7 +86,7 @@ export default function ChooseUs() {
     [
       Autoplay({
         stopOnInteraction: false,
-        delay: 4000,
+        delay: 2000,
       }),
       Fade({
         active: true, // Activa el efecto de desvanecimiento
@@ -127,56 +127,75 @@ export default function ChooseUs() {
         </p>
       </motion.div>
 
-      {/* Contenido para pantallas grandes */}
-      <div className="lg:block hidden">
-        <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-40 justify-items-center">
-          {features.slice(0, 4).map((feature, index) => (
-            <motion.div
-              key={index}
-              whileHover={{ scale: 1.05 }}
-              className="group"
-            >
-              <div className="flex flex-col items-center justify-center w-40 h-40 rounded-full bg-[#634AE2] backdrop-blur-sm transition-all duration-300 cursor-pointer ">
-                <div className="p-4 bg-[#634AE2] rounded-full group-hover:bg-[#9494F3] transition-colors duration-300">
-                  {feature.icon}
-                </div>
-              </div>
-              <h3 className="text-center text-lg w-40 font-semibold text-title mt-3">
-                {feature.title}
-              </h3>
-            </motion.div>
-          ))}
-
-          <div className="lg:col-span-4 flex justify-center gap-40">
-            {features.slice(4).map((feature, index) => (
-              <motion.div
-                key={index}
-                whileHover={{ scale: 1.05 }}
-                className="group"
-              >
-                <div className="flex flex-col items-center justify-center w-40 h-40 rounded-full bg-[#634AE2] backdrop-blur-sm transition-all duration-300 cursor-pointer shadow-lg space-y-4">
-                  <div className="p-4 bg-[#634AE2] rounded-full group-hover:bg-[#9494F3] transition-colors duration-300">
-                    {feature.icon}
-                  </div>
-                </div>
-                <h3 className="text-center text-lg w-full font-semibold text-title mt-3">
-                  {feature.title}
-                </h3>
-              </motion.div>
-            ))}
+      <div className="lg:block hidden w-full">
+        <div className="grid grid-cols-3">
+          {/* Columna 1: Imagen (ocupa solo 1 columna) */}
+          <div className="col-span-1 flex items-center justify-end">
+            <div
+              className="w-[600px] mask-fade-bottom h-[500px] bg-cover bg-center bg-no-repeat"
+              style={{
+                backgroundImage: `url(./psicologaFinale.webp)`,
+                backgroundSize: "cover",
+                
+              }}
+            />
           </div>
-        </motion.div>
-      </div>
 
+          {/* Columnas 2-3: Esferas (ocupan 2 columnas) */}
+          <div className="col-span-2">
+            <div className="flex flex-col gap-16">
+              {/* Primera fila - 3 esferas arriba */}
+              <div className="flex justify-around">
+                {features.slice(0, 3).map((feature, index) => (
+                  <motion.div
+                    key={index}
+                    whileHover={{ scale: 1.05 }}
+                    className="group"
+                  >
+                    <div className="flex flex-col items-center justify-center w-40 h-40 rounded-full bg-[#634AE2] backdrop-blur-sm transition-all duration-300 cursor-pointer">
+                      <div className="p-4 bg-[#634AE2] rounded-full group-hover:bg-[#9494F3] transition-colors duration-300">
+                        {feature.icon}
+                      </div>
+                    </div>
+                    <h3 className="text-center text-lg w-40 font-semibold text-title mt-3">
+                      {feature.title}
+                    </h3>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Segunda fila - 3 esferas abajo */}
+              <div className="flex justify-around">
+                {features.slice(3, 6).map((feature, index) => (
+                  <motion.div
+                    key={index}
+                    whileHover={{ scale: 1.05 }}
+                    className="group"
+                  >
+                    <div className="flex flex-col items-center justify-center w-40 h-40 rounded-full bg-[#634AE2] backdrop-blur-sm transition-all duration-300 cursor-pointer shadow-lg">
+                      <div className="p-4 bg-[#634AE2] rounded-full group-hover:bg-[#9494F3] transition-colors duration-300">
+                        {feature.icon}
+                      </div>
+                    </div>
+                    <h3 className="text-center text-lg w-40 font-semibold text-title mt-3">
+                      {feature.title}
+                    </h3>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       {/* Contenido para pantallas pequeñas */}
       <div className="block lg:hidden w-full">
         <div className="grid grid-cols-2 gap-1">
           <div className="col-span-1 flex items-center">
             <div
-              className="w-[345px] h-[405px] bg-cover bg-center bg-no-repeat"
+              className="w-[345px] h-[405px] -ml-5 bg-cover bg-center bg-no-repeat"
               style={{
-                backgroundImage: `url(/psicologa.webp)`,
-                backgroundSize: "auto", // Fija el tamaño de la imagen
+                backgroundImage: `url(/psicologaFinale.webp)`,
+                backgroundSize: "cover", // Fija el tamaño de la imagen
               }}
             />
           </div>

@@ -2,9 +2,17 @@
 import { PsicologoPreviewData } from "@/interface";
 import ReservarComponentSearch from "./ReservarComponentSearch";
 import ReservarPsiPreview from "./ReservarPsiPreview";
+import { useState } from "react";
 
+export default function ReservarComponents({ Psicologos }: { Psicologos: PsicologoPreviewData[] }) {
+  const [searchTerm, setSearchTerm] = useState('');
 
-export default function ReservarComponents( {Psicologos}:{Psicologos:PsicologoPreviewData[]} ) {
+ 
+  const filteredPsicologos = Psicologos.filter(psicologo => {
+    const fullName = `${psicologo.nombre} ${psicologo.apellido}`.toLowerCase();
+    return fullName.includes(searchTerm.toLowerCase());
+  });
+
   return (
     <div className="flex justify-center text-[#634AE2]">
       <div className="w-full max-w-7xl">
@@ -19,13 +27,15 @@ export default function ReservarComponents( {Psicologos}:{Psicologos:PsicologoPr
           <br className="block lg:hidden" /> línea, fácil, seguro y privado
         </h5>
         <div className="flex justify-center mt-8 px-4">
-          <div className="grid grid-cols-1 grid-rows-auto gap-4 sm:grid-cols-5 w-full ">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-5 w-full ">
             <div className="col-span-1 sm:row-span-5 sm:col-span-1 ">
-              <ReservarComponentSearch />
+              <ReservarComponentSearch 
+                onSearchChange={(term) => setSearchTerm(term)} 
+              />
             </div>
             <div className="sm:row-span-4 sm:col-span-4 ml-5 col-span-1 ">
               <div className="grid grid-cols-1 gap-5 sm:grid-cols-4">
-                {Psicologos.map((Item, index) => (
+                {filteredPsicologos.map((Item, index) => (
                   <div key={index} className="col-span-1 sm:col-span-2">
                     <ReservarPsiPreview psicologo={Item} />
                   </div>

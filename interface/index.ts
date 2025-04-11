@@ -56,6 +56,7 @@ export interface ServicesStructureProps {
     icon: string;
   }[];
   textfooter: string;
+  textfootermobile:string;
 }
 //Quienes Somos
 export interface QuienesSomos {
@@ -85,7 +86,7 @@ export interface FormData {
   name: string;
   apellido: string;
   fecha_nacimiento: DateValue | string;
-  edad: number;
+  titulo: string;
   genero: string;
   pais: string;
   email: string;
@@ -94,7 +95,7 @@ export interface FormData {
   imagen: string;
   experiencia: number;
   especialidades: number[];
-  horario: {
+  horario: { 
     [key: string]: string[][];
   };
 }
@@ -144,6 +145,9 @@ export interface BlogPreviewData {
   fecha: string,
 }
 
+export interface ApiResponseBLogAlone {
+  result: BlogPreviewData;
+}
 
 export interface ApiResponse {
 
@@ -153,14 +157,23 @@ export interface ApiResponse {
 //Psicologos Preview Data
 export interface PsicologoPreviewData {
   idPsicologo: number,
+  titulo:string,
   nombre: string,
   apellido: string,
   pais: string,
   introduccion: string,
   genero: string,
   experiencia: number,
+  correo: string,
+  contraseña: string,
+  fecha_nacimiento: string,
   especialidades: string[],
   imagen: string,
+
+  horario: {
+    [key: string]: [string, string][];
+  };
+
 }
 
 export interface PsicologoApiResponse {
@@ -171,14 +184,22 @@ export interface PsicologoApiResponse {
   result: PsicologoPreviewData[];
 }
 
+export interface PsicologoApiResponseAlone {
+  status_code: number;
+  status_message: string;
+  description: string;
+  errorBag: any[];
+  result: PsicologoPreviewData;
+}
+
 export interface UsuarioLocalStorage {
   id: number,
-
   nombre: string,
   apellido: string,
   email: string,
   rol: string,
   imagen: string,
+  idpsicologo?: number,
 }
 
 //Usuario LocalStorage
@@ -221,6 +242,40 @@ export interface NavItems {
   name: string;
   link: string;
   icono: string;
+}
+
+// Interface for horarios psicologos
+
+export interface Horarios {
+  [dia: string]: [string, string][];
+}
+
+export interface BotonHorarioProps {
+  hora: string;
+  ocupada: boolean;
+  onClick: () => void;
+}
+
+export interface CitasPendientes {
+  fecha: string;
+  hora: string;
+}
+
+export interface CitasPendientesApiResponse {
+  status_code: number;
+  status_message: string;
+  description: string;
+  errorBag: any[];
+  result: CitasPendientes[]; 
+}
+
+export interface PrePaciente {
+  nombre: string,
+  celular: string,
+  correo: string,
+  fecha_cita: string,
+  hora_cita: string,
+  idPsicologo: number,
 }
 
 export interface Paciente {
@@ -293,6 +348,7 @@ export interface City {
   name: string;
 }
 
+
 export interface Citas {
   idCita: string;
   idPaciente: string;
@@ -345,3 +401,13 @@ export interface Enfermedad {
 export interface DetallesAtencionProps {
   idAtencion: string;
 }
+
+export interface CustomizedLabelProps {
+  cx: number;
+  cy: number;
+  midAngle: number;
+  innerRadius: number;
+  outerRadius: number;
+  percent: number;
+}
+

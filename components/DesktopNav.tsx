@@ -84,12 +84,13 @@ export const DesktopNav: React.FC<DesktopNavProps> = ({ navItems }) => {
     { name: "Terapia para Adultos", link: "/servicios/terapia/adultos" },
     { name: "Terapia para Parejas", link: "/servicios/terapia/parejas" },
     { name: "Terapia Familiar", link: "/servicios/terapia/familia" },
+    { name: "Terapia Empresarial", link: "/servicios/terapia/empresarial" },
   ];
 
   return (
     <>
-      <div className="lg:hidden">
-        <MobileNav navItems={navItems}/>
+      <div className="lg:hidden ">
+        <MobileNav navItems={navItems}  />
       </div>
       <motion.div
         onMouseLeave={() => setHovered(null)}

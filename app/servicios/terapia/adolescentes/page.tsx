@@ -70,7 +70,9 @@ import { ServicesStructureProps } from "@/interface"
     ],
     textfooter:
       "Cada sesión es una oportunidad para que tu hijo explore,<br/>crezca y enfrente sus desafíos con seguridad y confianza.",
-  },
+      textfootermobile:
+      "Cada sesión es una oportunidad para que tu hijo explore,<br/>crezca y enfrente sus desafíos con seguridad y confianza.",
+    },
 
 
 ]
@@ -78,6 +80,7 @@ import { ServicesStructureProps } from "@/interface"
 export default function Home() {
 
 
-  return <ServicesStructure services={TeenTerapias} />
+  return <ServicesStructure services={TeenTerapias} 
+  />
 
   }

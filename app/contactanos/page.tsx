@@ -1,21 +1,23 @@
-import React from "react";
+import { Metadata } from "next";
 import FormContacto from "@/components/FormContacto";
 
+export const metadata: Metadata = {
+  title: "Contactanos - ContigoVoy",
+  description: "Contáctanos para recibir apoyo emocional y psicológico",
+};
 
 const ContactUs = () => {
   return (
     <div
-      className="min-h-screen w-full lg:bg-auto bg-no-repeat lg:bg-bottom  bg-bottom responsive-bg"
+      className="min-h-screen w-full lg:bg-auto bg-no-repeat lg:bg-bottom bg-bottom responsive-bg"
       style={{
         backgroundImage: `linear-gradient(#634AE27A, #634AE27A), url('/consulta-asesoría-psicológica-online.webp')`,
       }}
-      
     >
-      
       <div className="container mx-auto px-0 md:px-0 lg:px-0 py-20">
         <div className="grid lg:grid-row-2 gap-8 items-center">
           <div className="text-white space-y-6">
-            <h1 className="text-2xl  md:text-5xl lg:text-6xl xl:text-7xl ml-12  font-bold">
+            <h1 className="text-2xl md:text-5xl lg:text-6xl xl:text-7xl ml-12 font-bold">
               <p className="mb-4">¡La solución que buscas,</p>
               <p className="mb-12">empieza aquí!</p>
             </h1>

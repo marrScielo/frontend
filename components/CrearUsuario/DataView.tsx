@@ -1,4 +1,5 @@
 import { FormData } from "@/interface";
+import { convertImageToWebP, convertToBase64 } from "@/utils/convertir64";
 import {
   Button,
   Checkbox,
@@ -31,7 +32,7 @@ export const DataView = ({
       const token = cookies["session"];
 
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}api/psicologos/create`,
+        `${process.env.NEXT_PUBLIC_API_URL}api/psicologos`,
         {
           method: "POST",
           headers: {
@@ -119,61 +120,12 @@ export const DataView = ({
     setFormData({ ...formData, imagen: base64 });
   };
 
-  const convertImageToWebP = (file: File): Promise<Blob> => {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
-
-      img.onload = () => {
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx?.drawImage(img, 0, 0);
-
-        // Convertir la imagen a WebP
-        canvas.toBlob(
-          (blob) => {
-            if (blob) {
-              resolve(blob);
-            } else {
-              reject(new Error("Error al convertir la imagen a WebP"));
-            }
-          },
-          "image/webp",
-          0.8
-        );
-      };
-
-      img.onerror = () => {
-        reject(new Error("Error al cargar la imagen"));
-      };
-
-      img.src = URL.createObjectURL(file);
-    });
-  };
-
-  const convertToBase64 = (blob: Blob): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        if (typeof reader.result === "string") {
-          resolve(reader.result);
-        } else {
-          reject(new Error("Error al convertir a Base64"));
-        }
-      };
-      reader.onerror = () => {
-        reject(new Error("Error al leer el archivo"));
-      };
-      reader.readAsDataURL(blob);
-    });
-  };
 
   const [especialidad, setEspecialidad] = useState<number[]>([]);
   const [isInvalid, setIsInvalid] = useState(false);
 
   const handleEspecialidadesChange = (values: string[]) => {
-    // Convertir los valores seleccionados a números usando el mapeo
+
     const especialidadesNumeros = values.map(
       (value) => especialidadesMap[value]
     );
@@ -246,6 +198,7 @@ export const DataView = ({
             <Input
               label="Experiencia"
               isRequired
+              min={0}
               placeholder=" Experiencia en años"
               labelPlacement="outside"
               radius="full"
