@@ -399,6 +399,7 @@ export default function AllPsicologos({
                 isRequired
                 value={formData?.introduccion}
                 minLength={100}
+                name="introduccion"
                 maxLength={350}
                 classNames={{
                   base: "!text-[#634AE2]",
