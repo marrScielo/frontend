@@ -340,3 +340,7 @@ export interface Enfermedad {
   DSM5: string;
   CEA10: string;
 }
+
+export interface DetallesAtencionProps {
+  idAtencion: string;
+}

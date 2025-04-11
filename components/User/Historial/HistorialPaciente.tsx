@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Icons } from "@/icons";
-import DetallesPaciente from "./DetallesPaciente";
 import { DatePacienteProps, ListaCitas } from "@/interface";
 import { parseCookies } from "nookies";
+import { DetallesPaciente } from "./DetallesPaciente";
 
 const headerColumns = [
   { uid: 1, name: "#" },
@@ -18,6 +18,8 @@ export const HistorialPaciente: React.FC<DatePacienteProps> = ({
 }) => {
   const [showCart, setShowCart] = useState(false);
   const [atenciones, setAtenciones] = useState<ListaCitas[]>([]);
+  const [selectedAtencionId, setSelectedAtencionId] = useState<string | null>(null);
+
   // Traer todas las atenciones del paciente
   const handleGetAtenciones = async () => {
     try {
@@ -74,31 +76,31 @@ export const HistorialPaciente: React.FC<DatePacienteProps> = ({
 
         {/* Cuerpo de la tabla */}
         <tbody>
-          {atenciones.map((atenciones) => (
-            <tr key={atenciones.idAtencion} className="bg-[#E7E7FF]">
+          {atenciones.map((atencion) => (
+            <tr key={atencion.idAtencion} className="bg-[#E7E7FF]">
               <td className="font-normal text-lg text-center p-6 rounded-l-medium">
-                {atenciones.idAtencion}
+                {atencion.idAtencion}
               </td>
               <td className="font-normal text-lg text-center p-6">
-                {atenciones.nombre_completo}
+                {atencion.nombre_completo}
               </td>
               <td className="font-normal text-lg text-center p-6">
-                {atenciones.fecha}
+                {atencion.fecha}
               </td>
               <td className="font-normal text-lg text-center p-6">
-                {atenciones.diagnostico}
+                {atencion.diagnostico}
               </td>
               <td className="font-normal text-lg justify-items-center p-6">
                 <button
                   className="rounded-full border-2 border-[#634AE2] w-28 items-center justify-center flex space-x-1"
-                  onClick={() => setShowCart(true)}
+                  onClick={() => {
+                    setSelectedAtencionId(atencion.idAtencion);
+                    setShowCart(true);
+                  }}
                 >
                   <span
                     dangerouslySetInnerHTML={{
-                      __html: Icons.eye.replace(
-                        /<svg /,
-                        '<svg fill="#634AE2" '
-                      ),
+                      __html: Icons.eye.replace(/<svg /, '<svg fill="#634AE2" '),
                     }}
                     style={{
                       width: "1.2em",
@@ -123,7 +125,7 @@ export const HistorialPaciente: React.FC<DatePacienteProps> = ({
           ))}
         </tbody>
       </table>
-      {showCart && (
+      {showCart && selectedAtencionId && (
         <div
           className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-20"
           onClick={() => setShowCart(false)}
@@ -132,7 +134,7 @@ export const HistorialPaciente: React.FC<DatePacienteProps> = ({
             className="relative bg-white p-6 rounded-3xl z-10"
             onClick={(e) => e.stopPropagation()}
           >
-            <DetallesPaciente />
+            <DetallesPaciente idAtencion={selectedAtencionId} />
           </div>
         </div>
       )}

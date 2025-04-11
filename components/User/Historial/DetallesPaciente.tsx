@@ -1,25 +1,29 @@
+import { AtencionFormData, DatePacienteProps, DetallesAtencionProps, ListaCitas } from "@/interface";
 import React from "react";
-import { useDropzone } from 'react-dropzone';
+import { useDropzone } from "react-dropzone";
 
 function DropzoneWithoutKeyboard() {
-    const {getRootProps, getInputProps, acceptedFiles} = useDropzone({noKeyboard: true});
-    const files = acceptedFiles.map(file => <li key={file.path}>{file.path}</li>);
-  
-    return (
-      <section className="container border-1 border-[#634AE2] rounded-2xl">
-        <div {...getRootProps({className: 'dropzone'})}>
-          <input {...getInputProps()} />
-          <p className="text-[#634AE2] text-center text-9xl">+</p>
-        </div>
-        <aside>
-          <ul>{files}</ul>
-        </aside>
-      </section>
-    );
-  }
+  const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
+    noKeyboard: true,
+  });
+  const files = acceptedFiles.map((file) => (
+    <li key={file.path}>{file.path}</li>
+  ));
 
-export default function App() {
+  return (
+    <section className="container border-1 border-[#634AE2] rounded-2xl">
+      <div {...getRootProps({ className: "dropzone" })}>
+        <input {...getInputProps()} />
+        <p className="text-[#634AE2] text-center text-9xl">+</p>
+      </div>
+      <aside>
+        <ul>{files}</ul>
+      </aside>
+    </section>
+  );
+}
 
+export const DetallesPaciente: React.FC<DetallesAtencionProps> = ({ idAtencion }) => {
   return (
     <div className="max-w-[480px]">
       <div className="bg-[#fff] h-max text-[#634AE2] rounded-3xl">
@@ -62,4 +66,4 @@ export default function App() {
       </div>
     </div>
   );
-}
+};
