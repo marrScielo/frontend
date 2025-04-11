@@ -13,13 +13,7 @@ const pais = [
 ];
 const genero = [{ nombre: "Femenino" }, { nombre: "Masculino" }];
 const idioma = [{ nombre: "Español" }, { nombre: "Ingles" }];
-const Enfoque = [
-  { nombre: "Niños" },
-  { nombre: "Adolecentes" },
-  { nombre: "Familiar" },
-  { nombre: "Pareja" },
-  { nombre: "Adulto" },
-];
+
 
 interface ReservarComponentSearchProps {
   onSearchChange: (term: string) => void;
