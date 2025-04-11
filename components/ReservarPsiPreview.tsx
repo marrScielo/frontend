@@ -155,7 +155,7 @@ export default function ReservarPsiPreview({
 
             <div className="col-span-2 text-[#634AE2]">
               <CardDescription className="text-[#634AE2]">
-                Psicólogo
+                {psicologo.titulo}  
               </CardDescription>
               <CardTitle className="text-[#634AE2] text-xl sm:text-2xl">
                 {psicologo.nombre} <br />

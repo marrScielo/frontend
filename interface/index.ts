@@ -86,7 +86,7 @@ export interface FormData {
   name: string;
   apellido: string;
   fecha_nacimiento: DateValue | string;
-
+  titulo: string;
   genero: string;
   pais: string;
   email: string;
@@ -157,6 +157,7 @@ export interface ApiResponse {
 //Psicologos Preview Data
 export interface PsicologoPreviewData {
   idPsicologo: number,
+  titulo:string,
   nombre: string,
   apellido: string,
   pais: string,
