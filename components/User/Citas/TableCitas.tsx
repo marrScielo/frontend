@@ -19,36 +19,40 @@ interface TableProps {
   setSelectedKeys: (keys: Set<React.Key>) => void;
 }
 
-export const TableCitas: React.FC<TableProps> = ({ users, headerColumns, selectedKeys, setSelectedKeys }) => {
+export const TableCitas: React.FC<TableProps> = ({
+  users,
+  headerColumns,
+  selectedKeys,
+  setSelectedKeys,
+}) => {
   const [isClient, setIsClient] = useState(false);
 
-  // Verificar si el componente está en el cliente
   useEffect(() => {
     setIsClient(true);
   }, []);
 
-  // Lógica para seleccionar/deseleccionar todos los elementos
   const handleSelectAll = useCallback(() => {
     if (selectedKeys.size === users.length) {
       setSelectedKeys(new Set());
     } else {
-      const allKeys = new Set(users.map(user => user.id));
+      const allKeys = new Set(users.map((user) => user.id));
       setSelectedKeys(allKeys);
     }
   }, [selectedKeys, users, setSelectedKeys]);
 
-  // Lógica para seleccionar/deseleccionar un elemento individual
-  const handleSelectItem = useCallback((id: string) => {
-    const newSelectedKeys = new Set(selectedKeys);
-    if (newSelectedKeys.has(id)) {
-      newSelectedKeys.delete(id);
-    } else {
-      newSelectedKeys.add(id);
-    }
-    setSelectedKeys(newSelectedKeys);
-  }, [selectedKeys, setSelectedKeys]);
+  const handleSelectItem = useCallback(
+    (id: string) => {
+      const newSelectedKeys = new Set(selectedKeys);
+      if (newSelectedKeys.has(id)) {
+        newSelectedKeys.delete(id);
+      } else {
+        newSelectedKeys.add(id);
+      }
+      setSelectedKeys(newSelectedKeys);
+    },
+    [selectedKeys, setSelectedKeys]
+  );
 
-  // Renderizar el contenido de una celda
   const renderCell = useCallback(
     (user: User, columnKey: keyof User | "actions") => {
       if (columnKey === "actions") {
@@ -61,7 +65,7 @@ export const TableCitas: React.FC<TableProps> = ({ users, headerColumns, selecte
                   dangerouslySetInnerHTML={{ __html: Icons.edit }}
                   style={{ width: "1.2em", height: "1.2em" }}
                 />
-                <div className="absolute bottom-10 left-0 hidden group-hover:block bg-gray-700 text-white text-xs p-1 rounded">
+                <div className="absolute bottom-10 left-0 hidden group-hover:block bg-gray-700 text-white text-[10px] p-1 rounded z-20 ">
                   Editar paciente
                 </div>
               </div>
@@ -75,7 +79,7 @@ export const TableCitas: React.FC<TableProps> = ({ users, headerColumns, selecte
                   dangerouslySetInnerHTML={{ __html: Icons.delete }}
                   style={{ width: "1.2em", height: "1.2em" }}
                 />
-                <div className="absolute bottom-10 left-0 hidden group-hover:block bg-red-500 text-white text-xs p-1 rounded">
+                <div className="absolute bottom-10 left-0 hidden group-hover:block bg-red-500 text-white text-[10px] p-1 rounded z-20">
                   Eliminar paciente
                 </div>
               </div>
@@ -99,73 +103,73 @@ export const TableCitas: React.FC<TableProps> = ({ users, headerColumns, selecte
     []
   );
 
-  // Si no estamos en el cliente, no renderizar nada
   if (!isClient) {
     return null;
   }
 
   return (
-    <div className="overflow-x-auto max-h-[585px] p-5 w-full mx-auto">
-      <table className="w-full text-[#634AE2] border-separate border-spacing-y-2">
-        {/* Encabezado */}
-        <thead className="sticky top-0 bg-[#6364F4] text-[#fff]">
-          <tr>
-            {/* Primera celda con checkbox */}
-            <th className="p-4 text-center rounded-tl-full">
-              <input
-                type="checkbox"
-                className="w-4 h-4 rounded-full border-[#634AE2] bg-white focus:ring-0 checked:bg-[#634AE2] appearance-none"
-                checked={selectedKeys.size === users.length}
-                onChange={handleSelectAll}
-              />
-            </th>
-            {headerColumns.map((column, index) => (
-              <th
-                key={column.uid}
-                className={`p-4 text-lg font-normal text-center ${
-                  index === headerColumns.length - 1
-                }`}
-              >
-                {column.name}
-              </th>
-            ))}
-            <th className="p-4 text-center rounded-tr-full">
-              <div className="text-lg font-normal text-center">Más</div>	
-            </th>
-          </tr>
-        </thead>
-        {/* Cuerpo de la tabla */}
-        <tbody>
-          {users.map((item) => (
-            <tr key={item.id} className="border-y-4 bg-white hover:bg-gray-100">
-              {/* Primera celda con checkbox */}
-              <td className="p-4 text-center rounded-l-3xl">
+    <div className="overflow-x-auto p-5 w-full mx-auto">
+      <div className="relative h-[585px] overflow-y-auto">
+        <table className="w-full text-[#634AE2] border-separate border-spacing-y-2">
+          {/* Encabezado */}
+          <thead className="sticky top-0 bg-[#6364F4] text-[#fff] z-20 ">
+            <tr>
+              <th className="p-4 text-center rounded-tl-full">
                 <input
                   type="checkbox"
-                  className="w-4 h-4 rounded-full border-[#634AE2] border-3 bg-white focus:ring-0 checked:bg-[#634AE2] appearance-none"
-                  checked={selectedKeys.has(item.id)}
-                  onChange={() => handleSelectItem(item.id)}
+                  className="w-4 h-4 rounded-full border-[#634AE2] bg-white focus:ring-0 checked:bg-[#634AE2] appearance-none"
+                  checked={selectedKeys.size === users.length}
+                  onChange={handleSelectAll}
                 />
-              </td>
-
-              {/* Celdas de datos */}
+              </th>
               {headerColumns.map((column, index) => (
-                <td
+                <th
                   key={column.uid}
-                  className={`p-4 text-lg text-center ${
-                    index === headerColumns.length - 1 
+                  className={`p-4 text-lg font-normal text-center ${
+                    index === headerColumns.length - 1
                   }`}
                 >
-                  {renderCell(item, column.uid as keyof User)}
-                </td>
+                  {column.name}
+                </th>
               ))}
-              <td className="p-4 text-center rounded-r-3xl">
-                {renderCell(item, "actions")}
-              </td>
+              <th className="p-4 text-center rounded-tr-full">
+                <div className="text-lg font-normal text-center">Más</div>
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          
+          
+          
+          {/* Cuerpo de la tabla */}
+          <tbody>
+            {users.map((item) => (
+              <tr key={item.id} className="border-y-4 bg-white hover:bg-gray-100">
+                <td className="p-4 text-center rounded-l-3xl">
+                  <input
+                    type="checkbox"
+                    className="w-4 h-4 rounded-full border-[#634AE2] border-3 bg-white focus:ring-0 checked:bg-[#634AE2] appearance-none"
+                    checked={selectedKeys.has(item.id)}
+                    onChange={() => handleSelectItem(item.id)}
+                  />
+                </td>
+                {headerColumns.map((column, index) => (
+                  <td
+                    key={`${item.id}-${column.uid}`}
+                    className={`p-4 text-lg text-center ${
+                      index === headerColumns.length - 1
+                    }`}
+                  >
+                    {renderCell(item, column.uid as keyof User)}
+                  </td>
+                ))}
+                <td className="p-4 text-center rounded-r-3xl">
+                  {renderCell(item, "actions")}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
