@@ -21,7 +21,6 @@ export const TableCitas: React.FC<TableProps> = ({
   selectedKeys,
   setSelectedKeys,
   onCitaDeleted,
-
 }) => {
   const [isClient, setIsClient] = useState(false);
 
@@ -67,7 +66,6 @@ export const TableCitas: React.FC<TableProps> = ({
       setSelectedKeys(new Set());
     } else {
       const allKeys = new Set(users.map((user) => user.codigo));
-
       setSelectedKeys(allKeys);
     }
   }, [selectedKeys, users, setSelectedKeys]);
@@ -233,7 +231,7 @@ export const TableCitas: React.FC<TableProps> = ({
               </td>
 
               {headerColumns.map((column, index) => (
-                <th
+                <td
                   key={column.uid}
                   className={`p-4 text-lg text-center ${
                     index === headerColumns.length - 1 ? "" : ""
@@ -241,46 +239,14 @@ export const TableCitas: React.FC<TableProps> = ({
                 >
                   {renderCell(item, column.uid as keyof Citas)}
                 </td>
-
               ))}
-              <th className="p-4 text-center rounded-tr-full">
-                <div className="text-lg font-normal text-center">Más</div>
-              </th>
+              <td className="p-4 text-center rounded-r-3xl">
+                {renderCell(item, "actions")}
+              </td>
             </tr>
-          </thead>
-          
-          
-          
-          {/* Cuerpo de la tabla */}
-          <tbody>
-            {users.map((item) => (
-              <tr key={item.id} className="border-y-4 bg-white hover:bg-gray-100">
-                <td className="p-4 text-center rounded-l-3xl">
-                  <input
-                    type="checkbox"
-                    className="w-4 h-4 rounded-full border-[#634AE2] border-3 bg-white focus:ring-0 checked:bg-[#634AE2] appearance-none"
-                    checked={selectedKeys.has(item.id)}
-                    onChange={() => handleSelectItem(item.id)}
-                  />
-                </td>
-                {headerColumns.map((column, index) => (
-                  <td
-                    key={`${item.id}-${column.uid}`}
-                    className={`p-4 text-lg text-center ${
-                      index === headerColumns.length - 1
-                    }`}
-                  >
-                    {renderCell(item, column.uid as keyof User)}
-                  </td>
-                ))}
-                <td className="p-4 text-center rounded-r-3xl">
-                  {renderCell(item, "actions")}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
