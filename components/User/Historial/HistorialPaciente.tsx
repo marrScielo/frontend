@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Icons } from "@/icons";
 import DetallesPaciente from "./DetallesPaciente";
+import { DatePacienteProps } from "@/interface";
 
 const headerColumns = [
   { uid: 1, name: "#" },
@@ -42,7 +43,7 @@ const users = [
   },
 ];
 
-export default function HistorialPaciente() {
+export const HistorialPaciente: React.FC<DatePacienteProps> = ({ pacienteId }) => {
   const [showCart, setShowCart] = useState(false);
   return (
     <div className="relative overflow-auto rounded-lg pt-2 text-[#634AE2] bg-[#fff]">

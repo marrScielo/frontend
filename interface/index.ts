@@ -322,7 +322,15 @@ export interface AtencionFormData {
   DocumentosAdicionales: string;
   Comentario: string;
   descripcion: string;
-  idCita?: number; 
+  idCita?: number;
+}
+
+export interface ListaCitas{
+  hora_inicio: string;
+  nombre_completo: string;
+  diagnostico: string;
+  idCita: string;
+  idAtencion: string;
 }
 
 export interface Enfermedad {

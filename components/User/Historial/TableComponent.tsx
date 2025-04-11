@@ -106,7 +106,6 @@ export const TableComponent: React.FC<TableProps> = ({
           >
             <DatePaciente 
               pacienteId={selectedPacienteId} 
-              citaId={selectedCitaId} 
             />
           </div>
         </div>
