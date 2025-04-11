@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Icons } from "@/icons";
 import DetallesPaciente from "./DetallesPaciente";
-import { DatePacienteProps } from "@/interface";
+import { DatePacienteProps, ListaCitas } from "@/interface";
+import { parseCookies } from "nookies";
 
 const headerColumns = [
   { uid: 1, name: "#" },
@@ -12,39 +13,41 @@ const headerColumns = [
   { uid: 6, name: "Editar" },
 ];
 
-const users = [
-  {
-    numero: "1",
-    name: "Manuel Perez",
-    fecha: "2024-07-06",
-    hora: "13:30",
-    Diagnostico: "Ataque de Ansiedad",
-  },
-  {
-    numero: "2",
-    name: "Manuel Perez",
-    fecha: "2024-07-07",
-    hora: "14:00",
-    Diagnostico: "Migraña",
-  },
-  {
-    numero: "3",
-    name: "Manuel Perez",
-    fecha: "2024-07-08",
-    hora: "15:00",
-    Diagnostico: "Infección respiratoria",
-  },
-  {
-    numero: "4",
-    name: "Manuel Perez",
-    fecha: "2024-07-09",
-    hora: "15:00",
-    Diagnostico: "Infección respiratoria",
-  },
-];
-
-export const HistorialPaciente: React.FC<DatePacienteProps> = ({ pacienteId }) => {
+export const HistorialPaciente: React.FC<DatePacienteProps> = ({
+  pacienteId,
+}) => {
   const [showCart, setShowCart] = useState(false);
+  const [atenciones, setAtenciones] = useState<ListaCitas[]>([]);
+  // Traer todas las atenciones del paciente
+  const handleGetAtenciones = async () => {
+    try {
+      const cookies = parseCookies();
+      const token = cookies["session"];
+      const url = `${process.env.NEXT_PUBLIC_API_URL}api/atenciones/paciente/${pacienteId}`;
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.result) {
+        const atenciones = Array.isArray(data.result) ? data.result.flat() : [];
+        setAtenciones(atenciones);
+      }
+    } catch (error) {
+      console.error("Error al obtener atenciones:", error);
+    }
+  };
+
+  useEffect(() => {
+    handleGetAtenciones();
+  }, [pacienteId]);
+
   return (
     <div className="relative overflow-auto rounded-lg pt-2 text-[#634AE2] bg-[#fff]">
       <div className="text-3xl pb-3 font-bold">Historial de atención</div>
@@ -71,19 +74,19 @@ export const HistorialPaciente: React.FC<DatePacienteProps> = ({ pacienteId }) =
 
         {/* Cuerpo de la tabla */}
         <tbody>
-          {users.map((user) => (
-            <tr key={user.numero} className="bg-[#E7E7FF]">
+          {atenciones.map((atenciones) => (
+            <tr key={atenciones.idAtencion} className="bg-[#E7E7FF]">
               <td className="font-normal text-lg text-center p-6 rounded-l-medium">
-                {user.numero}
+                {atenciones.idAtencion}
               </td>
               <td className="font-normal text-lg text-center p-6">
-                {user.name}
+                {atenciones.nombre_completo}
               </td>
               <td className="font-normal text-lg text-center p-6">
-                {user.fecha}
+                {atenciones.fecha}
               </td>
               <td className="font-normal text-lg text-center p-6">
-                {user.Diagnostico}
+                {atenciones.diagnostico}
               </td>
               <td className="font-normal text-lg justify-items-center p-6">
                 <button
@@ -122,7 +125,7 @@ export const HistorialPaciente: React.FC<DatePacienteProps> = ({ pacienteId }) =
       </table>
       {showCart && (
         <div
-        className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-20"
+          className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-20"
           onClick={() => setShowCart(false)}
         >
           <div
@@ -135,4 +138,4 @@ export const HistorialPaciente: React.FC<DatePacienteProps> = ({ pacienteId }) =
       )}
     </div>
   );
-}
+};

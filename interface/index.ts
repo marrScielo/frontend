@@ -330,6 +330,7 @@ export interface ListaCitas{
   nombre_completo: string;
   diagnostico: string;
   idCita: string;
+  fecha: string;
   idAtencion: string;
 }
 
