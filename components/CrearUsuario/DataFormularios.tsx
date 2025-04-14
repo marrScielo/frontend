@@ -233,6 +233,25 @@ export const PersonalForm = ({
                 setFormData({ ...formData, password: e.target.value })
               }
             />
+            <Input
+              name="titulo"
+              isRequired
+              radius="full"
+              label="Título"
+              minLength={3}
+              labelPlacement="outside"
+              value={formData.titulo}
+              onChange={(e) =>
+                setFormData({ ...formData, titulo: e.target.value })
+              }
+              placeholder="ingrese su título"
+              classNames={{
+                label: "!text-[#634AE2]",
+                inputWrapper: "border-2 border-[#634AE2]",
+                input: "placeholder:!text-[#634AE2]",
+              }}
+            />
+            
           </div>
         </div>
         <div className="flex w-full justify-center">

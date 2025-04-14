@@ -198,6 +198,7 @@ export const DataView = ({
             <Input
               label="Experiencia"
               isRequired
+              min={0}
               placeholder=" Experiencia en años"
               labelPlacement="outside"
               radius="full"

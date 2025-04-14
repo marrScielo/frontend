@@ -23,7 +23,7 @@ export default function Footer() {
 
   return (
     <footer className="h-auto bg-[#634AE2] text-white ">
-      <div className="lg:max-w-7xl p-10 lg:ml-12">
+      <div className="lg:max-w-7xl p-10 mx-auto">
         {/* Contenido Principal */}
         <div className="flex flex-col md:flex-row justify-between items-start space-y-8 md:space-y-0">
           {/* Logo */}

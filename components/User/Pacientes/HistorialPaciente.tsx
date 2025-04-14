@@ -27,11 +27,9 @@ const HistorialPaciente: React.FC<DatosPacienteProps> = ({ idPaciente }) => {
         setPaciente(data.result);
         showToast("success", "Paciente obtenido correctamente");
       } else {
-        console.error("error al cargar");
         showToast("error", data.message || "Error al obtener el paciente");
       }
-    } catch  {
-      
+    } catch {
       showToast("error", "Error de conexión. Intenta nuevamente.");
     }
   };
@@ -117,7 +115,7 @@ const HistorialPaciente: React.FC<DatosPacienteProps> = ({ idPaciente }) => {
             className="relative bg-white p-6 rounded-3xl z-10"
             onClick={(e) => e.stopPropagation()}
           >
-            <DetallesPaciente />
+            <DetallesPaciente idAtencion={"1"} />
           </div>
         </div>
       )}

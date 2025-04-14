@@ -122,25 +122,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               </DropdownMenu>
             </Dropdown>
 
-            {/* Grupo de icono de agregar y botón */}
-            <div className="ml-auto flex items-center gap-4 mr-12">
-              {/* Icono de agregar */}
-              <span
-                className="text-[#634AE2] transition-colors"
-                dangerouslySetInnerHTML={{
-                  __html: Icons.plus.replace(/<svg /, '<svg fill="#634AE2"'),
-                }}
-                style={{
-                  background: "#fff",
-                  borderRadius: "9999px",
-                  borderColor: "#634AE2",
-                }}
-              />
-              {/* Botón de agregar nueva cita */}
-              <button className="text-[#fff] font-light text-xl border-1 rounded-full px-4">
-                Agregar nueva cita
-              </button>
-            </div>
           </div>
         </div>
       </div>

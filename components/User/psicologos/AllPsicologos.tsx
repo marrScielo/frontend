@@ -7,7 +7,10 @@ import {
 import showToast from "@/components/ToastStyle";
 import { PsicologoPreviewData } from "@/interface";
 import { convertImageToWebP, convertToBase64 } from "@/utils/convertir64";
+import { Flags } from "@/utils/flagsPsicologos";
 import {
+  Autocomplete,
+  AutocompleteItem,
   Button,
   Checkbox,
   CheckboxGroup,
@@ -47,7 +50,9 @@ export default function AllPsicologos({
   };
 
   const handleChanges = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => (prev ? { ...prev, [name]: value } : null));
@@ -211,6 +216,7 @@ export default function AllPsicologos({
                   labelPlacement="outside"
                   radius="full"
                   classNames={{
+                    base: "!text-[#634AE2]",
                     label: "!text-[#634AE2]",
                     inputWrapper: "border-2 border-[#634AE2]",
                     input: "placeholder:!text-[#634AE2] w-full",
@@ -228,6 +234,7 @@ export default function AllPsicologos({
                   labelPlacement="outside"
                   radius="full"
                   classNames={{
+                    base: "!text-[#634AE2]",
                     label: "!text-[#634AE2]",
                     inputWrapper: "border-2 border-[#634AE2]",
                     input: "placeholder:!text-[#634AE2] w-full",
@@ -245,13 +252,14 @@ export default function AllPsicologos({
                   labelPlacement="outside"
                   radius="full"
                   classNames={{
+                    base: "!text-[#634AE2]",
                     label: "!text-[#634AE2]",
                     inputWrapper: "border-2 border-[#634AE2]",
                     input: "placeholder:!text-[#634AE2] w-full",
                   }}
                   placeholder="Ingrese su fecha de nacimiento"
                   type="text"
-                  isRequired
+                  readOnly
                   value={formData?.fecha_nacimiento}
                   variant="faded"
                   name="fecha_nacimiento"
@@ -259,25 +267,15 @@ export default function AllPsicologos({
               </Form>
 
               <Form validationBehavior="native" className="space-y-6">
-                <Input
-                  label="País"
-                  labelPlacement="outside"
-                  radius="full"
-                  classNames={{
-                    label: "!text-[#634AE2]",
-                    inputWrapper: "border-2 border-[#634AE2]",
-                    input: "placeholder:!text-[#634AE2] w-full",
-                  }}
-                  placeholder="Ingrese su país"
-                  isReadOnly
-                  value={formData?.pais}
-                  variant="faded"
-                />
+             
+               
+
                 <Input
                   label="Correo"
                   labelPlacement="outside"
                   radius="full"
                   classNames={{
+                    base: "!text-[#634AE2]",
                     label: "!text-[#634AE2]",
                     inputWrapper: "border-2 border-[#634AE2]",
                     input: "placeholder:!text-[#634AE2] w-full",
@@ -294,6 +292,7 @@ export default function AllPsicologos({
                   labelPlacement="outside"
                   radius="full"
                   classNames={{
+                    base: "!text-[#634AE2]",
                     label: "!text-[#634AE2]",
                     inputWrapper: "border-2 border-[#634AE2]",
                     input: "placeholder:!text-[#634AE2] w-full",
@@ -313,6 +312,7 @@ export default function AllPsicologos({
                   variant="faded"
                   selectedKeys={formData?.genero ? [formData.genero] : []}
                   classNames={{
+                    base: "!text-[#634AE2]",
                     label: "!text-[#634AE2]",
                     trigger: "border-2 border-[#634AE2]",
                     value: "!text-[#634AE2]",
@@ -341,6 +341,56 @@ export default function AllPsicologos({
                     Otros
                   </SelectItem>
                 </Select>
+          
+                <Input
+                  label="Título"
+                  labelPlacement="outside"
+                  radius="full"
+                  classNames={{
+                    base: "!text-[#634AE2]",
+                    label: "!text-[#634AE2]",
+                    inputWrapper: "border-2 border-[#634AE2]",
+                    input: "placeholder:!text-[#634AE2] w-full",
+                  }}
+                  placeholder="Ingrese su título"
+                  isRequired
+                  value={formData?.titulo}
+                  variant="faded"
+                  onChange={handleChanges}
+                  name="titulo"
+                />
+                 <Autocomplete
+                  label="País"
+                  labelPlacement="outside"
+                  aria-label="País"
+                  defaultSelectedKey={formData?.pais}
+                  onSelectionChange={(key) =>
+                    setFormData((prev) =>
+                      prev ? { ...prev, pais: key as string } : null
+                    )
+                  }
+                  classNames={{
+                    
+                    base: "!mt-0.5 text-[#634AE2]  ",
+                  }}
+                  placeholder="Ingrese su país"
+                  isRequired
+                  radius="full"
+                  variant="faded"
+                >
+                  {Flags.map((item) => (
+                    <AutocompleteItem
+                      key={item.value}
+                      textValue={item.value}
+                      classNames={{
+                        base: "!text-[#634AE2]",
+                        
+                      }}
+                    >
+                      {item.label}
+                    </AutocompleteItem>
+                  ))}
+                </Autocomplete>
               </Form>
             </div>
 
@@ -349,8 +399,10 @@ export default function AllPsicologos({
                 isRequired
                 value={formData?.introduccion}
                 minLength={100}
+                name="introduccion"
                 maxLength={350}
                 classNames={{
+                  base: "!text-[#634AE2]",
                   label: "!text-[#634AE2] font-bold text-base",
                   inputWrapper:
                     "border-2 border-[#634AE2] bg-white w-full h-full",
@@ -359,14 +411,7 @@ export default function AllPsicologos({
                 variant="faded"
                 label="Introducción"
                 labelPlacement="outside"
-                description={`${
-                  formData?.introduccion?.length || 0
-                }/350 caracteres (mínimo 100)`}
-                onChange={(e) =>
-                  setFormData((prev) =>
-                    prev ? { ...prev, introduccion: e.target.value } : null
-                  )
-                }
+                onChange={handleChanges}
               />
             </div>
 

@@ -56,6 +56,7 @@ export interface ServicesStructureProps {
     icon: string;
   }[];
   textfooter: string;
+  textfootermobile:string;
 }
 //Quienes Somos
 export interface QuienesSomos {
@@ -85,7 +86,7 @@ export interface FormData {
   name: string;
   apellido: string;
   fecha_nacimiento: DateValue | string;
-
+  titulo: string;
   genero: string;
   pais: string;
   email: string;
@@ -156,6 +157,7 @@ export interface ApiResponse {
 //Psicologos Preview Data
 export interface PsicologoPreviewData {
   idPsicologo: number,
+  titulo:string,
   nombre: string,
   apellido: string,
   pais: string,
@@ -279,6 +281,7 @@ export interface PrePaciente {
 export interface Paciente {
   idPaciente: number,
   DNI: string,
+  codigo: string,
   nombre: string,
   apellido:string,
   correo: string,
@@ -291,6 +294,7 @@ export interface Paciente {
   direccion: string,
   idPsicologo: number
 }
+
 export interface Paciente2 {
   idPaciente: number,
   DNI: string,
@@ -343,6 +347,61 @@ export interface City {
   id: number;
   name: string;
 }
+
+
+export interface Citas {
+  idCita: string;
+  idPaciente: string;
+  idPsicologo: string;
+  paciente: string;
+  codigo: string;
+  fecha_inicio: string;
+  estado: string;
+  age: string;
+  motivo: string;
+  duracion: string;
+}
+
+export interface DatePacienteProps {
+  pacienteId: string | null;
+  citaId?: string | null;
+}
+
+export interface AtencionFormData {
+  MotivoConsulta: string;
+  FormaContacto: string;
+  Diagnostico: string;
+  Tratamiento: string;
+  Observacion: string;
+  idEnfermedad: string;
+  UltimosObjetivos: string;
+  FechaAtencion: string;
+  DocumentosAdicionales: string;
+  Comentario: string;
+  descripcion: string;
+  idCita?: number;
+}
+
+export interface ListaCitas{
+  hora_inicio: string;
+  nombre_completo: string;
+  diagnostico: string;
+  idCita: string;
+  fecha: string;
+  idAtencion: string;
+}
+
+export interface Enfermedad {
+  idEnfermedad: number;
+  nombreEnfermedad: string;
+  DSM5: string;
+  CEA10: string;
+}
+
+export interface DetallesAtencionProps {
+  idAtencion: string;
+}
+
 export interface CustomizedLabelProps {
   cx: number;
   cy: number;
@@ -351,3 +410,4 @@ export interface CustomizedLabelProps {
   outerRadius: number;
   percent: number;
 }
+

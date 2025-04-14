@@ -1,182 +1,19 @@
 "use client";
-import React, { useState, useMemo, useCallback } from "react";
-
-
+import React, { useState, useMemo, useCallback, useEffect } from "react";
 import { Navbar } from "@/components/User/Citas/NavbarCitas";
 import { TableCitas } from "@/components/User/Citas/TableCitas";
 import CerrarSesion from "@/components/CerrarSesion";
-
-const users = [
-  {
-    id: "PA001",
-    name: "Tony Reichert",
-    fecha: "2024-07-06 13:30",
-    status: "Confirmado",
-    age: "29",
-    motivo: "Ataque de ansiedad",
-  },
-  {
-    id: "PA002",
-    name: "Zoey Lang",
-    fecha: "2024-07-06 13:30",
-    status: "SinConfirmar",
-    age: "25",
-    motivo: "Ataque de ansiedad",
-  },
-  {
-    id: "PA003",
-    name: "Jane Fisher",
-    fecha: "2024-07-06 13:30",
-    status: "Confirmado",
-    age: "22",
-    motivo: "Ataque de ansiedad",
-  },
-  {
-    id: "PA004",
-    name: "William Howard",
-    fecha: "2024-07-06 13:30",
-    status: "SinConfirmar",
-    age: "28",
-    motivo: "Ataque de ansiedad",
-  },
-  {
-    id: "PA005",
-    name: "Kristen Copper",
-    fecha: "2024-07-06 13:30",
-    status: "Confirmado",
-    age: "24",
-    motivo: "Ataque de ansiedad",
-  },
-  {
-    id: "PA006",
-    name: "John Doe",
-    fecha: "2024-07-06 14:00",
-    status: "SinConfirmar",
-    age: "30",
-    motivo: "Estrés laboral",
-  },
-  {
-    id: "PA007",
-    name: "Maria Lopez",
-    fecha: "2024-07-06 14:30",
-    status: "Confirmado",
-    age: "27",
-    motivo: "Crisis emocional",
-  },
-  {
-    id: "PA008",
-    name: "Carlos Perez",
-    fecha: "2024-07-06 15:00",
-    status: "SinConfirmar",
-    age: "32",
-    motivo: "Ataque de ansiedad",
-  },
-  {
-    id: "PA009",
-    name: "Sofia Martinez",
-    fecha: "2024-07-06 15:30",
-    status: "Confirmado",
-    age: "25",
-    motivo: "Estrés emocional",
-  },
-  {
-    id: "PA010",
-    name: "Lucas Silva",
-    fecha: "2024-07-06 16:00",
-    status: "SinConfirmar",
-    age: "29",
-    motivo: "Ataque de pánico",
-  },
-  {
-    id: "PA011",
-    name: "Ana Gonzalez",
-    fecha: "2024-07-06 16:30",
-    status: "Confirmado",
-    age: "26",
-    motivo: "Ansiedad generalizada",
-  },
-  {
-    id: "PA012",
-    name: "Diego Fernandez",
-    fecha: "2024-07-06 17:00",
-    status: "SinConfirmar",
-    age: "33",
-    motivo: "Crisis nerviosa",
-  },
-  {
-    id: "PA013",
-    name: "Laura Vega",
-    fecha: "2024-07-06 17:30",
-    status: "Confirmado",
-    age: "24",
-    motivo: "Estrés por trabajo",
-  },
-  {
-    id: "PA014",
-    name: "Tomás Reyes",
-    fecha: "2024-07-06 18:00",
-    status: "SinConfirmar",
-    age: "31",
-    motivo: "Ataque de ansiedad",
-  },
-  {
-    id: "PA015",
-    name: "Mariana Castillo",
-    fecha: "2024-07-06 18:30",
-    status: "Confirmado",
-    age: "28",
-    motivo: "Crisis emocional",
-  },
-  {
-    id: "PA016",
-    name: "Diego Fernandez",
-    fecha: "2024-07-06 17:00",
-    status: "SinConfirmar",
-    age: "33",
-    motivo: "Crisis nerviosa",
-  },
-  {
-    id: "PA017",
-    name: "Laura Vega",
-    fecha: "2024-07-06 17:30",
-    status: "Confirmado",
-    age: "24",
-    motivo: "Estrés por trabajo",
-  },
-  {
-    id: "PA018",
-    name: "Tomás Reyes",
-    fecha: "2024-07-06 18:00",
-    status: "SinConfirmar",
-    age: "31",
-    motivo: "Ataque de ansiedad",
-  },
-  {
-    id: "PA019",
-    name: "Mariana Castillo",
-    fecha: "2024-07-06 18:30",
-    status: "Confirmado",
-    age: "28",
-    motivo: "Crisis emocional",
-  },
-];
-
-const columns = [
-  { name: "Paciente", uid: "name", sortable: true },
-  { name: "Código", uid: "id", sortable: true },
-  { name: "Motivo", uid: "motivo", sortable: true },
-  { name: "Estado", uid: "status", sortable: true },
-  { name: "Fecha de Inicio", uid: "fecha", sortable: true },
-  { name: "Duración", uid: "age", sortable: true },
-];
+import { Citas } from "@/interface";
+import { parseCookies } from "nookies";
+import showToast from "@/components/ToastStyle";
 
 const INITIAL_VISIBLE_COLUMNS = [
-  "id",
-  "name",
-  "fecha",
+  "codigo",
+  "paciente",
+  "fecha_inicio",
   "motivo",
-  "status",
-  "age",
+  "estado",
+  "duracion",
 ];
 
 export default function App() {
@@ -185,21 +22,86 @@ export default function App() {
   const [visibleColumns, setVisibleColumns] = useState<Set<string>>(
     new Set(INITIAL_VISIBLE_COLUMNS)
   );
+  const [citas, setCitas] = useState<Citas[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleGetCitas = async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      const cookies = parseCookies();
+      const token = cookies["session"];
+      const url = `${process.env.NEXT_PUBLIC_API_URL}api/citas`;
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+
+      const data = await response.json();
+
+      if (Array.isArray(data.result)) {
+        // Mapear los datos de la API a la estructura esperada
+        const formattedCitas = data.result.map((cita: Citas) => ({
+          codigo: cita.codigo,
+          paciente: cita.paciente,
+          fecha_inicio: cita.fecha_inicio,
+          motivo:  cita.motivo,
+          estado: cita.estado,
+          duracion: cita.duracion,
+          idCita: cita.idCita
+        }));
+        setCitas(formattedCitas);
+        showToast("success", "Citas obtenidas correctamente");
+      } else {
+        throw new Error("Formato de respuesta inválido");
+      }
+    } catch (error) {
+      console.error(error);
+      setError("Error al obtener las citas");
+      showToast("error", "Error al obtener las citas");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const columns = [
+    { name: "Paciente", uid: "paciente", sortable: true },
+    { name: "Código", uid: "codigo", sortable: true },
+    { name: "Motivo", uid: "motivo", sortable: true },
+    { name: "Estado", uid: "estado", sortable: true },
+    { name: "Fecha de Inicio", uid: "fecha_inicio", sortable: true },
+    { name: "Duración", uid: "duracion", sortable: true },
+  ];
+
+  useEffect(() => {
+    handleGetCitas();
+  }, []);
+
   const [sortDescriptor] = useState({
-    column: "fecha",
+    column: "fecha_inicio",
     direction: "ascending",
   });
+
   const hasSearchFilter = Boolean(filterValue);
 
   const filteredItems = useMemo(() => {
-    let filteredUsers = [...users];
+    let filteredCitas = [...citas];
     if (hasSearchFilter) {
-      filteredUsers = filteredUsers.filter((user) =>
-        user.name.toLowerCase().includes(filterValue.toLowerCase())
+      filteredCitas = filteredCitas.filter((cita) =>
+        cita.paciente.toLowerCase().includes(filterValue.toLowerCase())
       );
     }
-    return filteredUsers;
-  }, [users, filterValue, hasSearchFilter]);
+    return filteredCitas;
+  }, [citas, filterValue, hasSearchFilter]);
 
   const sortedItems = useMemo(() => {
     return [...filteredItems].sort((a, b) => {
@@ -214,7 +116,7 @@ export default function App() {
     return columns.filter((column) =>
       Array.from(visibleColumns).includes(column.uid)
     );
-  },  [visibleColumns, columns]);
+  }, [visibleColumns, columns]);
 
   const onSearchChange = useCallback((value?: string) => {
     if (value) {
@@ -257,13 +159,28 @@ export default function App() {
           setVisibleColumns={setVisibleColumns}
           columns={columns}
         />
-        {/* Tabla */}
-        <TableCitas
-          users={sortedItems}
-          headerColumns={headerColumns}
-          selectedKeys={selectedKeys}
-          setSelectedKeys={setSelectedKeys}
-        />
+
+        {/* Contenido */}
+        {isLoading ? (
+          <div className="flex justify-center items-center h-64">
+            <div className="text-lg font-medium">Cargando citas...</div>
+          </div>
+        ) : error ? (
+          <div className="flex justify-center items-center h-64">
+            <div className="text-lg font-medium text-red-500">{error}</div>
+          </div>
+        ) : (
+          /* Tabla */
+          <TableCitas
+            users={sortedItems}  // Envía los datos ordenados y filtrados
+            headerColumns={headerColumns}
+            selectedKeys={selectedKeys}
+            setSelectedKeys={setSelectedKeys}
+            onCitaDeleted={(idCita) => {
+              setCitas(prevCitas => prevCitas.filter(cita => Number(cita.idCita) !== Number(idCita)));
+            }}
+          />
+        )}
       </div>
     </div>
   );

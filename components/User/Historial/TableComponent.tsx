@@ -1,29 +1,23 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import DatePaciente from "./DatePaciente";
-
-interface User {
-  id: string;
-  name: string;
-  fecha: string;
-  status: string;
-  age: string;
-  motivo: string;
-}
+import { Citas } from "@/interface";
+import { DatePaciente } from "./DatePaciente";
 
 interface TableProps {
-  users: User[];
+  citas: Citas[];
   headerColumns: { name: string; uid: string; sortable?: boolean }[];
-  renderCell: (user: User, columnKey: React.Key) => React.ReactNode;
+  renderCell: (cita: Citas, columnKey: React.Key) => React.ReactNode;
 }
 
 export const TableComponent: React.FC<TableProps> = ({
-  users,
+  citas,
   headerColumns,
   renderCell,
 }) => {
   const [isClient, setIsClient] = useState(false);
   const [showCart, setShowCart] = useState(false);
+  const [selectedPacienteId, setSelectedPacienteId] = useState<string | null>(null);
+  const [, setSelectedCitaId] = useState<string | null>(null);
 
   useEffect(() => {
     setIsClient(true);
@@ -36,7 +30,6 @@ export const TableComponent: React.FC<TableProps> = ({
   return (
     <div className="relative max-h-[585px] overflow-auto rounded-lg pt-6 pl-8 pr-8 text-[#634AE2]">
       <table className="w-8/12 border-separate border-spacing-y-3">
-        {/* Encabezado de la tabla */}
         <thead className="sticky top-0 bg-[#6364F4] overflow-hidden">
           <tr>
             {headerColumns.map((column, index) => (
@@ -55,11 +48,10 @@ export const TableComponent: React.FC<TableProps> = ({
             ))}
           </tr>
         </thead>
-        {/* Cuerpo de la tabla */}
         <tbody>
-          {users.length > 0 ? (
-            users.map((item) => (
-              <tr key={item.id} className="bg-[#fff] pt-8">
+          {citas.length > 0 ? (
+            citas.map((cita) => (
+              <tr key={cita.idCita} className="bg-[#fff] pt-8">
                 {headerColumns.map((column, index) => (
                   <td
                     key={column.uid}
@@ -69,13 +61,24 @@ export const TableComponent: React.FC<TableProps> = ({
                       index === headerColumns.length - 1 ? "rounded-r-3xl" : ""
                     }`}
                   >
-                    {renderCell(item, column.uid)}
+                    {renderCell(cita, column.uid)}
                   </td>
                 ))}
                 <td className="text-center bg-[#eaeded]">
                   <button
-                    className="ml-2 text-[#fff] bg-[#634AE2] h-10 w-32 rounded-full font-normal text-x1"
-                    onClick={() => setShowCart(true)}
+                    className={`ml-2 h-10 w-32 rounded-full font-normal text-x1 ${
+                      !cita.idPaciente
+                        ? "bg-gray-400 cursor-not-allowed"
+                        : "bg-[#634AE2] text-[#fff] hover:bg-[#5340D2]"
+                    }`}
+                    onClick={() => {
+                      if (cita.idPaciente) {
+                        setSelectedPacienteId(cita.idPaciente);
+                        setSelectedCitaId(cita.idCita);
+                        setShowCart(true);
+                      }
+                    }}
+                    disabled={!cita.idPaciente}
                   >
                     Ver más
                   </button>
@@ -85,15 +88,14 @@ export const TableComponent: React.FC<TableProps> = ({
           ) : (
             <tr>
               <td colSpan={headerColumns.length} className="text-center p-4">
-                No users found
+                No se encontraron citas
               </td>
             </tr>
           )}
         </tbody>
       </table>
 
-      {/* Modal de Detalles del Paciente */}
-      {showCart && (
+      {showCart && selectedPacienteId && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 flex justify-end pt-24 z-10 pr-28"
           onClick={() => setShowCart(false)}
@@ -102,7 +104,9 @@ export const TableComponent: React.FC<TableProps> = ({
             className="relative bg-white p-6 rounded-3xl z-10"
             onClick={(e) => e.stopPropagation()}
           >
-            <DatePaciente />
+            <DatePaciente 
+              pacienteId={selectedPacienteId} 
+            />
           </div>
         </div>
       )}
