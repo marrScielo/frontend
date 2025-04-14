@@ -386,7 +386,7 @@ export default function ReservarPsiPreview({
               className="w-32 h-32 mx-auto mb-4"
             />
             <h2 className="text-2xl font-semibold mb-4">¡LISTO! Tu cita ha sido reservada</h2>
-            <p className="mb-6">En unots minutos te enviaremos un correo de confirmación.</p>
+            <p className="mb-6">En unos minutos te enviaremos un correo de confirmación.</p>
             <div className="flex justify-center mb-4">
             </div>
             <Button
