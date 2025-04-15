@@ -142,7 +142,7 @@ export default function App() {
 
   useEffect(() => {
     handleGetCitas();
-  }, []);
+  },  [handleGetCitas]);
 
   return (
     <div className="p-4">
