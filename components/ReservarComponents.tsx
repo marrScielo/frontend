@@ -17,8 +17,8 @@ export default function ReservarComponents({
   });
 
   return (
-    <div className="w-full md:max-w-7xl mx-auto " >
-      <div className="  text-[#634AE2] mx-auto  py-5 md:py-10">
+    <div className="w-full md:max-w-7xl mx-auto pb-10 " >
+      <div className="  text-[#634AE2] mx-auto  pb-5 md:pb-10">
         <h1 className="pt-10 lg:text-3xl font-bold text-center md:text-start text-2xl">
           La mejor inversión es en
           <br className="block sm:hidden" /> ti mismo

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Icons } from "@/icons";
 import { DatePacienteProps, ListaCitas } from "@/interface";
 import { parseCookies } from "nookies";
@@ -21,7 +21,7 @@ export const HistorialPaciente: React.FC<DatePacienteProps> = ({
   const [selectedAtencionId, setSelectedAtencionId] = useState<string | null>(null);
 
   // Traer todas las atenciones del paciente
-  const handleGetAtenciones = async () => {
+  const handleGetAtenciones = useCallback(async () => {
     try {
       const cookies = parseCookies();
       const token = cookies["session"];
@@ -34,21 +34,28 @@ export const HistorialPaciente: React.FC<DatePacienteProps> = ({
           Authorization: `Bearer ${token}`,
         },
       });
-
-      const data = await response.json();
-
-      if (response.ok && data.result) {
-        const atenciones = Array.isArray(data.result) ? data.result.flat() : [];
-        setAtenciones(atenciones);
+  
+      if (!response.ok) {
+        throw new Error(`Error HTTP: ${response.status}`);
       }
+  
+      const data = await response.json();
+  
+      if (!data.result) {
+        throw new Error("Formato de respuesta inválido");
+      }
+  
+      const atenciones = Array.isArray(data.result) ? data.result.flat() : [];
+      setAtenciones(atenciones);
+      
     } catch (error) {
       console.error("Error al obtener atenciones:", error);
     }
-  };
-
+  }, [pacienteId]); 
+  
   useEffect(() => {
     handleGetAtenciones();
-  });
+  }, [handleGetAtenciones]); 
 
   return (
     <div className="relative overflow-auto rounded-lg pt-2 text-[#634AE2] bg-[#fff]">

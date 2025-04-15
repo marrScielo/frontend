@@ -1,6 +1,6 @@
 import { AtencionFormData, DetallesAtencionProps } from "@/interface";
 import { parseCookies } from "nookies";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 
 function DropzoneWithoutKeyboard() {
@@ -30,32 +30,46 @@ export const DetallesPaciente: React.FC<DetallesAtencionProps> = ({
   const [atencionPaciente, setAtencionPaciente] =
     useState<AtencionFormData | null>(null);
 
-  const handleGetAtencion = async () => {
-    try {
-      const cookies = parseCookies();
-      const token = cookies["session"];
-      const url = `${process.env.NEXT_PUBLIC_API_URL}api/atenciones/${idAtencion}`;
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = await response.json();
-      if (response.ok && data.result) {
-        setAtencionPaciente(data.result[0]);
-      }
-    } catch (error) {
-      console.error("Error al obtener atención específica:", error);
-    }
-  };
-
-  useEffect(() => {
-    handleGetAtencion();
-  });
-
+    const handleGetAtencion = useCallback(async () => {
+      try {
+        
+        if (!idAtencion) {
+          throw new Error("No se proporcionó un ID de atención");
+        }
+  
+        const cookies = parseCookies();
+        const token = cookies["session"];
+        const url = `${process.env.NEXT_PUBLIC_API_URL}api/atenciones/${idAtencion}`;
+        
+        const response = await fetch(url, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+  
+        if (!response.ok) {
+          throw new Error(response.statusText);
+        }
+  
+        const data = await response.json();
+        
+        if (data.result && data.result[0]) {
+          setAtencionPaciente(data.result[0]);
+        } else {
+          throw new Error("No se encontraron datos de atención");
+        }
+      } catch (error) {
+        console.error("Error al obtener atención:", error);
+      } 
+    }, [idAtencion]);
+  
+    useEffect(() => {
+      handleGetAtencion();
+    }, [handleGetAtencion]);
+  
   return (
     <div className="max-w-[480px]">
       <div className="bg-[#fff] h-max text-[#634AE2] rounded-3xl">

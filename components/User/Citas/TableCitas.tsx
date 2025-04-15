@@ -47,7 +47,7 @@ export const TableCitas: React.FC<TableProps> = ({
       if (response.ok) {
         showToast("success", "Cita eliminada correctamente");
         if (onCitaDeleted) {
-          onCitaDeleted(idCita); // Llama a la función de actualización
+          onCitaDeleted(idCita); 
         }
       } else {
         showToast(
