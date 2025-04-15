@@ -1,5 +1,5 @@
 import { Icons } from "@/icons";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   AtencionFormData,
   DatePacienteProps,
@@ -19,7 +19,7 @@ export const DatePaciente: React.FC<DatePacienteProps> = ({ pacienteId }) => {
     useState<AtencionFormData | null>(null);
 
   // Extraer datos del paciente
-  const handleGetPaciente = async () => {
+  const handleGetPaciente = useCallback(async () => {
     try {
       const cookies = parseCookies();
       const token = cookies["session"];
@@ -39,10 +39,9 @@ export const DatePaciente: React.FC<DatePacienteProps> = ({ pacienteId }) => {
     } catch (error) {
       console.error("Error al obtener paciente:", error);
     }
-  };
+  }, [pacienteId]);
 
-  // Traer todas las atenciones del paciente
-  const handleGetAtenciones = async () => {
+  const handleGetAtenciones = useCallback(async () => {
     try {
       const cookies = parseCookies();
       const token = cookies["session"];
@@ -63,7 +62,6 @@ export const DatePaciente: React.FC<DatePacienteProps> = ({ pacienteId }) => {
         setAtenciones(atenciones);
 
         if (atenciones.length > 0) {
-          // Encuentra la atención con idAtencion más alto
           const ultima = atenciones.reduce(
             (prev: ListaCitas, current: ListaCitas) =>
               prev.idAtencion > current.idAtencion ? prev : current
@@ -74,13 +72,11 @@ export const DatePaciente: React.FC<DatePacienteProps> = ({ pacienteId }) => {
     } catch (error) {
       console.error("Error al obtener atenciones:", error);
     }
-  };
+  }, [pacienteId]);
 
-  // En la función handleGetAtencion
-  const handleGetAtencion = async () => {
-    if (!ultimaAtencion?.idAtencion) {
-      return;
-    }
+  const handleGetAtencion = useCallback(async () => {
+    if (!ultimaAtencion?.idAtencion) return;
+    
     try {
       const cookies = parseCookies();
       const token = cookies["session"];
@@ -100,19 +96,19 @@ export const DatePaciente: React.FC<DatePacienteProps> = ({ pacienteId }) => {
     } catch (error) {
       console.error("Error al obtener atención específica:", error);
     }
-  };
+  }, [ultimaAtencion]);
 
+  // Efectos corregidos
   useEffect(() => {
     handleGetPaciente();
     handleGetAtenciones();
-  });
+  }, [handleGetPaciente, handleGetAtenciones]);
 
   useEffect(() => {
     if (ultimaAtencion && !Array.isArray(ultimaAtencion)) {
       handleGetAtencion();
     }
-  });
-
+  }, [ultimaAtencion, handleGetAtencion]);
   // Función para formatear fechas
   const formatFecha = (fechaString?: string) => {
     if (!fechaString) return "No registrada";
