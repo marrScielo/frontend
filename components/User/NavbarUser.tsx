@@ -6,8 +6,9 @@ import { DesktopNavUser } from "./DesktopNavUser";
 import { Icons } from "@/icons";
 
 import { MobileNavbar } from "./MobileNavbarUser";
+import { UsuarioLocalStorage } from "@/interface";
 
-const navItems = [
+const navItemsBase = [
   {
     name: "Dashboard",
     link: "/user/home",
@@ -60,13 +61,14 @@ const navItems = [
   },
   {
     name: "Politicas y Privacidad",
-    link: "/user/politicasPriva",
+    link: "/",
     icono: Icons.politicasyPriv,
   },
 ];
 
 const NavbarUser = () => {
   const [estado, setEstado] = useState<boolean>(false);
+  const [navItems, setNavItems] = useState(navItemsBase);
   const panelRef = useRef<HTMLDivElement>(null);
   const userRef = useRef<HTMLDivElement>(null);
   
@@ -88,6 +90,22 @@ const NavbarUser = () => {
       document.removeEventListener("click", handleClickOutside);
     };
   });
+
+  useEffect(() => {
+    const userJson = localStorage.getItem("user");
+    if (userJson) {
+      const user: UsuarioLocalStorage = JSON.parse(userJson);
+      let items = [...navItemsBase];
+
+      if (user.rol === "PSICOLOGO") {
+        items = items.filter(item => item.name !== "Registro de personal" && item.name !== "Psicologos" && item.name !== "Marketing");
+      }
+
+
+      setNavItems(items);
+    }
+  }, []);
+
   return (
     <div className="flex flex-row">
       {/* Navbar Mobile*/}
