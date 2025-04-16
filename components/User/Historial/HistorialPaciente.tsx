@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Icons } from "@/icons";
-import { DatePacienteProps, ListaCitas } from "@/interface";
+import { DatePacienteProps, ListaAtencion } from "@/interface";
 import { parseCookies } from "nookies";
 import { DetallesPaciente } from "./DetallesPaciente";
 
@@ -17,7 +17,7 @@ export const HistorialPaciente: React.FC<DatePacienteProps> = ({
   pacienteId,
 }) => {
   const [showCart, setShowCart] = useState(false);
-  const [atenciones, setAtenciones] = useState<ListaCitas[]>([]);
+  const [atenciones, setAtenciones] = useState<ListaAtencion[]>([]);
   const [selectedAtencionId, setSelectedAtencionId] = useState<string | null>(null);
 
   // Traer todas las atenciones del paciente
