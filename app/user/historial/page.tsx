@@ -3,7 +3,7 @@ import React, { useState, useMemo, useCallback, useEffect } from "react";
 import { Navbar } from "@/components/User/Historial/SearchNavbar";
 import { TableComponent } from "@/components/User/Historial/TableComponent";
 import CerrarSesion from "@/components/CerrarSesion";
-import { Citas } from "@/interface";
+import { Citas, ListaAtencion } from "@/interface";
 import { parseCookies } from "nookies";
 import showToast from "@/components/ToastStyle";
 
@@ -11,15 +11,14 @@ const columns = [
   { name: "Código", uid: "codigo", sortable: true },
   { name: "Paciente", uid: "paciente", sortable: true },
   { name: "Fecha de Cita", uid: "fecha_inicio", sortable: true },
-  { name: "Diagnóstico", uid: "motivo", sortable: true },
-  { name: "Estado", uid: "estado", sortable: true },
+  { name: "Diagnóstico", uid: "diagnostico", sortable: true },
 ];
 
-const INITIAL_VISIBLE_COLUMNS = ["codigo", "paciente", "fecha_inicio", "motivo", "estado"];
+const INITIAL_VISIBLE_COLUMNS = ["codigo", "paciente", "fecha_inicio", "diagnostico"];
 
 export default function App() {
   const [filterValue, setFilterValue] = useState("");
-  const [citas, setCitas] = useState<Citas[]>([]);
+  const [atencion, setAtencion] = useState<ListaAtencion[]>([]);
   const [visibleColumns, setVisibleColumns] = useState<Set<string>>(
     new Set(INITIAL_VISIBLE_COLUMNS)
   );
@@ -37,14 +36,14 @@ export default function App() {
   }, [visibleColumns]);
 
   const filteredItems = useMemo(() => {
-    let filteredData = [...citas];
+    let filteredData = [...atencion];
     if (hasSearchFilter) {
       filteredData = filteredData.filter((item) =>
-        item.paciente.toLowerCase().includes(filterValue.toLowerCase())
+        item.nombre_completo.toLowerCase().includes(filterValue.toLowerCase())
       );
     }
     return filteredData;
-  }, [citas, filterValue]);
+  }, [atencion, filterValue]);
 
   const sortedItems = useMemo(() => {
     return [...filteredItems].sort((a, b) => {
@@ -55,20 +54,22 @@ export default function App() {
     });
   }, [sortDescriptor, filteredItems]);
 
-  const renderCell = useCallback((cita: Citas, columnKey: React.Key) => {
-    const cellValue = cita[columnKey as keyof typeof cita];
+  const renderCell = useCallback((atencion: ListaAtencion, columnKey: React.Key) => {
+    const cellValue = atencion[columnKey as keyof typeof atencion];
     
     switch (columnKey) {
       case "paciente":
-        return cita.paciente;
+        return atencion.nombre_completo;
+      case "diagnostico":
+        return atencion.diagnostico;
       case "fecha_inicio":
         return (
           <div className="flex flex-col">
             <p className="text-bold text-small capitalize">{cellValue}</p>
-            {cita.age && <p className="text-bold text-small capitalize">Edad: {cita.age}</p>}
+            {atencion.hora_inicio && <p className="text-bold text-small capitalize">{atencion.hora_inicio}</p>}
           </div>
         );
-      default:
+      default
         return cellValue;
     }
   }, []);
@@ -111,7 +112,7 @@ export default function App() {
     try {
       const cookies = parseCookies();
       const token = cookies["session"];
-      const url = `${process.env.NEXT_PUBLIC_API_URL}api/citas`;
+      const url = `${process.env.NEXT_PUBLIC_API_URL}api/atenciones/`;
       const response = await fetch(url, {
         method: "GET",
         headers: {
@@ -123,20 +124,20 @@ export default function App() {
       const data = await response.json();
       if (response.ok) {
         if (Array.isArray(data.result)) {
-          setCitas(data.result);
+          setAtencion(data.result.flat());
         } else {
           console.error("La propiedad 'result' no es un array:", data);
           showToast("error", "Formato de respuesta inválido");
-          setCitas([]);
+          setAtencion([]);
         }
       } else {
         showToast("error", data.message || "Error al obtener las citas");
-        setCitas([]);
+        setAtencion([]);
       }
     } catch (error) {
       console.error(error);
       showToast("error", "Error de conexión. Intenta nuevamente.");
-      setCitas([]);
+      setAtencion([]);
     }
   };
 
@@ -175,7 +176,7 @@ export default function App() {
           onSortByName={handleSortByName}
         />
         <TableComponent
-          citas={sortedItems}
+          atencion={sortedItems}
           headerColumns={headerColumns}
           renderCell={renderCell}
         />

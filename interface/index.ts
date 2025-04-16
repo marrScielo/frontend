@@ -382,13 +382,15 @@ export interface AtencionFormData {
   idCita?: number;
 }
 
-export interface ListaCitas{
+export interface ListaAtencion{
   hora_inicio: string;
   nombre_completo: string;
   diagnostico: string;
   idCita: string;
-  fecha: string;
+  fecha_inicio: string;
   idAtencion: string;
+  idPaciente: string;
+  age:string;
 }
 
 export interface Enfermedad {
