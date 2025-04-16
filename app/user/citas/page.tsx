@@ -139,7 +139,7 @@ export default function App() {
             <div className="bg-[#eaeded] flex items-start justify-between w-full">
               <div>
                 <div className="pl-12 text-4xl font-bold text-[#634AE2]">
-                  <h1>Lista de Pacientes</h1>
+                  <h1>Lista de Citas</h1>
                 </div>
               </div>
               <div className="flex gap-x-5 mt-2">

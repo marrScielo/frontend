@@ -1,5 +1,6 @@
 "use client";
-/*import React, { useEffect, useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import CerrarSesion from "@/components/CerrarSesion";
 import { Icons } from "@/icons";
 import NavbarPaciente from "@/components/User/Pacientes/NavbarPaciente";
@@ -7,19 +8,20 @@ import DatosPaciente from "@/components/User/Pacientes/DatosPaciente";
 import { useSearchParams } from "next/navigation";
 import { parseCookies } from "nookies";
 import { Paciente } from "@/interface";
-import Link from "next/link";*/
+import Link from "next/link";
 
 const PageHome = () => {
- /* const searchParams = useSearchParams();
+  const searchParams = useSearchParams();
   const idPaciente = searchParams.get("idPaciente");
   const [paciente, setPaciente] = useState<Paciente | null>(null);
+
   const idPacienteNum = Number(idPaciente);
-  
-  const HandleGetPaciente = async (idPaciente: number) => {
+
+  const handleGetPaciente = async (id: number) => {
     try {
       const cookies = parseCookies();
       const token = cookies["session"];
-      const url = `${process.env.NEXT_PUBLIC_API_URL}api/pacientes/${idPaciente}`;
+      const url = `${process.env.NEXT_PUBLIC_API_URL}api/pacientes/${id}`;
       const response = await fetch(url, {
         method: "GET",
         headers: {
@@ -28,25 +30,25 @@ const PageHome = () => {
           Authorization: `Bearer ${token}`,
         },
       });
+
       const data = await response.json();
 
       if (response.ok) {
         setPaciente(data.result);
       }
     } catch (error) {
-      console.error(error);
+      console.error("Error al obtener paciente:", error);
     }
   };
 
   useEffect(() => {
-    if (idPaciente) {
-      HandleGetPaciente(idPacienteNum);
+    if (idPaciente && !isNaN(idPacienteNum)) {
+      handleGetPaciente(idPacienteNum);
     }
-  });
+  }, [idPaciente, idPacienteNum]);
 
   return (
     <div className="pb-4 bg-[#eaeded]">
-   { /* 
       <div className="flex flex-1 bg-[#eaeded] w-full z-30 mt-4">
         <div>
           <nav className="bg-[#eaeded] rounded-2xl mt-3 h-[12vh] flex items-center w-[calc(95vw-270px)] p-4">
@@ -65,7 +67,7 @@ const PageHome = () => {
                 <h1 className="text-4xl font-bold text-[#634AE2]">
                   {paciente?.nombre} {paciente?.apellido} #{idPaciente}
                 </h1>
-                <button className="bg-[#634AE2] text-[#fff] rounded-full text-base px-4 py-2 font-normal">
+                <button className="bg-[#634AE2] text-white rounded-full text-base px-4 py-2 font-normal">
                   Nueva Cita
                 </button>
               </div>
@@ -76,19 +78,20 @@ const PageHome = () => {
           </nav>
         </div>
       </div>
+
       <div>
         <div style={{ position: "relative", zIndex: 2 }}>
-          <NavbarPaciente idPaciente={Number(idPaciente)} />
+          <NavbarPaciente idPaciente={idPacienteNum} />
         </div>
-       
+
         <div
           className="flex justify-center"
           style={{ position: "relative", zIndex: 100, marginTop: "-180px" }}
         >
-          <DatosPaciente idPaciente={Number(idPaciente)} />
+          <DatosPaciente idPaciente={idPacienteNum} />
         </div>
       </div>
-    */}</div>
+    </div>
   );
 };
 

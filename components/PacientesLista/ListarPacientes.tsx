@@ -194,7 +194,7 @@ export default function ListarPacientes() {
             >
               <td className="px-4 py-2 text-2xl rounded-l-[34px]">○</td>
               <td className="px-2 py-2">{paciente.nombre}</td>
-              <td className="px-2 py-2">{paciente.idPaciente}</td>
+              <td className="px-2 py-2">{paciente.codigo}</td>
               <td className="px-2 py-2">{paciente.DNI}</td>
               <td className="px-2 py-2">{paciente.correo}</td>
               <td className="py-2">{paciente.celular}</td>
