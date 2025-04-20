@@ -58,6 +58,8 @@ export default function App() {
     const cellValue = atencion[columnKey as keyof typeof atencion];
     
     switch (columnKey) {
+      case "codigo":
+        return atencion.codigo;
       case "paciente":
         return atencion.nombre_completo;
       case "diagnostico":
@@ -69,7 +71,7 @@ export default function App() {
             {atencion.hora_inicio && <p className="text-bold text-small capitalize">{atencion.hora_inicio}</p>}
           </div>
         );
-      default
+      default:
         return cellValue;
     }
   }, []);

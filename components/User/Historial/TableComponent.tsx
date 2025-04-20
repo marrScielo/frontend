@@ -105,7 +105,7 @@ export const TableComponent: React.FC<TableProps> = ({
             onClick={(e) => e.stopPropagation()}
           >
             <DatePaciente 
-              pacienteId={selectedPacienteId} 
+              idPaciente={Number(selectedPacienteId)}
             />
           </div>
         </div>

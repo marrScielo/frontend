@@ -188,7 +188,7 @@ export default function App() {
         idEnfermedad: parseInt(formData.idEnfermedad),
         UltimosObjetivos: formData.UltimosObjetivos,
         FechaAtencion: formData.FechaAtencion,
-        DocumentosAdicionales: "formData.DocumentosAdicionales",
+        DocumentosAdicionales: "",
         Comentario: formData.Comentario,
         descripcion: selectedEnfermedad.nombreEnfermedad,
       };
@@ -198,12 +198,9 @@ export default function App() {
 
       const cookies = parseCookies();
       const token = cookies["session"];
-      console.log("Token de sesión:", token ? "Presente" : "Ausente");
 
       const url = `${process.env.NEXT_PUBLIC_API_URL}api/atenciones/${idCita}`;
-      console.log("URL de la API:", url);
 
-      console.log("Enviando solicitud...");
       const response = await fetch(url, {
         method: "POST",
         headers: {
