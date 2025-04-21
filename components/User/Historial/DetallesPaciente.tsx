@@ -1,14 +1,20 @@
-import { AtencionFormData, DetallesAtencionProps } from "@/interface";
-import { parseCookies } from "nookies";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDropzone } from "react-dropzone";
+import { UltimaAtencion } from "@/interface";
+import showToast from "@/components/ToastStyle";
+import { parseCookies } from "nookies";
+
+type DetallesPacienteProps = {
+  ultimaAtencion: UltimaAtencion | null;
+};
 
 function DropzoneWithoutKeyboard() {
   const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
     noKeyboard: true,
   });
+
   const files = acceptedFiles.map((file) => (
-    <li key={file.path}>{file.path}</li>
+    <li key={file.name}>{file.name}</li>
   ));
 
   return (
@@ -24,52 +30,49 @@ function DropzoneWithoutKeyboard() {
   );
 }
 
-export const DetallesPaciente: React.FC<DetallesAtencionProps> = ({
-  idAtencion,
+export const DetallesPaciente: React.FC<DetallesPacienteProps> = ({
+  ultimaAtencion,
 }) => {
-  const [atencionPaciente, setAtencionPaciente] =
-    useState<AtencionFormData | null>(null);
+  const [diagnostico, setDiagnostico] = useState(ultimaAtencion?.diagnostico || "");
+  const [tratamiento, setTratamiento] = useState(ultimaAtencion?.tratamiento || "");
+  const [observacion, setObservacion] = useState(ultimaAtencion?.observacion || "");
+  const [ultimosObjetivos, setUltimosObjetivos] = useState(ultimaAtencion?.ultimosObjetivos || "");
 
-    const handleGetAtencion = useCallback(async () => {
-      try {
-        
-        if (!idAtencion) {
-          throw new Error("No se proporcionó un ID de atención");
-        }
-  
-        const cookies = parseCookies();
-        const token = cookies["session"];
-        const url = `${process.env.NEXT_PUBLIC_API_URL}api/atenciones/${idAtencion}`;
-        
-        const response = await fetch(url, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-  
-        if (!response.ok) {
-          throw new Error(response.statusText);
-        }
-  
-        const data = await response.json();
-        
-        if (data.result && data.result[0]) {
-          setAtencionPaciente(data.result[0]);
-        } else {
-          throw new Error("No se encontraron datos de atención");
-        }
-      } catch (error) {
-        console.error("Error al obtener atención:", error);
-      } 
-    }, [idAtencion]);
-  
-    useEffect(() => {
-      handleGetAtencion();
-    }, [handleGetAtencion]);
-  
+  const handleActualizar = async () => {
+    if (!ultimaAtencion?.idAtencion) return;
+
+    try {
+      const cookies = parseCookies();
+      const token = cookies["session"];
+      const url = `${process.env.NEXT_PUBLIC_API_URL}api/atenciones/${ultimaAtencion.idAtencion}`;
+
+      const response = await fetch(url, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          diagnostico,
+          tratamiento,
+          observacion,
+          ultimosObjetivos,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        showToast("success", "Atención actualizada correctamente");
+      } else {
+        showToast("error", data.message || "Error al actualizar atención");
+      }
+    } catch {
+      showToast("error", "Error de conexión al actualizar atención");
+    }
+  };
+
   return (
     <div className="max-w-[480px]">
       <div className="bg-[#fff] h-max text-[#634AE2] rounded-3xl">
@@ -80,36 +83,42 @@ export const DetallesPaciente: React.FC<DetallesAtencionProps> = ({
         <div className="text-[#634AE2] text-xl text-center font-bold">
           <div className="pb-1">Diagnóstico</div>
           <textarea
-            className="bg-[#F3F3F3] w-full h-20 border-1 font-light text-[#634AE2] p-3 rounded-3xl placeholder:text-[#634AE2] text-base"
+            className="bg-[#F3F3F3] w-full h-20 border-1 font-light text-[#634AE2] p-3 rounded-3xl"
             placeholder="Aun no hay comentarios"
-            value={atencionPaciente?.Diagnostico}
+            defaultValue={diagnostico}
+            onChange={(e) => setDiagnostico(e.target.value)}
           />
           <div className="pb-1">Tratamiento</div>
           <textarea
-            className="bg-[#F3F3F3] w-full h-20 border-1 font-light text-[#634AE2] p-3 rounded-3xl placeholder:text-[#634AE2] text-base"
+            className="bg-[#F3F3F3] w-full h-20 border-1 font-light text-[#634AE2] p-3 rounded-3xl"
             placeholder="Aun no hay comentarios"
-            value={atencionPaciente?.Tratamiento}
+            defaultValue={tratamiento}
+            onChange={(e) => setTratamiento(e.target.value)}
           />
           <div className="pb-1">Observación</div>
           <textarea
-            className="bg-[#F3F3F3] w-full h-20 border-1 font-light text-[#634AE2] p-3 rounded-3xl placeholder:text-[#634AE2] text-base"
+            className="bg-[#F3F3F3] w-full h-20 border-1 font-light text-[#634AE2] p-3 rounded-3xl"
             placeholder="Aun no hay comentarios"
-            value={atencionPaciente?.Observacion}
+            defaultValue={observacion}
+            onChange={(e) => setObservacion(e.target.value)}
           />
-          <div className="pb-1">Objetivo alcanzados</div>
+          <div className="pb-1">Objetivos alcanzados</div>
           <textarea
-            className="bg-[#F3F3F3] w-full h-20 border-1 font-light text-[#634AE2] p-3 rounded-3xl placeholder:text-[#634AE2] text-base"
+            className="bg-[#F3F3F3] w-full h-20 border-1 font-light text-[#634AE2] p-3 rounded-3xl"
             placeholder="Aun no hay comentarios"
-            value={atencionPaciente?.Observacion}
+            value={ultimosObjetivos}
+            onChange={(e) => setUltimosObjetivos(e.target.value)}
           />
-          <div className="pb-1">Documento adicionales</div>
+          <div className="pb-1">Documentos adicionales</div>
         </div>
 
-        {/* Aquí insertamos el Dropzone */}
         <DropzoneWithoutKeyboard />
 
         <div className="flex justify-center items-center pt-3">
-          <button className="rounded-full border-2 border-[#634AE2] pl-4 pr-4 h-8">
+          <button
+            className="rounded-full border-2 border-[#634AE2] pl-4 pr-4 h-8"
+            onClick={handleActualizar}
+          >
             Actualizar
           </button>
         </div>
@@ -117,4 +126,5 @@ export const DetallesPaciente: React.FC<DetallesAtencionProps> = ({
     </div>
   );
 };
+
 export default DetallesPaciente;

@@ -363,8 +363,8 @@ export interface Citas {
 }
 
 export interface DatePacienteProps {
-  pacienteId: string | null;
-  citaId?: string | null;
+  idPaciente: number;
+  ultimaAtencion : UltimaAtencion | null;
 }
 
 export interface AtencionFormData {
@@ -382,13 +382,16 @@ export interface AtencionFormData {
   idCita?: number;
 }
 
-export interface ListaCitas{
+export interface ListaAtencion{
   hora_inicio: string;
   nombre_completo: string;
   diagnostico: string;
   idCita: string;
-  fecha: string;
+  fecha_inicio: string;
   idAtencion: string;
+  idPaciente: string;
+  codigo: string;
+  age:string;
 }
 
 export interface Enfermedad {
@@ -411,3 +414,19 @@ export interface CustomizedLabelProps {
   percent: number;
 }
 
+export interface UltimaAtencion {
+  nombre: string;
+  apellido: string;
+  DNI: string;
+  codigo: string;
+  celular: string;
+  edad: number;
+  fecha_completa: string;
+  fecha_atencion: string;
+  diagnostico: string;
+  observacion: string;
+  ultimosObjetivos: string;
+  comentario: string;
+  idAtencion: number;
+  tratamiento: string;
+}

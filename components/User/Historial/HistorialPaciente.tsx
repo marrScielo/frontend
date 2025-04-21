@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Icons } from "@/icons";
-import { DatePacienteProps, ListaCitas } from "@/interface";
+import { DatePacienteProps, ListaAtencion } from "@/interface";
 import { parseCookies } from "nookies";
 import { DetallesPaciente } from "./DetallesPaciente";
 
@@ -14,18 +14,17 @@ const headerColumns = [
 ];
 
 export const HistorialPaciente: React.FC<DatePacienteProps> = ({
-  pacienteId,
+  idPaciente, ultimaAtencion
 }) => {
   const [showCart, setShowCart] = useState(false);
-  const [atenciones, setAtenciones] = useState<ListaCitas[]>([]);
-  const [selectedAtencionId, setSelectedAtencionId] = useState<string | null>(null);
+  const [atenciones, setAtenciones] = useState<ListaAtencion[]>([]);
 
   // Traer todas las atenciones del paciente
   const handleGetAtenciones = useCallback(async () => {
     try {
       const cookies = parseCookies();
       const token = cookies["session"];
-      const url = `${process.env.NEXT_PUBLIC_API_URL}api/atenciones/paciente/${pacienteId}`;
+      const url = `${process.env.NEXT_PUBLIC_API_URL}api/atenciones/paciente/${idPaciente}`;
       const response = await fetch(url, {
         method: "GET",
         headers: {
@@ -51,7 +50,7 @@ export const HistorialPaciente: React.FC<DatePacienteProps> = ({
     } catch (error) {
       console.error("Error al obtener atenciones:", error);
     }
-  }, [pacienteId]); 
+  }, [idPaciente]); 
   
   useEffect(() => {
     handleGetAtenciones();
@@ -92,7 +91,7 @@ export const HistorialPaciente: React.FC<DatePacienteProps> = ({
                 {atencion.nombre_completo}
               </td>
               <td className="font-normal text-lg text-center p-6">
-                {atencion.fecha}
+                {atencion.fecha_inicio}
               </td>
               <td className="font-normal text-lg text-center p-6">
                 {atencion.diagnostico}
@@ -101,7 +100,6 @@ export const HistorialPaciente: React.FC<DatePacienteProps> = ({
                 <button
                   className="rounded-full border-2 border-[#634AE2] w-28 items-center justify-center flex space-x-1"
                   onClick={() => {
-                    setSelectedAtencionId(atencion.idAtencion);
                     setShowCart(true);
                   }}
                 >
@@ -132,7 +130,7 @@ export const HistorialPaciente: React.FC<DatePacienteProps> = ({
           ))}
         </tbody>
       </table>
-      {showCart && selectedAtencionId && (
+      {showCart && (
         <div
           className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-20"
           onClick={() => setShowCart(false)}
@@ -141,7 +139,7 @@ export const HistorialPaciente: React.FC<DatePacienteProps> = ({
             className="relative bg-white p-6 rounded-3xl z-10"
             onClick={(e) => e.stopPropagation()}
           >
-            <DetallesPaciente idAtencion={selectedAtencionId} />
+            <DetallesPaciente ultimaAtencion={ultimaAtencion} />
           </div>
         </div>
       )}

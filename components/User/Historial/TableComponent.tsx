@@ -1,16 +1,16 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Citas } from "@/interface";
+import { Citas, ListaAtencion } from "@/interface";
 import { DatePaciente } from "./DatePaciente";
 
 interface TableProps {
-  citas: Citas[];
+  atencion: ListaAtencion[];
   headerColumns: { name: string; uid: string; sortable?: boolean }[];
-  renderCell: (cita: Citas, columnKey: React.Key) => React.ReactNode;
+  renderCell: (atencion: ListaAtencion, columnKey: React.Key) => React.ReactNode;
 }
 
 export const TableComponent: React.FC<TableProps> = ({
-  citas,
+  atencion,
   headerColumns,
   renderCell,
 }) => {
@@ -49,9 +49,9 @@ export const TableComponent: React.FC<TableProps> = ({
           </tr>
         </thead>
         <tbody>
-          {citas.length > 0 ? (
-            citas.map((cita) => (
-              <tr key={cita.idCita} className="bg-[#fff] pt-8">
+          {atencion.length > 0 ? (
+            atencion.map((atencion, index) => (
+              <tr key={index} className="bg-[#fff] pt-8">
                 {headerColumns.map((column, index) => (
                   <td
                     key={column.uid}
@@ -61,24 +61,24 @@ export const TableComponent: React.FC<TableProps> = ({
                       index === headerColumns.length - 1 ? "rounded-r-3xl" : ""
                     }`}
                   >
-                    {renderCell(cita, column.uid)}
+                    {renderCell(atencion, column.uid)}
                   </td>
                 ))}
                 <td className="text-center bg-[#eaeded]">
                   <button
                     className={`ml-2 h-10 w-32 rounded-full font-normal text-x1 ${
-                      !cita.idPaciente
+                      !atencion.idPaciente
                         ? "bg-gray-400 cursor-not-allowed"
                         : "bg-[#634AE2] text-[#fff] hover:bg-[#5340D2]"
                     }`}
                     onClick={() => {
-                      if (cita.idPaciente) {
-                        setSelectedPacienteId(cita.idPaciente);
-                        setSelectedCitaId(cita.idCita);
+                      if (atencion.idPaciente) {
+                        setSelectedPacienteId(atencion.idPaciente);
+                        setSelectedCitaId(atencion.idCita);
                         setShowCart(true);
                       }
                     }}
-                    disabled={!cita.idPaciente}
+                    disabled={!atencion.idPaciente}
                   >
                     Ver más
                   </button>
@@ -105,7 +105,7 @@ export const TableComponent: React.FC<TableProps> = ({
             onClick={(e) => e.stopPropagation()}
           >
             <DatePaciente 
-              pacienteId={selectedPacienteId} 
+              idPaciente={Number(selectedPacienteId)}
             />
           </div>
         </div>
