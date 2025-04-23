@@ -151,7 +151,7 @@ export default function TherapyServices() {
           </div>
         </div>
 
-        {/* solo se muestra en tamaños pequeños */}
+        {/*diseño en mobile */}
         <div className="block lg:hidden">
           <div className="grid grid-cols-2 gap-1 m-3 ">
             {services.map((service, index) => (

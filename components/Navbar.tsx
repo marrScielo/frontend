@@ -31,7 +31,7 @@ const navItems = [
     link: "/blog",
   },
   {
-    name: "Reservar Cita",
+    name: "Equipo Profesional",
     link: "/ReservarCita",
   },
   {
@@ -49,10 +49,10 @@ const Navbar = () => {
           <Image
             src="/LOGO.webp"
             alt="Company Logo"
-            width={150}
+            width={175}
             height={50}
             priority
-            style={{ width: 'auto', height: 'auto' }}
+           
             suppressHydrationWarning
           />
         </Link>

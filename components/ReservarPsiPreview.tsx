@@ -7,68 +7,53 @@ import {
   CardFooter,
   CardTitle,
 } from "@/components/ui/card";
-import ReactCountryFlag from "react-country-flag";
 import { Modal, ModalContent, ModalBody, Button } from "@heroui/react";
 import { PsicologoPreviewData } from "@/interface";
 import { useState } from "react";
-
 
 export default function ReservarPsiPreview({
   psicologo,
 }: {
   psicologo: PsicologoPreviewData;
 }) {
- 
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
- 
+  
+  
   return (
     <>
       <Card className=" md:max-w-md bg-background p-5 rounded-3xl border-[#9494F3]">
-        <div>
-          <div className="w-full grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="col-span-1 flex sm:justify-start">
-              <div className="flex items-center relative">
-                <Avatar className="w-24 h-24">
-                  <AvatarImage src={psicologo.imagen} />
-                </Avatar>
-                <div className="absolute -bottom-[2px] -right-2 w-8 h-8 sm:w-10 sm:h-10">
-                  <ReactCountryFlag
-                    svg
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                      borderRadius: "100%",
-                    }}
-                    countryCode={psicologo.pais}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="col-span-2 text-[#634AE2]">
-              <CardDescription className="text-[#634AE2]">
-                {psicologo.titulo}  
-              </CardDescription>
-              <CardTitle className="text-[#634AE2] text-xl sm:text-2xl">
-                {psicologo.nombre} <br />
-                {psicologo.apellido}
-              </CardTitle>
+        <div className="w-full grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="col-span-1 flex sm:justify-start">
+            <div className="flex  relative">
+              <Avatar className="w-24 h-24">
+                <AvatarImage src={psicologo.imagen} />
+              </Avatar>
             </div>
           </div>
-          <hr className="my-2.5 border-t border-[#9494F3] w-[390px]" />
-        </div>
 
-        <CardContent className="border-[#9494F3] mt-2">
+          <div className="col-span-2 text-[#634AE2]">
+            <CardDescription className="text-[#634AE2]">
+              {psicologo.titulo}
+            </CardDescription>
+            <CardTitle className="text-[#634AE2] text-xl sm:text-2xl">
+              {psicologo.nombre} <br />
+              {psicologo.apellido}
+            </CardTitle>
+          </div>
+        </div>
+        {/*linea divisora */}
+        <hr className="my-2.5 border-t border-[#9494F3] w-[390px]" />
+
+        <CardContent className="border-[#9494F3] mt-2 pb-0">
+          {/*se muestra informacion breve del equipo de profesionales */}
           <p className="text-[#634AE2] pt-3 text-sm sm:text-base">
             {psicologo.introduccion.slice(0, 50)}...
           </p>
-          <CardFooter className="grid grid-cols-2 gap-2 sm:flex sm:space-x-8 pt-3 text-xs">
-           
+          <CardFooter className="pt-3 text-xs flex justify-center pb-0">
             <Button
               onPress={() => setIsProfileOpen(true)}
-              className="rounded-3xl bg-[#fff] px-6 sm:px-8 py-1 sm:py-0 border-[#634AE2] font-light border-1 text-[#634AE2]"
+              className="m-0 p-0 px-6 sm:px-8 rounded-3xl bg-white border-[#634AE2] font-light border text-[#634AE2] transition-all duration-200 hover:bg-[#634AE2] hover:text-white"
             >
               Ver Perfil
             </Button>
@@ -95,7 +80,7 @@ export default function ReservarPsiPreview({
           {() => (
             <>
               <ModalContent className="w-[695px] h-[416px] bg-background rounded-3xl  overflow-hidden  mt-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 items-center">
+                <div className="grid grid-cols-1 md:grid-cols-2 items-center">
                   <div className="h-full w-full flex ">
                     <Avatar className="w-[208px] h-[416px] rounded-2xl overflow-hidden">
                       <AvatarImage
@@ -139,7 +124,6 @@ export default function ReservarPsiPreview({
           )}
         </ModalContent>
       </Modal>
-        
     </>
   );
 }
