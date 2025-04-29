@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Citas, ListaAtencion } from "@/interface";
-import { DatePaciente } from "./DatePaciente";
+import {  ListaAtencion } from "@/interface";
+//import { DatePaciente } from "./DatePaciente";
 
 interface TableProps {
   atencion: ListaAtencion[];
@@ -104,9 +104,9 @@ export const TableComponent: React.FC<TableProps> = ({
             className="relative bg-white p-6 rounded-3xl z-10"
             onClick={(e) => e.stopPropagation()}
           >
-            <DatePaciente 
+           {/*<DatePaciente 
               idPaciente={Number(selectedPacienteId)}
-            />
+            />*/}
           </div>
         </div>
       )}
