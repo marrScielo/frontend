@@ -3,7 +3,7 @@ import { EyeFilledIcon, EyeSlashFilledIcon } from "@/icons/iconsvg";
 import { FormDataAdmin } from "@/interface";
 import { Button, DatePicker, DateValue, Form, Input } from "@heroui/react";
 import { getLocalTimeZone, today } from "@internationalized/date";
-import React, { useCallback } from "react";
+import React, {  } from "react";
 import { Plus } from "lucide-react";
 import { convertImageToWebP, convertToBase64 } from "@/utils/convertir64";
 import { useState } from "react";
@@ -47,7 +47,7 @@ export const PersonalForm = ({
         throw new Error("Error en la respuesta del servidor");
       }
 
-      const data = await response.json();
+      //const data = await response.json();
       onNext(formDataAdmin);
     } catch (error) {
       showToast("error", "Error al guardar los datos");
@@ -66,13 +66,13 @@ export const PersonalForm = ({
     }));
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  /*const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormDataAdmin((prev) => ({
       ...prev,
       [name]: value,
     }));
-  };
+  };*/
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
