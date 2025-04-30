@@ -120,12 +120,10 @@ export const DataView = ({
     setFormData({ ...formData, imagen: base64 });
   };
 
-
   const [especialidad, setEspecialidad] = useState<number[]>([]);
   const [isInvalid, setIsInvalid] = useState(false);
 
   const handleEspecialidadesChange = (values: string[]) => {
-
     const especialidadesNumeros = values.map(
       (value) => especialidadesMap[value]
     );
@@ -143,9 +141,8 @@ export const DataView = ({
       <Form validationBehavior="native" onSubmit={handleSubmit}>
         <div className="grid grid-cols-6 grid-rows-5 gap-10">
           <div className="col-span-2 row-span-2">
-            <h3 className="font-bold text-base">Foto</h3>
 
-            <div className="relative border-2 border-[#634AE2] rounded-lg h-36 w-full flex justify-center items-center cursor-pointer overflow-hidden">
+            <div className="relative border-2 border-[#634AE2] rounded-lg h-48 w-full flex justify-center items-center cursor-pointer overflow-hidden">
               {base64Image ? (
                 <img
                   src={formData.imagen}
@@ -153,7 +150,17 @@ export const DataView = ({
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <Plus width={40} height={40} strokeWidth={2} color="#634AE2" />
+                <div className="flex flex-col items-center p-4">
+                  <Plus
+                    width={48}
+                    height={48}
+                    strokeWidth={2}
+                    color="#634AE2"
+                  />
+                  <span className="text-[#634AE2] text-sm mt-2">
+                    Subir imagen
+                  </span>
+                </div>
               )}
 
               <input
@@ -162,7 +169,7 @@ export const DataView = ({
                 onChange={(e) => {
                   handleImageUpload(e);
                 }}
-                className="absolute inset-0 w-42 h-full opacity-0 cursor-pointer"
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
               />
             </div>
           </div>
@@ -305,7 +312,7 @@ export const DataView = ({
             type="submit"
             className="min-w-32 bg-[#634AE2] text-white"
           >
-            Siguiente
+            Registrar
           </Button>
         </div>
       </Form>

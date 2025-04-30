@@ -10,27 +10,29 @@ import { MobileNavbar } from "./MobileNavbarUser";
 const navItems = [
 
   {
-    name: "Registro de personal",
+    name: "Registro de psicólogos",
     link: "/user/personal",
     icono:Icons.personal,
   },
   {
-    name: "Psicologos",
+    name: "Psicólogos",
     link: "/user/psicologos",
     icono: Icons.psicologos,
   },
+  {
+    name: "Registro de Administradores",
+    link: "/user/registroAdmin",
+    icono:Icons.personal,
+  },
 
   {
-    name: "Politicas y Privacidad",
+    name: "Políticas y Privacidad",
     link: "/",
     icono: Icons.politicasyPriv,
   },
 ];
 
 const NavbarUser = () => {
-
-
-
 
   return (
     <div className="flex flex-row">

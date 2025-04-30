@@ -48,7 +48,7 @@ export const PersonalForm = ({
   return (
     <div className="text-[#634AE2] h-auto p-10 items-center bg-white rounded-3xl ">
       <h1 className="font-semibold text-center mb-5 text-4xl">
-        Ingrese sus datos
+        Ingrese los datos del Psicólogo
       </h1>
       <Form validationBehavior="native" onSubmit={handleSubmit}>
         <div className="grid grid-cols-2 w-auto lg:w-[700px]   gap-10">

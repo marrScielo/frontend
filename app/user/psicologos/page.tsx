@@ -59,7 +59,7 @@ export default function Psicologos() {
         <AllPsicologos Data={data.result} />
       ) : (
         <div className="text-center py-8">
-          <p>No psychologists found</p>
+          <p>No se encontraron especialistas</p>
         </div>
       )}
     </div>

@@ -1,4 +1,4 @@
-import PersonalComponent from "@/components/CrearUsuario/PersonalComponent";
+import PersonalComponent from "@/components/CrearAdmin/PersonalComponent";
 
 export default function Personal() {
   return(

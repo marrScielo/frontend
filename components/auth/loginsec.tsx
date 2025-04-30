@@ -63,7 +63,7 @@ export const useAuth = () => {
         error: null,
       });
 
-      window.location.assign("/user/home");
+      window.location.assign("/user/pantallaPrincipal");
     } catch (error: unknown) {
       const errorMessage =
         error instanceof Error

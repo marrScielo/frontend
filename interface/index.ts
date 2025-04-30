@@ -1,5 +1,6 @@
 import { DateValue } from "@heroui/react";
 import { Interface } from "readline";
+import { eliminarBlog } from '../components/blogCrear/listarblog';
 
 export interface CardServicesProps {
   title: string;
@@ -77,7 +78,6 @@ export interface NavItem {
 //interface for the component Creacion de usuario
 
 export interface Genero {
-
   label: number;
   genero: string;
 }
@@ -99,6 +99,15 @@ export interface FormData {
     [key: string]: string[][];
   };
 }
+ export interface FormDataAdmin{
+ name:string;
+ apellido:string;
+ fecha_nacimiento:DateValue | string;
+ imagen:string; 
+ email:string;
+ password:string;
+ rol:string;
+ }
 
 //interface for the component EspecialidadGet BlogUsuarioCrear
 export interface Especialidad {
