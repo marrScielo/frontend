@@ -9,10 +9,10 @@ import {
   AdministradorApiResponse,
   AdministradorApiResponseAlone,
   AdministradorPreviewData,
-  AdministradorFormData,
+
 } from "@/interface";
 import { parseCookies } from "nookies";
-import React, { useState, useEffect } from 'react';
+
 export const token = parseCookies()["session"];
 
 export async function BlogsWebSite(): Promise<ApiResponse> {
