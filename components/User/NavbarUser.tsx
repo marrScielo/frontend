@@ -21,12 +21,12 @@ const navItems = [
   },
   {
     name: "Registro de Administradores",
-    link: "/user/registroAdmin",
+    link: "/user/RegistroAdministradores",
     icono:Icons.personal,
   },
   {
     name: "Administradores",
-    link: "/user/Administradores",
+    link: "/user/administradores",
     icono: Icons.psicologos,
   },
 

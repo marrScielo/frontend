@@ -1,19 +1,14 @@
-"use client";
+'use client';
 import {
-  DeletePsycologo,
-  GetPsicologosById,
-  UpdatePsicologo,
+  DeleteAdministrador,
+  GetAdministradorById,
+  UpdateAdministrador,
 } from "@/app/apiRoutes";
 import showToast from "@/components/ToastStyle";
-import { PsicologoPreviewData } from "@/interface";
+import { AdministradorPreviewData } from "@/interface";
 import { convertImageToWebP, convertToBase64 } from "@/utils/convertir64";
-import { Flags } from "@/utils/flagsPsicologos";
 import {
-  Autocomplete,
-  AutocompleteItem,
   Button,
-  Checkbox,
-  CheckboxGroup,
   Form,
   Input,
   Modal,
@@ -21,25 +16,21 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
-  Select,
-  SelectItem,
-  Textarea,
   useDisclosure,
 } from "@heroui/react";
 import { Plus } from "lucide-react";
-
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 
-export default function AllPsicologos({
+export default function AllAdministradores({
   Data,
 }: {
-  Data: PsicologoPreviewData[];
+  Data: AdministradorPreviewData[];
 }) {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedId, setSelectedId] = useState<number | null>(null);
-  const [formData, setFormData] = useState<PsicologoPreviewData | null>(null);
+  const [formData, setFormData] = useState<AdministradorPreviewData | null>(null);
 
   const handleImageUpload = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -50,13 +41,12 @@ export default function AllPsicologos({
   };
 
   const handleChanges = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => (prev ? { ...prev, [name]: value } : null));
   };
+
   const handleUpdate = async (id: number | null) => {
     if (!formData) {
       console.error("Error: formData es null");
@@ -64,36 +54,37 @@ export default function AllPsicologos({
     }
 
     try {
-      await UpdatePsicologo(id, formData);
-      showToast("success", "El psicólogo se actualizó correctamente");
+      await UpdateAdministrador(id, formData);
+      showToast("success", "El administrador se actualizó correctamente");
       router.refresh();
       onClose();
     } catch (error) {
-      console.error("Error al actualizar el psicólogo:", error);
+      console.error("Error al actualizar el administrador:", error);
     }
   };
+
   const handleDelete = async (id: number | null) => {
     try {
-      await DeletePsycologo(id);
-      showToast("success", "El psicólogo se eliminó correctamente");
+      await DeleteAdministrador(id);
+      showToast("success", "El administrador se eliminó correctamente");
       router.refresh();
     } catch (error) {
-      console.error("Error al eliminar el psicólogo:", error);
+      console.error("Error al eliminar el administrador:", error);
     }
   };
 
   const handleEdit = async (id: number | null) => {
     setSelectedId(id);
     try {
-      const Data = await GetPsicologosById(id);
-      if (Data.status_code !== 200) {
-        showToast(Data.status_code.toString(), `Error: ${Data.status_message}`);
+      const response = await GetAdministradorById(id);
+      if (response.status_code !== 200) {
+        showToast(response.status_code.toString(), `Error: ${response.status_message}`);
         return;
       }
-      setFormData(Data.result);
+      setFormData(response.result);
       onOpen();
     } catch (error) {
-      showToast("error", "Error al obtener los datos del psicólogo.");
+      showToast("error", "Error al obtener los datos del administrador.");
       console.error(error);
     }
   };
@@ -116,26 +107,26 @@ export default function AllPsicologos({
                 <th className="rounded-tl-full text-2xl font-normal">○</th>
                 <th className="font-normal">Apellido</th>
                 <th className="font-normal">Nombre</th>
-                <th className="font-normal">Pais</th>
                 <th className="font-normal">Correo</th>
                 <th className="font-normal">ID</th>
-                <th className="rounded-tr-full font-normal">Más</th>
+                
+                <th className="rounded-tr-full font-normal">Acciones</th>
               </tr>
             </thead>
             <tbody className="text-center bg-white text-[#634AE2] font-normal text-[16px] leading-[20px]">
-              {Data.map((column, index) => (
+              {Data.map((admin, index) => (
                 <tr key={index} className="border-b hover:bg-gray-100">
                   <td className="px-4 py-2 text-2xl rounded-l-[34px]">○</td>
-                  <td className="px-4 py-2">{column.apellido}</td>
-                  <td className="px-4 py-2">{column.nombre}</td>
-                  <td className="px-4 py-2">{column.pais}</td>
-                  <td className="px-4 py-2">{column.correo}</td>
-                  <td className="py-2">{column.idPsicologo}</td>
+                  <td className="px-4 py-2">{admin.apellido}</td>
+                  <td className="px-4 py-2">{admin.nombre}</td>
+                  <td className="px-4 py-2">{admin.email}</td>
+                  <td className="py-2">{admin.idAdministrador}</td>
+                  
                   <td className="py-2 rounded-r-[34px]">
                     <div className="w-full h-full flex items-center justify-center">
                       <div className="flex flex-row items-center justify-center gap-x-4">
                         <button
-                          onClick={() => handleEdit(column.idPsicologo)}
+                          onClick={() => handleEdit(admin.idAdministrador)}
                           className="flex flex-col items-center"
                         >
                           <svg
@@ -153,7 +144,7 @@ export default function AllPsicologos({
                         </button>
                         <div className="flex flex-col items-center">
                           <button
-                            onClick={() => handleDelete(column.idPsicologo)}
+                            onClick={() => handleDelete(admin.idAdministrador)}
                             className="flex flex-col items-center"
                           >
                             <svg
@@ -182,7 +173,7 @@ export default function AllPsicologos({
 
       <Modal isOpen={isOpen} size={"5xl"} onOpenChange={onClose}>
         <ModalContent>
-          <ModalHeader>Editar Psicólogo ID: {selectedId}</ModalHeader>
+          <ModalHeader>Editar Administrador ID: {selectedId}</ModalHeader>
           <ModalBody>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <Form validationBehavior="native" className="space-y-6">
@@ -258,20 +249,18 @@ export default function AllPsicologos({
                     input: "placeholder:!text-[#634AE2] w-full",
                   }}
                   placeholder="Ingrese su fecha de nacimiento"
-                  type="text"
-                  readOnly
+                  type="date"
+                  isRequired
                   value={formData?.fecha_nacimiento}
                   variant="faded"
+                  onChange={handleChanges}
                   name="fecha_nacimiento"
                 />
               </Form>
 
               <Form validationBehavior="native" className="space-y-6">
-             
-               
-
                 <Input
-                  label="Correo"
+                  label="Email"
                   labelPlacement="outside"
                   radius="full"
                   classNames={{
@@ -280,12 +269,13 @@ export default function AllPsicologos({
                     inputWrapper: "border-2 border-[#634AE2]",
                     input: "placeholder:!text-[#634AE2] w-full",
                   }}
-                  placeholder="Ingrese su correo"
+                  placeholder="Ingrese su email"
+                  type="email"
                   isRequired
-                  value={formData?.correo}
+                  value={formData?.email}
                   variant="faded"
                   onChange={handleChanges}
-                  name="correo"
+                  name="email"
                 />
                 <Input
                   label="Contraseña"
@@ -297,53 +287,16 @@ export default function AllPsicologos({
                     inputWrapper: "border-2 border-[#634AE2]",
                     input: "placeholder:!text-[#634AE2] w-full",
                   }}
-                  placeholder="Ingrese su nueva contraseña"
+                  placeholder="Ingrese su contraseña"
+                  type="password"
                   isRequired
+                  value={formData?.password}
                   variant="faded"
                   onChange={handleChanges}
-                  name="contraseña"
+                  name="password"
                 />
-                <Select
-                  label="Género"
-                  labelPlacement="outside"
-                  name="genero"
-                  onChange={handleChanges}
-                  radius="full"
-                  variant="faded"
-                  selectedKeys={formData?.genero ? [formData.genero] : []}
-                  classNames={{
-                    base: "!text-[#634AE2]",
-                    label: "!text-[#634AE2]",
-                    trigger: "border-2 border-[#634AE2]",
-                    value: "!text-[#634AE2]",
-                  }}
-                  placeholder="Seleccione su género"
-                >
-                  <SelectItem
-                    className="text-[#634AE2]"
-                    key="femenino"
-                    textValue="femenino"
-                  >
-                    Femenino
-                  </SelectItem>
-                  <SelectItem
-                    className="text-[#634AE2]"
-                    key="masculino"
-                    textValue="masculino"
-                  >
-                    Masculino
-                  </SelectItem>
-                  <SelectItem
-                    className="text-[#634AE2]"
-                    key="otros"
-                    textValue="otros"
-                  >
-                    Otros
-                  </SelectItem>
-                </Select>
-          
                 <Input
-                  label="Título"
+                  label="Imagen URL"
                   labelPlacement="outside"
                   radius="full"
                   classNames={{
@@ -352,146 +305,14 @@ export default function AllPsicologos({
                     inputWrapper: "border-2 border-[#634AE2]",
                     input: "placeholder:!text-[#634AE2] w-full",
                   }}
-                  placeholder="Ingrese su título"
-                  isRequired
-                  value={formData?.titulo}
+                  placeholder="Ingrese URL de imagen"
+                  type="text"
+                  value={formData?.imagen}
                   variant="faded"
                   onChange={handleChanges}
-                  name="titulo"
+                  name="imagen"
                 />
-                 <Autocomplete
-                  label="País"
-                  labelPlacement="outside"
-                  aria-label="País"
-                  defaultSelectedKey={formData?.pais}
-                  onSelectionChange={(key) =>
-                    setFormData((prev) =>
-                      prev ? { ...prev, pais: key as string } : null
-                    )
-                  }
-                  classNames={{
-                    
-                    base: "!mt-0.5 text-[#634AE2]  ",
-                  }}
-                  placeholder="Ingrese su país"
-                  isRequired
-                  radius="full"
-                  variant="faded"
-                >
-                  {Flags.map((item) => (
-                    <AutocompleteItem
-                      key={item.value}
-                      textValue={item.value}
-                      classNames={{
-                        base: "!text-[#634AE2]",
-                        
-                      }}
-                    >
-                      {item.label}
-                    </AutocompleteItem>
-                  ))}
-                </Autocomplete>
               </Form>
-            </div>
-
-            <div className="mt-6">
-              <Textarea
-                isRequired
-                value={formData?.introduccion}
-                minLength={100}
-                name="introduccion"
-                maxLength={350}
-                classNames={{
-                  base: "!text-[#634AE2]",
-                  label: "!text-[#634AE2] font-bold text-base",
-                  inputWrapper:
-                    "border-2 border-[#634AE2] bg-white w-full h-full",
-                  innerWrapper: "min-h-[120px]",
-                }}
-                variant="faded"
-                label="Introducción"
-                labelPlacement="outside"
-                onChange={handleChanges}
-              />
-            </div>
-
-            <div className="mt-6">
-              <CheckboxGroup
-                isRequired
-                orientation="vertical"
-                description="Selecciona las especialidades que domina"
-                label="Especialidades"
-                classNames={{
-                  label: "!text-[#634AE2] font-bold text-base",
-                }}
-                defaultValue={formData?.especialidades}
-                onChange={(values) =>
-                  setFormData((prev) =>
-                    prev ? { ...prev, especialidades: values } : null
-                  )
-                }
-              >
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="flex flex-col">
-                    <Checkbox
-                      color="secondary"
-                      classNames={{
-                        label: "text-[#634AE2]",
-                      }}
-                      value="Cognitivo-conductual"
-                    >
-                      Cognitivo-conductual
-                    </Checkbox>
-                    <Checkbox
-                      color="secondary"
-                      classNames={{
-                        label: "text-[#634AE2]",
-                      }}
-                      value="Neuropsicología"
-                    >
-                      Neuropsicología
-                    </Checkbox>
-                    <Checkbox
-                      color="secondary"
-                      classNames={{
-                        label: "text-[#634AE2]",
-                      }}
-                      value="Psicoanálisis"
-                    >
-                      Psicoanálisis
-                    </Checkbox>
-                  </div>
-                  <div className="flex flex-col">
-                    <Checkbox
-                      color="secondary"
-                      classNames={{
-                        label: "text-[#634AE2]",
-                      }}
-                      value="Psicopedagogía"
-                    >
-                      Psicopedagogía
-                    </Checkbox>
-                    <Checkbox
-                      color="secondary"
-                      classNames={{
-                        label: "text-[#634AE2]",
-                      }}
-                      value="Gestalt humanista"
-                    >
-                      Gestalt humanista
-                    </Checkbox>
-                    <Checkbox
-                      color="secondary"
-                      classNames={{
-                        label: "text-[#634AE2]",
-                      }}
-                      value="Racional-emotivo-conductual"
-                    >
-                      Racional-emotivo-conductual
-                    </Checkbox>
-                  </div>
-                </div>
-              </CheckboxGroup>
             </div>
           </ModalBody>
           <ModalFooter>

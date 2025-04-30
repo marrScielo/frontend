@@ -31,7 +31,7 @@ export const PersonalForm = ({
 
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}api/user`,
+        `${process.env.NEXT_PUBLIC_API_URL}api/administradores`,
         {
           method: "POST",
           headers: {
@@ -66,13 +66,7 @@ export const PersonalForm = ({
     }));
   };
 
-  /*const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormDataAdmin((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };*/
+  
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

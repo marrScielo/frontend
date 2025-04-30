@@ -1,14 +1,14 @@
 'use client';
 
-import { GetPsicologos } from "@/app/apiRoutes";
+import { GetAdministradores } from "@/app/apiRoutes";
 import CerrarSesion from "@/components/CerrarSesion";
 import LoadingPages from "@/components/LoadingPages";
-import AllPsicologos from "@/components/User/psicologos/AllPsicologos";
-import { PsicologoApiResponse } from "@/interface";
+import AllAdministradores from "@/components/User/Administradores/AllAdministradores";
+import { AdministradorApiResponse } from "@/interface";
 import { useEffect, useState } from "react";
 
-export default function Psicologos() {
-  const [data, setData] = useState<PsicologoApiResponse | null>(null);
+export default function AdministradoresPage() {
+  const [data, setData] = useState<AdministradorApiResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -16,11 +16,11 @@ export default function Psicologos() {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const response = await GetPsicologos();
+        const response = await GetAdministradores();
         setData(response);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to fetch psychologists');
-        console.error('Error fetching psychologists:', err);
+        setError(err instanceof Error ? err.message : 'Error al cargar administradores');
+        console.error('Error fetching Administradores:', err);
       } finally {
         setIsLoading(false);
       }
@@ -40,7 +40,7 @@ export default function Psicologos() {
   if (error) {
     return (
       <div className="p-4 text-red-500">
-        <h2>Error cargando los psicólogos</h2>
+        <h2>Error cargando administradores</h2>
         <p>{error}</p>
       </div>
     );
@@ -50,16 +50,16 @@ export default function Psicologos() {
     <div className="container mx-auto px-4 py-8">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold text-[#634AE2]">
-          Psicólogos
+          Administradores
         </h1>
         <CerrarSesion />
       </div>
       
       {data?.result && data.result.length > 0 ? (
-        <AllPsicologos Data={data.result} />
+        <AllAdministradores Data={data.result} />
       ) : (
         <div className="text-center py-8">
-          <p>No se encontraron especialistas</p>
+          <p>No se encontraron administradores registrados</p>
         </div>
       )}
     </div>

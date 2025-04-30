@@ -109,6 +109,56 @@ export interface FormData {
  rol:string;
  }
 
+ export interface AdministradorPreviewData {
+  idAdministrador: number;
+  nombre: string;
+  apellido: string;
+  email: string;
+  password?: string;
+  fecha_nacimiento: string;
+  imagen?: string;
+  estado?: 'A' | 'I';
+}
+
+export interface AdministradorApiResponse {
+  status_code: number;
+  status_message: string;
+  description: string;
+  errorBag: any[];
+  result: AdministradorPreviewData[];
+}
+
+export interface AdministradorApiResponseAlone {
+  status_code: number;
+  status_message: string;
+  description: string;
+  errorBag: any[];
+  result: AdministradorPreviewData;
+}
+
+export interface AdministradorFormData {
+  nombre: string;
+  apellido: string;
+  email: string;
+  password: string;
+  fecha_nacimiento: string;
+  imagen?: string;
+  estado?: 'A' | 'I'; // Opcional para creación/actualización
+}
+
+export interface UpdateAdminFormData {
+  administrador: {
+    imagen?: string;
+  };
+  user: {
+    nombre: string;
+    apellido: string;
+    email: string;
+    password?: string;
+    fecha_nacimiento: string;
+  };
+}
+
 //interface for the component EspecialidadGet BlogUsuarioCrear
 export interface Especialidad {
   idEspecialidad: number;
@@ -182,7 +232,6 @@ export interface PsicologoPreviewData {
   horario: {
     [key: string]: [string, string][];
   };
-
 }
 
 export interface PsicologoApiResponse {
