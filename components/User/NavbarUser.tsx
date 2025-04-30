@@ -24,6 +24,11 @@ const navItems = [
     link: "/user/registroAdmin",
     icono:Icons.personal,
   },
+  {
+    name: "Administradores",
+    link: "/user/Administradores",
+    icono: Icons.psicologos,
+  },
 
   {
     name: "Políticas y Privacidad",
