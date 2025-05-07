@@ -12,21 +12,11 @@ const NavbarPaciente : React.FC<DatosPacienteProps> = ({ idPaciente }) => {
   const navItems = [
     { name: "Datos Personales", link: `/user/pacientes/DetallePaciente/`},
     { name: "Historial Clinico", link:`/user/pacientes/HistorialClinico/` },
-    { name: "Citas", link: `/user/pacientes/Citas/` },
   ];
   
   return (
     <div>
-      <div className="flex w-full mt-4 pl-8 h-72">
-        <div
-          className="flex items-center pr-[200px] pl-8 rounded-3xl"
-          style={{
-            backgroundImage: `url(/Paciente.webp)`,
-            backgroundPosition: "right top",
-            backgroundSize: "auto",
-            backgroundRepeat: "no-repeat",
-          }}
-        />
+      <div className="flex w-full mt-4 pl-8 mb-4">
         <div className="bg-[#6364F4] w-full h-[8vh] flex flex-row items-center px-4 mt-10 ">
           <div className="flex flex-row gap-4">
             <div className="w-full max-w-xl flex flex-row gap-4 justify-between">

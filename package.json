@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "^2.2.2",
     "@heroui/react": "^2.6.14",
     "@heroui/system": "^2.4.11",
     "@hookform/resolvers": "^4.0.0",

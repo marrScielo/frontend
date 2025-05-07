@@ -48,7 +48,7 @@ const PageHome = () => {
   }, [idPaciente, idPacienteNum]);
 
   return (
-    <div className="pb-4 bg-[#eaeded]">
+    <div className=" bg-[#eaeded]">
       <div className="flex flex-1 bg-[#eaeded] w-full z-30 mt-4">
         <div>
           <nav className="bg-[#eaeded] rounded-2xl mt-3 h-[12vh] flex items-center w-[calc(95vw-270px)] p-4">
@@ -80,13 +80,12 @@ const PageHome = () => {
       </div>
 
       <div>
-        <div style={{ position: "relative", zIndex: 2 }}>
+        <div >
           <NavbarPaciente idPaciente={idPacienteNum} />
         </div>
 
         <div
           className="flex justify-center"
-          style={{ position: "relative", zIndex: 100, marginTop: "-180px" }}
         >
           <DatosPaciente idPaciente={idPacienteNum} />
         </div>

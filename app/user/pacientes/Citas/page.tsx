@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import CerrarSesion from "@/components/CerrarSesion";
 import { Icons } from "@/icons";
 import NavbarPaciente from "@/components/User/Pacientes/NavbarPaciente";
-import CitasPaciente from "@/components/User/Pacientes/CitasPaciente"; 
+
 import { useSearchParams } from "next/navigation";
 import { Paciente } from "@/interface";
 import { parseCookies } from "nookies";
@@ -89,7 +89,7 @@ const PageHome = () => {
           className="flex justify-center"
           style={{ position: "relative", zIndex: 100, marginTop: "-180px" }}
         >
-          <CitasPaciente idPaciente={Number(idPaciente)} />
+         
         </div>
       </div>
     </div>

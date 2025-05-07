@@ -34,21 +34,13 @@ const navItems = [
     link: "/user/calendario",
     icono: Icons.calendario,
   },
-  {
-    name: "Estadisticas",
-    link: "/user/estadisticas",
-    icono: Icons.estadisticas,
-  },
+  
   {
     name: "Blog",
     link: "/user/blog",
     icono: Icons.blog,
   },
-  {
-    name: "Marketing",
-    link: "/user/marketing",
-    icono: Icons.marketing,
-  },
+  
   {
     name: "Politicas y Privacidad",
     link: "/",
