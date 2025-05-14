@@ -269,6 +269,9 @@ export interface UserInterface {
   iniciales: string | null;
 }
 
+
+
+
 export interface Categoria {
   idCategoria: number;
   nombre: string;

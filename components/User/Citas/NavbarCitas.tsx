@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Icons } from "@/icons";
 import {
   Input,
@@ -16,7 +16,12 @@ import {
   ModalFooter,
   useDisclosure,
   Form,
+  Autocomplete,
+  AutocompleteItem,
 } from "@heroui/react";
+import { Paciente, UsuarioLocalStorage } from "@/interface";
+import { parseCookies } from "nookies";
+import showToast from "@/components/ToastStyle";
 
 interface NavbarProps {
   filterValue: string;
@@ -26,14 +31,46 @@ interface NavbarProps {
   setVisibleColumns: (columns: Set<string>) => void;
   columns: { name: string; uid: string; sortable?: boolean }[];
 }
+const cookies = parseCookies();
+const token = cookies["session"];
+
+export const PacienteGet = async (): Promise<Paciente[]> => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}api/pacientes/all`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Error ${response.status}: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data.result || [];
+  } catch (error) {
+    console.error("Error al obtener pacientes:", error);
+    throw error;
+  }
+};
 
 export const Navbar: React.FC<NavbarProps> = ({
   filterValue,
   onSearchChange,
   onClear,
+ 
 }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
+  const [pacientes, setPacientes] = useState<Paciente[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedPaciente, setSelectedPaciente] = useState<string | null>(null);
+  const [user, setUser] = useState<UsuarioLocalStorage | null>(null);
   const [formData, setFormData] = useState({
     paciente: "",
     motivo: "",
@@ -47,6 +84,29 @@ export const Navbar: React.FC<NavbarProps> = ({
     etiqueta: "",
   });
 
+  useEffect(() => {
+    const fetchPacientes = async () => {
+      try {
+        const data = await PacienteGet();
+        setPacientes(data);
+      } catch (error) {
+        console.error("Error al cargar pacientes:", error);
+        showToast("error", "Error al cargar pacientes");
+      }
+    };
+    fetchPacientes();
+  }, []);
+
+  useEffect(() => {
+    const fetchUser = () => {
+      const storedUser = localStorage.getItem("user");
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      }
+    };
+    fetchUser();
+  }, []);
+
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -57,15 +117,27 @@ export const Navbar: React.FC<NavbarProps> = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:8000/api/citas", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      const cookies = parseCookies();
+      const token = cookies["session"];
 
-      if (!response.ok) throw new Error("Error al crear la cita");
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}api/citas`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
-      alert("Cita guardada correctamente");
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error al crear la cita");
+      }
+
+      showToast("success", "Cita guardada correctamente");
       setFormData({
         paciente: "",
         motivo: "",
@@ -78,10 +150,13 @@ export const Navbar: React.FC<NavbarProps> = ({
         duracion: 30,
         etiqueta: "",
       });
-      onOpenChange(); // Cierra el modal
+      onOpenChange();
     } catch (err) {
       console.error("Error:", err);
-      alert("Hubo un error al guardar la cita");
+      showToast(
+        "error",
+        err instanceof Error ? err.message : "Hubo un error al guardar la cita"
+      );
     }
   };
 
@@ -193,18 +268,48 @@ export const Navbar: React.FC<NavbarProps> = ({
         <ModalContent>
           <ModalBody>
             <Form validationBehavior="native" onSubmit={handleSubmit}>
-              <Input
-                label="Paciente"
-                name="paciente"
-                value={formData.paciente}
-                onChange={handleInputChange}
-                placeholder="Nombre del paciente"
-                labelPlacement="outside"
-                classNames={{
-                  label: "!text-[#634AE2] font-bold text-center",
-                  input: "!text-[#634AE2] font-light text-center",
+              <Autocomplete
+                radius="full"
+                inputProps={{
+                  className: "!text-[#634AE2]",
                 }}
-              />
+                placeholder="Buscar paciente por nombre o apellido"
+                items={pacientes.filter((p) =>
+                  `${p.nombre} ${p.apellido}`
+                    .toLowerCase()
+                    .includes(searchTerm.toLowerCase())
+                )}
+                aria-label="Paciente"
+                variant="faded"
+                selectedKey={selectedPaciente}
+                onInputChange={setSearchTerm}
+                onSelectionChange={(key) => {
+                  setSelectedPaciente(key?.toString() || null);
+                  const paciente = pacientes.find(
+                    (p) => p.idPaciente.toString() === key
+                  );
+                  if (paciente) {
+                    setFormData((prev) => ({
+                      ...prev,
+                      paciente: `${paciente.nombre} ${paciente.apellido}`,
+                    }));
+                  }
+                }}
+              >
+                {(paciente) => (
+                  <AutocompleteItem
+                    key={paciente.idPaciente}
+                    textValue={`${paciente.nombre} ${paciente.apellido}`}
+                  >
+                    <div className="flex justify-between w-full">
+                      <span>
+                        {paciente.nombre} {paciente.apellido}
+                      </span>
+                    </div>
+                  </AutocompleteItem>
+                )}
+              </Autocomplete>
+
               <Textarea
                 label="Motivo de consulta"
                 name="motivo"
