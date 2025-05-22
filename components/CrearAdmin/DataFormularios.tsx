@@ -240,8 +240,8 @@ const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
                 label="Nombre"
                 labelPlacement="outside"
                 radius="full"
-                max={50}
-                min={2}
+                maxLength={50}
+                minLength={2}
                 classNames={{
                   label: "!text-[#634AE2] text-sm mb-1",
                   inputWrapper: "border-2 border-[#634AE2] h-10",
@@ -253,7 +253,7 @@ const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
                 value={formDataAdmin.name}
                 variant="faded"
                 onChange={(e) => {
-                  const regex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s'`´\-]*$/;
+                  const regex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s\-]*$/;
                   if (regex.test(e.target.value)) {
                     setFormDataAdmin({
                       ...formDataAdmin,
@@ -267,8 +267,8 @@ const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
                 labelPlacement="outside"
                 radius="full"
                 variant="faded"
-                min={2}
-                max={50}
+                maxLength={50}
+                minLength={2}
                 value={formDataAdmin.apellido}
                 classNames={{
                   label: "!text-[#634AE2] text-sm mb-1",
