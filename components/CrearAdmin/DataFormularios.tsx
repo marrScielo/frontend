@@ -106,7 +106,7 @@ export const PersonalForm = ({
 
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}api/administradores`,
+      `${process.env.NEXT_PUBLIC_API_URL}api/user`,
       {
         method: "POST",
         headers: {
