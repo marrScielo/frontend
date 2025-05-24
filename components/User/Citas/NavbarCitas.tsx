@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import { Icons } from "@/icons";
 import {
   Input,
@@ -16,10 +16,9 @@ import {
   ModalFooter,
   useDisclosure,
   Form,
-  Autocomplete,
-  AutocompleteItem,
+  
 } from "@heroui/react";
-import { Paciente, UsuarioLocalStorage } from "@/interface";
+//import { Paciente, UsuarioLocalStorage } from "@/interface";
 import { parseCookies } from "nookies";
 import showToast from "@/components/ToastStyle";
 
@@ -31,10 +30,10 @@ interface NavbarProps {
   setVisibleColumns: (columns: Set<string>) => void;
   columns: { name: string; uid: string; sortable?: boolean }[];
 }
-const cookies = parseCookies();
-const token = cookies["session"];
+//const cookies = parseCookies();
+//const token = cookies["session"];
 
-export const PacienteGet = async (): Promise<Paciente[]> => {
+/*export const PacienteGet = async (): Promise<Paciente[]> => {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}api/pacientes/all`,
@@ -58,7 +57,7 @@ export const PacienteGet = async (): Promise<Paciente[]> => {
     console.error("Error al obtener pacientes:", error);
     throw error;
   }
-};
+};*/
 
 export const Navbar: React.FC<NavbarProps> = ({
   filterValue,
@@ -67,10 +66,10 @@ export const Navbar: React.FC<NavbarProps> = ({
  
 }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [pacientes, setPacientes] = useState<Paciente[]>([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedPaciente, setSelectedPaciente] = useState<string | null>(null);
-  const [user, setUser] = useState<UsuarioLocalStorage | null>(null);
+ // const [pacientes, setPacientes] = useState<Paciente[]>([]);
+ // const [searchTerm, setSearchTerm] = useState("");
+  //const [selectedPaciente, setSelectedPaciente] = useState<string | null>(null);
+ // const [user, setUser] = useState<UsuarioLocalStorage | null>(null);
   const [formData, setFormData] = useState({
     paciente: "",
     motivo: "",
@@ -84,7 +83,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     etiqueta: "",
   });
 
-  useEffect(() => {
+ /* useEffect(() => {
     const fetchPacientes = async () => {
       try {
         const data = await PacienteGet();
@@ -95,9 +94,9 @@ export const Navbar: React.FC<NavbarProps> = ({
       }
     };
     fetchPacientes();
-  }, []);
+  }, []);*/
 
-  useEffect(() => {
+  /*useEffect(() => {
     const fetchUser = () => {
       const storedUser = localStorage.getItem("user");
       if (storedUser) {
@@ -105,7 +104,7 @@ export const Navbar: React.FC<NavbarProps> = ({
       }
     };
     fetchUser();
-  }, []);
+  }, []);*/
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -268,13 +267,13 @@ export const Navbar: React.FC<NavbarProps> = ({
         <ModalContent>
           <ModalBody>
             <Form validationBehavior="native" onSubmit={handleSubmit}>
-              <Autocomplete
+              {/*<Autocomplete
                 radius="full"
                 inputProps={{
                   className: "!text-[#634AE2]",
                 }}
                 placeholder="Buscar paciente por nombre o apellido"
-                items={pacientes.filter((p) =>
+               /* items={pacientes.filter((p) =>
                   `${p.nombre} ${p.apellido}`
                     .toLowerCase()
                     .includes(searchTerm.toLowerCase())
@@ -285,7 +284,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 onInputChange={setSearchTerm}
                 onSelectionChange={(key) => {
                   setSelectedPaciente(key?.toString() || null);
-                  const paciente = pacientes.find(
+                 /* const paciente = pacientes.find(
                     (p) => p.idPaciente.toString() === key
                   );
                   if (paciente) {
@@ -308,7 +307,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     </div>
                   </AutocompleteItem>
                 )}
-              </Autocomplete>
+              </Autocomplete>*/}
 
               <Textarea
                 label="Motivo de consulta"
