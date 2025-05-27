@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Icons } from "@/icons";
 import { useDropzone } from "react-dropzone";
 import CerrarSesion from "@/components/CerrarSesion";

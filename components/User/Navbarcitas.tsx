@@ -7,8 +7,22 @@ const NavbarCitas = () => {
       <div>
         <div className="flex w-full mt-8">
           <div className="bg-[#6364F4] w-full h-[8vh] flex flex-row justify-start items-center px-4">
-            <div className="flex flex-row gap-4 w-full items-center pl-12">
-              {/* Icono de filtro */}
+          
+        
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default NavbarCitas;
+
+
+
+/*
+    <div className="flex flex-row gap-4 w-full items-center pl-12">
+             
               <span
                 className="text-[#634AE2] transition-colors"
                 dangerouslySetInnerHTML={{
@@ -21,7 +35,7 @@ const NavbarCitas = () => {
               />
               <div className="text-[#fff] font-light text-xl">Filtrar</div>
 
-              {/* Icono de lupa */}
+     
               <span
                 className="text-[#fff] transition-colors pl-6"
                 dangerouslySetInnerHTML={{
@@ -36,16 +50,15 @@ const NavbarCitas = () => {
                 }}
               />
 
-              {/* Input de búsqueda */}
+   
               <input
                 type="text"
                 placeholder="Buscar paciente"
                 className="rounded-full placeholder:text-[#9494F3] bg-[#EAEAFF] ml-4 pl-4 w-40"
               />
 
-              {/* Grupo de icono de agregar y botón */}
               <div className="ml-auto flex items-center gap-4 mr-12">
-                {/* Icono de agregar */}
+       
                 <span
                   className="text-[#634AE2] transition-colors"
                   dangerouslySetInnerHTML={{
@@ -58,17 +71,13 @@ const NavbarCitas = () => {
                   }}
                 />
 
-                {/* Botón de agregar nueva cita */}
+             
                 <div className="text-[#fff] font-light text-xl border-1 rounded-full px-4">
                   Agregar nueva cita
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
+          
 
-export default NavbarCitas;
+
+*/

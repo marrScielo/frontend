@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useMemo, useCallback, useEffect } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { Navbar } from "@/components/User/Historial/SearchNavbar";
 import { TableComponent } from "@/components/User/Historial/TableComponent";
 import CerrarSesion from "@/components/CerrarSesion";

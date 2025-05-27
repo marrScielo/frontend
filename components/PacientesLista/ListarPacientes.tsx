@@ -152,17 +152,17 @@ export default function ListarPacientes() {
           </div>
         </div>
         <div className="flex flex-row items-center gap-x-1 mr-5">
-          <Link href="/user/pacientes/DatosPaciente" passHref legacyBehavior>
+          <Link href="/user/pacientes/DatosPaciente" >
             <Button
-              as="a"
+          
               className="hover:bg-gray-200 border border-white text-[#634AE2] bg-white p-[2px] rounded-full"
             >
               <Plus />
             </Button>
           </Link>
-          <Link href="/user/pacientes/DatosPaciente" passHref legacyBehavior>
+          <Link href="/user/pacientes/DatosPaciente" >
             <Button
-              as="a"
+        
               radius="full"
               className="border border-white text-white bg-transparent hover:bg-white hover:bg-opacity-20 h-8 mx-auto"
             >
@@ -202,7 +202,7 @@ export default function ListarPacientes() {
                 <div className="w-full h-full flex items-center justify-center">
                   <div className="flex flex-row items-center justify-center gap-x-4">
                     <Link
-                      href="/user/pacientes/RegistroFamiliar"
+                      href={`/user/pacientes/RegistroFamiliar/${paciente.idPaciente}`}
                       className={cn("flex flex-col items-center")}
                     >
                       <svg
@@ -226,12 +226,12 @@ export default function ListarPacientes() {
                         Registro Familiar
                       </h1>
                     </Link>
+
+
                     <Link
                       href={{
-                        pathname: "/user/pacientes/DetallePaciente",
-                        query: {
-                          idPaciente: paciente.idPaciente,
-                        },
+                        pathname: `/user/pacientes/DetallePaciente/${paciente.idPaciente}`,
+                        query: { pacienteId: paciente.idPaciente },
                       }}
                       className={cn("flex flex-col items-center")}
                     >

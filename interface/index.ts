@@ -57,7 +57,7 @@ export interface ServicesStructureProps {
     icon: string;
   }[];
   textfooter: string;
-  textfootermobile:string;
+  textfootermobile: string;
 }
 //Quienes Somos
 export interface QuienesSomos {
@@ -95,21 +95,21 @@ export interface FormData {
   imagen: string;
   experiencia: number;
   especialidades: number[];
-  horario: { 
+  horario: {
     [key: string]: string[][];
   };
 }
- export interface FormDataAdmin{
- name:string;
- apellido:string;
- fecha_nacimiento:DateValue | string;
- imagen:string; 
- email:string;
- password:string;
- rol:string;
- }
+export interface FormDataAdmin {
+  name: string;
+  apellido: string;
+  fecha_nacimiento: DateValue | string;
+  imagen: string;
+  email: string;
+  password: string;
+  rol: string;
+}
 
- export interface AdministradorPreviewData {
+export interface AdministradorPreviewData {
   idAdministrador: number;
   nombre: string;
   apellido: string;
@@ -216,7 +216,7 @@ export interface ApiResponse {
 //Psicologos Preview Data
 export interface PsicologoPreviewData {
   idPsicologo: number,
-  titulo:string,
+  titulo: string,
   nombre: string,
   apellido: string,
   pais: string,
@@ -318,8 +318,15 @@ export interface BotonHorarioProps {
 }
 
 export interface CitasPendientes {
-  fecha: string;
-  hora: string;
+  codigo: string;
+  duracion: string;
+  estado: string;
+  fecha_inicio: string;
+  idCita: number;
+  idPaciente: number;
+  idPsicologo: number;
+  motivo: string;
+  paciente: string;
 }
 
 export interface CitasPendientesApiResponse {
@@ -327,8 +334,9 @@ export interface CitasPendientesApiResponse {
   status_message: string;
   description: string;
   errorBag: any[];
-  result: CitasPendientes[]; 
+  result: CitasPendientes[];
 }
+
 
 export interface PrePaciente {
   nombre: string,
@@ -340,27 +348,43 @@ export interface PrePaciente {
 }
 
 export interface Paciente {
-  idPaciente: number,
-  DNI: string,
-  codigo: string,
-  nombre: string,
-  apellido:string,
-  correo: string,
-  celular: string,
-  fecha_nacimiento: Date,
-  imagen: string,
-  genero: string,
-  ocupacion: string,
-  estadoCivil: string,
-  direccion: string,
-  idPsicologo: number
+  idPaciente: number;
+  DNI: string;
+  codigo: string;
+  nombre: string;
+  apellido: string;
+  correo: string;
+  celular: string;
+  fecha_nacimiento: Date;
+  imagen: string;
+  genero: string;
+  ocupacion: string;
+  estadoCivil: string;
+  direccion: string;
+  idPsicologo: number;
+  registro_familiar: RegistroPaciente;
+}
+
+
+export interface RegistroPaciente {
+  nombre_madre: string,
+  estado_madre: string,
+  nombre_padre: string,
+  estado_padre: string,
+  nombre_apoderado: string,
+  estado_apoderado: string,
+  cantidad_hijos: number,
+  cantidad_hermanos: number,
+  integracion_familiar: string,
+  historial_familiar: string
+
 }
 
 export interface Paciente2 {
   idPaciente: number,
   DNI: string,
   nombre: string,
-  apellido:string,
+  apellido: string,
   email: string,
   celular: string,
   fecha_nacimiento: String,
@@ -383,9 +407,9 @@ export interface FormPaciente {
   estadoCivil: string;
   ocupacion: string;
   direccion: string;
-  departamento: string| null;
-  provincia: string| null;
-  pais: string| null;
+  departamento: string | null;
+  provincia: string | null;
+  pais: string | null;
   antecedentesMedicos: string;
   medicamentosPrescritos: string;
 }
@@ -425,7 +449,7 @@ export interface Citas {
 
 export interface DatePacienteProps {
   idPaciente: number;
-  ultimaAtencion : UltimaAtencion | null;
+  ultimaAtencion: UltimaAtencion | null;
 }
 
 export interface AtencionFormData {
@@ -443,7 +467,7 @@ export interface AtencionFormData {
   idCita?: number;
 }
 
-export interface ListaAtencion{
+export interface ListaAtencion {
   hora_inicio: string;
   nombre_completo: string;
   diagnostico: string;
@@ -452,7 +476,7 @@ export interface ListaAtencion{
   idAtencion: string;
   idPaciente: string;
   codigo: string;
-  age:string;
+  age: string;
 }
 
 export interface Enfermedad {
@@ -490,4 +514,14 @@ export interface UltimaAtencion {
   comentario: string;
   idAtencion: number;
   tratamiento: string;
+}
+
+
+
+export interface PacienteApiResponse {
+  status_code: number;
+  status_message: string;
+  description: string;
+  errorBag: any[];
+  result: Paciente[];
 }

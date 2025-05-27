@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import DashboardComponents from "@/components/User/Dashboard/DashboardComponents";
 import { UsuarioLocalStorage } from "@/interface";
 import CerrarSesion from "@/components/CerrarSesion";

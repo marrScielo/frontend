@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useMemo, useCallback, useEffect } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { Navbar } from "@/components/User/Citas/NavbarCitas";
 import { TableCitas } from "@/components/User/Citas/TableCitas";
 import CerrarSesion from "@/components/CerrarSesion";

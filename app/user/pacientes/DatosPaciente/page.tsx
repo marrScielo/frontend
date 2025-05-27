@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Icons } from "@/icons";
 import CerrarSesion from "@/components/CerrarSesion";
 import Link from "next/link";
@@ -13,9 +13,12 @@ import {
   CitySelect,
 } from "react-country-state-city";
 import { DatePicker } from "@heroui/react";
-import { CalendarDate } from "@internationalized/date"
-import "react-country-state-city/dist/react-country-state-city.css"
+import { CalendarDate } from "@internationalized/date";
+import "react-country-state-city/dist/react-country-state-city.css";
+import { useRouter } from "next/navigation";
 export default function App() {
+   const router = useRouter()
+
   const [country, setCountry] = useState<Country | null>(null);
   const [currentState, setCurrentState] = useState<City | null>(null);
   const [currentCity, setCurrentCity] = useState<State | null>(null);
@@ -40,7 +43,11 @@ export default function App() {
   const handleDateChange = (value: CalendarDate | null) => {
     if (value) {
       // Formatear directamente como DD/MM/YYYY
-      const formattedDate = `${value.day.toString().padStart(2, '0')}/${value.month.toString().padStart(2, '0')}/${value.year}`;
+      const formattedDate = `${value.day
+        .toString()
+        .padStart(2, "0")}/${value.month.toString().padStart(2, "0")}/${
+        value.year
+      }`;
       setFormData({ ...formData, fecha_nacimiento: formattedDate });
     } else {
       setFormData({ ...formData, fecha_nacimiento: "" });
@@ -49,7 +56,7 @@ export default function App() {
 
   const parseDateString = (dateString: string): CalendarDate | null => {
     if (!dateString) return null;
-    const [day, month, year] = dateString.split('/').map(Number);
+    const [day, month, year] = dateString.split("/").map(Number);
     if (isNaN(day) || isNaN(month) || isNaN(year)) return null;
     return new CalendarDate(year, month, day);
   };
@@ -162,6 +169,27 @@ export default function App() {
     }
   };
 
+  const handleReset = () => {
+    setFormData({
+      nombre: "",
+      apellidoPaterno: "",
+      apellidoMaterno: "",
+      DNI: "",
+      email: "",
+      celular: "",
+      fecha_nacimiento: "",
+      genero: "",
+      estadoCivil: "",
+      ocupacion: "",
+      direccion: "",
+      departamento: "",
+      provincia: "",
+      pais: "",
+      antecedentesMedicos: "",
+      medicamentosPrescritos: "",
+    });
+      router.push("/user/pacientes");
+  };
   return (
     <div className="p-4">
       {/* Header */}
@@ -186,28 +214,44 @@ export default function App() {
         <div className="flex-1 ml-5 mr-5 bg-[#fff] rounded-2xl p-4">
           <div className="flex pt-6">
             <div className="flex-1 items-center justify-items-center">
-              <div className="py-1 mt-2">Nombre</div>
+              <div className="py-1 mt-2">
+                Nombre
+                <span className="text-red-500">*</span>
+              </div>
               <div className="relative">
                 <input
                   type="text"
                   value={formData.nombre}
-                  onChange={(e) =>
-                    setFormData({ ...formData, nombre: e.target.value })
-                  }
+                  onChange={(e) => {
+                    const regex = /^[a-zA-Z\s]*$/;
+                    if (regex.test(e.target.value)) {
+                      // Regex to allow only letters and spaces
+                      setFormData({ ...formData, nombre: e.target.value });
+                    }
+                  }}
                   className="pl-12 pr-3 text-sm h-9 mt-2 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
                 />
               </div>
             </div>
             <div className="flex-1 items-center justify-items-center">
-              <div className="py-1 mt-2">DNI</div>
+              <div className="py-1 mt-2">
+                DNI <span className="text-red-500">*</span>
+              </div>
               <div className="relative">
                 <input
                   type="text"
                   value={formData.DNI}
+                  required
                   maxLength={8}
-                  onChange={(e) =>
-                    setFormData({ ...formData, DNI: e.target.value })
-                  }
+                  min={8}
+                  placeholder="Ejemplo: 12345678"
+                  onChange={(e) => {
+                    const regex = /^[0-9]*$/;
+                    if (regex.test(e.target.value)) {
+                      // Regex to allow only numbers
+                      setFormData({ ...formData, DNI: e.target.value });
+                    }
+                  }}
                   className="pl-12 pr-3 text-sm h-9 mt-2 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
                 />
               </div>
@@ -215,33 +259,44 @@ export default function App() {
           </div>
           <div className="flex pt-1">
             <div className="flex-1 items-center justify-items-center">
-              <div className="py-1 mt-2">Apellido Paterno</div>
+              <div className="py-1 mt-2">
+                Apellido Paterno <span className="text-red-500">*</span>
+              </div>
               <div className="relative">
                 <input
                   type="text"
                   value={formData.apellidoPaterno}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      apellidoPaterno: e.target.value,
-                    })
-                  }
+                  onChange={(e) => {
+                    const regex = /^[a-zA-Z\s]*$/;
+                    if (regex.test(e.target.value)) {
+                      setFormData({
+                        ...formData,
+                        apellidoPaterno: e.target.value,
+                      });
+                    }
+                  }}
                   className="pl-12 pr-3 text-sm h-9 mt-1 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
                 />
               </div>
             </div>
             <div className="flex-1 items-center justify-items-center">
-              <div className="py-1 mt-2">Apellido Materno</div>
+              <div className="py-1 mt-2">
+                Apellido Materno <span className="text-red-500">*</span>
+              </div>
               <div className="relative">
                 <input
                   type="text"
                   value={formData.apellidoMaterno}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      apellidoMaterno: e.target.value,
-                    })
-                  }
+                  onChange={(e) => {
+                    const regex = /^[a-zA-Z\s]*$/;
+                    if (regex.test(e.target.value)) {
+                      // Regex to allow only letters and spaces
+                      setFormData({
+                        ...formData,
+                        apellidoMaterno: e.target.value,
+                      });
+                    }
+                  }}
                   className="pl-12 pr-3 text-sm h-9 mt-1 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
                 />
               </div>
@@ -249,10 +304,13 @@ export default function App() {
           </div>
           <div className="flex pt-1">
             <div className="flex-1 items-center justify-items-center">
-              <div className="py-1 mt-2">Fecha de nacimiento</div>
+              <div className="py-1 mt-2">
+                Fecha de nacimiento <span className="text-red-500">*</span>
+              </div>
               <div className="relative">
                 <DatePicker
                   showMonthAndYearPickers
+                  isRequired
                   selectorButtonPlacement="start"
                   classNames={{
                     inputWrapper: "bg-[#E7E7FF] rounded-full",
@@ -284,22 +342,27 @@ export default function App() {
                     },
                   }}
                   onChange={handleDateChange}
-                  value={parseDateString(formData.fecha_nacimiento)}
+                  //value={parseDateString(formData.fecha_nacimiento)}
                 />
               </div>
             </div>
             <div className="flex-1 items-center justify-items-center">
-              <div className="py-1 mt-2">Ocupacion</div>
+              <div className="py-1 mt-2">
+                Ocupacion <span className="text-red-500">*</span>
+              </div>
               <div className="relative">
                 <input
                   type="text"
                   value={formData.ocupacion}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      ocupacion: e.target.value,
-                    })
-                  }
+                  onChange={(e) => {
+                    const regex = /^[a-zA-Z\s]*$/;
+                    if (regex.test(e.target.value)) {
+                      setFormData({
+                        ...formData,
+                        ocupacion: e.target.value,
+                      });
+                    }
+                  }}
                   className="pl-12 pr-3 text-sm h-9 mt-1 outline-none focus:ring-0 focus:outline-none w-full rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
                 />
               </div>
@@ -307,7 +370,7 @@ export default function App() {
           </div>
           <div className="flex pt-1">
             <div className="flex-1 items-center justify-items-center">
-              <div className="py-1 mt-2">Estado civil</div>
+              <div className="py-1 mt-2">Estado civil <span className="text-red-500">*</span></div>
               <div className="relative w-60">
                 <select
                   value={formData.estadoCivil}
@@ -325,7 +388,7 @@ export default function App() {
               </div>
             </div>
             <div className="flex-1 items-center justify-items-center">
-              <div className="py-1 mt-2">Genero</div>
+              <div className="py-1 mt-2">Genero<span className="text-red-500">*</span></div>
               <div className="relative w-60">
                 <select
                   value={formData.genero}
@@ -342,14 +405,19 @@ export default function App() {
               </div>
             </div>
           </div>
-          <div className="text-center pt-1 pb-1 py-1 mt-4">Celular</div>
+          <div className="text-center pt-1 pb-1 py-1 mt-4">Celular <span className="text-red-500">*</span></div>
           <div className="flex justify-center">
             <input
               type="text"
               maxLength={9}
+              min={9}
               value={formData.celular}
-              onChange={(e) =>
-                setFormData({ ...formData, celular: e.target.value })
+              onChange={(e) =>{
+                const regex= /^[0-9]*$/;
+                if(regex.test(e.target.value)) {
+                  setFormData({ ...formData, celular: e.target.value });
+              }
+            }
               }
               placeholder="Ejemp. 999999999"
               className="pl-12 pr-3 text-sm h-9 mt-2 outline-none focus:ring-0 focus:outline-none w-11/12 rounded-full border-none placeholder:text-[#634AE2] bg-[#F3F3F3]"
@@ -359,11 +427,11 @@ export default function App() {
         {/*Segunda Columna*/}
         <div className="flex-1 mr-5 ml-5 bg-[#fff] rounded-2xl p-6">
           <div className="text-center pt-1 pb-1 py-1 mt-4">
-            Correo electrónico
+            Correo electrónico <span className="text-red-500">*</span>
           </div>
           <div className="flex justify-center">
             <input
-              type="text"
+              type="email"
               value={formData.email}
               onChange={(e) =>
                 setFormData({ ...formData, email: e.target.value })
@@ -373,7 +441,7 @@ export default function App() {
           </div>
           <div className="flex pt-1">
             <div className="flex-1 items-center justify-items-center">
-              <div className="py-1 mt-2">Pais</div>
+              <div className="py-1 mt-2">Pais <span className="text-red-500">*</span></div>
               <div className="relative">
                 <CountrySelect
                   containerClassName="mt-2 [&_.stdropdown-container]:!border-none [&_.stdropdown-container]:!bg-transparent [&_.stdropdown-input]:!p-0 [&_.stsearch-box]:!bg-[#F3F3F3] [&_.stsearch-box]:!rounded-full [&_.stdropdown-tools]:hidden w-full"
@@ -397,7 +465,7 @@ export default function App() {
               </div>
             </div>
             <div className="flex-1 items-center justify-items-center">
-              <div className="py-1 mt-2">Departamento</div>
+              <div className="py-1 mt-2">Departamento <span className="text-red-500">*</span></div>
               <div className="relative">
                 <StateSelect
                   countryid={country?.id ?? 0}
@@ -424,7 +492,7 @@ export default function App() {
           </div>
           <div className="flex pt-1">
             <div className="flex-1 items-center justify-items-center">
-              <div className="py-1 mt-2">Provincia</div>
+              <div className="py-1 mt-2">Provincia <span className="text-red-500">*</span></div>
               <div className="relative">
                 <CitySelect
                   countryid={country?.id ?? 0}
@@ -450,7 +518,7 @@ export default function App() {
               </div>
             </div>
             <div className="flex-1 items-center justify-items-center">
-              <div className="py-1 mt-2">Direccion</div>
+              <div className="py-1 mt-2">Direccion <span className="text-red-500">*</span></div>
               <div className="relative">
                 <input
                   type="text"
@@ -464,7 +532,7 @@ export default function App() {
             </div>
           </div>
           <div className="text-center pt-1 pb-1 py-1 mt-4">
-            Antecedentes médicos
+            Antecedentes médicos <span className="text-red-500">*</span>
           </div>
           <div className="flex justify-center">
             <input
@@ -480,7 +548,7 @@ export default function App() {
             />
           </div>
           <div className="text-center pt-1 pb-1 py-1 mt-4">
-            Medicamentos prescritos
+            Medicamentos prescritos <span className="text-red-500">*</span>
           </div>
           <div className="flex justify-center">
             <input
@@ -498,23 +566,16 @@ export default function App() {
         </div>
       </div>
       <div className="flex justify-center w-full p-4 ">
-        <Link
-          href="/user/pacientes/RegistroFamiliar"
-          className={cn(
-            "text-[#fff] bg-[#634AE2] pt-1 rounded-full w-auto h-8 mr-16 px-6 flex"
-          )}
-        >
-          <span
-            className="text-[#634AE2] transition-colors"
-            dangerouslySetInnerHTML={{
-              __html: Icons.registrarPaciente.replace(
-                /<svg /,
-                '<svg fill="#634AE2"'
-              ),
+          <button
+            onClick={() => {
+              handleReset();
             }}
-          />
-          Registro familiar
-        </Link>
+            type="reset"
+
+            className="text-[#634AE2] bg-[#fff] rounded-full border-2 border-[#634AE2] w-28 h-8 mr-12"
+          >
+            Cancelar
+          </button>
         <button
           onClick={HandlePostPaciente}
           className="text-[#634AE2] bg-[#fff] rounded-full border-2 border-[#634AE2] w-28 h-8 mr-12"

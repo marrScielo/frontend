@@ -9,8 +9,12 @@ import {
   AdministradorApiResponse,
   AdministradorApiResponseAlone,
   AdministradorPreviewData,
-
+  Paciente,
+  PacienteApiResponse,
+  Citas,
+  CitasPendientes,
 } from "@/interface";
+import { th, tr } from "date-fns/locale";
 import { parseCookies } from "nookies";
 
 export const token = parseCookies()["session"];
@@ -24,11 +28,8 @@ export async function BlogsWebSite(): Promise<ApiResponse> {
   return result;
 }
 
-
 export async function GetCagetories(): Promise<CategoriaApi> {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}api/categorias`
-  );
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}api/categorias`);
   if (!res.ok) {
     throw new Error("Error al obtener los datos");
   }
@@ -50,11 +51,7 @@ export async function GetBlogsPreviewApi(): Promise<AuthorsApi> {
 }
 
 export async function GetPsicologos(): Promise<PsicologoApiResponse> {
-  const res = await fetch(
-
-    `${process.env.NEXT_PUBLIC_API_URL}api/psicologos`
-
-  );
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}api/psicologos`);
   if (!res.ok) {
     throw new Error("Error al obtener los datos");
   }
@@ -62,7 +59,6 @@ export async function GetPsicologos(): Promise<PsicologoApiResponse> {
 
   return result;
 }
-
 
 export async function DeletePsycologo(id: number | null): Promise<void> {
   const res = await fetch(
@@ -121,11 +117,28 @@ export async function UpdatePsicologo(
   );
 
   if (!res.ok) {
-   
     throw new Error("Error al actualizar el psicologo");
-    
   }
 }
+
+export async function CitasGetAll(): Promise<CitasPendientes[]> {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}api/citas`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const result: CitasPendientesApiResponse = await res.json();
+    return result.result;  
+  } catch (error) {
+    console.error("Error al obtener las citas:", error);
+    throw new Error("Error al obtener las citas");
+  }
+}
+
 
 export async function GetCitasPendientes(
   id: number | null
@@ -147,7 +160,9 @@ export async function GetCitasPendientes(
   const result: CitasPendientesApiResponse = await res.json();
   return result;
 }
-{/* api de administradores */}
+{
+  /* api de administradores */
+}
 
 export async function GetAdministradores(): Promise<AdministradorApiResponse> {
   const res = await fetch(
@@ -155,14 +170,14 @@ export async function GetAdministradores(): Promise<AdministradorApiResponse> {
     {
       headers: {
         Authorization: `Bearer ${token}`,
-      }
+      },
     }
   );
-  
+
   if (!res.ok) {
     throw new Error("Error al obtener los administradores");
   }
-  
+
   const result: AdministradorApiResponse = await res.json();
   return result;
 }
@@ -171,7 +186,7 @@ export async function GetAdministradorById(
   id: number | null
 ): Promise<AdministradorApiResponseAlone> {
   if (!id) throw new Error("ID de administrador no proporcionado");
-  
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}api/administradores/${id}`,
     {
@@ -187,7 +202,7 @@ export async function GetAdministradorById(
   if (!res.ok) {
     throw new Error("Error al obtener el administrador");
   }
-  
+
   const result: AdministradorApiResponseAlone = await res.json();
   return result;
 }
@@ -219,7 +234,7 @@ export async function UpdateAdministrador(
   data: Partial<AdministradorPreviewData>
 ): Promise<void> {
   if (!id) throw new Error("ID de administrador no proporcionado");
-  
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}api/administradores/${id}`,
     {
@@ -235,13 +250,15 @@ export async function UpdateAdministrador(
 
   if (!res.ok) {
     const errorData = await res.json();
-    throw new Error(errorData.message || "Error al actualizar el administrador");
+    throw new Error(
+      errorData.message || "Error al actualizar el administrador"
+    );
   }
 }
 
 export async function DeleteAdministrador(id: number | null): Promise<void> {
   if (!id) throw new Error("ID de administrador no proporcionado");
-  
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}api/administradores/${id}`,
     {
@@ -264,7 +281,7 @@ export async function ChangeAdministradorStatus(
   id: number | null
 ): Promise<void> {
   if (!id) throw new Error("ID de administrador no proporcionado");
-  
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}api/administradores/${id}/status`,
     {
@@ -279,7 +296,50 @@ export async function ChangeAdministradorStatus(
 
   if (!res.ok) {
     const errorData = await res.json();
-    throw new Error(errorData.message || "Error al cambiar estado del administrador");
+    throw new Error(
+      errorData.message || "Error al cambiar estado del administrador"
+    );
   }
+}
+export async function GetAllPacientes(): Promise<Paciente[]> {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}api/pacientes`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const result: PacienteApiResponse = await res.json();
+    return result.result; 
+  } catch (error) {
+    throw new Error("Error al obtener los pacientes");
+  }
+}
+
+export async function GetPacienteById(
+  id: string| null
+): Promise<Paciente> {
+  if (!id) throw new Error("ID de paciente no proporcionado");
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}api/pacientes/${id}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  if (!res.ok) {
+    throw new Error("Error al obtener el paciente");
+  }
+
+  const result= await res.json();
+  return result.result;
 }
 

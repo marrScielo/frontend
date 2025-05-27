@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import CerrarSesion from "@/components/CerrarSesion";
 import { Icons } from "@/icons";
 import NavbarPaciente from "@/components/User/Pacientes/NavbarPaciente";
