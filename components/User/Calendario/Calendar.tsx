@@ -22,6 +22,7 @@ import {
 } from "@heroui/react";
 import { CitasPendientes } from "@/interface";
 import { CitasGetAll } from "@/app/apiRoutes";
+import ModalCrearCita from "./Modalcita";
 
 const localizer = dateFnsLocalizer({
   format,
@@ -271,6 +272,7 @@ export default function Calendario() {
                   className="bg-[#634AE2] text-white font-medium"
                   onPress={() => {
                     console.log('Editar cita:', selectedEvent?.id);
+                
                     onClose();
                   }}
                 >
