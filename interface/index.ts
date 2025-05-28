@@ -143,7 +143,7 @@ export interface AdministradorFormData {
   password: string;
   fecha_nacimiento: string;
   imagen?: string;
-  estado?: 'A' | 'I'; // Opcional para creación/actualización
+  estado?: 'A' | 'I'; 
 }
 
 export interface UpdateAdminFormData {

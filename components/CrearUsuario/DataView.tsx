@@ -1,5 +1,6 @@
 import { FormData } from "@/interface";
 import { convertImageToWebP, convertToBase64 } from "@/utils/convertir64";
+import showToast from "@/components/ToastStyle";
 import {
   Button,
   Checkbox,
@@ -105,20 +106,31 @@ export const DataView = ({
 
   const [base64Image, setBase64Image] = useState<string | null>(null);
 
-  const handleImageUpload = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) {
+      showToast("error", "Por favor selecciona una imagen");
+      return;
+    }
 
-    // Convertir la imagen a WebP
-    const webpImage = await convertImageToWebP(file);
+    const maxSizeInBytes = 1.2 * 1024 * 1024;
+    if (file.size > maxSizeInBytes) {
+      showToast("error", "La imagen debe ser menor a 1.2 MB");
+      return;
+    }
 
-    // Convertir la imagen WebP a Base64
-    const base64 = await convertToBase64(webpImage);
-    setBase64Image(base64);
-    setFormData({ ...formData, imagen: base64 });
+    try {
+      const webpImage = await convertImageToWebP(file);
+      const base64 = await convertToBase64(webpImage);
+      setBase64Image(base64);
+      setFormData((prev) => ({ ...prev, imagen: base64 }));
+      showToast("success", "Imagen cargada correctamente");
+    } catch (error) {
+      console.error("Error al procesar la imagen:", error);
+      showToast("error", "Error al procesar la imagen");
+    }
   };
+
 
   const [especialidad, setEspecialidad] = useState<number[]>([]);
   const [isInvalid, setIsInvalid] = useState(false);

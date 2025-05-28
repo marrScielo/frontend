@@ -33,7 +33,7 @@ export const PersonalForm = ({
   // Función para validar el formato del email
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
-    
+
     if (!email) {
       setEmailError("El correo es requerido");
       return false;
@@ -41,7 +41,7 @@ export const PersonalForm = ({
       setEmailError("Ingrese un correo válido (ejemplo@dominio.com)");
       return false;
     }
-    
+
     setEmailError("");
     return true;
   };
@@ -55,7 +55,9 @@ export const PersonalForm = ({
     // Verifica si contiene al menos un número
     const hasNumber = /[0-9]/.test(password);
     // Verifica si contiene al menos un carácter especial
-    const hasSpecialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
+    const hasSpecialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(
+      password
+    );
     // Verifica que no tenga espacios
     const hasNoSpaces = !/\s/.test(password);
     // Verifica la longitud mínima
@@ -68,67 +70,83 @@ export const PersonalForm = ({
       setPasswordError("La contraseña debe tener al menos 8 caracteres");
       return false;
     } else if (!hasUpperCase) {
-      setPasswordError("La contraseña debe contener al menos una letra mayúscula");
+      setPasswordError(
+        "La contraseña debe contener al menos una letra mayúscula"
+      );
       return false;
     } else if (!hasLowerCase) {
-      setPasswordError("La contraseña debe contener al menos una letra minúscula");
+      setPasswordError(
+        "La contraseña debe contener al menos una letra minúscula"
+      );
       return false;
     } else if (!hasNumber) {
       setPasswordError("La contraseña debe contener al menos un número");
       return false;
     } else if (!hasSpecialChar) {
-      setPasswordError("La contraseña debe contener al menos un carácter especial");
+      setPasswordError(
+        "La contraseña debe contener al menos un carácter especial"
+      );
       return false;
     } else if (!hasNoSpaces) {
       setPasswordError("La contraseña no debe contener espacios");
       return false;
     }
-    
+
     setPasswordError("");
     return true;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
+    e.preventDefault();
 
-
-  if (!formDataAdmin.imagen) {
-    showToast("error", "Por favor selecciona una imagen de perfil");
-    return;
-  }
-  
-  const isEmailOk = validateEmail(formDataAdmin.email);
-  const isPasswordOk = validatePassword(formDataAdmin.password);
-  
-  if (!isEmailOk || !isPasswordOk) {
-    return;
-  }
-
-  try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}api/user`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ ...formDataAdmin }),
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error("Error en la respuesta del servidor");
+    if (!formDataAdmin.imagen) {
+      showToast("error", "Por favor selecciona una imagen de perfil");
+      return;
     }
 
-   
-    onNext(formDataAdmin);
-  } catch (error) {
-    showToast("error", "Error al guardar los datos");
-    console.error("Error:", error);
-  }
-};
+    const isEmailOk = validateEmail(formDataAdmin.email);
+    const isPasswordOk = validatePassword(formDataAdmin.password);
+
+    if (!isEmailOk || !isPasswordOk) {
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}api/administradores/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(formDataAdmin),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        if (response.status === 422 && data.errorBag?.email) {
+          showToast("error", "Ese correo ya está en uso");
+        } else if (data.status_message?.toLowerCase().includes("email")) {
+          showToast("error", "Ese correo ya está en uso");
+        } else {
+          showToast(
+            "error",
+            data.status_message || "Ese correo ya está en uso"
+          );
+        }
+        return;
+      }
+      onNext(formDataAdmin);
+    } catch (error) {
+      console.error("Error:", error);
+      showToast("error", "Error al guardar los datos");
+    }
+  };
+
   const handleDateChange = (date: DateValue | null) => {
     if (!date) return;
 
@@ -140,31 +158,30 @@ export const PersonalForm = ({
     }));
   };
 
-const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-  const file = e.target.files?.[0];
-  if (!file) {
-    showToast("error", "Por favor selecciona una imagen");
-    return;
-  }
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) {
+      showToast("error", "Por favor selecciona una imagen");
+      return;
+    }
 
-  
-  const maxSizeInBytes = 1.2 * 1024 * 1024;
-  if (file.size > maxSizeInBytes) {
-    showToast("error", "La imagen debe ser menor a 1.2 MB");
-    return;
-  }
+    const maxSizeInBytes = 1.2 * 1024 * 1024;
+    if (file.size > maxSizeInBytes) {
+      showToast("error", "La imagen debe ser menor a 1.2 MB");
+      return;
+    }
 
-  try {
-    const webpImage = await convertImageToWebP(file);
-    const base64 = await convertToBase64(webpImage);
-    setBase64Image(base64);
-    setFormDataAdmin((prev) => ({ ...prev, imagen: base64 }));
-    showToast("success", "Imagen cargada correctamente");
-  } catch (error) {
-    console.error("Error al procesar la imagen:", error);
-    showToast("error", "Error al procesar la imagen");
-  }
-};
+    try {
+      const webpImage = await convertImageToWebP(file);
+      const base64 = await convertToBase64(webpImage);
+      setBase64Image(base64);
+      setFormDataAdmin((prev) => ({ ...prev, imagen: base64 }));
+      showToast("success", "Imagen cargada correctamente");
+    } catch (error) {
+      console.error("Error al procesar la imagen:", error);
+      showToast("error", "Error al procesar la imagen");
+    }
+  };
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newEmail = e.target.value;
@@ -172,11 +189,11 @@ const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
       ...formDataAdmin,
       email: newEmail,
     });
-   
+
     if (newEmail) {
       setIsEmailValid(validateEmail(newEmail));
     } else {
-      setIsEmailValid(true); 
+      setIsEmailValid(true);
       setEmailError("");
     }
   };
@@ -187,11 +204,11 @@ const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
       ...formDataAdmin,
       password: newPassword,
     });
-    
+
     if (newPassword) {
       setIsPasswordValid(validatePassword(newPassword));
     } else {
-      setIsPasswordValid(true); 
+      setIsPasswordValid(true);
       setPasswordError("");
     }
   };
@@ -240,8 +257,8 @@ const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
                 label="Nombre"
                 labelPlacement="outside"
                 radius="full"
-                maxLength={50}
                 minLength={2}
+                maxLength={50}
                 classNames={{
                   label: "!text-[#634AE2] text-sm mb-1",
                   inputWrapper: "border-2 border-[#634AE2] h-10",
@@ -253,22 +270,25 @@ const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
                 value={formDataAdmin.name}
                 variant="faded"
                 onChange={(e) => {
-                  const regex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s\-]*$/;
-                  if (regex.test(e.target.value)) {
-                    setFormDataAdmin({
-                      ...formDataAdmin,
-                      name: e.target.value,
-                    });
-                  }
+                  // Eliminamos todo lo que NO sea letra (mayúscula o minúscula), acentos o espacios
+                  const sanitized = e.target.value.replace(
+                    /[^A-Za-zÁÉÍÓÚáéíóúÑñÜü ]/g,
+                    ""
+                  );
+                  setFormDataAdmin({
+                    ...formDataAdmin,
+                    name: sanitized,
+                  });
                 }}
               />
+
               <Input
                 label="Apellido"
                 labelPlacement="outside"
                 radius="full"
                 variant="faded"
-                maxLength={50}
                 minLength={2}
+                maxLength={50}
                 value={formDataAdmin.apellido}
                 classNames={{
                   label: "!text-[#634AE2] text-sm mb-1",
@@ -278,16 +298,16 @@ const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
                 isRequired
                 placeholder="Ingrese su apellido"
                 type="text"
-                onChange={(e) =>{
-                  const regex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s'`´\-]*$/;
-                  if (regex.test(e.target.value)) {
-                    setFormDataAdmin({
-                      ...formDataAdmin,
-                      apellido: e.target.value,
-                    });
-                  }
-                }
-              }
+                onChange={(e) => {
+                  const sanitized = e.target.value.replace(
+                    /[^A-Za-zÁÉÍÓÚáéíóúÑñÜü ]/g,
+                    ""
+                  );
+                  setFormDataAdmin({
+                    ...formDataAdmin,
+                    apellido: sanitized,
+                  });
+                }}
               />
             </div>
 
@@ -304,7 +324,9 @@ const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
                 errorMessage={emailError}
                 classNames={{
                   label: "!text-[#634AE2] text-sm mb-1",
-                  inputWrapper: `border-2 ${isEmailValid ? "border-[#634AE2]" : "border-danger"} h-10`,
+                  inputWrapper: `border-2 ${
+                    isEmailValid ? "border-[#634AE2]" : "border-danger"
+                  } h-10`,
                   input: "placeholder:!text-[#634AE2] text-sm",
                   errorMessage: "text-danger text-xs mt-1",
                 }}
@@ -313,7 +335,6 @@ const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
                 variant="faded"
                 onChange={handleEmailChange}
                 onBlur={() => {
-                  // Validar cuando el usuario sale del campo
                   if (formDataAdmin.email) {
                     setIsEmailValid(validateEmail(formDataAdmin.email));
                   }
@@ -333,7 +354,9 @@ const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
                 errorMessage={passwordError}
                 classNames={{
                   label: "!text-[#634AE2] text-sm mb-1",
-                  inputWrapper: `border-2 ${isPasswordValid ? "border-[#634AE2]" : "border-danger"} h-10`,
+                  inputWrapper: `border-2 ${
+                    isPasswordValid ? "border-[#634AE2]" : "border-danger"
+                  } h-10`,
                   input: "placeholder:!text-[#634AE2] text-sm",
                   errorMessage: "text-danger text-xs mt-1",
                 }}
@@ -356,9 +379,10 @@ const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
                 variant="faded"
                 onChange={handlePasswordChange}
                 onBlur={() => {
-                  
                   if (formDataAdmin.password) {
-                    setIsPasswordValid(validatePassword(formDataAdmin.password));
+                    setIsPasswordValid(
+                      validatePassword(formDataAdmin.password)
+                    );
                   }
                 }}
               />
@@ -373,7 +397,7 @@ const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
                 labelPlacement="outside"
                 isRequired
                 variant="faded"
-                maxValue={today(getLocalTimeZone()).subtract({ years:20 })}
+                maxValue={today(getLocalTimeZone()).subtract({ years: 20 })}
                 minValue={today(getLocalTimeZone()).subtract({ years: 100 })}
                 showMonthAndYearPickers
                 radius="full"

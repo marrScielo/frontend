@@ -29,7 +29,7 @@ import {
 import { Plus } from "lucide-react";
 
 import { useRouter } from "next/navigation";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 export default function AllPsicologos({
   Data,
@@ -40,6 +40,14 @@ export default function AllPsicologos({
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [formData, setFormData] = useState<PsicologoPreviewData | null>(null);
+  const [psico, setPsico] = useState<PsicologoPreviewData[]>(Data);
+  const [originalData, setOriginalData] = useState<PsicologoPreviewData | null>(
+    null
+  );
+
+  useEffect(() => {
+    setPsico(Data);
+  }, [Data]);
 
   const handleImageUpload = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -58,25 +66,45 @@ export default function AllPsicologos({
     setFormData((prev) => (prev ? { ...prev, [name]: value } : null));
   };
   const handleUpdate = async (id: number | null) => {
-    if (!formData) {
-      console.error("Error: formData es null");
-      return;
-    }
+  if (!formData || !originalData) return;
 
-    try {
-      await UpdatePsicologo(id, formData);
-      showToast("success", "El psicólogo se actualizó correctamente");
-      router.refresh();
-      onClose();
-    } catch (error) {
-      console.error("Error al actualizar el psicólogo:", error);
-    }
+ 
+  const changes: Partial<PsicologoPreviewData> = {};
+  if (formData.imagen !== originalData.imagen)      changes.imagen       = formData.imagen;
+  if (formData.correo !== originalData.correo)      changes.correo       = formData.correo;
+ 
+
+  
+  if (Object.keys(changes).length === 0) {
+    showToast("info", "No hay cambios que guardar");
+    return;
+  }
+
+
+  const payload: PsicologoPreviewData = {
+    ...originalData,
+    ...changes
   };
+
+  try {
+    await UpdatePsicologo(id, payload);
+    showToast("success", "Psicólogo actualizado correctamente");
+    onClose();
+    setPsico(prev =>
+      prev.map(p => p.idPsicologo === id ? payload : p)
+    );
+  } catch (err: any) {
+    showToast("error", "Error al actualizar el psicólogo");
+    console.error(err);
+  }
+};
+
+
   const handleDelete = async (id: number | null) => {
     try {
       await DeletePsycologo(id);
       showToast("success", "El psicólogo se eliminó correctamente");
-      router.refresh();
+      setPsico((prev) => prev.filter((a) => a.idPsicologo !== id));
     } catch (error) {
       console.error("Error al eliminar el psicólogo:", error);
     }
@@ -91,6 +119,7 @@ export default function AllPsicologos({
         return;
       }
       setFormData(Data.result);
+      setOriginalData(Data.result);
       onOpen();
     } catch (error) {
       showToast("error", "Error al obtener los datos del psicólogo.");
@@ -104,7 +133,7 @@ export default function AllPsicologos({
         <div className="w-full h-16 bg-[#6364F4] items-center justify-start flex">
           <div className="ml-10 flex items-center w-full">
             <h1 className="text-bold text-medium text-white">
-              Listado de Todos los Administradores
+              Listado de Todos los Psicólogos
             </h1>
           </div>
         </div>
@@ -123,7 +152,7 @@ export default function AllPsicologos({
               </tr>
             </thead>
             <tbody className="text-center bg-white text-[#634AE2] font-normal text-[16px] leading-[20px]">
-              {Data.map((column, index) => (
+              {psico.map((column, index) => (
                 <tr key={index} className="border-b hover:bg-gray-100">
                   <td className="px-4 py-2 text-2xl rounded-l-[34px]">○</td>
                   <td className="px-4 py-2">{column.apellido}</td>
@@ -267,9 +296,6 @@ export default function AllPsicologos({
               </Form>
 
               <Form validationBehavior="native" className="space-y-6">
-             
-               
-
                 <Input
                   label="Correo"
                   labelPlacement="outside"
@@ -341,7 +367,7 @@ export default function AllPsicologos({
                     Otros
                   </SelectItem>
                 </Select>
-          
+
                 <Input
                   label="Título"
                   labelPlacement="outside"
@@ -359,7 +385,7 @@ export default function AllPsicologos({
                   onChange={handleChanges}
                   name="titulo"
                 />
-                 <Autocomplete
+                <Autocomplete
                   label="País"
                   labelPlacement="outside"
                   aria-label="País"
@@ -370,7 +396,6 @@ export default function AllPsicologos({
                     )
                   }
                   classNames={{
-                    
                     base: "!mt-0.5 text-[#634AE2]  ",
                   }}
                   placeholder="Ingrese su país"
@@ -384,7 +409,6 @@ export default function AllPsicologos({
                       textValue={item.value}
                       classNames={{
                         base: "!text-[#634AE2]",
-                        
                       }}
                     >
                       {item.label}

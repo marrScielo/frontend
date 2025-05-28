@@ -3,6 +3,7 @@ import {
   DeleteAdministrador,
   GetAdministradorById,
   UpdateAdministrador,
+  GetAdministradores,
 } from "@/app/apiRoutes";
 import showToast from "@/components/ToastStyle";
 import { AdministradorPreviewData } from "@/interface";
@@ -20,7 +21,7 @@ import {
 } from "@heroui/react";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 export default function AllAdministradores({
   Data,
@@ -31,6 +32,21 @@ export default function AllAdministradores({
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [formData, setFormData] = useState<AdministradorPreviewData | null>(null);
+  const [admins, setAdmins] = useState<AdministradorPreviewData[]>(Data);
+  const [originalData, setOriginalData] = useState<AdministradorPreviewData | null>(null);
+  
+ const fetchAdmins = async () => {
+    try {
+      const resp = await GetAdministradores();
+      setAdmins(resp.result);
+    } catch {
+      showToast("error", "Error al cargar administradores");
+    }
+  };
+
+   useEffect(() => {
+    setAdmins;
+  }, []);
 
   const handleImageUpload = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -41,40 +57,69 @@ export default function AllAdministradores({
   };
 
   const handleChanges = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => (prev ? { ...prev, [name]: value } : null));
   };
 
-  const handleUpdate = async (id: number | null) => {
-    if (!formData) {
-      console.error("Error: formData es null");
-      return;
-    }
+  const handleUpdate = async () => {
+  if (!selectedId || !formData || !originalData) return;
 
-    try {
-      await UpdateAdministrador(id, formData);
-      showToast("success", "El administrador se actualizó correctamente");
-      router.refresh();
-      onClose();
-    } catch (error) {
-      console.error("Error al actualizar el administrador:", error);
-    }
-  };
+  // 3.1 Construyo el objeto de cambios
+  const changes: Partial<AdministradorPreviewData> = {};
 
-  const handleDelete = async (id: number | null) => {
-    try {
-      await DeleteAdministrador(id);
-      showToast("success", "El administrador se eliminó correctamente");
-      router.refresh();
-    } catch (error) {
-      console.error("Error al eliminar el administrador:", error);
+  // Solo si la imagen cambió:
+  if (formData.imagen !== originalData.imagen) {
+    changes.imagen = formData.imagen;
+  }
+  // Solo si el email cambió:
+  if (formData.email !== originalData.email) {
+    changes.email = formData.email;
+  }
+  // Solo si la contraseña cambió (y no está vacía):
+  if (formData.password && formData.password !== originalData.password) {
+    changes.password = formData.password;
+  }
+
+  // 3.2 Si no hay nada para enviar:
+  if (Object.keys(changes).length === 0) {
+    showToast("info", "No hay cambios que guardar");
+    return;
+  }
+
+  try {
+    // 3.3 Llamo al API con solo los cambios
+    await UpdateAdministrador(selectedId, changes);
+    showToast("success", "Administrador actualizado correctamente");
+
+    onClose();
+    fetchAdmins();  // recargo la lista completa
+
+  } catch (err: any) {
+    if (err.message?.toLowerCase().includes("email")) {
+      showToast("error", "Ese correo ya está en uso");
+    } else {
+      showToast("error", "Error al actualizar el administrador");
     }
-  };
+  }
+};
+
+ const handleDelete = async (id: number | null) => {
+  try {
+    await DeleteAdministrador(id);
+    showToast("success", "El administrador se eliminó correctamente");
+    setAdmins((prev) => prev.filter((a) => a.idAdministrador !== id));
+  } catch (error) {
+    console.error("Error al eliminar el administrador:", error);
+    showToast("error", "Error al eliminar el administrador");
+  }
+};
+
 
   const handleEdit = async (id: number | null) => {
     setSelectedId(id);
+    
     try {
       const response = await GetAdministradorById(id);
       if (response.status_code !== 200) {
@@ -82,10 +127,11 @@ export default function AllAdministradores({
         return;
       }
       setFormData(response.result);
+      setOriginalData(response.result);
       onOpen();
     } catch (error) {
       showToast("error", "Error al obtener los datos del administrador.");
-      console.error(error);
+      
     }
   };
 
@@ -114,7 +160,7 @@ export default function AllAdministradores({
               </tr>
             </thead>
             <tbody className="text-center bg-white text-[#634AE2] font-normal text-[16px] leading-[20px]">
-              {Data.map((admin, index) => (
+             {admins.map((admin, index) => (
                 <tr key={index} className="border-b hover:bg-gray-100">
                   <td className="px-4 py-2 text-2xl rounded-l-[34px]">○</td>
                   <td className="px-4 py-2">{admin.apellido}</td>
@@ -249,11 +295,10 @@ export default function AllAdministradores({
                     input: "placeholder:!text-[#634AE2] w-full",
                   }}
                   placeholder="Ingrese su fecha de nacimiento"
-                  type="date"
-                  isRequired
+                  type="text"
+                  readOnly
                   value={formData?.fecha_nacimiento}
                   variant="faded"
-                  onChange={handleChanges}
                   name="fecha_nacimiento"
                 />
               </Form>
@@ -295,23 +340,6 @@ export default function AllAdministradores({
                   onChange={handleChanges}
                   name="password"
                 />
-                <Input
-                  label="Imagen URL"
-                  labelPlacement="outside"
-                  radius="full"
-                  classNames={{
-                    base: "!text-[#634AE2]",
-                    label: "!text-[#634AE2]",
-                    inputWrapper: "border-2 border-[#634AE2]",
-                    input: "placeholder:!text-[#634AE2] w-full",
-                  }}
-                  placeholder="Ingrese URL de imagen"
-                  type="text"
-                  value={formData?.imagen}
-                  variant="faded"
-                  onChange={handleChanges}
-                  name="imagen"
-                />
               </Form>
             </div>
           </ModalBody>
@@ -319,7 +347,7 @@ export default function AllAdministradores({
             <Button color="danger" variant="light" onPress={onClose}>
               Cerrar
             </Button>
-            <Button color="primary" onPress={() => handleUpdate(selectedId)}>
+            <Button color="primary"  onPress={handleUpdate}>
               Guardar
             </Button>
           </ModalFooter>

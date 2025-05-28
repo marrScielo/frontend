@@ -30,11 +30,7 @@ const navItems = [
     icono: Icons.psicologos,
   },
 
-  {
-    name: "Políticas y Privacidad",
-    link: "/",
-    icono: Icons.politicasyPriv,
-  },
+  
 ];
 
 const NavbarUser = () => {
