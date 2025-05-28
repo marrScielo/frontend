@@ -120,9 +120,11 @@ export default function ListarPacientes() {
     if (selectedPaciente.apellido !== originalData.apellido)
       changes.apellido = selectedPaciente.apellido;
     if (selectedPaciente.correo !== originalData.correo)
-      changes.correo = selectedPaciente.correo;
+      (changes as any).email = selectedPaciente.correo;
     if (selectedPaciente.celular !== originalData.celular)
       changes.celular = selectedPaciente.celular;
+
+    console.log("Cambios a enviar:", changes);
 
     // ⚠️ Si no hubo cambios, avisamos y salimos
     if (Object.keys(changes).length === 0) {
