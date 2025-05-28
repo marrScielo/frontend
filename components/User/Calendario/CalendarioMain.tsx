@@ -13,29 +13,10 @@ import ModalCrearCita from "./Modalcita";
 
 export default function CalendarioMain() {
   const [vistaActual, setVistaActual] = useState("calendario");
-  const [pacientes, setPacientes] = useState<Paciente[]>([]);
+
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  const [formData, setFormData] = useState({
-    paciente: "",
-    motivoConsulta: "",
-    fechaNacimiento: "",
-    tipoCita: null,
-    canalAtraccion: null,
-    horaCita: "",
-    duracion: "60",
-    prioridad: null
-  });
-
-  useEffect(() => {
-    const fetchPacientes = async () => {
-      const data = await GetAllPacientes();
-      setPacientes(data);
-    };
-    fetchPacientes();
-  }, []);
-
-  const Fecha = today(getLocalTimeZone());
+   const Fecha = today(getLocalTimeZone());
   const nombreMes = new Date(Fecha.year, Fecha.month - 1).toLocaleString("es-ES", {
     month: "long",
   });
@@ -44,80 +25,7 @@ export default function CalendarioMain() {
     setVistaActual(vista);
   };
 
-  const handleInputChange = (field: keyof typeof formData, value: string | number | null) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: value
-    }));
-  };
-
-  const enviarCita = async () => {
-    try {
-      const horaConSegundos = formData.horaCita.includes(':') && formData.horaCita.split(':').length === 2 
-        ? `${formData.horaCita}:00` 
-        : formData.horaCita;
-    
-      const dataToSend = {
-        idPaciente: parseInt(formData.paciente), 
-        motivo_Consulta: formData.motivoConsulta,
-        fecha_cita: formData.fechaNacimiento, 
-        hora_cita: horaConSegundos,
-        idTipoCita: formData.tipoCita,
-        idCanal: formData.canalAtraccion,
-        idEtiqueta: formData.prioridad,
-        duracion: parseInt(formData.duracion),
-      };
-
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}api/citas`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': `Bearer ${token}` 
-        },
-        body: JSON.stringify(dataToSend)
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        alert('Cita creada correctamente');
-        resetForm();
-        onOpenChange();
-      } else {
-        alert('Error al crear la cita: ' + (result.message || 'Error desconocido'));
-      }
-    } catch (error) {
-      alert('Error de conexión al servidor');
-    }
-  };
-
-  const handleSubmit = () => {
-    if (!formData.paciente || !formData.motivoConsulta || !formData.horaCita) {
-      alert("Por favor, complete todos los campos obligatorios");
-      return;
-    }
-    
-    if (!formData.fechaNacimiento) {
-      alert("Por favor, seleccione la fecha de la cita");
-      return;
-    }
-    
-    enviarCita();
-  };
-
-  const resetForm = () => {
-    setFormData({
-      paciente: "",
-      motivoConsulta: "",
-      fechaNacimiento: "",
-      tipoCita: null,
-      canalAtraccion: null,
-      horaCita: "",
-      duracion: "60",
-      prioridad: null
-    });
-  };
+  
 
   return (
     <>
@@ -167,15 +75,12 @@ export default function CalendarioMain() {
       </div>
 
       {vistaActual === "calendario" ? <Calendario /> : <Week />}
-
-      <ModalCrearCita
+       <ModalCrearCita
         isOpen={isOpen}
         onOpenChange={onOpenChange}
-        pacientes={pacientes}
-        formData={formData}
-        onInputChange={handleInputChange}
-        onSubmit={handleSubmit}
-      />
+      
+       
+       />
     </>
   );
 }

@@ -46,8 +46,11 @@ export default function Calendario() {
   const [events, setEvents] = useState<CalendarEvent[]>([]);
   const [currentView, setCurrentView] = useState<View>(Views.MONTH);
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
+
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { isOpen: isEditOpen, onOpen: onEditOpen, onOpenChange: onEditOpenChange } = useDisclosure();
+  const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
+  const [selectedCitaId, setSelectedCitaId] = useState<number | undefined>();
 
   const convertirCitasAEventos = (citas: CitasPendientes[]): CalendarEvent[] => {
     return citas.map((cita) => {
@@ -259,7 +262,7 @@ export default function Calendario() {
                   </div>
                 </div>
               </ModalBody>
-              <ModalFooter>
+                  <ModalFooter>
                 <Button 
                   color="danger" 
                   variant="light" 
@@ -271,8 +274,8 @@ export default function Calendario() {
                 <Button 
                   className="bg-[#634AE2] text-white font-medium"
                   onPress={() => {
-                    console.log('Editar cita:', selectedEvent?.id);
-                
+                    setSelectedCitaId(selectedEvent?.id);
+                    onEditOpen();
                     onClose();
                   }}
                 >
@@ -283,6 +286,13 @@ export default function Calendario() {
           )}
         </ModalContent>
       </Modal>
+
+
+      <ModalCrearCita
+        isOpen={isEditOpen}
+        onOpenChange={onEditOpenChange}
+        idCita={selectedCitaId}
+      />
     </>
   );
 }

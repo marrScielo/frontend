@@ -5,6 +5,7 @@ import {
   AutocompleteItem,
   Button,
   DatePicker,
+  DateValue,
   Form,
   Input,
   Modal,
@@ -15,8 +16,11 @@ import {
   SelectItem,
   Textarea,
 } from "@heroui/react";
-import { getLocalTimeZone, today } from "@internationalized/date";
+import { getLocalTimeZone, parseDate, today } from "@internationalized/date";
 import { Paciente } from "@/interface";
+import { useEffect, useState } from "react";
+import { GetAllPacientes, token } from "@/app/apiRoutes";
+
 
 interface CanaldeAtraccion {
   id: number;
@@ -37,7 +41,7 @@ const CanaldeAtraccion: CanaldeAtraccion[] = [
 interface FormData {
   paciente: string;
   motivoConsulta: string;
-  fechaNacimiento: string;
+  fecha:DateValue | string; // Cambiado a DateValue para manejar fechas
   tipoCita: number | null;
   canalAtraccion: number | null;
   horaCita: string;
@@ -48,24 +52,192 @@ interface FormData {
 interface ModalCrearCitaProps {
   isOpen: boolean;
   onOpenChange: () => void;
-  pacientes: Paciente[];
-  formData: FormData;
-  onInputChange: (field: keyof FormData, value: string | number | null) => void;
-  onSubmit: () => void;
+  idCita?: number; // Nuevo prop opcional para edición
 }
 
 export default function ModalCrearCita({
   isOpen,
   onOpenChange,
-  pacientes,
-  formData,
-  onInputChange,
-  onSubmit,
+  idCita,
 }: ModalCrearCitaProps) {
+  const [pacientes, setPacientes] = useState<Paciente[]>([]);
+  const [isEditing, setIsEditing] = useState(false);
+  const [buttonText, setButtonText] = useState("Guardar");
 
-    
+  const [formData, setFormData] = useState<FormData>({
+    paciente: "",
+    motivoConsulta: "",
+    fecha: "",
+    tipoCita: null,
+    canalAtraccion: null,
+    horaCita: "",
+    duracion: "60",
+    prioridad: null,
+  });
 
+  useEffect(() => {
+    const fetchPacientes = async () => {
+      try {
+        const data = await GetAllPacientes();
+        setPacientes(data);
+      } catch (error) {
+        console.error("Error al cargar pacientes:", error);
+      }
+    };
 
+    fetchPacientes();
+  }, []);
+
+  const cargarCita = async (id: number) => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}api/citas/${id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Error al cargar la cita");
+      }
+      const datos = await response.json();
+      const data = datos.result;
+      console.log("Datos de la cita:", data);
+      setFormData({
+        paciente: data.idPaciente?.toString() || "",
+        motivoConsulta: data.motivo || "",
+        fecha: data.fecha,
+        tipoCita:
+          data.idTipoCita ||
+          (data.tipo === "Virtual" ? 2 : data.tipo === "Domicilio" ? 3 : 1),
+        canalAtraccion:
+          data.idCanal ||
+          CanaldeAtraccion.find((c) => c.nombre === data.canal)?.id ||
+          1,
+        horaCita: data.hora_cita
+          ? data.hora_cita.substring(0, 5)
+          : data.hora
+          ? data.hora.substring(0, 5)
+          : "",
+        duracion: data.duracion ? data.duracion.replace(/\D/g, "") : "60",
+        prioridad:
+          data.idEtiqueta ||
+          (data.etiqueta === "Urgente"
+            ? 2
+            : data.etiqueta === "Normal"
+            ? 3
+            : 1),
+      });
+    } catch (error) {
+      console.error("Error al cargar la cita:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (idCita) {
+      cargarCita(idCita);
+
+      setIsEditing(true);
+      setButtonText("Actualizar");
+    } else {
+      resetForm();
+      setIsEditing(false);
+      setButtonText("Guardar");
+    }
+  }, [idCita]);
+
+  const onInputChange = (field: keyof FormData, value: any) => {
+    setFormData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+  const enviarCita = async () => {
+    try {
+      const horaConSegundos =
+        formData.horaCita.includes(":") &&
+        formData.horaCita.split(":").length === 2
+          ? `${formData.horaCita}:00`
+          : formData.horaCita;
+
+      const dataToSend = {
+        idPaciente: parseInt(formData.paciente),
+        motivo_Consulta: formData.motivoConsulta,
+        fecha_cita: formData.fecha,
+        hora_cita: horaConSegundos,
+        idTipoCita: formData.tipoCita,
+        idCanal: formData.canalAtraccion,
+        idEtiqueta: formData.prioridad,
+        duracion: parseInt(formData.duracion),
+      };
+
+      const method = isEditing ? "PUT" : "POST";
+      const url = isEditing
+        ? `${process.env.NEXT_PUBLIC_API_URL}api/citas/${idCita}`
+        : `${process.env.NEXT_PUBLIC_API_URL}api/citas`;
+
+      const response = await fetch(url, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(dataToSend),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        alert(
+          isEditing
+            ? "Cita actualizada correctamente"
+            : "Cita creada correctamente"
+        );
+        resetForm();
+        window.location.reload();
+        onOpenChange();
+      } else {
+        alert(
+          `Error al ${isEditing ? "actualizar" : "crear"} la cita: ` +
+            (result.message || "Error desconocido")
+        );
+      }
+    } catch (error) {
+      alert("Error de conexión al servidor");
+    }
+  };
+
+  const handleSubmit = () => {
+    if (!formData.paciente || !formData.motivoConsulta || !formData.horaCita) {
+      alert("Por favor, complete todos los campos obligatorios");
+      return;
+    }
+
+    if (!formData.fecha) {
+      alert("Por favor, seleccione la fecha de la cita");
+      return;
+    }
+
+    enviarCita();
+  };
+
+  const resetForm = () => {
+    setFormData({
+      paciente: "",
+      motivoConsulta: "",
+      fecha: "",
+      tipoCita: 1,
+      canalAtraccion: 1,
+      horaCita: "",
+      duracion: "60",
+      prioridad: 1,
+    });
+  };
 
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
@@ -85,12 +257,15 @@ export default function ModalCrearCita({
                 base: "!text-[#634AE2] font-bold text-center mx-auto w-full",
                 popoverContent: "!text-[#634AE2] font-light text-center",
               }}
-              onSelectionChange={(key) => onInputChange("paciente", key as string)}
+              onSelectionChange={(key) =>
+                onInputChange("paciente", key as string)
+              }
             >
               {pacientes.map((paciente) => (
                 <AutocompleteItem
                   classNames={{
-                    title: "!text-[#634AE2] font-bold text-center mx-auto w-full",
+                    title:
+                      "!text-[#634AE2] font-bold text-center mx-auto w-full",
                     description: "!text-[#634AE2] font-light text-center",
                   }}
                   key={paciente.idPaciente}
@@ -118,7 +293,7 @@ export default function ModalCrearCita({
                 mainWrapper: "flex flex-col items-center",
               }}
             />
-            
+
             <div className="flex flex-col w-full md:flex-row gap-6">
               <div className="w-full md:w-1/2 gap-y-6">
                 <label className="text-sm block mb-1 !text-[#634AE2] font-bold text-center mx-auto w-full">
@@ -133,9 +308,14 @@ export default function ModalCrearCita({
                   maxValue={today(getLocalTimeZone()).add({ months: 10 })}
                   showMonthAndYearPickers
                   radius="full"
-                  onChange={(date: any) => {
+                  value={
+                    formData.fecha
+                      ? (parseDate(formData.fecha) as DateValue|| null)
+                      : undefined
+                  }
+                  onChange={(date) => {
                     if (date) {
-                      onInputChange("fechaNacimiento", date.toString());
+                      onInputChange("fecha", date.toString());
                     }
                   }}
                   classNames={{
@@ -150,13 +330,19 @@ export default function ModalCrearCita({
                   labelPlacement="outside"
                   isRequired
                   placeholder="Tipo de cita"
-                  selectedKeys={formData.tipoCita ? [formData.tipoCita.toString()] : []}
+                  selectedKeys={
+                    formData.tipoCita ? [formData.tipoCita.toString()] : []
+                  }
                   onSelectionChange={(keys) => {
                     const selectedKey = Array.from(keys)[0] as string;
-                    onInputChange("tipoCita", selectedKey ? parseInt(selectedKey) : null);
+                    onInputChange(
+                      "tipoCita",
+                      selectedKey ? parseInt(selectedKey) : null
+                    );
                   }}
                   classNames={{
-                    label: "!text-[#634AE2] font-bold text-center mx-auto w-full",
+                    label:
+                      "!text-[#634AE2] font-bold text-center mx-auto w-full",
                     errorMessage: "!text-[#634AE2] font-light text-center",
                     mainWrapper: "flex flex-col items-center",
                   }}
@@ -177,25 +363,36 @@ export default function ModalCrearCita({
                   labelPlacement="outside"
                   isRequired
                   placeholder="Canal de atracción"
-                  selectedKeys={formData.canalAtraccion ? [formData.canalAtraccion.toString()] : []}
+                  selectedKeys={
+                    formData.canalAtraccion
+                      ? [formData.canalAtraccion.toString()]
+                      : []
+                  }
                   onSelectionChange={(keys) => {
                     const selectedKey = Array.from(keys)[0] as string;
-                    onInputChange("canalAtraccion", selectedKey ? parseInt(selectedKey) : null);
+                    onInputChange(
+                      "canalAtraccion",
+                      selectedKey ? parseInt(selectedKey) : null
+                    );
                   }}
                   classNames={{
-                    label: "!text-[#634AE2] font-bold text-center mx-auto w-full",
+                    label:
+                      "!text-[#634AE2] font-bold text-center mx-auto w-full",
                     errorMessage: "!text-[#634AE2] font-light text-center",
                     mainWrapper: "flex flex-col items-center",
                   }}
                 >
                   {CanaldeAtraccion.map((canal) => (
-                    <SelectItem textValue={canal.nombre} key={canal.id.toString()}>
+                    <SelectItem
+                      textValue={canal.nombre}
+                      key={canal.id.toString()}
+                    >
                       {canal.nombre}
                     </SelectItem>
                   ))}
                 </Select>
               </div>
-              
+
               <div className="w-full md:w-1/2">
                 <Input
                   label="Hora de la cita"
@@ -209,13 +406,14 @@ export default function ModalCrearCita({
                   value={formData.horaCita}
                   onChange={(e) => onInputChange("horaCita", e.target.value)}
                   classNames={{
-                    label: "!text-[#634AE2] font-bold text-center mx-auto w-full",
+                    label:
+                      "!text-[#634AE2] font-bold text-center mx-auto w-full",
                     input: "!text-[#634AE2] font-light text-center",
                     errorMessage: "!text-[#634AE2] font-light text-center",
                     mainWrapper: "flex flex-col items-center",
                   }}
                 />
-                
+
                 <Input
                   isReadOnly
                   label="Duración"
@@ -224,7 +422,8 @@ export default function ModalCrearCita({
                   type="number"
                   value={formData.duracion}
                   classNames={{
-                    label: "!text-[#634AE2] font-bold text-center mx-auto w-full",
+                    label:
+                      "!text-[#634AE2] font-bold text-center mx-auto w-full",
                     input: "!text-[#634AE2] font-light text-center",
                     errorMessage: "!text-[#634AE2] font-light text-center",
                     mainWrapper: "flex flex-col items-center",
@@ -236,13 +435,19 @@ export default function ModalCrearCita({
                   labelPlacement="outside"
                   placeholder="Prioridad"
                   isRequired
-                  selectedKeys={formData.prioridad ? [formData.prioridad.toString()] : []}
+                  selectedKeys={
+                    formData.prioridad ? [formData.prioridad.toString()] : []
+                  }
                   onSelectionChange={(keys) => {
                     const selectedKey = Array.from(keys)[0] as string;
-                    onInputChange("prioridad", selectedKey ? parseInt(selectedKey) : null);
+                    onInputChange(
+                      "prioridad",
+                      selectedKey ? parseInt(selectedKey) : null
+                    );
                   }}
                   classNames={{
-                    label: "!text-[#634AE2] font-bold text-center mx-auto w-full",
+                    label:
+                      "!text-[#634AE2] font-bold text-center mx-auto w-full",
                     errorMessage: "!text-[#634AE2] font-light text-center",
                     mainWrapper: "flex flex-col items-center",
                   }}
@@ -265,9 +470,9 @@ export default function ModalCrearCita({
           <Button
             radius="full"
             className="bg-[#634AE2] text-white font-light"
-            onPress={onSubmit}
+            onPress={handleSubmit}
           >
-            Guardar
+            {buttonText}
           </Button>
         </ModalFooter>
       </ModalContent>
