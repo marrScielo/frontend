@@ -343,3 +343,31 @@ export async function GetPacienteById(
   return result.result;
 }
 
+export async function updatePaciente(
+  id: number | null,
+  data: Partial<Paciente>
+): Promise<void> {
+  if (!id) throw new Error("ID de paciente no proporcionado");
+
+  const { session: token } = parseCookies(); 
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}api/pacientes/${id}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    }
+  );
+
+  if (!res.ok) {
+    const errorData = await res.json();
+    throw new Error(
+      errorData.message || "Error al actualizar el paciente"
+    );
+  }
+}
+
