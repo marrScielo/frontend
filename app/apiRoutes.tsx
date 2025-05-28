@@ -166,7 +166,7 @@ export async function GetCitasPendientes(
 
 export async function GetAdministradores(): Promise<AdministradorApiResponse> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}api/administradores`,
+    `${process.env.NEXT_PUBLIC_API_URL}api/administradores/`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -211,7 +211,7 @@ export async function CreateAdministrador(
   data: AdministradorPreviewData
 ): Promise<void> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}api/administradores`,
+    `${process.env.NEXT_PUBLIC_API_URL}api/administradores/`,
     {
       method: "POST",
       headers: {

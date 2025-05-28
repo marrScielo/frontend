@@ -13,9 +13,7 @@ import {
   SelectItem,
 } from "@heroui/react";
 import { getLocalTimeZone, today } from "@internationalized/date";
-import React from "react";
-
-
+import React, { useState } from "react";
 
 export const PersonalForm = ({
   onNext,
@@ -26,6 +24,91 @@ export const PersonalForm = ({
 }) => {
   const [isVisible, setIsVisible] = React.useState(false);
   const [formData, setFormData] = React.useState<FormData>(initialFormData);
+  const [emailError, setEmailError] = useState<string>("");
+  const [passwordError, setPasswordError] = useState<string>("");
+  const [isEmailValid, setIsEmailValid] = useState<boolean>(true);
+  const [isPasswordValid, setIsPasswordValid] = useState<boolean>(true);
+  const [formDataPsico, setFormDataPsico] =
+    React.useState<FormData>(initialFormData);
+
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
+
+    if (!email) {
+      setEmailError("El correo es requerido");
+      return false;
+    } else if (!emailRegex.test(email)) {
+      setEmailError("Ingrese un correo válido (ejemplo@dominio.com)");
+      return false;
+    }
+
+    setEmailError("");
+    return true;
+  };
+
+  const validatePassword = (password: string) => {
+    // Verifica si contiene al menos una letra mayúscula
+    const hasUpperCase = /[A-Z]/.test(password);
+    // Verifica si contiene al menos una letra minúscula
+    const hasLowerCase = /[a-z]/.test(password);
+    // Verifica si contiene al menos un número
+    const hasNumber = /[0-9]/.test(password);
+    // Verifica si contiene al menos un carácter especial
+    const hasSpecialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(
+      password
+    );
+    // Verifica que no tenga espacios
+    const hasNoSpaces = !/\s/.test(password);
+    // Verifica la longitud mínima
+    const hasMinLength = password.length >= 8;
+
+    if (!password) {
+      setPasswordError("La contraseña es requerida");
+      return false;
+    } else if (!hasMinLength) {
+      setPasswordError("La contraseña debe tener al menos 8 caracteres");
+      return false;
+    } else if (!hasUpperCase) {
+      setPasswordError(
+        "La contraseña debe contener al menos una letra mayúscula"
+      );
+      return false;
+    } else if (!hasLowerCase) {
+      setPasswordError(
+        "La contraseña debe contener al menos una letra minúscula"
+      );
+      return false;
+    } else if (!hasNumber) {
+      setPasswordError("La contraseña debe contener al menos un número");
+      return false;
+    } else if (!hasSpecialChar) {
+      setPasswordError(
+        "La contraseña debe contener al menos un carácter especial"
+      );
+      return false;
+    } else if (!hasNoSpaces) {
+      setPasswordError("La contraseña no debe contener espacios");
+      return false;
+    }
+
+    setPasswordError("");
+    return true;
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newEmail = e.target.value;
+    setFormData((prev) => (prev ? { ...prev, email: newEmail } : prev));
+
+    if (newEmail) {
+      // Si hay texto, validamos formato
+      const ok = validateEmail(newEmail);
+      setIsEmailValid(ok);
+    } else {
+      // Si está vacío, lo consideramos válido y borramos mensaje
+      setIsEmailValid(true);
+      setEmailError("");
+    }
+  };
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
@@ -45,6 +128,21 @@ export const PersonalForm = ({
     }));
   };
 
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newPassword = e.target.value;
+    setFormData({
+      ...formData,
+      password: newPassword,
+    });
+
+    if (newPassword) {
+      setIsPasswordValid(validatePassword(newPassword));
+    } else {
+      setIsPasswordValid(true);
+      setPasswordError("");
+    }
+  };
+
   return (
     <div className="text-[#634AE2] h-auto p-10 items-center bg-white rounded-3xl ">
       <h1 className="font-semibold text-center mb-5 text-4xl">
@@ -57,19 +155,28 @@ export const PersonalForm = ({
               label="Nombre"
               labelPlacement="outside"
               radius="full"
+              maxLength={50}
+              minLength={2}
               classNames={{
-                label: "!text-[#634AE2]",
-                inputWrapper: "border-2 border-[#634AE2]",
-                input: "placeholder:!text-[#634AE2] w-full",
+                label: "!text-[#634AE2] text-sm mb-1",
+                inputWrapper: "border-2 border-[#634AE2] h-10",
+                input: "placeholder:!text-[#634AE2] text-sm",
               }}
-              placeholder="ingrese su nombre"
+              placeholder="Ingrese su nombre"
               type="text"
               isRequired
               value={formData.name}
               variant="faded"
-              onChange={(e) =>
-                setFormData({ ...formData, name: e.target.value })
-              }
+              onChange={(e) => {
+                const sanitized = e.target.value.replace(
+                    /[^A-Za-zÁÉÍÓÚáéíóúÑñÜü ]/g,
+                    ""
+                  );
+                setFormData({
+                    ...formData,
+                    name: sanitized,
+                  });
+              }}
             />
             <div className="flex items-center gap-2 !mt-4 !pt-0">
               <span className="text-[#634AE2] text-sm">
@@ -83,11 +190,13 @@ export const PersonalForm = ({
               labelPlacement="outside"
               isRequired
               variant="faded"
-              maxValue={today(getLocalTimeZone())}
+              maxValue={today(getLocalTimeZone()).subtract({ years: 20 })}
+              minValue={today(getLocalTimeZone()).subtract({ years: 100 })}
               showMonthAndYearPickers
               radius="full"
               classNames={{
                 label: "!text-[#634AE2]",
+                inputWrapper: "border-2 border-[#634AE2] h-[42px]",
                 base: "!mt-0.5",
               }}
               onChange={handleDateChange}
@@ -137,18 +246,27 @@ export const PersonalForm = ({
               labelPlacement="outside"
               isRequired
               radius="full"
+              min={5}
+              max={254}
               value={formData.email}
+              isInvalid={!isEmailValid}
+              errorMessage={emailError}
               classNames={{
-                label: "!text-[#634AE2]",
-                inputWrapper: "border-2 border-[#634AE2]", // Solo controla el borde
-                input: "placeholder:!text-[#634AE2]", // Aquí es donde controlas el color del placeholder
+                label: "!text-[#634AE2] text-sm mb-1",
+                inputWrapper: `border-2 ${
+                  isEmailValid ? "border-[#634AE2]" : "border-danger"
+                } h-10`,
+                input: "placeholder:!text-[#634AE2] text-sm",
+                errorMessage: "text-danger text-xs mt-1",
               }}
-              placeholder="ingrese su email"
+              placeholder="ejemplo@mail.com"
               type="email"
               variant="faded"
-              onChange={(e) =>
-                setFormData({ ...formData, email: e.target.value })
-              }
+              onChange={handleEmailChange}
+              onBlur={() => {
+                if (formData?.email)
+                  setIsEmailValid(validateEmail(formData.email));
+              }}
             />
           </div>
           <div className="flex flex-col space-y-10">
@@ -157,19 +275,27 @@ export const PersonalForm = ({
               labelPlacement="outside"
               radius="full"
               variant="faded"
+              minLength={2}
+              maxLength={50}
               value={formData.apellido}
               classNames={{
-                label: "!text-[#634AE2]",
-                inputWrapper: "border-2 border-[#634AE2]",
-                input: "placeholder:!text-[#634AE2]",
+                label: "!text-[#634AE2] text-sm mb-1",
+                inputWrapper: "border-2 border-[#634AE2] h-10",
+                input: "placeholder:!text-[#634AE2] text-sm",
               }}
-              className="w-full   text-[#634AE2]"
               isRequired
-              placeholder="ingrese su apellido"
+              placeholder="Ingrese su apellido"
               type="text"
-              onChange={(e) =>
-                setFormData({ ...formData, apellido: e.target.value })
-              }
+              onChange={(e) => {
+                  const sanitized = e.target.value.replace(
+                    /[^A-Za-zÁÉÍÓÚáéíóúÑñÜü ]/g,
+                    ""
+                  );
+                  setFormData({
+                    ...formData,
+                    apellido: sanitized,
+                  });
+                }}
             />
 
             <div className="flex items-center gap-2 !mt-4 !pt-0">
@@ -205,14 +331,20 @@ export const PersonalForm = ({
               radius="full"
               label="Contraseña"
               minLength={8}
+              max={20}
               labelPlacement="outside"
               value={formData.password}
-              placeholder="ingrese su contraseña"
+              isInvalid={!isPasswordValid}
+              errorMessage={passwordError}
               classNames={{
-                label: "!text-[#634AE2]",
-                inputWrapper: "border-2 border-[#634AE2]",
-                input: "placeholder:!text-[#634AE2]",
+                label: "!text-[#634AE2] text-sm mb-1",
+                inputWrapper: `border-2 ${
+                  isPasswordValid ? "border-[#634AE2]" : "border-danger"
+                } h-10`,
+                input: "placeholder:!text-[#634AE2] text-sm",
+                errorMessage: "text-danger text-xs mt-1",
               }}
+              placeholder="Ingrese su contraseña"
               endContent={
                 <button
                   aria-label="toggle password visibility"
@@ -221,24 +353,28 @@ export const PersonalForm = ({
                   onClick={toggleVisibility}
                 >
                   {isVisible ? (
-                    <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                    <EyeSlashFilledIcon className="text-xl text-[#634AE2]" />
                   ) : (
-                    <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                    <EyeFilledIcon className="text-xl text-[#634AE2]" />
                   )}
                 </button>
               }
               type={isVisible ? "text" : "password"}
               variant="faded"
-              onChange={(e) =>
-                setFormData({ ...formData, password: e.target.value })
-              }
+              onChange={handlePasswordChange}
+              onBlur={() => {
+                if (formData.password) {
+                  setIsPasswordValid(validatePassword(formData.password));
+                }
+              }}
             />
             <Input
               name="titulo"
               isRequired
               radius="full"
               label="Título"
-              minLength={3}
+              minLength={5}
+              maxLength={50}
               labelPlacement="outside"
               value={formData.titulo}
               onChange={(e) =>
@@ -251,7 +387,6 @@ export const PersonalForm = ({
                 input: "placeholder:!text-[#634AE2]",
               }}
             />
-            
           </div>
         </div>
         <div className="flex w-full justify-center">
