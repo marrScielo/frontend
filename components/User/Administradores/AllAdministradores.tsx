@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import {
   DeleteAdministrador,
   GetAdministradorById,
@@ -31,11 +31,14 @@ export default function AllAdministradores({
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedId, setSelectedId] = useState<number | null>(null);
-  const [formData, setFormData] = useState<AdministradorPreviewData | null>(null);
+  const [formData, setFormData] = useState<AdministradorPreviewData | null>(
+    null
+  );
   const [admins, setAdmins] = useState<AdministradorPreviewData[]>(Data);
-  const [originalData, setOriginalData] = useState<AdministradorPreviewData | null>(null);
-  
- const fetchAdmins = async () => {
+  const [originalData, setOriginalData] =
+    useState<AdministradorPreviewData | null>(null);
+
+  const fetchAdmins = async () => {
     try {
       const resp = await GetAdministradores();
       setAdmins(resp.result);
@@ -44,7 +47,7 @@ export default function AllAdministradores({
     }
   };
 
-   useEffect(() => {
+  useEffect(() => {
     setAdmins;
   }, []);
 
@@ -64,66 +67,67 @@ export default function AllAdministradores({
   };
 
   const handleUpdate = async () => {
-  if (!selectedId || !formData || !originalData) return;
+    if (!selectedId || !formData || !originalData) return;
 
-  // 3.1 Construyo el objeto de cambios
-  const changes: Partial<AdministradorPreviewData> = {};
+    // 3.1 Construyo el objeto de cambios
+    const changes: Partial<AdministradorPreviewData> = {};
 
-  // Solo si la imagen cambió:
-  if (formData.imagen !== originalData.imagen) {
-    changes.imagen = formData.imagen;
-  }
-  // Solo si el email cambió:
-  if (formData.email !== originalData.email) {
-    changes.email = formData.email;
-  }
-  // Solo si la contraseña cambió (y no está vacía):
-  if (formData.password && formData.password !== originalData.password) {
-    changes.password = formData.password;
-  }
-
-  // 3.2 Si no hay nada para enviar:
-  if (Object.keys(changes).length === 0) {
-    showToast("info", "No hay cambios que guardar");
-    return;
-  }
-
-  try {
-    // 3.3 Llamo al API con solo los cambios
-    await UpdateAdministrador(selectedId, changes);
-    showToast("success", "Administrador actualizado correctamente");
-
-    onClose();
-    fetchAdmins();  // recargo la lista completa
-
-  } catch (err: any) {
-    if (err.message?.toLowerCase().includes("email")) {
-      showToast("error", "Ese correo ya está en uso");
-    } else {
-      showToast("error", "Error al actualizar el administrador");
+    // Solo si la imagen cambió:
+    if (formData.imagen !== originalData.imagen) {
+      changes.imagen = formData.imagen;
     }
-  }
-};
+    // Solo si el email cambió:
+    if (formData.email !== originalData.email) {
+      changes.email = formData.email;
+    }
+    // Solo si la contraseña cambió (y no está vacía):
+    if (formData.password && formData.password !== originalData.password) {
+      changes.password = formData.password;
+    }
 
- const handleDelete = async (id: number | null) => {
-  try {
-    await DeleteAdministrador(id);
-    showToast("success", "El administrador se eliminó correctamente");
-    setAdmins((prev) => prev.filter((a) => a.idAdministrador !== id));
-  } catch (error) {
-    console.error("Error al eliminar el administrador:", error);
-    showToast("error", "Error al eliminar el administrador");
-  }
-};
+    // 3.2 Si no hay nada para enviar:
+    if (Object.keys(changes).length === 0) {
+      showToast("info", "No hay cambios que guardar");
+      return;
+    }
 
+    try {
+      // 3.3 Llamo al API con solo los cambios
+      await UpdateAdministrador(selectedId, changes);
+      showToast("success", "Administrador actualizado correctamente");
+
+      onClose();
+      fetchAdmins(); // recargo la lista completa
+    } catch (err: any) {
+      if (err.message?.toLowerCase().includes("email")) {
+        showToast("error", "Ese correo ya está en uso");
+      } else {
+        showToast("error", "Error al actualizar el administrador");
+      }
+    }
+  };
+
+  const handleDelete = async (id: number | null) => {
+    try {
+      await DeleteAdministrador(id);
+      showToast("success", "El administrador se eliminó correctamente");
+      setAdmins((prev) => prev.filter((a) => a.idAdministrador !== id));
+    } catch (error) {
+      console.error("Error al eliminar el administrador:", error);
+      showToast("error", "Error al eliminar el administrador");
+    }
+  };
 
   const handleEdit = async (id: number | null) => {
     setSelectedId(id);
-    
+
     try {
       const response = await GetAdministradorById(id);
       if (response.status_code !== 200) {
-        showToast(response.status_code.toString(), `Error: ${response.status_message}`);
+        showToast(
+          response.status_code.toString(),
+          `Error: ${response.status_message}`
+        );
         return;
       }
       setFormData(response.result);
@@ -131,7 +135,6 @@ export default function AllAdministradores({
       onOpen();
     } catch (error) {
       showToast("error", "Error al obtener los datos del administrador.");
-      
     }
   };
 
@@ -155,19 +158,19 @@ export default function AllAdministradores({
                 <th className="font-normal">Nombre</th>
                 <th className="font-normal">Correo</th>
                 <th className="font-normal">ID</th>
-                
+
                 <th className="rounded-tr-full font-normal">Acciones</th>
               </tr>
             </thead>
             <tbody className="text-center bg-white text-[#634AE2] font-normal text-[16px] leading-[20px]">
-             {admins.map((admin, index) => (
+              {admins.map((admin, index) => (
                 <tr key={index} className="border-b hover:bg-gray-100">
                   <td className="px-4 py-2 text-2xl rounded-l-[34px]">○</td>
                   <td className="px-4 py-2">{admin.apellido}</td>
                   <td className="px-4 py-2">{admin.nombre}</td>
-                  <td className="px-4 py-2">{admin.email.split("@")[0]}</td>  
+                  <td className="px-4 py-2">{admin.email.split("@")[0]}</td>
                   <td className="py-2">{admin.idAdministrador}</td>
-                  
+
                   <td className="py-2 rounded-r-[34px]">
                     <div className="w-full h-full flex items-center justify-center">
                       <div className="flex flex-row items-center justify-center gap-x-4">
@@ -347,7 +350,7 @@ export default function AllAdministradores({
             <Button color="danger" variant="light" onPress={onClose}>
               Cerrar
             </Button>
-            <Button color="primary"  onPress={handleUpdate}>
+            <Button color="primary" onPress={handleUpdate}>
               Guardar
             </Button>
           </ModalFooter>

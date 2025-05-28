@@ -1,23 +1,63 @@
+"use client";
 import { Plus, SlidersHorizontalIcon } from "lucide-react";
 import CerrarSesion from "../CerrarSesion";
-import { Button, Input } from "@heroui/react";
 import { parseCookies } from "nookies";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { Paciente } from "@/interface";
 import showToast from "../ToastStyle";
+import {
+  Button,
+  Input,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+  Form,
+} from "@heroui/react";
+import { id } from "date-fns/locale";
 
 export default function ListarPacientes() {
   const [paciente, setPaciente] = useState<Paciente[]>([]);
   const [filteredPacientes, setFilteredPacientes] = useState<Paciente[]>([]);
   const [filterValue, setFilterValue] = useState("");
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [selectedPaciente, setSelectedPaciente] = useState<Paciente | null>(
+    null
+  );
+  const [originalData, setOriginalData] = useState<Paciente | null>(null);
+  const [noResults, setNoResults] = useState(false);
 
-  // Funcion para la busqueda
+  const handleGetPacientes = async () => {
+    try {
+      const { session: token } = parseCookies();
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}api/pacientes`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.status_message || "Error");
+      setPaciente(data.result);
+      setFilteredPacientes(data.result);
+      showToast("success", "Pacientes obtenidos correctamente");
+    } catch (e) {
+      console.error(e);
+      showToast("error", "Error al obtener los pacientes");
+      setPaciente([]);
+      setFilteredPacientes([]);
+    }
+  };
+
   const onSearchChange = (value: string) => {
     setFilterValue(value);
     if (value === "") {
       setFilteredPacientes(paciente);
+      setNoResults(false);
     } else {
       const filtered = paciente.filter((pac) =>
         `${pac.nombre} ${pac.DNI} ${pac.celular}`
@@ -25,82 +65,33 @@ export default function ListarPacientes() {
           .includes(value.toLowerCase())
       );
       setFilteredPacientes(filtered);
+      setNoResults(filtered.length === 0);
     }
   };
 
-  // Función para limpiar el buscador
   const onClear = () => {
     setFilterValue("");
     setFilteredPacientes(paciente);
+    setNoResults(false);
   };
 
-  //funcion para traer a los pacientes a todos, y con el filtro
-  const handleGetPacientes = async () => {
+  const HandleDeletePaciente = async (id: number) => {
     try {
-      const cookies = parseCookies();
-      const token = cookies["session"];
-      const url = `${process.env.NEXT_PUBLIC_API_URL}api/pacientes`;
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = await response.json();
-      if (response.ok) {
-        if (Array.isArray(data.result)) {
-          setPaciente(data.result);
-          setFilteredPacientes(data.result);
-          showToast("success", "Pacientes obtenidos correctamente");
-        } else {
-          console.error("La propiedad 'result' no es un array:", data);
-          showToast("error", "Formato de respuesta inválido");
-          setPaciente([]);
-          setFilteredPacientes([]);
+      const { session: token } = parseCookies();
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}api/pacientes/${id}`,
+        {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${token}` },
         }
-      } else {
-        showToast("error", data.message || "Error al obtener los pacientes");
-        setPaciente([]);
-        setFilteredPacientes([]);
-      }
-    } catch (error) {
-      console.error(error);
-      showToast("error", "Error de conexión. Intenta nuevamente.");
-      setPaciente([]);
-      setFilteredPacientes([]);
-    }
-  };
-
-  //Funcion para eliminar Paciente
-  const HandleDeletePaciente = async (idPaciente: number) => {
-    try {
-      const cookies = parseCookies();
-      const token = cookies["session"];
-      const url = `${process.env.NEXT_PUBLIC_API_URL}api/pacientes/${idPaciente}`;
-      const response = await fetch(url, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = await response.json();
-
-      if (response.ok) {
-        showToast("succes", "Paciente eliminado correctamente");
-        handleGetPacientes();
-      } else {
-        showToast(
-          "error",
-          data.status_message || "Error de conexion. Intenta nuevamente 3"
-        );
-      }
-    } catch (error) {
-      console.error(error);
-      showToast("error", "Error de conexion. Intenta nuevamente 2");
+      );
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.status_message || "Error");
+      showToast("success", "Paciente eliminado correctamente");
+      handleGetPacientes();
+    } catch (e) {
+      console.error(e);
+      showToast("error", "Error de conexión. Intenta nuevamente");
     }
   };
 
@@ -108,9 +99,71 @@ export default function ListarPacientes() {
     handleGetPacientes();
   }, []);
 
+  const handleEditClick = (p: Paciente) => {
+    const partes = p.nombre.trim().split(" ");
+    const nombre = partes.slice(0, 1).join(" ");
+    const apellido = partes.slice(1).join(" ");
+
+    const pacienteEditado = { ...p, nombre, apellido };
+    setSelectedPaciente(pacienteEditado);
+    setOriginalData(pacienteEditado); // <- Guardamos el original para comparar luego
+    onOpen();
+  };
+
+  const handleSave = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!selectedPaciente || !originalData) return;
+
+    const changes: Partial<Paciente> = {};
+    if (selectedPaciente.nombre !== originalData.nombre)
+      changes.nombre = selectedPaciente.nombre;
+    if (selectedPaciente.apellido !== originalData.apellido)
+      changes.apellido = selectedPaciente.apellido;
+    if (selectedPaciente.correo !== originalData.correo)
+      (changes as any).email = selectedPaciente.correo;
+    if (selectedPaciente.celular !== originalData.celular)
+      changes.celular = selectedPaciente.celular;
+
+    console.log("Cambios a enviar:", changes);
+
+    // ⚠️ Si no hubo cambios, avisamos y salimos
+    if (Object.keys(changes).length === 0) {
+      showToast("info", "No hay cambios que guardar");
+      return;
+    }
+
+    try {
+      const { session: token } = parseCookies();
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}api/pacientes/${selectedPaciente.idPaciente}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(changes),
+        }
+      );
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.status_message || "Error");
+      showToast("success", "Paciente actualizado correctamente");
+      onClose();
+      handleGetPacientes();
+    } catch (err: any) {
+      console.error(err);
+      showToast(
+        "error",
+        err.message.toLowerCase().includes("email")
+          ? "Ese correo ya está en uso"
+          : "Error al actualizar el paciente"
+      );
+    }
+  };
+
   return (
     <>
-    {/* Navbar*/}
+      {/* Navbar*/}
       <div className="flex justify-between w-full mt-10 mb-6">
         <h1 className=" flex items-center font-bold text-[32px]  leading-[40px]  ml-11   text-[#634AE2]  ">
           Pacientes
@@ -119,12 +172,7 @@ export default function ListarPacientes() {
       </div>
       <div className="w-full h-16 bg-[#6364F4] items-center justify-between flex gap-x-10">
         <div className="flex flex-row items-center gap-x-10">
-          <div className="flex flex-row items-center gap-x-1">
-            <SlidersHorizontalIcon className="text-white ml-10" />
-            <h1 className="text-white text-lg font-extralight ml-2">Filtrar</h1>
-          </div>
-
-          <div className="flex flex-row items-center gap-x-1">
+          <div className="flex flex-row items-center gap-x-1 mx-12">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               height="24px"
@@ -151,18 +199,15 @@ export default function ListarPacientes() {
             />
           </div>
         </div>
+
         <div className="flex flex-row items-center gap-x-1 mr-5">
-          <Link href="/user/pacientes/DatosPaciente" >
-            <Button
-          
-              className="hover:bg-gray-200 border border-white text-[#634AE2] bg-white p-[2px] rounded-full"
-            >
+          <Link href="/user/pacientes/DatosPaciente">
+            <Button className="hover:bg-gray-200 border border-white text-[#634AE2] bg-white p-[2px] rounded-full">
               <Plus />
             </Button>
           </Link>
-          <Link href="/user/pacientes/DatosPaciente" >
+          <Link href="/user/pacientes/DatosPaciente">
             <Button
-        
               radius="full"
               className="border border-white text-white bg-transparent hover:bg-white hover:bg-opacity-20 h-8 mx-auto"
             >
@@ -171,8 +216,8 @@ export default function ListarPacientes() {
           </Link>
         </div>
       </div>
-    
-    {/* Encabezado tabla */}
+
+      {/* Encabezado tabla */}
       <table className="max-w-screen-2xl mx-auto w-full pt-9 border-separate border-spacing-y-4 px-8">
         <thead className="rounded-full">
           <tr className="bg-[#6364F4] text-white h-11 ">
@@ -185,8 +230,16 @@ export default function ListarPacientes() {
             <th className="rounded-tr-full font-normal">Más</th>
           </tr>
         </thead>
-      {/* Tablas */}  
+        {/* Tablas */}
         <tbody className="text-center bg-white text-[#634AE2] font-normal text-[16px] leading-[20px]">
+          {filteredPacientes.length === 0 && noResults && (
+            <tr>
+              <td colSpan={7} className="text-red-500 text-sm py-3">
+                No se encontraron pacientes que coincidan con la búsqueda.
+              </td>
+            </tr>
+          )}
+
           {filteredPacientes.map((paciente) => (
             <tr
               key={paciente.idPaciente}
@@ -198,6 +251,7 @@ export default function ListarPacientes() {
               <td className="px-2 py-2">{paciente.DNI}</td>
               <td className="px-2 py-2">{paciente.correo}</td>
               <td className="py-2">{paciente.celular}</td>
+
               <td className="py-2 rounded-r-[34px]">
                 <div className="w-full h-full flex items-center justify-center">
                   <div className="flex flex-row items-center justify-center gap-x-4">
@@ -226,15 +280,7 @@ export default function ListarPacientes() {
                         Registro Familiar
                       </h1>
                     </Link>
-
-
-                    <Link
-                      href={{
-                        pathname: `/user/pacientes/DetallePaciente/${paciente.idPaciente}`,
-                        query: { pacienteId: paciente.idPaciente },
-                      }}
-                      className={cn("flex flex-col items-center")}
-                    >
+                    <button onClick={() => handleEditClick(paciente)}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         height="34px"
@@ -245,7 +291,7 @@ export default function ListarPacientes() {
                         <path d="M120-120v-142l559.33-558.33q9.34-9 21.5-14 12.17-5 25.5-5 12.67 0 25 5 12.34 5 22 14.33L821-772q10 9.67 14.5 22t4.5 24.67q0 12.66-4.83 25.16-4.84 12.5-14.17 21.84L262-120H120Zm607.33-560.67L772.67-726l-46-46-45.34 45.33 46 46Z" />
                       </svg>
                       <h1 className="font-light text-sm text-cente">Editar</h1>
-                    </Link>
+                    </button>
                     <div className="flex flex-col items-center">
                       <button
                         onClick={() => {
@@ -277,6 +323,61 @@ export default function ListarPacientes() {
           ))}
         </tbody>
       </table>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalContent>
+          <ModalHeader>Editar paciente</ModalHeader>
+          <form onSubmit={handleSave}>
+            <ModalBody className="flex flex-col gap-4">
+              <Input
+                type="text"
+                label="Nombre"
+                value={selectedPaciente?.nombre || ""}
+                onChange={(e) =>
+                  setSelectedPaciente(
+                    (prev) => prev && { ...prev, nombre: e.target.value }
+                  )
+                }
+              />
+              <Input
+                type="text"
+                label="Apellido"
+                value={selectedPaciente?.apellido || ""}
+                onChange={(e) =>
+                  setSelectedPaciente(
+                    (prev) => prev && { ...prev, apellido: e.target.value }
+                  )
+                }
+              />
+              <Input
+                label="Correo"
+                value={selectedPaciente?.correo || ""}
+                onChange={(e) =>
+                  setSelectedPaciente((prev) =>
+                    prev ? { ...prev, correo: e.target.value } : prev
+                  )
+                }
+              />
+              <Input
+                label="Celular"
+                value={selectedPaciente?.celular || ""}
+                onChange={(e) =>
+                  setSelectedPaciente((prev) =>
+                    prev ? { ...prev, celular: e.target.value } : prev
+                  )
+                }
+              />
+            </ModalBody>
+            <ModalFooter>
+              <Button type="submit" className="bg-[#634AE2] text-white">
+                Guardar
+              </Button>
+              <Button variant="ghost" onClick={onClose}>
+                Cancelar
+              </Button>
+            </ModalFooter>
+          </form>
+        </ModalContent>
+      </Modal>
     </>
   );
 }

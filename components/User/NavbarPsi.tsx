@@ -9,11 +9,7 @@ import { MobileNavbar } from "./MobileNavbarUser";
 
 
 const navItems = [
-  {
-    name: "Dashboard",
-    link: "/user/home",
-    icono: Icons.dashboard,
-  },
+  
   {
     name: "Pacientes",
     link: "/user/pacientes",
@@ -41,11 +37,7 @@ const navItems = [
     icono: Icons.blog,
   },
   
-  {
-    name: "Politicas y Privacidad",
-    link: "/",
-    icono: Icons.politicasyPriv,
-  },
+  
 ];
 
 export const NavbarPsi = () => {

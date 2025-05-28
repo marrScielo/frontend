@@ -355,7 +355,7 @@ export interface Paciente {
   apellido: string;
   correo: string;
   celular: string;
-  fecha_nacimiento: Date;
+  fecha_nacimiento: string;
   imagen: string;
   genero: string;
   ocupacion: string;
