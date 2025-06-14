@@ -244,6 +244,7 @@ export const PersonalForm = ({
               )}
               <input
                 type="file"
+                aria-label="Subir foto"
                 accept="image/*"
                 onChange={handleImageUpload}
                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
@@ -364,7 +365,7 @@ export const PersonalForm = ({
                 endContent={
                   <button
                     aria-label="toggle password visibility"
-                    className="focus:outline-none"
+                    className="focus:outline-none min-w-[44px] min-h-[44px] flex items-center justify-center"
                     type="button"
                     onClick={toggleVisibility}
                   >
@@ -402,7 +403,7 @@ export const PersonalForm = ({
                 showMonthAndYearPickers
                 radius="full"
                 classNames={{
-                  label: "!text-[#634AE2]",
+                  segment: "!text-[#634AE2]",
                   inputWrapper: "border-2 border-[#634AE2] h-[42px]",
                   base: "!mt-0.5",
                 }}

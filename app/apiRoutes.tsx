@@ -11,10 +11,9 @@ import {
   AdministradorPreviewData,
   Paciente,
   PacienteApiResponse,
-  Citas,
   CitasPendientes,
 } from "@/interface";
-import { th, tr } from "date-fns/locale";
+
 import { parseCookies } from "nookies";
 
 export const token = parseCookies()["session"];

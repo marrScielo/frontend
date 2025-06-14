@@ -52,12 +52,6 @@ export default function App() {
     }
   };
 
-  const parseDateString = (dateString: string): CalendarDate | null => {
-    if (!dateString) return null;
-    const [day, month, year] = dateString.split("/").map(Number);
-    if (isNaN(day) || isNaN(month) || isNaN(year)) return null;
-    return new CalendarDate(year, month, day);
-  };
 
   const handleCountryChange = (
     selected: Country | React.ChangeEvent<HTMLInputElement>

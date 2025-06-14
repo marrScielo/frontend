@@ -4,7 +4,7 @@ import { Icons } from "@/icons";
 import CerrarSesion from "@/components/CerrarSesion";
 import { GetPacienteById, token } from "@/app/apiRoutes";
 import showToast from "@/components/ToastStyle";
-import { ro } from "date-fns/locale";
+
 import { useRouter } from "next/navigation";
 import { Paciente, RegistroPaciente } from "@/interface";
 import { Input } from "@heroui/react";

@@ -36,7 +36,7 @@ export default function AllPsicologos({
 }: {
   Data: PsicologoPreviewData[];
 }) {
-  const router = useRouter();
+ 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [formData, setFormData] = useState<PsicologoPreviewData | null>(null);

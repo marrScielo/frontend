@@ -168,7 +168,12 @@ export default function AllAdministradores({
                   <td className="px-4 py-2 text-2xl rounded-l-[34px]">○</td>
                   <td className="px-4 py-2">{admin.apellido}</td>
                   <td className="px-4 py-2">{admin.nombre}</td>
-                  <td className="px-4 py-2">{admin.email.split("@")[0]}</td>
+                  <td className="px-4 py-2">
+                    {admin.email.length > 20
+                      ? admin.email.slice(0, 20) + "..."
+                      : admin.email}
+                  </td>
+
                   <td className="py-2">{admin.idAdministrador}</td>
 
                   <td className="py-2 rounded-r-[34px]">

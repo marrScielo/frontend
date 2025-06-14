@@ -28,8 +28,7 @@ export const PersonalForm = ({
   const [passwordError, setPasswordError] = useState<string>("");
   const [isEmailValid, setIsEmailValid] = useState<boolean>(true);
   const [isPasswordValid, setIsPasswordValid] = useState<boolean>(true);
-  const [formDataPsico, setFormDataPsico] =
-    React.useState<FormData>(initialFormData);
+
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
@@ -145,7 +144,7 @@ export const PersonalForm = ({
 
   return (
     <div className="text-[#634AE2] h-auto p-10 items-center bg-white rounded-3xl ">
-      <h1 className="font-semibold text-center mb-5 text-4xl">
+      <h1 className="font-semibold text-center mb-5 ">
         Ingrese los datos del Psicólogo
       </h1>
       <Form validationBehavior="native" onSubmit={handleSubmit}>
@@ -189,13 +188,13 @@ export const PersonalForm = ({
               aria-label="Fecha de nacimiento"
               labelPlacement="outside"
               isRequired
-              variant="faded"
+              variant="flat"
               maxValue={today(getLocalTimeZone()).subtract({ years: 20 })}
               minValue={today(getLocalTimeZone()).subtract({ years: 100 })}
               showMonthAndYearPickers
               radius="full"
               classNames={{
-                label: "!text-[#634AE2]",
+                segment: "!text-[#634AE2]",
                 inputWrapper: "border-2 border-[#634AE2] h-[42px]",
                 base: "!mt-0.5",
               }}
@@ -340,15 +339,15 @@ export const PersonalForm = ({
                 label: "!text-[#634AE2] text-sm mb-1",
                 inputWrapper: `border-2 ${
                   isPasswordValid ? "border-[#634AE2]" : "border-danger"
-                } h-10`,
-                input: "placeholder:!text-[#634AE2] text-sm",
+                } min-h-[44px] h-auto`,
+                input: "placeholder:!text-gray-600 !text-gray-900 text-sm min-h-[44px]",
                 errorMessage: "text-danger text-xs mt-1",
               }}
               placeholder="Ingrese su contraseña"
               endContent={
                 <button
                   aria-label="toggle password visibility"
-                  className="focus:outline-none"
+                  className="focus:outline-none min-w-[44px] min-h-[44px] flex items-center justify-center"
                   type="button"
                   onClick={toggleVisibility}
                 >
