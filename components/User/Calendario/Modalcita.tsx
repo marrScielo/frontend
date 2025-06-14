@@ -38,6 +38,21 @@ const CanaldeAtraccion: CanaldeAtraccion[] = [
   { id: 8, nombre: "Otro" },
 ];
 
+// Generar horas disponibles de 8:00 a 18:00 con intervalos de 1 hora
+const generarHorasDisponibles = () => {
+  const horas = [];
+  for (let hora = 8; hora <= 18; hora++) {
+    const horaFormateada = `${hora.toString().padStart(2, '0')}:00`;
+    horas.push({
+      value: horaFormateada,
+      label: horaFormateada
+    });
+  }
+  return horas;
+};
+
+const horasDisponibles = generarHorasDisponibles();
+
 interface FormData {
   paciente: string;
   motivoConsulta: string;
@@ -394,25 +409,32 @@ export default function ModalCrearCita({
               </div>
 
               <div className="w-full md:w-1/2">
-                <Input
+                <Select
                   label="Hora de la cita"
                   labelPlacement="outside"
                   isRequired
-                  placeholder="Hora de la cita"
-                  type="time"
-                  min="08:00"
-                  max="18:00"
-                  step={60}
-                  value={formData.horaCita}
-                  onChange={(e) => onInputChange("horaCita", e.target.value)}
+                  placeholder="Seleccionar hora"
+                  selectedKeys={formData.horaCita ? [formData.horaCita] : []}
+                  onSelectionChange={(keys) => {
+                    const selectedKey = Array.from(keys)[0] as string;
+                    onInputChange("horaCita", selectedKey || "");
+                  }}
                   classNames={{
                     label:
                       "!text-[#634AE2] font-bold text-center mx-auto w-full",
-                    input: "!text-[#634AE2] font-light text-center",
                     errorMessage: "!text-[#634AE2] font-light text-center",
                     mainWrapper: "flex flex-col items-center",
                   }}
-                />
+                >
+                  {horasDisponibles.map((hora) => (
+                    <SelectItem
+                      textValue={hora.label}
+                      key={hora.value}
+                    >
+                      {hora.label}
+                    </SelectItem>
+                  ))}
+                </Select>
 
                 <Input
                   isReadOnly
