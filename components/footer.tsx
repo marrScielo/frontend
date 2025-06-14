@@ -43,7 +43,7 @@ export default function Footer() {
 
           {/* Sección de Enlaces */}
           <div className="flex flex-col text-start w-full md:w-auto">
-            <h3 className="text-xl font-semibold mb-5">Enlaces</h3>
+            <a className="text-xl font-semibold mb-5">Enlaces</a>
             <div className="grid grid-cols-2 lg:gap-20">
               {/* Columna izquierda */}
               <ul className="space-y-5">

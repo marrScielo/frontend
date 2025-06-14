@@ -116,6 +116,7 @@ export default function Login() {
               <Input
                 name="email"
                 type="email"
+                aria-label="email"
                 autoComplete="email"
                 radius="full"
                 variant="bordered"
@@ -133,6 +134,7 @@ export default function Login() {
               <Input
                 name="password"
                 isRequired
+                aria-label="password"
                 autoComplete="current-password"
                 classNames={{
                   inputWrapper: "border-1 !border-[#634AE2] ",
