@@ -3,7 +3,6 @@
 import RedesSociales from "@/components/RedesSociales";
 import { Image } from "@heroui/react";
 import { motion } from "framer-motion";
-
 import Link from "next/link";
 
 export default function Footer() {
@@ -22,7 +21,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="h-auto bg-[#634AE2] text-white ">
+    <footer className="h-auto bg-[#634AE2] text-white">
       <div className="lg:max-w-7xl p-10 mx-auto">
         {/* Contenido Principal */}
         <div className="flex flex-col md:flex-row justify-between items-start space-y-8 md:space-y-0">
@@ -43,7 +42,7 @@ export default function Footer() {
 
           {/* Sección de Enlaces */}
           <div className="flex flex-col text-start w-full md:w-auto">
-            <a className="text-xl font-semibold mb-5">Enlaces</a>
+            <h2 className="text-xl font-semibold mb-5">Enlaces</h2>
             <div className="grid grid-cols-2 lg:gap-20">
               {/* Columna izquierda */}
               <ul className="space-y-5">
@@ -72,7 +71,7 @@ export default function Footer() {
                     >
                       <span className="relative group whitespace-nowrap">
                         {link.text}
-                        <span className="absolute bottom-0 left-0 w-10 transition-all h-auto bg-white group-hover:w-full inline-block duration-500"></span>
+                        <span className="absolute bottom-0 left-0 w-0 transition-all h-0.5 bg-white group-hover:w-full inline-block duration-500"></span>
                       </span>
                     </Link>
                   </li>
@@ -88,11 +87,12 @@ export default function Footer() {
               <h3 className="text-xl font-semibold text-white mb-4">
                 Síguenos
               </h3>
-              <div className="">
+              <div>
                 <RedesSociales />
               </div>
             </div>
 
+            {/* Contacto */}
             <div className="flex flex-col text-start w-full md:w-auto">
               <h3 className="text-xl font-semibold text-white mb-4">
                 Contacto
@@ -111,13 +111,12 @@ export default function Footer() {
                         <span className="text-white text-[10px]">Perú</span>
                         <Image
                           src="/WSP.webp"
-                          alt="WhatsApp Argentina"
+                          alt="WhatsApp Perú"
                           width={14}
                           height={14}
                           className="flex-shrink-0"
                         />
                       </a>
-
                       <span className="text-sm">+51 983 027 828</span>
                     </div>
 
