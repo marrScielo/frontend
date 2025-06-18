@@ -107,14 +107,21 @@ export default function AllAdministradores({
     }
   };
 
-  const handleDelete = async (id: number | null) => {
+  const handleToggleEstado = async (id: number | null) => {
     try {
       await DeleteAdministrador(id);
-      showToast("success", "El administrador se eliminó correctamente");
-      setAdmins((prev) => prev.filter((a) => a.idAdministrador !== id));
+      showToast("success", "Se cambió el estado del administrador");
+
+      setAdmins((prev) =>
+        prev.map((admin) =>
+          admin.idAdministrador === id
+            ? { ...admin, estado: admin.estado === "A" ? "I" : "A" }
+            : admin
+        )
+      );
     } catch (error) {
-      console.error("Error al eliminar el administrador:", error);
-      showToast("error", "Error al eliminar el administrador");
+      console.error("Error al cambiar estado:", error);
+      showToast("error", "Error al cambiar el estado");
     }
   };
 
@@ -144,7 +151,7 @@ export default function AllAdministradores({
         <div className="w-full h-16 bg-[#6364F4] items-center justify-start flex">
           <div className="ml-10 flex items-center w-full">
             <h1 className="text-bold text-medium text-white">
-              Listado de Todos los Administradores
+              Todos los Administradores
             </h1>
           </div>
         </div>
@@ -156,6 +163,7 @@ export default function AllAdministradores({
                 <th className="rounded-tl-full text-2xl font-normal">○</th>
                 <th className="font-normal">Apellido</th>
                 <th className="font-normal">Nombre</th>
+                <th className="font-normal">Estado</th>
                 <th className="font-normal">Correo</th>
                 <th className="font-normal">ID</th>
 
@@ -168,6 +176,18 @@ export default function AllAdministradores({
                   <td className="px-4 py-2 text-2xl rounded-l-[34px]">○</td>
                   <td className="px-4 py-2">{admin.apellido}</td>
                   <td className="px-4 py-2">{admin.nombre}</td>
+                  <td className="px-4 py-2">
+                    {admin.estado === "A" ? (
+                      <span className="text-green-600 font-semibold">
+                        Habilitado
+                      </span>
+                    ) : (
+                      <span className="text-red-500 font-semibold">
+                        Deshabilitado
+                      </span>
+                    )}
+                  </td>
+
                   <td className="px-4 py-2">
                     {admin.email.length > 20
                       ? admin.email.slice(0, 20) + "..."
@@ -197,23 +217,29 @@ export default function AllAdministradores({
                           </h1>
                         </button>
                         <div className="flex flex-col items-center">
-                          <button
-                            onClick={() => handleDelete(admin.idAdministrador)}
-                            className="flex flex-col items-center"
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              height="34px"
-                              viewBox="0 -960 960 960"
-                              width="34px"
-                              fill="#B158FF"
+                          <div className="flex flex-col items-center">
+                            <button
+                              onClick={() =>
+                                handleToggleEstado(admin.idAdministrador)
+                              }
+                              className="flex flex-col items-center"
                             >
-                              <path d="M282.98-140q-25.79 0-44.18-18.39t-18.39-44.18v-532.05H180v-50.25h174.05v-30.51h251.9v30.51H780v50.25h-40.41v532.05q0 25.79-18.39 44.18T677.02-140H282.98Zm96.56-133.23h50.25v-379.08h-50.25v379.08Zm150.67 0h50.25v-379.08h-50.25v379.08Z" />
-                            </svg>
-                            <h1 className="text-[#B158FF] font-light text-sm text-center">
-                              Eliminar
-                            </h1>
-                          </button>
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                height="34px"
+                                viewBox="0 -960 960 960"
+                                width="34px"
+                                fill="#B158FF"
+                              >
+                                <path d="M282.98-140q-25.79 0-44.18-18.39t-18.39-44.18v-532.05H180v-50.25h174.05v-30.51h251.9v30.51H780v50.25h-40.41v532.05q0 25.79-18.39 44.18T677.02-140H282.98Zm96.56-133.23h50.25v-379.08h-50.25v379.08Zm150.67 0h50.25v-379.08h-50.25v379.08Z" />
+                              </svg>
+                              <span className="text-sm text-[#634AE2]">
+                                {admin.estado === "A"
+                                  ? "Deshabilitar"
+                                  : "Habilitar"}
+                              </span>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
