@@ -52,7 +52,6 @@ const Navbar = () => {
             width={175}
             height={50}
             priority
-           
             suppressHydrationWarning
           />
         </Link>
