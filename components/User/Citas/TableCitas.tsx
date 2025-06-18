@@ -89,7 +89,9 @@ export const TableCitas: React.FC<TableProps> = ({
       if (columnKey === "actions") {
         return (
           <div className="pl-6 flex gap-4">
-      
+
+
+
             <button
               onClick={() => {
                 if (confirm("¿Estás seguro de eliminar esta cita?")) {
