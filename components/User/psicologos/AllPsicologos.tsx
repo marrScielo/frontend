@@ -28,7 +28,6 @@ import {
 } from "@heroui/react";
 import { Plus } from "lucide-react";
 
-import { useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
 
 export default function AllPsicologos({
@@ -145,6 +144,7 @@ export default function AllPsicologos({
                 <th className="rounded-tl-full text-2xl font-normal">○</th>
                 <th className="font-normal">Apellido</th>
                 <th className="font-normal">Nombre</th>
+                <th className="font-normal">Estado</th>
                 <th className="font-normal">Pais</th>
                 <th className="font-normal">Correo</th>
                 <th className="font-normal">ID</th>
@@ -157,6 +157,7 @@ export default function AllPsicologos({
                   <td className="px-4 py-2 text-2xl rounded-l-[34px]">○</td>
                   <td className="px-4 py-2">{column.apellido}</td>
                   <td className="px-4 py-2">{column.nombre}</td>
+                  <td className="px-4 py-2">{column.estado}</td>
                   <td className="px-4 py-2">{column.pais}</td>
                   <td className="px-4 py-2">{column.correo}</td>
                   <td className="py-2">{column.idPsicologo}</td>

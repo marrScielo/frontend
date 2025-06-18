@@ -90,21 +90,6 @@ export const TableCitas: React.FC<TableProps> = ({
       if (columnKey === "actions") {
         return (
           <div className="pl-6 flex gap-4">
-            {/* 
-            <div className="flex flex-col items-center">
-              <div className="relative group">
-              <span
-                className="text-lg text-[#634AE2] cursor-pointer active:opacity-50"
-                dangerouslySetInnerHTML={{ __html: Icons.edit }}
-                style={{ width: "1.2em", height: "1.2em" }}
-              />
-              <div className="absolute bottom-10 left-0 hidden group-hover:block bg-gray-700 text-white text-xs p-1 rounded">
-                Editar cita
-              </div>
-              </div>
-              <span className="text-xs text-[#634AE2] mt-1">Editar</span>
-            </div>
-            */}
 
             <button
               onClick={() => {

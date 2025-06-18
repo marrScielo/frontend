@@ -261,7 +261,7 @@ export async function DeleteAdministrador(id: number | null): Promise<void> {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}api/administradores/${id}`,
     {
-      method: "DELETE",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
