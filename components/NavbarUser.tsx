@@ -2,10 +2,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { DesktopNavUser } from "./DesktopNavUser";
+
 import { Icons } from "@/icons";
 
-import { MobileNavbar } from "./MobileNavbarUser";
+
 
 const navItems = [
   {
@@ -91,9 +91,7 @@ const NavbarUser = () => {
   return (
     <div className="flex flex-row">
       {/* Navbar Mobile*/}
-      <div className="lg:hidden">
-        <MobileNavbar navItems={navItems} />
-      </div>
+      
 
       {/* Navbar */}
       <div className="hidden lg:flex w-72 h-screen fixed">
@@ -108,9 +106,7 @@ const NavbarUser = () => {
               />
             </h1>
           </Link>
-          <div className="flex flex-col items-center mt-8 pt-7 mr-7">
-            <DesktopNavUser navItems={navItems} />
-          </div>
+          
         </div>
       </div>
     </div>

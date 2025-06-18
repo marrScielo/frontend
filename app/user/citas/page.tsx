@@ -133,10 +133,10 @@ export default function App() {
   return (
     <div>
       {/* Header */}
-      <div className="flex flex-1 bg-[#eaeded] w-full z-30 mt-4">
+      <div className="flex flex-1  w-full z-30 mt-4">
         <div>
-          <nav className="bg-[#eaeded] rounded-2xl flex items-center w-[calc(95vw-270px)] p-4">
-            <div className="bg-[#eaeded] flex items-start justify-between w-full">
+          <nav className=" rounded-2xl flex items-center w-[calc(95vw-270px)] p-4">
+            <div className=" flex items-start justify-between w-full">
               <div>
                 <div className="pl-12 text-4xl font-bold text-[#634AE2]">
                   <h1>Lista de Citas</h1>

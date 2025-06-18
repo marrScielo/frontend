@@ -69,7 +69,7 @@ export const NavbarPsi = () => {
   return (
     <div className="flex flex-row">
       {/* Navbar Mobile*/}
-      <div className="lg:hidden">
+      <div className="lg:hidden z-[100]">
         <MobileNavbar navItems={navItems} />
       </div>
 

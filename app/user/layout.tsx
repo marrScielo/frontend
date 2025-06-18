@@ -30,7 +30,7 @@ export default function HomeLayout({
         enableSystem
         disableTransitionOnChange
       >
-        <div className="min-h-screen bg-[#eaeded] flex items-center justify-center">
+        <div className="min-h-screen flex items-center justify-center">
           {/* Aquí puedes mostrar un spinner o mensaje de carga */}
           <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-gray-900"></div>
         </div>
@@ -48,7 +48,7 @@ export default function HomeLayout({
       <div className="min-h-screen bg-[#eaeded]">
         {user?.rol === "ADMIN" ? <NavbarUser /> : <NavbarPsi />}
 
-        <div className="min-h-[80vh] ml-20 lg:min-h-[89vh] lg:ml-72">
+        <div className=" ml-20 lg:min-h-[89vh] lg:ml-72">
           {children}
         </div>
       </div>
