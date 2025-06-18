@@ -60,10 +60,12 @@ export async function GetPsicologos(): Promise<PsicologoApiResponse> {
 }
 
 export async function DeletePsycologo(id: number | null): Promise<void> {
+   if (!id) throw new Error("ID de administrador no proporcionado");
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}api/psicologos/${id}`,
     {
-      method: "DELETE",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
@@ -73,7 +75,8 @@ export async function DeletePsycologo(id: number | null): Promise<void> {
   );
 
   if (!res.ok) {
-    throw new Error("Error al eliminar el psicologo");
+    const errorData = await res.json();
+    throw new Error(errorData.message || "Error al eliminar al psicólogo");
   }
 }
 
@@ -81,7 +84,7 @@ export async function GetPsicologosById(
   id: number | null
 ): Promise<PsicologoApiResponseAlone> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}api/psicologos/${id}`,
+    `${process.env.NEXT_PUBLIC_API_URL}api/psicologos/`,
     {
       method: "GET",
       headers: {

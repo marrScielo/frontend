@@ -98,14 +98,21 @@ export default function AllPsicologos({
   }
 };
 
-
-  const handleDelete = async (id: number | null) => {
+   const handleToggleEstado = async (id: number | null) => {
     try {
       await DeletePsycologo(id);
-      showToast("success", "El psicólogo se eliminó correctamente");
-      setPsico((prev) => prev.filter((a) => a.idPsicologo !== id));
+      showToast("success", "Se cambió el estado del administrador");
+
+      setPsico((prev) =>
+        prev.map((psico) =>
+          psico.idPsicologo === id
+            ? { ...psico, estado: psico.estado === "A" ? "I" : "A" }
+            : psico
+        )
+      );
     } catch (error) {
-      console.error("Error al eliminar el psicólogo:", error);
+      console.error("Error al cambiar estado:", error);
+      showToast("error", "Error al cambiar el estado");
     }
   };
 
@@ -157,7 +164,17 @@ export default function AllPsicologos({
                   <td className="px-4 py-2 text-2xl rounded-l-[34px]">○</td>
                   <td className="px-4 py-2">{column.apellido}</td>
                   <td className="px-4 py-2">{column.nombre}</td>
-                  <td className="px-4 py-2">{column.estado}</td>
+                  <td className="px-4 py-2">
+                    {column.estado === "A" ? (
+                      <span className="text-green-600 font-semibold">
+                        Habilitado
+                      </span>
+                    ) : (
+                      <span className="text-red-500 font-semibold">
+                        Deshabilitado
+                      </span>
+                    )}
+                  </td>
                   <td className="px-4 py-2">{column.pais}</td>
                   <td className="px-4 py-2">{column.correo}</td>
                   <td className="py-2">{column.idPsicologo}</td>
@@ -183,22 +200,26 @@ export default function AllPsicologos({
                         </button>
                         <div className="flex flex-col items-center">
                           <button
-                            onClick={() => handleDelete(column.idPsicologo)}
-                            className="flex flex-col items-center"
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              height="34px"
-                              viewBox="0 -960 960 960"
-                              width="34px"
-                              fill="#B158FF"
+                              onClick={() =>
+                                handleToggleEstado(column.idPsicologo)
+                              }
+                              className="flex flex-col items-center"
                             >
-                              <path d="M282.98-140q-25.79 0-44.18-18.39t-18.39-44.18v-532.05H180v-50.25h174.05v-30.51h251.9v30.51H780v50.25h-40.41v532.05q0 25.79-18.39 44.18T677.02-140H282.98Zm96.56-133.23h50.25v-379.08h-50.25v379.08Zm150.67 0h50.25v-379.08h-50.25v379.08Z" />
-                            </svg>
-                            <h1 className="text-[#B158FF] font-light text-sm text-center">
-                              Eliminar
-                            </h1>
-                          </button>
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                height="34px"
+                                viewBox="0 -960 960 960"
+                                width="34px"
+                                fill="#B158FF"
+                              >
+                                <path d="M282.98-140q-25.79 0-44.18-18.39t-18.39-44.18v-532.05H180v-50.25h174.05v-30.51h251.9v30.51H780v50.25h-40.41v532.05q0 25.79-18.39 44.18T677.02-140H282.98Zm96.56-133.23h50.25v-379.08h-50.25v379.08Zm150.67 0h50.25v-379.08h-50.25v379.08Z" />
+                              </svg>
+                              <span className="text-sm text-[#634AE2]">
+                                {column.estado === "A"
+                                  ? "Deshabilitar"
+                                  : "Habilitar"}
+                              </span>
+                            </button>
                         </div>
                       </div>
                     </div>

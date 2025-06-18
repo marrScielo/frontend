@@ -219,7 +219,7 @@ export interface PsicologoPreviewData {
   titulo: string,
   nombre: string,
   apellido: string,
-  estado:string,
+  estado?: 'A' | 'I';
   pais: string,
   introduccion: string,
   genero: string,
