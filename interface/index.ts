@@ -445,6 +445,7 @@ export interface Citas {
   estado: string;
   age: string;
   motivo: string;
+  canal: string;
   duracion: string;
 }
 
@@ -463,8 +464,7 @@ export interface AtencionFormData {
   UltimosObjetivos: string;
   FechaAtencion: string;
   DocumentosAdicionales: string;
-  Comentario: string;
-  descripcion: string;
+  comentario: string;
   idCita?: number;
 }
 
