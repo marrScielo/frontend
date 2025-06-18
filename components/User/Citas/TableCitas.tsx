@@ -6,8 +6,7 @@ import { Citas } from "@/interface";
 import Link from "next/link";
 import showToast from "@/components/ToastStyle";
 import { parseCookies } from "nookies";
-import ModalCrearCita from "../Calendario/Modalcita";
-import { useDisclosure } from "@heroui/react";
+
 
 interface TableProps {
   users: Citas[];
@@ -90,22 +89,7 @@ export const TableCitas: React.FC<TableProps> = ({
       if (columnKey === "actions") {
         return (
           <div className="pl-6 flex gap-4">
-            {/* 
-            <div className="flex flex-col items-center">
-              <div className="relative group">
-              <span
-                className="text-lg text-[#634AE2] cursor-pointer active:opacity-50"
-                dangerouslySetInnerHTML={{ __html: Icons.edit }}
-                style={{ width: "1.2em", height: "1.2em" }}
-              />
-              <div className="absolute bottom-10 left-0 hidden group-hover:block bg-gray-700 text-white text-xs p-1 rounded">
-                Editar cita
-              </div>
-              </div>
-              <span className="text-xs text-[#634AE2] mt-1">Editar</span>
-            </div>
-            */}
-
+      
             <button
               onClick={() => {
                 if (confirm("¿Estás seguro de eliminar esta cita?")) {
@@ -130,8 +114,7 @@ export const TableCitas: React.FC<TableProps> = ({
             <div className="flex flex-col items-center pt-1">
               <Link
                 href={{
-                  pathname: "/user/historial/AtencionPaciente",
-                  query: { idCita: user.idCita },
+                  pathname: `/user/historial/AtencionPaciente/${user.idCita}`,
                 }}
                 className="relative group"
                 passHref
@@ -226,7 +209,7 @@ export const TableCitas: React.FC<TableProps> = ({
           <tbody>
             {users.map((item) => (
               <tr
-                key={item.codigo}
+                key={item.fecha_inicio}
                 className="border-y-4 bg-white hover:bg-gray-100"
               >
                 <td className="p-4 text-center rounded-l-3xl">
