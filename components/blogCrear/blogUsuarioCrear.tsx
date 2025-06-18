@@ -157,7 +157,7 @@ export default function BlogUsuarioCrear() {
         await new Promise((resolve) => setTimeout(resolve, 2600));
         window.location.reload();
       } else {
-        showToast("error", data.status_message || "Error desconocido");
+        showToast("error", data.status_message || "Completar todos los campos");
       }
     } catch (error) {
       console.error(error);
