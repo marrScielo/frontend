@@ -25,8 +25,13 @@ export default function App() {
   const [citas, setCitas] = useState<Citas[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [sortDescriptor] = useState({
+    column: "fecha_inicio",
+    direction: "ascending",
+  });
 
-  const handleGetCitas = async () => {
+  // Función para obtener citas (ahora reutilizable)
+  const handleGetCitas = useCallback(async () => {
     try {
       setIsLoading(true);
       setError(null);
@@ -49,12 +54,11 @@ export default function App() {
       const data = await response.json();
 
       if (Array.isArray(data.result)) {
-        // Mapear los datos de la API a la estructura esperada
         const formattedCitas = data.result.map((cita: Citas) => ({
           codigo: cita.codigo,
           paciente: cita.paciente,
           fecha_inicio: cita.fecha_inicio,
-          motivo:  cita.motivo,
+          motivo: cita.motivo,
           estado: cita.estado,
           duracion: cita.duracion,
           idCita: cita.idCita
@@ -71,8 +75,14 @@ export default function App() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
 
+  // Cargar citas al montar el componente
+  useEffect(() => {
+    handleGetCitas();
+  }, [handleGetCitas]);
+
+  // Configuración de columnas
   const columns = [
     { name: "Paciente", uid: "paciente", sortable: true },
     { name: "Código", uid: "codigo", sortable: true },
@@ -82,15 +92,7 @@ export default function App() {
     { name: "Duración", uid: "duracion", sortable: true },
   ];
 
-  useEffect(() => {
-    handleGetCitas();
-  }, []);
-
-  const [sortDescriptor] = useState({
-    column: "fecha_inicio",
-    direction: "ascending",
-  });
-
+  // Filtrado y ordenamiento
   const hasSearchFilter = Boolean(filterValue);
 
   const filteredItems = useMemo(() => {
@@ -118,25 +120,37 @@ export default function App() {
     );
   }, [visibleColumns, columns]);
 
+  // Handlers para el navbar
   const onSearchChange = useCallback((value?: string) => {
-    if (value) {
-      setFilterValue(value);
-    } else {
-      setFilterValue("");
-    }
+    setFilterValue(value || "");
   }, []);
 
   const onClear = useCallback(() => {
     setFilterValue("");
   }, []);
 
+  // Handlers para la tabla (opcionales, ya que el hijo maneja todo)
+  const handleCitaDeleted = useCallback((idCita: number) => {
+    setCitas(prevCitas => prevCitas.filter(cita => Number(cita.idCita) !== Number(idCita)));
+  }, []);
+
+  const handleEstadoChanged = useCallback((idCita: number, nuevoEstado: string) => {
+    setCitas(prevCitas => 
+      prevCitas.map(cita => 
+        Number(cita.idCita) === Number(idCita) 
+          ? { ...cita, estado: nuevoEstado }
+          : cita
+      )
+    );
+  }, []);
+
   return (
     <div>
       {/* Header */}
-      <div className="flex flex-1  w-full z-30 mt-4">
+      <div className="flex flex-1 w-full z-30 mt-4">
         <div>
-          <nav className=" rounded-2xl flex items-center w-[calc(95vw-270px)] p-4">
-            <div className=" flex items-start justify-between w-full">
+          <nav className="rounded-2xl flex items-center w-[calc(95vw-270px)] p-4">
+            <div className="flex items-start justify-between w-full">
               <div>
                 <div className="pl-12 text-4xl font-bold text-[#634AE2]">
                   <h1>Lista de Citas</h1>
@@ -149,6 +163,7 @@ export default function App() {
           </nav>
         </div>
       </div>
+
       <div>
         {/* Navbar */}
         <Navbar
@@ -172,13 +187,13 @@ export default function App() {
         ) : (
           /* Tabla */
           <TableCitas
-            users={sortedItems}  // Envía los datos ordenados y filtrados
+            users={sortedItems}
             headerColumns={headerColumns}
             selectedKeys={selectedKeys}
             setSelectedKeys={setSelectedKeys}
-            onCitaDeleted={(idCita) => {
-              setCitas(prevCitas => prevCitas.filter(cita => Number(cita.idCita) !== Number(idCita)));
-            }}
+            onCitaDeleted={handleCitaDeleted}
+            onEstadoChanged={handleEstadoChanged}
+            onDataRefresh={handleGetCitas} // 🔥 Esta es la clave!
           />
         )}
       </div>
